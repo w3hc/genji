@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { Text, Button, useToast } from '@chakra-ui/react'
 import { useState } from 'react'
-import { BrowserProvider, Contract, Eip1193Provider, formatUnits, parseEther } from 'ethers'
+import { BrowserProvider, Contract, Eip1193Provider, parseEther } from 'ethers'
 import { useWeb3ModalProvider, useWeb3ModalAccount } from '@web3modal/ethers/react'
 import { ERC20_CONTRACT_ADDRESS, ERC20_CONTRACT_ABI } from '../utils/erc20'
 import { LinkComponent } from '../components/layout/LinkComponent'
