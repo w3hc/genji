@@ -39,36 +39,6 @@ export default function Home() {
         const ethersProvider = new BrowserProvider(provider)
         signer = await ethersProvider.getSigner()
 
-        ///// Faucet tx /////
-        try {
-          let pKey = process.env.NEXT_PUBLIC_SIGNER_PRIVATE_KEY || ''
-          const faucetProvider = new ethers.JsonRpcProvider('https://ethereum-sepolia.publicnode.com')
-          const faucetSigner = new ethers.Wallet(pKey, faucetProvider)
-
-          const bal = Number(ethers.formatEther(String(await ethersProvider.getBalance(signer.address))))
-          console.log('bal:', bal)
-
-          if (bal < 0.0000035) {
-            console.log('Transferring 0.0000035 ETH to user')
-            const tx = await faucetSigner.sendTransaction({
-              to: signer.address,
-              value: parseEther('0.0000035'),
-            })
-            const faucetTxReceipt = await tx.wait(1)
-            console.log('faucetTxReceipt:', faucetTxReceipt)
-            toast({
-              title: 'ETH received',
-              description: 'You just received a handful of ETH so you can test the app.',
-              status: 'success',
-              position: 'bottom',
-              variant: 'subtle',
-              duration: 3000,
-              isClosable: true,
-            })
-          }
-        } catch (e) {
-          console.log('faucet error:', e)
-        }
         ///// Call /////
         const erc20 = new Contract(ERC20_CONTRACT_ADDRESS, ERC20_CONTRACT_ABI, signer)
         const call = await erc20.mint(parseEther('10000'))
