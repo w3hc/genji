@@ -17,6 +17,15 @@ const sepolia = {
   rpcUrl: 'https://ethereum-sepolia.publicnode.com',
 }
 
+// const opSepolia = {
+//   chainId: 11155420,
+//   name: 'OP Sepolia',
+//   chainName: 'OP Sepolia',
+//   currency: 'ETH',
+//   explorerUrl: 'https://sepolia-optimism.etherscan.io/',
+//   rpcUrl: 'https://sepolia.optimism.io',
+// }
+
 const metadata = {
   name: 'Genji',
   description: 'Next.js + Web3 Modal + Ethers.js + Chakra UI',

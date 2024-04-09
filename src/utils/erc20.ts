@@ -1,4 +1,5 @@
 export const ERC20_CONTRACT_ADDRESS = '0xF57cE903E484ca8825F2c1EDc7F9EEa3744251eB'
+// export const ERC20_CONTRACT_ADDRESS = '0x80Fae255a5261Ca183668259382A37789e86f92F' // OP Sepolia
 export const ERC20_CONTRACT_ABI = <const>[
   {
     inputs: [
