@@ -7,6 +7,7 @@ interface Props {
 }
 
 const projectId = process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID || ''
+const endpoint = process.env.NEXT_PUBLIC_RPC_ENDPOINT_URL || 'https://sepolia.gateway.tenderly.co'
 
 const sepolia = {
   chainId: 11155111,
@@ -14,7 +15,7 @@ const sepolia = {
   chainName: 'Sepolia',
   currency: 'ETH',
   explorerUrl: 'https://sepolia.etherscan.io',
-  rpcUrl: 'https://ethereum-sepolia.publicnode.com',
+  rpcUrl: endpoint,
 }
 
 // const opSepolia = {
