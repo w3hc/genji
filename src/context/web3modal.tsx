@@ -1,6 +1,10 @@
 'use client'
-
+import { ReactNode } from 'react'
 import { createWeb3Modal, defaultConfig } from '@web3modal/ethers/react'
+
+interface Props {
+  children?: ReactNode
+}
 
 const projectId = process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID || ''
 
@@ -33,6 +37,6 @@ createWeb3Modal({
   enableOnramp: true,
 })
 
-export function Web3Modal({ children }) {
-  return children
+export function Web3Modal({ children }: Props) {
+  return <div>{children}</div>
 }

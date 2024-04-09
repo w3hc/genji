@@ -1,7 +1,10 @@
 import { Web3Modal } from '../../context/web3modal'
+import { ReactNode } from 'react'
 
-export default function RootLayout({ children }) {
-  return (
-    <Web3Modal>{children}</Web3Modal>
-  )
+interface Props {
+  children?: ReactNode
+}
+
+export default function RootLayout({ children }: Props) {
+  return <Web3Modal>{children}</Web3Modal>
 }
