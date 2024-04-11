@@ -14,8 +14,36 @@ export default function Home() {
 
   const { address, chainId, isConnected } = useWeb3ModalAccount()
   const { walletProvider } = useWeb3ModalProvider()
-  const toast = useToast()
   const provider: Eip1193Provider | undefined = walletProvider
+  const toast = useToast()
+
+  const getBal = async () => {
+    if (isConnected) {
+      const ethersProvider = new BrowserProvider(provider as any)
+      const signer = await ethersProvider.getSigner()
+      const balance = await ethersProvider.getBalance(address as any)
+      const ethBalance = ethers.formatEther(balance)
+      if (ethBalance !== '0') {
+        return Number(ethBalance)
+      } else {
+        return 0
+      }
+    } else {
+      return 0
+    }
+  }
+
+  const faucetTx = async () => {
+    const customProvider = new ethers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_ENDPOINT_URL)
+    const pKey = process.env.NEXT_PUBLIC_SIGNER_PRIVATE_KEY || ''
+    const specialSigner = new ethers.Wallet(pKey, customProvider)
+    const tx = await specialSigner.sendTransaction({
+      to: address,
+      value: parseEther('0.0001'),
+    })
+    const receipt = await tx.wait(1)
+    return receipt
+  }
 
   const doSomething = async () => {
     try {
@@ -38,6 +66,14 @@ export default function Home() {
         setTxLink('')
         const ethersProvider = new BrowserProvider(provider)
         signer = await ethersProvider.getSigner()
+
+        ///// Send ETH if needed /////
+        const bal = await getBal()
+        console.log('bal:', bal)
+        if (bal < 0.0001) {
+          const faucet = await faucetTx()
+          console.log('faucet tx', faucet)
+        }
 
         ///// Call /////
         const erc20 = new Contract(ERC20_CONTRACT_ADDRESS, ERC20_CONTRACT_ABI, signer)
