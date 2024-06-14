@@ -7,6 +7,7 @@ import { ERC20_CONTRACT_ADDRESS, ERC20_CONTRACT_ABI } from '../utils/erc20'
 import { LinkComponent } from '../components/layout/LinkComponent'
 import { ethers } from 'ethers'
 import { Head } from '../components/layout/Head'
+import { SITE_NAME, SITE_DESCRIPTION } from '../utils/config'
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState<boolean>(false)
@@ -112,7 +113,7 @@ export default function Home() {
 
   return (
     <>
-      <Head title="Genji" description="The W3HC Next.js app template" />
+      <Head title={SITE_NAME} description={SITE_DESCRIPTION} />
       <main>
         <Button
           // mt={7}
