@@ -9,7 +9,7 @@ export function Seo() {
     <DefaultSeo
       title={SITE_NAME}
       defaultTitle={SITE_NAME}
-      titleTemplate={`%s | ${SITE_NAME}`}
+      titleTemplate={`${SITE_NAME}`}
       description={SITE_DESCRIPTION}
       defaultOpenGraphImageWidth={762}
       defaultOpenGraphImageHeight={708}
@@ -19,7 +19,7 @@ export function Seo() {
         url: origin,
         images: [
           {
-            url: `${origin}/huangshan.jpeg`, // The recommended image ratio for an og:image is 1.91:1 (ie. 1200 x 630)
+            url: `${origin}/huangshan.png`, // The recommended image ratio for an og:image is 1.91:1 (ie. 1200 x 630)
             alt: `${SITE_NAME} Open Graph Image`,
           },
         ],
