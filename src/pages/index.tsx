@@ -6,6 +6,7 @@ import { useWeb3ModalProvider, useWeb3ModalAccount } from '@web3modal/ethers/rea
 import { ERC20_CONTRACT_ADDRESS, ERC20_CONTRACT_ABI } from '../utils/erc20'
 import { LinkComponent } from '../components/layout/LinkComponent'
 import { ethers } from 'ethers'
+import { Head } from '../components/layout/Head'
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState<boolean>(false)
@@ -111,6 +112,7 @@ export default function Home() {
 
   return (
     <>
+      <Head title="Genji" description="W3HC Next.js app template" />
       <main>
         <Button
           // mt={7}
