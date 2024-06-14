@@ -1,7 +1,7 @@
 import { ThemingProps } from '@chakra-ui/react'
 export const SITE_DESCRIPTION = 'W3HC Next.js app template'
 export const SITE_NAME = 'Genji'
-export const SITE_URL = 'https://deploy-preview-14--genji-app.netlify.app'
+export const SITE_URL = 'https://genji-app.netlify.app'
 
 export const THEME_INITIAL_COLOR = 'system'
 export const THEME_COLOR_SCHEME: ThemingProps['colorScheme'] = 'blue'
