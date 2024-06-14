@@ -112,7 +112,7 @@ export default function Home() {
 
   return (
     <>
-      <Head title="Genji" description="W3HC Next.js app template" />
+      <Head title="Genji" description="The W3HC Next.js app template" />
       <main>
         <Button
           // mt={7}
