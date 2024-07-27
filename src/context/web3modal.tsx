@@ -18,15 +18,6 @@ const sepolia = {
   rpcUrl: endpoint,
 }
 
-// const opSepolia = {
-//   chainId: 11155420,
-//   name: 'OP Sepolia',
-//   chainName: 'OP Sepolia',
-//   currency: 'ETH',
-//   explorerUrl: 'https://sepolia-optimism.etherscan.io/',
-//   rpcUrl: 'https://sepolia.optimism.io',
-// }
-
 const metadata = {
   name: 'Genji',
   description: 'Next.js + Web3 Modal + Ethers.js + Chakra UI',
@@ -36,7 +27,12 @@ const metadata = {
 
 const ethersConfig = defaultConfig({
   metadata,
-  enableEmail: true,
+  auth: {
+    email: true,
+    socials: ['google', 'x', 'github', 'discord', 'apple'],
+    showWallets: true,
+    walletFeatures: true,
+  },
 })
 
 createWeb3Modal({
