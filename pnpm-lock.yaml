@@ -15,10 +15,10 @@ dependencies:
     specifier: ^2.8.2
     version: 2.8.2(@emotion/react@11.13.0)(@emotion/styled@11.13.0)(@types/react@18.2.0)(framer-motion@11.3.18)(react-dom@18.2.0)(react@18.2.0)
   '@emotion/react':
-    specifier: ^11.11.4
+    specifier: ^11.13.0
     version: 11.13.0(@types/react@18.2.0)(react@18.2.0)
   '@emotion/styled':
-    specifier: ^11.11.5
+    specifier: ^11.13.0
     version: 11.13.0(@emotion/react@11.13.0)(@types/react@18.2.0)(react@18.2.0)
   '@types/node':
     specifier: 18.16.1
@@ -42,10 +42,10 @@ dependencies:
     specifier: 13.3.1
     version: 13.3.1(eslint@8.39.0)(typescript@5.0.4)
   ethers:
-    specifier: ^6.11.1
+    specifier: ^6.13.2
     version: 6.13.2
   framer-motion:
-    specifier: ^11.0.25
+    specifier: ^11.3.18
     version: 11.3.18(react-dom@18.2.0)(react@18.2.0)
   next:
     specifier: 13.3.1
@@ -1794,6 +1794,7 @@ packages:
     dependencies:
       is-glob: 4.0.3
       micromatch: 4.0.7
+      napi-wasm: 1.1.0
     dev: false
     bundledDependencies:
       - napi-wasm
@@ -4906,6 +4907,10 @@ packages:
     resolution: {integrity: sha512-eSRppjcPIatRIMC1U6UngP8XFcz8MQWGQdt1MTBQ7NaAmvXDfvNxbvWV3x2y6CdEUciCSsDHDQZbhYaB8QEo2g==}
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
     hasBin: true
+    dev: false
+
+  /napi-wasm@1.1.0:
+    resolution: {integrity: sha512-lHwIAJbmLSjF9VDRm9GoVOy9AGp3aIvkjv+Kvz9h16QR3uSVYH78PNQUnT2U4X53mhlnV2M7wrhibQ3GHicDmg==}
     dev: false
 
   /natural-compare@1.4.0:
