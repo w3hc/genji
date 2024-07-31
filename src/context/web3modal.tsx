@@ -16,27 +16,27 @@ const sepolia = {
   currency: 'ETH',
   explorerUrl: 'https://sepolia.etherscan.io',
   rpcUrl: endpoint,
+  blockExplorerUrl: 'https://sepolia.etherscan.io',
 }
-
-// const opSepolia = {
-//   chainId: 11155420,
-//   name: 'OP Sepolia',
-//   chainName: 'OP Sepolia',
-//   currency: 'ETH',
-//   explorerUrl: 'https://sepolia-optimism.etherscan.io/',
-//   rpcUrl: 'https://sepolia.optimism.io',
-// }
 
 const metadata = {
   name: 'Genji',
   description: 'Next.js + Web3 Modal + Ethers.js + Chakra UI',
   url: 'https://genji.netlify.app',
-  icons: ['./public/favicon.ico'],
+  icons: ['./favicon.ico'],
 }
 
 const ethersConfig = defaultConfig({
   metadata,
-  enableEmail: true,
+  defaultChainId: 11155111, // Sepolia
+  rpcUrl: endpoint,
+  auth: {
+    email: true,
+    // socials: ['google', 'x', 'github', 'discord', 'apple'],
+    socials: ['google'],
+    showWallets: true,
+    walletFeatures: true,
+  },
 })
 
 createWeb3Modal({
@@ -45,6 +45,8 @@ createWeb3Modal({
   projectId,
   enableAnalytics: true,
   enableOnramp: true,
+  themeMode: 'dark',
+  themeVariables: {},
 })
 
 export function Web3Modal({ children }: Props) {

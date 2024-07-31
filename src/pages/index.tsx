@@ -117,7 +117,6 @@ export default function Home() {
       <Head title={SITE_NAME} description={SITE_DESCRIPTION} />
       <main>
         <Button
-          // mt={7}
           colorScheme="blue"
           variant="outline"
           type="submit"
