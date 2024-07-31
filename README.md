@@ -2,7 +2,7 @@
 
 A Next.js Web3 app template.
 
-Features:
+## Features
 
 - [Next.js](https://nextjs.org/)
 - [Web3 Modal](https://web3modal.com/)
@@ -32,6 +32,13 @@ Add your own keys in the `.env` file (you can get it in your [Wallet Connect das
 ```bash
 pnpm dev
 ```
+
+## Requirements
+
+Here are the known minimal mobile hardware requirements:
+
+- iOS: Safari 10+ (iOS 10+)
+- Android: Chrome 51+ (Android 5.0+)
 
 ## Versions
 
