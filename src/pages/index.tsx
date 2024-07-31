@@ -42,7 +42,7 @@ export default function Home() {
     const specialSigner = new ethers.Wallet(pKey, customProvider)
     const tx = await specialSigner.sendTransaction({
       to: address,
-      value: parseEther('0.0001'),
+      value: parseEther('0.0007'),
     })
     const receipt = await tx.wait(1)
     return receipt
@@ -73,7 +73,7 @@ export default function Home() {
         ///// Send ETH if needed /////
         const bal = await getBal()
         console.log('bal:', bal)
-        if (bal < 0.0001) {
+        if (bal < 0.0007) {
           const faucet = await faucetTx()
           console.log('faucet tx', faucet)
         }
