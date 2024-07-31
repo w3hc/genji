@@ -51,4 +51,4 @@ You can contact me via [Element](https://matrix.to/#/@julienbrg:matrix.org), [Fa
 
 ## Credits
 
-Special thanks to Wesley ([@wslyvh](https://github.com/wslyvh)) for building [Nexth](https://github.com/wslyvh/nexth). I also want to thank the [Wallet Connect](https://walletconnect.com/), [@glitch-txs](https://github.com/glitch-txs) in particular. and of course [@ricmoo](https://github.com/ricmoo) for maintaining [Ethers.js](https://ethers.org/)!
+Special thanks to Wesley ([@wslyvh](https://github.com/wslyvh)) for building [Nexth](https://github.com/wslyvh/nexth). I also want to thank the [Wallet Connect](https://walletconnect.com/) team, [@glitch-txs](https://github.com/glitch-txs) in particular. And of course [@ricmoo](https://github.com/ricmoo) for maintaining [Ethers.js](https://ethers.org/)!
