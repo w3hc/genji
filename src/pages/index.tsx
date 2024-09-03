@@ -37,15 +37,23 @@ export default function Home() {
   }
 
   const faucetTx = async () => {
-    const customProvider = new ethers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_ENDPOINT_URL)
-    const pKey = process.env.NEXT_PUBLIC_SIGNER_PRIVATE_KEY || ''
-    const specialSigner = new ethers.Wallet(pKey, customProvider)
-    const tx = await specialSigner.sendTransaction({
-      to: address,
-      value: parseEther('0.0007'),
-    })
-    const receipt = await tx.wait(1)
-    return receipt
+    try {
+      const response = await fetch('/api/faucet', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ address }),
+      })
+      const data = await response.json()
+      if (!response.ok) {
+        throw new Error(data.message || 'Faucet request failed')
+      }
+      return data.txHash
+    } catch (error) {
+      console.error('Faucet error:', error)
+      throw error
+    }
   }
 
   const doSomething = async () => {
@@ -62,26 +70,36 @@ export default function Home() {
         })
         return
       }
-      let signer
       if (provider) {
         setIsLoading(true)
         setTxHash('')
         setTxLink('')
         const ethersProvider = new BrowserProvider(provider)
-        signer = await ethersProvider.getSigner()
+        const signer = await ethersProvider.getSigner()
 
         ///// Send ETH if needed /////
         const bal = await getBal()
         console.log('bal:', bal)
-        if (bal < 0.0007) {
-          const faucet = await faucetTx()
-          console.log('faucet tx', faucet)
+        if (bal < 0.0042) {
+          const faucetTxHash = await faucetTx()
+          console.log('faucet tx', faucetTxHash)
         }
 
         ///// Call /////
         const erc20 = new Contract(ERC20_CONTRACT_ADDRESS, ERC20_CONTRACT_ABI, signer)
         const call = await erc20.mint(parseEther('10000'))
-        const receipt = await call.wait()
+
+        let receipt: ethers.ContractTransactionReceipt | null = null
+        try {
+          receipt = await call.wait()
+        } catch (error) {
+          console.error('Error waiting for transaction:', error)
+          throw new Error('Transaction failed or was reverted')
+        }
+
+        if (receipt === null) {
+          throw new Error('Transaction receipt is null')
+        }
 
         console.log('tx:', receipt)
         setTxHash(receipt.hash)
@@ -99,10 +117,10 @@ export default function Home() {
       }
     } catch (e) {
       setIsLoading(false)
-      console.log('error:', e)
+      console.error('Error in doSomething:', e)
       toast({
         title: 'Woops',
-        description: 'Something went wrong...',
+        description: e instanceof Error ? e.message : 'Something went wrong...',
         status: 'error',
         position: 'bottom',
         variant: 'subtle',
