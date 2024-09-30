@@ -5,7 +5,7 @@ A Next.js Web3 app template.
 ## Features
 
 - [Next.js](https://nextjs.org/)
-- [Web3 Modal](https://web3modal.com/)
+- [Reown](https://reown.com/appkit)
 - [Ethers.js](https://ethers.org/) (v6)
 - [Chakra UI](https://chakra-ui.com/)
 
