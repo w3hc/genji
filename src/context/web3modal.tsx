@@ -33,7 +33,7 @@ const ethersConfig = defaultConfig({
   auth: {
     email: true,
     // socials: ['google', 'x', 'github', 'discord', 'apple'],
-    socials: ['google'],
+    socials: ['google', 'farcaster'],
     showWallets: true,
     walletFeatures: true,
   },
