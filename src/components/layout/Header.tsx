@@ -4,8 +4,6 @@ import { LinkComponent } from './LinkComponent'
 import { ThemeSwitcher } from './ThemeSwitcher'
 import { SITE_NAME } from '../../utils/config'
 import { FaGithub } from 'react-icons/fa'
-import { useWeb3Modal } from '@web3modal/ethers/react'
-import { useWeb3ModalAccount, useDisconnect } from '@web3modal/ethers/react'
 
 interface Props {
   className?: string

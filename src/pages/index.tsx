@@ -2,10 +2,10 @@ import * as React from 'react'
 import { Text, Button, useToast } from '@chakra-ui/react'
 import { useState } from 'react'
 import { BrowserProvider, Contract, Eip1193Provider, parseEther } from 'ethers'
-import { useWeb3ModalProvider, useWeb3ModalAccount } from '@web3modal/ethers/react'
+import { useAppKitProvider, useAppKitAccount, CaipNamespaces } from '@reown/appkit/react'
 import { ERC20_CONTRACT_ADDRESS, ERC20_CONTRACT_ABI } from '../utils/erc20'
 import { LinkComponent } from '../components/layout/LinkComponent'
-import { HeadingComponent } from '../components/layout/HeadingComponent'
+
 import { ethers } from 'ethers'
 import { Head } from '../components/layout/Head'
 import { SITE_NAME, SITE_DESCRIPTION } from '../utils/config'
@@ -15,9 +15,10 @@ export default function Home() {
   const [txLink, setTxLink] = useState<string>()
   const [txHash, setTxHash] = useState<string>()
 
-  const { address, chainId, isConnected } = useWeb3ModalAccount()
-  const { walletProvider } = useWeb3ModalProvider()
-  const provider: Eip1193Provider | undefined = walletProvider
+  const { address, isConnected } = useAppKitAccount()
+
+  const { walletProvider } = useAppKitProvider('eip155')
+  const provider = walletProvider
   const toast = useToast()
 
   const getBal = async () => {
@@ -74,19 +75,20 @@ export default function Home() {
         setIsLoading(true)
         setTxHash('')
         setTxLink('')
-        const ethersProvider = new BrowserProvider(provider)
+        const ethersProvider = new BrowserProvider(provider as Eip1193Provider)
         const signer = await ethersProvider.getSigner()
+
+        const erc20 = new Contract(ERC20_CONTRACT_ADDRESS, ERC20_CONTRACT_ABI, signer)
 
         ///// Send ETH if needed /////
         const bal = await getBal()
         console.log('bal:', bal)
-        if (bal < 0.0042) {
+        if (bal < 0.013) {
           const faucetTxHash = await faucetTx()
           console.log('faucet tx', faucetTxHash)
         }
 
         ///// Call /////
-        const erc20 = new Contract(ERC20_CONTRACT_ADDRESS, ERC20_CONTRACT_ABI, signer)
         const call = await erc20.mint(parseEther('10000'))
 
         let receipt: ethers.ContractTransactionReceipt | null = null
