@@ -1,11 +1,9 @@
 import React from 'react'
-import { Flex, useColorModeValue, Spacer, Heading, Box, Link, Icon, Button } from '@chakra-ui/react'
+import { Flex, useColorModeValue, Spacer, Heading, Box, Link, Icon } from '@chakra-ui/react'
 import { LinkComponent } from './LinkComponent'
 import { ThemeSwitcher } from './ThemeSwitcher'
 import { SITE_NAME } from '../../utils/config'
 import { FaGithub } from 'react-icons/fa'
-import { useWeb3Modal } from '@web3modal/ethers/react'
-import { useWeb3ModalAccount, useDisconnect } from '@web3modal/ethers/react'
 
 interface Props {
   className?: string
@@ -13,17 +11,6 @@ interface Props {
 
 export function Header(props: Props) {
   const className = props.className ?? ''
-  const { open } = useWeb3Modal()
-  const { isConnected } = useWeb3ModalAccount()
-  const { disconnect } = useDisconnect()
-
-  const handleAuth = async () => {
-    if (isConnected) {
-      await disconnect()
-    } else {
-      await open()
-    }
-  }
 
   return (
     <Flex as="header" className={className} bg={useColorModeValue('gray.100', 'gray.900')} px={4} py={5} mb={8} alignItems="center">
@@ -36,9 +23,7 @@ export function Header(props: Props) {
       <Spacer />
 
       <Flex alignItems="center" gap={4}>
-        <Button onClick={handleAuth} colorScheme="blue" size="sm">
-          {isConnected ? 'Logout' : 'Login'}
-        </Button>
+        <w3m-button />
         <Flex alignItems="center">
           <ThemeSwitcher />
           <Box mt={2} ml={4}>

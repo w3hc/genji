@@ -17,9 +17,10 @@ export default function Home() {
   const [network, setNetwork] = useState<string>('Unknown')
   const [loginType, setLoginType] = useState<string>('Not connected')
 
-  const { address, chainId, isConnected } = useWeb3ModalAccount()
+  const { address, isConnected, chainId } = useWeb3ModalAccount()
+
   const { walletProvider } = useWeb3ModalProvider()
-  const provider: Eip1193Provider | undefined = walletProvider
+  const provider = walletProvider
   const toast = useToast()
   const { walletInfo } = useWalletInfo()
 
@@ -114,8 +115,10 @@ export default function Home() {
         setIsLoading(true)
         setTxHash('')
         setTxLink('')
-        const ethersProvider = new BrowserProvider(provider)
+        const ethersProvider = new BrowserProvider(provider as Eip1193Provider)
         const signer = await ethersProvider.getSigner()
+
+        const erc20 = new Contract(ERC20_CONTRACT_ADDRESS, ERC20_CONTRACT_ABI, signer)
 
         ///// Send ETH if needed /////
         const bal = await getBal()
@@ -126,7 +129,6 @@ export default function Home() {
           // }
         }
         ///// Call /////
-        const erc20 = new Contract(ERC20_CONTRACT_ADDRESS, ERC20_CONTRACT_ABI, signer)
         const call = await erc20.mint(parseEther('10000'))
 
         let receipt: ethers.ContractTransactionReceipt | null = null
