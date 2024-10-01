@@ -1,11 +1,10 @@
 import * as React from 'react'
-import { Text, Button, useToast } from '@chakra-ui/react'
-import { useState } from 'react'
+import { Text, Button, useToast, Box } from '@chakra-ui/react'
+import { useState, useEffect } from 'react'
 import { BrowserProvider, Contract, Eip1193Provider, parseEther } from 'ethers'
-import { useAppKitProvider, useAppKitAccount, CaipNamespaces } from '@reown/appkit/react'
+import { useWeb3ModalProvider, useWeb3ModalAccount, useWalletInfo } from '@web3modal/ethers/react'
 import { ERC20_CONTRACT_ADDRESS, ERC20_CONTRACT_ABI } from '../utils/erc20'
 import { LinkComponent } from '../components/layout/LinkComponent'
-
 import { ethers } from 'ethers'
 import { Head } from '../components/layout/Head'
 import { SITE_NAME, SITE_DESCRIPTION } from '../utils/config'
@@ -14,19 +13,33 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [txLink, setTxLink] = useState<string>()
   const [txHash, setTxHash] = useState<string>()
+  const [balance, setBalance] = useState<string>('0')
+  const [network, setNetwork] = useState<string>('Unknown')
+  const [loginType, setLoginType] = useState<string>('Not connected')
 
-  const { address, isConnected } = useAppKitAccount()
+  const { address, isConnected, chainId } = useWeb3ModalAccount()
 
-  const { walletProvider } = useAppKitProvider('eip155')
+  const { walletProvider } = useWeb3ModalProvider()
   const provider = walletProvider
   const toast = useToast()
+  const { walletInfo } = useWalletInfo()
+
+  useEffect(() => {
+    if (isConnected) {
+      getNetwork()
+      updateLoginType()
+      getBal()
+    }
+  }, [isConnected, address, chainId])
 
   const getBal = async () => {
-    if (isConnected) {
+    if (isConnected && provider) {
       const ethersProvider = new BrowserProvider(provider as any)
-      const signer = await ethersProvider.getSigner()
       const balance = await ethersProvider.getBalance(address as any)
+
       const ethBalance = ethers.formatEther(balance)
+      console.log('setBalance', parseFloat(ethBalance).toFixed(5))
+      setBalance(parseFloat(ethBalance).toFixed(5))
       if (ethBalance !== '0') {
         return Number(ethBalance)
       } else {
@@ -34,6 +47,33 @@ export default function Home() {
       }
     } else {
       return 0
+    }
+  }
+
+  const getNetwork = async () => {
+    if (provider) {
+      const ethersProvider = new BrowserProvider(provider as any)
+      const network = await ethersProvider.getNetwork()
+      const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1)
+      setNetwork(capitalize(network.name))
+    }
+  }
+
+  const updateLoginType = async () => {
+    try {
+      if (walletInfo != undefined) {
+        setLoginType(walletInfo.name ? walletInfo.name : 'Unknown')
+      }
+    } catch (error) {
+      console.error('Error getting login type:', error)
+      setLoginType('Unknown')
+    }
+  }
+
+  const openEtherscan = () => {
+    if (address) {
+      const baseUrl = chainId === 11155111 ? 'https://sepolia.etherscan.io/address/' : 'https://etherscan.io/address/'
+      window.open(baseUrl + address, '_blank')
     }
   }
 
@@ -83,11 +123,11 @@ export default function Home() {
         ///// Send ETH if needed /////
         const bal = await getBal()
         console.log('bal:', bal)
-        if (bal < 0.013) {
+        if (bal < 0.01) {
           const faucetTxHash = await faucetTx()
           console.log('faucet tx', faucetTxHash)
+          // }
         }
-
         ///// Call /////
         const call = await erc20.mint(parseEther('10000'))
 
@@ -116,6 +156,7 @@ export default function Home() {
           duration: 20000,
           isClosable: true,
         })
+        await getBal()
       }
     } catch (e) {
       setIsLoading(false)
@@ -136,6 +177,36 @@ export default function Home() {
     <>
       <Head title={SITE_NAME} description={SITE_DESCRIPTION} />
       <main>
+        {!isConnected ? (
+          <>
+            <Text>You can login with your email, Google, Farcaster, or with one of the 400+ wallets suported by this app.</Text>
+
+            <br />
+          </>
+        ) : (
+          <Box
+            p={4}
+            borderWidth={1}
+            borderRadius="lg"
+            my={2}
+            mb={8}
+            onClick={openEtherscan}
+            cursor="pointer"
+            _hover={{ borderColor: 'blue.500', boxShadow: 'md' }}>
+            <Text>
+              Network: <strong>{network}</strong>
+            </Text>
+            <Text>
+              Login type: <strong>{loginType}</strong>
+            </Text>
+            <Text>
+              Balance: <strong>{balance} ETH</strong>
+            </Text>
+            <Text>
+              Address: <strong>{address || 'Not connected'}</strong>
+            </Text>
+          </Box>
+        )}
         <Button
           colorScheme="blue"
           variant="outline"
@@ -150,7 +221,7 @@ export default function Home() {
           <Text py={4} fontSize="14px" color="#45a2f8">
             <LinkComponent href={txLink ? txLink : ''}>{txHash}</LinkComponent>
           </Text>
-        )}
+        )}{' '}
       </main>
     </>
   )
