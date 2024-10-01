@@ -180,7 +180,7 @@ export default function Home() {
         {!isConnected ? (
           <>
             <Text>You can login with your email, Google, Farcaster, or with one of the 400+ wallets suported by this app.</Text>
-            https://github.com/w3hc/genji?tab=readme-ov-file#support
+
             <br />
           </>
         ) : (
