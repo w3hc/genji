@@ -23,7 +23,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const specialSigner = new ethers.Wallet(pKey, customProvider)
     const tx = await specialSigner.sendTransaction({
       to: address,
-      value: ethers.parseEther('0.01'),
+      value: ethers.parseEther('0.025'),
     })
 
     let receipt: ethers.TransactionReceipt | null = null

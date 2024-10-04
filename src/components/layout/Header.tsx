@@ -1,11 +1,12 @@
 import React from 'react'
-import { Flex, useColorModeValue, Spacer, Heading, Box, Link, Icon, Button } from '@chakra-ui/react'
+import { Flex, useColorModeValue, Spacer, Heading, Box, Link, Icon, Button, MenuList, MenuItem, Menu, MenuButton, IconButton } from '@chakra-ui/react'
 import { LinkComponent } from './LinkComponent'
 import { ThemeSwitcher } from './ThemeSwitcher'
 import { SITE_NAME } from '../../utils/config'
 import { FaGithub } from 'react-icons/fa'
 import { useWeb3Modal } from '@web3modal/ethers/react'
 import { useWeb3ModalAccount, useDisconnect } from '@web3modal/ethers/react'
+import { HamburgerIcon } from '@chakra-ui/icons'
 
 interface Props {
   className?: string
@@ -34,7 +35,17 @@ export function Header(props: Props) {
       </LinkComponent>
 
       <Spacer />
-
+      <Menu>
+        <MenuButton as={IconButton} aria-label="Options" icon={<HamburgerIcon />} size={'sm'} mr={4} />
+        <MenuList>
+          <LinkComponent href="/">
+            <MenuItem fontSize="md">Home</MenuItem>
+          </LinkComponent>
+          <LinkComponent href="/new">
+            <MenuItem fontSize="md">New</MenuItem>
+          </LinkComponent>
+        </MenuList>
+      </Menu>
       <Flex alignItems="center" gap={4}>
         <Button onClick={handleAuth} colorScheme="blue" size="sm">
           {isConnected ? 'Logout' : 'Login'}

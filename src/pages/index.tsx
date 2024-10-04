@@ -26,6 +26,7 @@ export default function Home() {
 
   useEffect(() => {
     if (isConnected) {
+      setTxHash(undefined)
       getNetwork()
       updateLoginType()
       getBal()
@@ -38,7 +39,7 @@ export default function Home() {
       const balance = await ethersProvider.getBalance(address as any)
 
       const ethBalance = ethers.formatEther(balance)
-      console.log('setBalance', parseFloat(ethBalance).toFixed(5))
+      console.log('bal:', Number(parseFloat(ethBalance).toFixed(5)))
       setBalance(parseFloat(ethBalance).toFixed(5))
       if (ethBalance !== '0') {
         return Number(ethBalance)
@@ -98,6 +99,7 @@ export default function Home() {
   }
 
   const doSomething = async () => {
+    setTxHash(undefined)
     try {
       if (!isConnected) {
         toast({
@@ -123,10 +125,11 @@ export default function Home() {
         ///// Send ETH if needed /////
         const bal = await getBal()
         console.log('bal:', bal)
-        if (bal < 0.01) {
+        if (bal < 0.025) {
           const faucetTxHash = await faucetTx()
-          console.log('faucet tx', faucetTxHash)
-          // }
+          console.log('faucet tx:', faucetTxHash)
+          const bal = await getBal()
+          console.log('bal:', bal)
         }
         ///// Call /////
         const call = await erc20.mint(parseEther('10000'))
@@ -217,7 +220,7 @@ export default function Home() {
           spinnerPlacement="end">
           Mint
         </Button>
-        {txHash && (
+        {txHash && isConnected && (
           <Text py={4} fontSize="14px" color="#45a2f8">
             <LinkComponent href={txLink ? txLink : ''}>{txHash}</LinkComponent>
           </Text>
