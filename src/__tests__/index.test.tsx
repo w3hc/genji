@@ -3,11 +3,9 @@ import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import Home from '../pages/index'
 
-// Mock the necessary hooks and components
-jest.mock('@web3modal/ethers/react', () => ({
-  useWeb3ModalProvider: () => ({ walletProvider: null }),
-  useWeb3ModalAccount: () => ({ address: null, isConnected: false, chainId: null }),
-  useWalletInfo: () => ({ walletInfo: null }),
+jest.mock('@reown/appkit/react', () => ({
+  useAppKitAccount: () => ({ address: null, isConnected: false, caipAddress: null }),
+  useAppKitProvider: () => ({ walletProvider: null }),
 }))
 
 jest.mock('next/router', () => ({
@@ -24,9 +22,7 @@ jest.mock('next/router', () => ({
 describe('Home page', () => {
   it('renders the login message when not connected', () => {
     render(<Home />)
-    expect(
-      screen.getByText(/You can login with your email, Google, Farcaster, or with one of the 400\+ wallets suported by this app\./)
-    ).toBeInTheDocument()
+    expect(screen.getByText(/You can login with your email, Google, or with one of many wallets suported by Reown\./)).toBeInTheDocument()
   })
 
   it('renders the mint button', () => {
