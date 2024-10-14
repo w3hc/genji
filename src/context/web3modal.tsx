@@ -1,23 +1,12 @@
 'use client'
-import { ReactNode } from 'react'
-import { createWeb3Modal, defaultConfig } from '@web3modal/ethers/react'
-
-interface Props {
-  children?: ReactNode
-}
+import React, { ReactNode, createContext, useContext } from 'react'
+import { createAppKit, useAppKitProvider } from '@reown/appkit/react'
+import { EthersAdapter } from '@reown/appkit-adapter-ethers'
+import { sepolia, optimism, zksync, base, arbitrum, gnosis, polygon, polygonZkEvm, mantle, celo, avalanche, degen } from '@reown/appkit/networks'
 
 const projectId = process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID || ''
-const endpoint = process.env.NEXT_PUBLIC_RPC_ENDPOINT_URL || 'https://sepolia.gateway.tenderly.co'
 
-const sepolia = {
-  chainId: 11155111,
-  name: 'Sepolia',
-  chainName: 'Sepolia',
-  currency: 'ETH',
-  explorerUrl: 'https://sepolia.etherscan.io',
-  rpcUrl: endpoint,
-  blockExplorerUrl: 'https://sepolia.etherscan.io',
-}
+// https://docs.reown.com/appkit/react/core/custom-networks
 
 const metadata = {
   name: 'Genji',
@@ -26,29 +15,30 @@ const metadata = {
   icons: ['./favicon.ico'],
 }
 
-const ethersConfig = defaultConfig({
+createAppKit({
+  adapters: [new EthersAdapter()],
   metadata,
-  defaultChainId: 11155111, // Sepolia
-  rpcUrl: endpoint,
-  auth: {
+  networks: [sepolia, optimism, zksync, base, arbitrum, gnosis, polygon, polygonZkEvm, mantle, celo, avalanche, degen],
+  defaultNetwork: sepolia,
+  projectId,
+  features: {
     email: true,
-    // socials: ['google', 'x', 'github', 'discord', 'apple'],
-    socials: ['google', 'farcaster'],
-    showWallets: true,
-    walletFeatures: true,
+    socials: ['google', 'farcaster', 'github'],
   },
 })
 
-createWeb3Modal({
-  ethersConfig,
-  chains: [sepolia],
-  projectId,
-  enableAnalytics: true,
-  enableOnramp: true,
-  themeMode: 'dark',
-  themeVariables: {},
-})
+const AppKitContext = createContext<ReturnType<typeof useAppKitProvider> | null>(null)
 
-export function Web3Modal({ children }: Props) {
-  return <div>{children}</div>
+export function Web3Modal({ children }: { children: ReactNode }) {
+  const appKitProvider = useAppKitProvider('eip155:11155111' as any)
+
+  return <AppKitContext.Provider value={appKitProvider}>{children}</AppKitContext.Provider>
+}
+
+export function useAppKit() {
+  const context = useContext(AppKitContext)
+  if (!context) {
+    throw new Error('useAppKit must be used within a Web3Modal')
+  }
+  return context
 }

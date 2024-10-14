@@ -2,7 +2,8 @@ import * as React from 'react'
 import { Text, Button, useToast, Box } from '@chakra-ui/react'
 import { useState, useEffect } from 'react'
 import { BrowserProvider, Contract, Eip1193Provider, parseEther } from 'ethers'
-import { useWeb3ModalProvider, useWeb3ModalAccount, useWalletInfo } from '@web3modal/ethers/react'
+// import { useAppKitAccount, useAppKitProvider, useWalletInfo } from '@reown/appkit/react'
+import { useAppKitAccount, useAppKitProvider } from '@reown/appkit/react'
 import { ERC20_CONTRACT_ADDRESS, ERC20_CONTRACT_ABI } from '../utils/erc20'
 import { LinkComponent } from '../components/layout/LinkComponent'
 import { ethers } from 'ethers'
@@ -15,27 +16,28 @@ export default function Home() {
   const [txHash, setTxHash] = useState<string>()
   const [balance, setBalance] = useState<string>('0')
   const [network, setNetwork] = useState<string>('Unknown')
-  const [loginType, setLoginType] = useState<string>('Not connected')
+  // const [loginType, setLoginType] = useState<string>('Not connected')
 
-  const { address, isConnected, chainId } = useWeb3ModalAccount()
-
-  const { walletProvider } = useWeb3ModalProvider()
-  const provider = walletProvider
+  const { address, isConnected, caipAddress } = useAppKitAccount()
+  const { walletProvider } = useAppKitProvider('eip155')
+  // const { walletInfo } = useWalletInfo()
   const toast = useToast()
-  const { walletInfo } = useWalletInfo()
 
   useEffect(() => {
     if (isConnected) {
       setTxHash(undefined)
       getNetwork()
-      updateLoginType()
+      // updateLoginType()
       getBal()
+      console.log('user address:', address)
+      console.log('erc20  contract address:', ERC20_CONTRACT_ADDRESS)
+      // console.log('walletInfo:', walletInfo)
     }
-  }, [isConnected, address, chainId])
+  }, [isConnected, address, caipAddress])
 
   const getBal = async () => {
-    if (isConnected && provider) {
-      const ethersProvider = new BrowserProvider(provider as any)
+    if (isConnected && walletProvider) {
+      const ethersProvider = new BrowserProvider(walletProvider as any)
       const balance = await ethersProvider.getBalance(address as any)
 
       const ethBalance = ethers.formatEther(balance)
@@ -52,28 +54,28 @@ export default function Home() {
   }
 
   const getNetwork = async () => {
-    if (provider) {
-      const ethersProvider = new BrowserProvider(provider as any)
+    if (walletProvider) {
+      const ethersProvider = new BrowserProvider(walletProvider as any)
       const network = await ethersProvider.getNetwork()
       const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1)
       setNetwork(capitalize(network.name))
     }
   }
 
-  const updateLoginType = async () => {
-    try {
-      if (walletInfo != undefined) {
-        setLoginType(walletInfo.name ? walletInfo.name : 'Unknown')
-      }
-    } catch (error) {
-      console.error('Error getting login type:', error)
-      setLoginType('Unknown')
-    }
-  }
+  // const updateLoginType = async () => {
+  //   try {
+  //     if (walletInfo != undefined) {
+  //       setLoginType(walletInfo.name ? walletInfo.name : 'Unknown')
+  //     }
+  //   } catch (error) {
+  //     console.error('Error getting login type:', error)
+  //     setLoginType('Unknown')
+  //   }
+  // }
 
   const openEtherscan = () => {
     if (address) {
-      const baseUrl = chainId === 11155111 ? 'https://sepolia.etherscan.io/address/' : 'https://etherscan.io/address/'
+      const baseUrl = caipAddress === 'eip155:11155111:' ? 'https://sepolia.etherscan.io/address/' : 'https://etherscan.io/address/'
       window.open(baseUrl + address, '_blank')
     }
   }
@@ -113,11 +115,11 @@ export default function Home() {
         })
         return
       }
-      if (provider) {
+      if (walletProvider) {
         setIsLoading(true)
         setTxHash('')
         setTxLink('')
-        const ethersProvider = new BrowserProvider(provider as Eip1193Provider)
+        const ethersProvider = new BrowserProvider(walletProvider as Eip1193Provider)
         const signer = await ethersProvider.getSigner()
 
         const erc20 = new Contract(ERC20_CONTRACT_ADDRESS, ERC20_CONTRACT_ABI, signer)
@@ -132,7 +134,7 @@ export default function Home() {
           console.log('bal:', bal)
         }
         ///// Call /////
-        const call = await erc20.mint(parseEther('10000'))
+        const call = await erc20.mint(parseEther('10000')) // 0.000804454399826656 ETH // https://sepolia.etherscan.io/tx/0x687e32332965aa451abe45f89c9fefc4b5afe6e99c95948a300565f16a212d7b
 
         let receipt: ethers.ContractTransactionReceipt | null = null
         try {
@@ -182,8 +184,7 @@ export default function Home() {
       <main>
         {!isConnected ? (
           <>
-            <Text>You can login with your email, Google, Farcaster, or with one of the 400+ wallets suported by this app.</Text>
-
+            <Text>You can login with your email, Google, or with one of many wallets suported by Reown.</Text>
             <br />
           </>
         ) : (
@@ -199,9 +200,9 @@ export default function Home() {
             <Text>
               Network: <strong>{network}</strong>
             </Text>
-            <Text>
+            {/* <Text>
               Login type: <strong>{loginType}</strong>
-            </Text>
+            </Text> */}
             <Text>
               Balance: <strong>{balance} ETH</strong>
             </Text>
