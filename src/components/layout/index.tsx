@@ -1,7 +1,7 @@
 import { Web3Modal } from '../../context/web3modal'
 import { ReactNode } from 'react'
 import { Box, Container } from '@chakra-ui/react'
-import { Header } from './Header'
+import { Header } from '../Header'
 
 interface Props {
   children?: ReactNode

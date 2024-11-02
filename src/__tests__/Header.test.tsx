@@ -1,7 +1,7 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom'
-import { Header } from '../components/layout/Header'
+import { Header } from '../components/Header'
 
 jest.mock('@reown/appkit/react', () => ({
   useAppKitAccount: () => ({ isConnected: false }),

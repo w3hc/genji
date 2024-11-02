@@ -17,9 +17,9 @@ import {
 import { LinkComponent } from './LinkComponent'
 import { ThemeSwitcher } from './ThemeSwitcher'
 import { HeadingComponent } from './HeadingComponent'
-import { SITE_NAME } from '../../utils/config'
+import { SITE_NAME } from '../utils/config'
 import { FaGithub } from 'react-icons/fa'
-import { Web3Modal } from '../../context/web3modal'
+import { Web3Modal } from '../context/web3modal'
 import { HamburgerIcon } from '@chakra-ui/icons'
 
 interface Props {

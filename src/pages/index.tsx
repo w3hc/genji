@@ -5,9 +5,9 @@ import { BrowserProvider, Contract, Eip1193Provider, parseEther } from 'ethers'
 // import { useAppKitAccount, useAppKitProvider, useWalletInfo } from '@reown/appkit/react'
 import { useAppKitAccount, useAppKitProvider } from '@reown/appkit/react'
 import { ERC20_CONTRACT_ADDRESS, ERC20_CONTRACT_ABI } from '../utils/erc20'
-import { LinkComponent } from '../components/layout/LinkComponent'
+import { LinkComponent } from '../components/LinkComponent'
 import { ethers } from 'ethers'
-import { Head } from '../components/layout/Head'
+import { Head } from '../components/Head'
 import { SITE_NAME, SITE_DESCRIPTION } from '../utils/config'
 
 export default function Home() {
