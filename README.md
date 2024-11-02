@@ -2,7 +2,7 @@
 
 A Next.js Web3 app template.
 
-You can read **[our quickstart](https://github.com/w3hc/genji/blob/main/README.md)** to get started!
+You can read **[our quickstart](https://github.com/w3hc/genji/blob/main/QUICKSTART.md)** to get started!
 
 ## Features
 
