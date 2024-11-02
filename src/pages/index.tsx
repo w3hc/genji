@@ -75,7 +75,8 @@ export default function Home() {
 
   const openEtherscan = () => {
     if (address) {
-      const baseUrl = caipAddress === 'eip155:11155111:' ? 'https://sepolia.etherscan.io/address/' : 'https://etherscan.io/address/'
+      const baseUrl =
+        caipAddress === 'eip155:11155111:' ? 'https://sepolia.etherscan.io/address/' : 'https://etherscan.io/address/'
       window.open(baseUrl + address, '_blank')
     }
   }

@@ -22,7 +22,9 @@ jest.mock('next/router', () => ({
 describe('Home page', () => {
   it('renders the login message when not connected', () => {
     render(<Home />)
-    expect(screen.getByText(/You can login with your email, Google, or with one of many wallets suported by Reown\./)).toBeInTheDocument()
+    expect(
+      screen.getByText(/You can login with your email, Google, or with one of many wallets suported by Reown\./)
+    ).toBeInTheDocument()
   })
 
   it('renders the mint button', () => {

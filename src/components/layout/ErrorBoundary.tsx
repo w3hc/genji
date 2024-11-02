@@ -42,7 +42,8 @@ class ErrorBoundary extends React.Component<Props, State> {
           <p>
             Feel free to report this to Julien via <a href="https://matrix.to/#/@julienbrg:matrix.org">Element</a>,{' '}
             <a href="https://warpcast.com/julien-">Farcaster</a>, <a href="https://t.me/julienbrg">Telegram</a>,{' '}
-            <a href="https://twitter.com/julienbrg">Twitter</a>, <a href="https://discordapp.com/users/julienbrg">Discord</a> or{' '}
+            <a href="https://twitter.com/julienbrg">Twitter</a>,{' '}
+            <a href="https://discordapp.com/users/julienbrg">Discord</a> or{' '}
             <a href="https://www.linkedin.com/in/julienberanger/">LinkedIn</a>.
           </p>
         </>
