@@ -17,9 +17,9 @@ import {
 import { LinkComponent } from './LinkComponent'
 import { ThemeSwitcher } from './ThemeSwitcher'
 import { HeadingComponent } from './HeadingComponent'
-import { SITE_NAME } from '../../utils/config'
+import { SITE_NAME } from '../utils/config'
 import { FaGithub } from 'react-icons/fa'
-import { Web3Modal } from '../../context/web3modal'
+import { Web3Modal } from '../context/web3modal'
 import { HamburgerIcon } from '@chakra-ui/icons'
 
 interface Props {
@@ -38,7 +38,7 @@ export function Header(props: Props) {
       py={5}
       mb={8}
       alignItems="center">
-      <LinkComponent href="/">
+      <LinkComponent href="/" invisible>
         <Heading as="h1" size="md">
           {SITE_NAME}
         </Heading>
@@ -48,17 +48,16 @@ export function Header(props: Props) {
       <Menu>
         <MenuButton as={IconButton} aria-label="Options" icon={<HamburgerIcon />} size={'sm'} mr={4} />
         <MenuList>
-          <LinkComponent href="/">
+          <LinkComponent href="/" invisible>
             <MenuItem fontSize="md">Home</MenuItem>
           </LinkComponent>
-          <LinkComponent href="/new">
+          <LinkComponent href="/new" invisible>
             <MenuItem fontSize="md">New</MenuItem>
           </LinkComponent>
         </MenuList>
       </Menu>
       <Flex alignItems="center" gap={4}>
         <w3m-button />
-        {/* <w3m-network-button /> */}{' '}
         <Flex alignItems="center">
           <ThemeSwitcher />
           <Box mt={2} ml={4}>

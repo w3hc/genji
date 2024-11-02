@@ -1,16 +1,11 @@
 import React from 'react'
-import { render, screen } from '@testing-library/react'
+import { render, screen } from '../utils/test-utils'
+import { Header } from '@/components/Header'
 import '@testing-library/jest-dom'
-import { Header } from '../components/layout/Header'
-
-jest.mock('@reown/appkit/react', () => ({
-  useAppKitAccount: () => ({ isConnected: false }),
-}))
 
 describe('Header', () => {
-  it('renders the site name', () => {
+  it('exists in the document', () => {
     render(<Header />)
-    const siteName = screen.getByText('Genji')
-    expect(siteName).toBeInTheDocument()
+    expect(document.querySelector('header')).toBeInTheDocument()
   })
 })

@@ -2,6 +2,8 @@
 
 A Next.js Web3 app template.
 
+You can read **[our quickstart](https://github.com/w3hc/genji/blob/main/README.md)** to get started!
+
 ## Features
 
 - [Next.js](https://nextjs.org/)
@@ -27,23 +29,11 @@ Create a `.env` file:
 cp .env.example .env
 ```
 
-Add your own keys in the `.env` file (you can get it in your [Wallet Connect dashboard](https://cloud.walletconnect.com)), then:
+Add your own keys in the `.env` file (you can get it in your [Reown dashboard](https://cloud.reown.com/)), then:
 
 ```bash
 pnpm dev
 ```
-
-## Requirements
-
-Here are the known minimal mobile hardware requirements:
-
-- iOS: Safari 10+ (iOS 10+)
-- Android: Chrome 51+ (Android 5.0+)
-
-## Versions
-
-- pnpm `v8.7.5`
-- node `v20.9.0`
 
 ## Support
 

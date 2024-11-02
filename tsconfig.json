@@ -13,10 +13,14 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "noEmit": true,
-    "incremental": true
+    "incremental": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"],
+      "src/*": ["src/*"]
+    },
+    "types": ["jest", "node", "@testing-library/jest-dom"]
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules"],
-  "types": ["jest", "node"],
-  "esModuleInterop": true
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "jest.setup.ts", "jest.config.ts"],
+  "exclude": ["node_modules"]
 }
