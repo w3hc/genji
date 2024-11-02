@@ -8,6 +8,7 @@ interface Props {
   children: ReactNode
   isExternal?: boolean
   className?: string
+  invisible?: boolean
 }
 
 export function LinkComponent(props: Props) {
@@ -15,13 +16,10 @@ export function LinkComponent(props: Props) {
   const isExternal = props.href.match(/^([a-z0-9]*:|.{0})\/\/.*$/) || props.isExternal
   const defaultColor = useColorModeValue(`${THEME_COLOR_SCHEME}.600`, `${THEME_COLOR_SCHEME}.400`)
 
-  // Check if the children contain a Heading component
-  const isHeading = React.Children.toArray(props.children).some(
-    (child) => React.isValidElement(child) && child.type && child.props.as === 'h1'
-  )
-
-  // Use default color scheme for heading, custom colors for other links
-  const linkStyle = isHeading ? { _hover: { color: defaultColor } } : { color: '#45a2f8', _hover: { color: '#8c1c84' } }
+  // Apply invisible styling or default link styling
+  const linkStyle = props.invisible
+    ? { _hover: { color: defaultColor } }
+    : { color: '#45a2f8', _hover: { color: '#8c1c84' } }
 
   if (isExternal) {
     return (
