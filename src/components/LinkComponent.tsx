@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react'
 import NextLink from 'next/link'
 import { Link, useColorModeValue } from '@chakra-ui/react'
-import { THEME_COLOR_SCHEME } from '../../utils/config'
+import { THEME_COLOR_SCHEME } from '@/utils/config'
 
 interface Props {
   href: string
@@ -13,23 +13,26 @@ interface Props {
 export function LinkComponent(props: Props) {
   const className = props.className ?? ''
   const isExternal = props.href.match(/^([a-z0-9]*:|.{0})\/\/.*$/) || props.isExternal
-  const color = useColorModeValue(`${THEME_COLOR_SCHEME}.600`, `${THEME_COLOR_SCHEME}.400`)
+  const defaultColor = useColorModeValue(`${THEME_COLOR_SCHEME}.600`, `${THEME_COLOR_SCHEME}.400`)
+
+  // Check if the children contain a Heading component
+  const isHeading = React.Children.toArray(props.children).some(
+    (child) => React.isValidElement(child) && child.type && child.props.as === 'h1'
+  )
+
+  // Use default color scheme for heading, custom colors for other links
+  const linkStyle = isHeading ? { _hover: { color: defaultColor } } : { color: '#45a2f8', _hover: { color: '#8c1c84' } }
 
   if (isExternal) {
     return (
-      <Link
-        className={className}
-        _hover={{ color: '#8c1c84' }}
-        href={props.href}
-        target="_blank"
-        rel="noopener noreferrer">
+      <Link className={className} {...linkStyle} href={props.href} target="_blank" rel="noopener noreferrer">
         {props.children}
       </Link>
     )
   }
 
   return (
-    <Link as={NextLink} className={className} _hover={{ color: color }} href={props.href}>
+    <Link as={NextLink} className={className} {...linkStyle} href={props.href}>
       {props.children}
     </Link>
   )
