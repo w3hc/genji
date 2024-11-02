@@ -2,15 +2,19 @@ import * as React from 'react'
 import { Text, Button, useToast, Box } from '@chakra-ui/react'
 import { useState, useEffect } from 'react'
 import { BrowserProvider, Contract, Eip1193Provider, parseEther } from 'ethers'
-// import { useAppKitAccount, useAppKitProvider, useWalletInfo } from '@reown/appkit/react'
 import { useAppKitAccount, useAppKitProvider } from '@reown/appkit/react'
 import { ERC20_CONTRACT_ADDRESS, ERC20_CONTRACT_ABI } from '../utils/erc20'
 import { LinkComponent } from '../components/LinkComponent'
 import { ethers } from 'ethers'
 import { Head } from '../components/Head'
 import { SITE_NAME, SITE_DESCRIPTION } from '../utils/config'
+import { NextSeo } from 'next-seo'
+import { SITE_URL } from '../utils/config'
 
 export default function Home() {
+  const seoTitle = 'Genji - Web3 Application Template'
+  const seoDescription = 'A modern Web3 application template featuring Next.js, Reown, Ethers.js, and Chakra UI'
+
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [txLink, setTxLink] = useState<string>()
   const [txHash, setTxHash] = useState<string>()
@@ -181,6 +185,41 @@ export default function Home() {
 
   return (
     <>
+      <NextSeo
+        title={seoTitle}
+        titleTemplate="%s"
+        description={seoDescription}
+        canonical={SITE_URL}
+        openGraph={{
+          type: 'website',
+          url: SITE_URL,
+          title: seoTitle,
+          description: seoDescription,
+          site_name: 'Genji',
+          images: [
+            {
+              url: `${SITE_URL}/huangshan.png`,
+              width: 1200,
+              height: 630,
+              alt: 'Genji - Web3 Template',
+            },
+          ],
+        }}
+        twitter={{
+          cardType: 'summary_large_image',
+          site: '@w3hc8',
+        }}
+        additionalMetaTags={[
+          {
+            name: 'keywords',
+            content: 'web3, ethereum, blockchain, dapp, template, next.js, react, typescript',
+          },
+          {
+            name: 'author',
+            content: 'W3HC',
+          },
+        ]}
+      />
       <Head title={SITE_NAME} description={SITE_DESCRIPTION} />
       <main>
         {!isConnected ? (
