@@ -2,6 +2,8 @@
 
 A Next.js Web3 app template.
 
+You can read **[our quickstart](https://github.com/w3hc/genji/blob/main/README.md)** to get started!
+
 ## Features
 
 - [Next.js](https://nextjs.org/)
