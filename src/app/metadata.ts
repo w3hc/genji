@@ -4,11 +4,9 @@ export const metadata: Metadata = {
   title: 'Genji',
   description: 'Next.js + Web3 Modal + Ethers.js + Chakra UI',
 
-  // Basic metadata
   keywords: ['Web3', 'Next.js', 'Ethereum', 'DApp', 'Blockchain', 'Wallet'],
   authors: [{ name: 'Julien', url: 'https://github.com/julienbrg' }],
 
-  // Open Graph metadata
   openGraph: {
     title: 'Genji',
     description: 'Next.js + Web3 Modal + Ethers.js + Chakra UI',
@@ -26,7 +24,6 @@ export const metadata: Metadata = {
     type: 'website',
   },
 
-  // Twitter metadata
   twitter: {
     card: 'summary_large_image',
     title: 'Genji',
