@@ -90,6 +90,9 @@ export default function Header() {
               <Link href="/new" color="white">
                 <MenuItem fontSize="md">New page</MenuItem>
               </Link>
+              <Link href="/wallet" color="white">
+                <MenuItem fontSize="md">Wallet generator</MenuItem>
+              </Link>
             </MenuList>
           </Menu>
         </Flex>
