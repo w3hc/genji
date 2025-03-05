@@ -13,7 +13,7 @@ pnpm i
 Create a `.env` file:
 
 ```
-cp .env.example .env
+cp .env.template .env
 ```
 
 Add your own keys in the `.env` file (you can get it in your [Reown dashboard](https://cloud.reown.com/)), then:
@@ -29,7 +29,7 @@ pnpm dev
 Change the app name and details in these files:
 
 ```
-package.json                     # name, version, description
+package.json                    # name, version, description
 src/app/metadata.ts             # title, description
 src/context/index.tsx           # metadata.name, metadata.description
 src/components/Header.tsx       # Heading text
