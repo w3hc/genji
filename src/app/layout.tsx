@@ -4,6 +4,7 @@ import ContextProvider from '@/context'
 import Header from '@/components/Header'
 import { Box } from '@chakra-ui/react'
 import { metadata } from './metadata'
+import { LanguageProvider } from '@/context/LanguageContext'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -18,8 +19,10 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <ContextProvider>
-          <Header />
-          <Box pt="72px">{children}</Box>
+          <LanguageProvider>
+            <Header />
+            <Box pt="72px">{children}</Box>
+          </LanguageProvider>
         </ContextProvider>
       </body>
     </html>

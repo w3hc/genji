@@ -21,6 +21,7 @@ import {
   Divider,
 } from '@chakra-ui/react'
 import { Wallet, verifyMessage } from 'ethers'
+import { useTranslation } from '@/hooks/useTranslation'
 
 interface WalletData {
   id: number
@@ -48,6 +49,7 @@ const SecureMessageSigner: React.FC = () => {
   const [db, setDb] = useState<IDBDatabase | null>(null)
   const [isVerifying, setIsVerifying] = useState<boolean>(false)
   const toast = useToast()
+  const t = useTranslation()
 
   // Initialize IndexedDB
   useEffect(() => {
@@ -359,7 +361,7 @@ const SecureMessageSigner: React.FC = () => {
         {error && (
           <Alert status="error">
             <AlertIcon />
-            <AlertTitle>Error</AlertTitle>
+            <AlertTitle>{t.common.error}</AlertTitle>
             <AlertDescription>{error}</AlertDescription>
           </Alert>
         )}
@@ -369,10 +371,8 @@ const SecureMessageSigner: React.FC = () => {
             <Alert status="info">
               <AlertIcon />
               <Box>
-                <AlertTitle>No Ethereum Wallet Found</AlertTitle>
-                <AlertDescription>
-                  You need to create an Ethereum wallet before signing messages.
-                </AlertDescription>
+                <AlertTitle>{t.wallet.noWalletFound}</AlertTitle>
+                <AlertDescription>{t.wallet.description}</AlertDescription>
               </Box>
             </Alert>
 
@@ -380,10 +380,10 @@ const SecureMessageSigner: React.FC = () => {
               colorScheme="blue"
               onClick={createAndStoreWallet}
               isLoading={loading}
-              loadingText="Creating..."
+              loadingText={t.common.loading}
               width="full"
             >
-              Create New Ethereum Wallet
+              {t.wallet.createWallet}
             </Button>
           </VStack>
         ) : (
@@ -391,26 +391,26 @@ const SecureMessageSigner: React.FC = () => {
             <Card width="full">
               <CardHeader>
                 <HStack justify="space-between" align="center">
-                  <Text fontWeight="bold">Your Ethereum Wallet Address</Text>
+                  <Text fontWeight="bold">{t.wallet.yourAddress}</Text>
                   <HStack spacing={2}>
                     <Button
                       colorScheme="red"
                       onClick={flushDatabase}
                       isLoading={loading}
-                      loadingText="Clearing..."
+                      loadingText={t.common.loading}
                       size="sm"
                       variant="outline"
                     >
-                      Flush DB
+                      {t.wallet.flushDb}
                     </Button>
                     <Button
                       colorScheme="purple"
                       onClick={createAndStoreWallet}
                       isLoading={loading}
-                      loadingText="Regenerating..."
+                      loadingText={t.common.loading}
                       size="sm"
                     >
-                      Generate New Wallet
+                      {t.wallet.regenerateWallet}
                     </Button>
                   </HStack>
                 </HStack>
@@ -426,12 +426,12 @@ const SecureMessageSigner: React.FC = () => {
 
             <Box width="full">
               <Text mb={2} fontWeight="medium">
-                Message to Sign
+                {t.wallet.messageToSign}
               </Text>
               <Textarea
                 value={message}
                 onChange={e => setMessage(e.target.value)}
-                placeholder="Enter your message..."
+                placeholder={t.wallet.enterMessage}
                 size="md"
                 minH="100px"
               />
@@ -442,16 +442,16 @@ const SecureMessageSigner: React.FC = () => {
               onClick={signMessage}
               isDisabled={!message || loading}
               isLoading={loading}
-              loadingText="Signing..."
+              loadingText={t.common.loading}
               width="full"
             >
-              Sign Message
+              {t.wallet.signMessage}
             </Button>
 
             {signature && (
               <Card width="full">
                 <CardHeader>
-                  <Text fontWeight="bold">Ethereum Signature</Text>
+                  <Text fontWeight="bold">{t.wallet.signature}</Text>
                 </CardHeader>
                 <CardBody>
                   <Text fontFamily="mono" fontSize="sm" wordBreak="break-all">
@@ -462,11 +462,11 @@ const SecureMessageSigner: React.FC = () => {
                     colorScheme="green"
                     onClick={verifySignature}
                     isLoading={isVerifying}
-                    loadingText="Verifying..."
+                    loadingText={t.common.loading}
                     size="sm"
                     width="full"
                   >
-                    Verify Signature
+                    {t.wallet.verifySignature}
                   </Button>
                 </CardBody>
               </Card>

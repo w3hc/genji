@@ -5,6 +5,7 @@ import { useAppKitAccount, useAppKitNetwork, useAppKitProvider } from '@reown/ap
 import { BrowserProvider, parseEther, formatEther } from 'ethers'
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import { useTranslation } from '@/hooks/useTranslation'
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(false)
@@ -15,6 +16,7 @@ export default function Home() {
   const { address, isConnected } = useAppKitAccount()
   const { walletProvider } = useAppKitProvider('eip155')
   const toast = useToast()
+  const t = useTranslation()
 
   useEffect(() => {
     const checkBalance = async () => {
@@ -37,8 +39,8 @@ export default function Home() {
     setTxLink('')
     if (!address || !walletProvider) {
       toast({
-        title: 'Not connected',
-        description: 'Please connect your wallet',
+        title: t.common.error,
+        description: t.home.notConnected,
         status: 'error',
         duration: 5000,
         isClosable: true,
@@ -62,8 +64,8 @@ export default function Home() {
       setTxLink('https://sepolia.etherscan.io/tx/' + receipt?.hash)
 
       toast({
-        title: 'Transaction successful',
-        description: `Sent 0.0001 ETH to ${address}`,
+        title: t.common.success,
+        description: `${t.home.transactionSuccess}: 0.0001 ETH to ${address}`,
         status: 'success',
         duration: 5000,
         isClosable: true,
@@ -71,7 +73,7 @@ export default function Home() {
     } catch (error) {
       console.error('Transaction failed:', error)
       toast({
-        title: 'Transaction failed',
+        title: t.home.transactionFailed,
         description: error instanceof Error ? error.message : 'Unknown error occurred',
         status: 'error',
         duration: 5000,
@@ -86,10 +88,10 @@ export default function Home() {
 
   return (
     <Container maxW="container.sm" py={20}>
-      <Text mb={4}>Hello world!</Text>
+      <Text mb={4}>{t.home.title}</Text>
       {isConnected && (
         <Tooltip
-          label={!hasEnoughBalance ? 'Please connect with an account that has a bit of ETH' : ''}
+          label={!hasEnoughBalance ? t.home.insufficientBalance : ''}
           isDisabled={hasEnoughBalance}
           hasArrow
           bg="black"
@@ -102,7 +104,7 @@ export default function Home() {
           <Button
             onClick={handleSend}
             isLoading={isLoading}
-            loadingText="Sending..."
+            loadingText={t.common.loading}
             bg="#45a2f8"
             color="white"
             _hover={{
@@ -110,7 +112,7 @@ export default function Home() {
             }}
             isDisabled={!hasEnoughBalance}
           >
-            Send 0.0001 ETH to self
+            {t.home.sendEth}
           </Button>
         </Tooltip>
       )}
