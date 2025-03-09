@@ -5,6 +5,7 @@ import { useAppKitAccount, useAppKitNetwork, useAppKitProvider } from '@reown/ap
 import { BrowserProvider, parseEther, formatEther } from 'ethers'
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import { useTranslation } from '@/hooks/useTranslation'
 
 export default function NewPage() {
   const [isLoading, setIsLoading] = useState(false)
@@ -15,6 +16,7 @@ export default function NewPage() {
   const { address, isConnected } = useAppKitAccount()
   const { walletProvider } = useAppKitProvider('eip155')
   const toast = useToast()
+  const t = useTranslation()
 
   useEffect(() => {
     const checkBalance = async () => {
@@ -40,21 +42,25 @@ export default function NewPage() {
         <VStack spacing={6} align="stretch">
           <header>
             <Heading as="h1" size="xl" mb={2}>
-              Welcome to New Page
+              {t.newPage.title}
             </Heading>
             <Text fontSize="lg" color="gray.400">
-              Unleash your imagination in this new page!
+              {t.newPage.subtitle}
             </Text>
           </header>
 
-          <section aria-label="Account Information">
+          <section aria-label={t.newPage.accountInfo}>
             {isConnected ? (
               <Box bg="whiteAlpha.100" p={4} borderRadius="md">
-                <Text>Connected Address: {address}</Text>
-                <Text>Balance: {parseFloat(balance).toFixed(4)} ETH</Text>
+                <Text>
+                  {t.newPage.connectedAddress} {address}
+                </Text>
+                <Text>
+                  {t.newPage.balance} {parseFloat(balance).toFixed(4)} ETH
+                </Text>
               </Box>
             ) : (
-              <Text>Connect your wallet to get started</Text>
+              <Text>{t.newPage.connectWallet}</Text>
             )}
           </section>
 
@@ -62,7 +68,7 @@ export default function NewPage() {
             {txHash && (
               <Box bg="whiteAlpha.100" p={4} borderRadius="md">
                 <Text fontSize="sm">
-                  Last Transaction:{' '}
+                  {t.newPage.lastTransaction}{' '}
                   <Link
                     href={txLink || '#'}
                     target="_blank"
@@ -78,7 +84,7 @@ export default function NewPage() {
 
           <nav aria-label="Main Navigation">
             <Link href="/" style={{ color: '#45a2f8', textDecoration: 'underline' }}>
-              Back Home
+              {t.newPage.backHome}
             </Link>
           </nav>
         </VStack>

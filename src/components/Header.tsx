@@ -16,11 +16,14 @@ import { useAppKit } from '@reown/appkit/react'
 import { useAppKitAccount, useDisconnect } from '@reown/appkit/react'
 import Link from 'next/link'
 import { HamburgerIcon } from '@chakra-ui/icons'
+import LanguageSelector from './LanguageSelector'
+import { useTranslation } from '@/hooks/useTranslation'
 
 export default function Header() {
   const { open } = useAppKit()
   const { isConnected, address } = useAppKitAccount()
   const { disconnect } = useDisconnect()
+  const t = useTranslation()
 
   const handleConnect = () => {
     try {
@@ -57,12 +60,12 @@ export default function Header() {
               onClick={handleConnect}
               size="sm"
             >
-              Login
+              {t.common.login}
             </Button>
           ) : (
             <>
               <Box transform="scale(0.85)" transformOrigin="right center">
-                <appkit-network-button />
+                {/* <appkit-network-button /> */}
               </Box>
               <Button
                 bg="#8c1c84"
@@ -74,7 +77,7 @@ export default function Header() {
                 size="sm"
                 ml={4}
               >
-                Logout
+                {t.common.logout}
               </Button>
             </>
           )}
@@ -88,13 +91,14 @@ export default function Header() {
             />
             <MenuList>
               <Link href="/new" color="white">
-                <MenuItem fontSize="md">New page</MenuItem>
+                <MenuItem fontSize="md">{t.navigation.newPage}</MenuItem>
               </Link>
               <Link href="/wallet" color="white">
-                <MenuItem fontSize="md">Wallet generator</MenuItem>
+                <MenuItem fontSize="md">{t.navigation.walletGenerator}</MenuItem>
               </Link>
             </MenuList>
           </Menu>
+          <LanguageSelector />
         </Flex>
       </Flex>
     </Box>
