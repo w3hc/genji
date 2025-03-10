@@ -4,7 +4,6 @@ import {
   Box,
   Button,
   Flex,
-  Image,
   Heading,
   Menu,
   MenuButton,
@@ -18,12 +17,31 @@ import Link from 'next/link'
 import { HamburgerIcon } from '@chakra-ui/icons'
 import LanguageSelector from './LanguageSelector'
 import { useTranslation } from '@/hooks/useTranslation'
+import { useState, useEffect } from 'react'
 
 export default function Header() {
   const { open } = useAppKit()
   const { isConnected, address } = useAppKitAccount()
   const { disconnect } = useDisconnect()
   const t = useTranslation()
+
+  const [scrollPosition, setScrollPosition] = useState(0)
+
+  const slideThreshold = 50
+  const leftSlideValue =
+    scrollPosition <= slideThreshold ? 0 : Math.min((scrollPosition - slideThreshold) * 0.5, 100)
+
+  const rightSlideValue =
+    scrollPosition <= slideThreshold ? 0 : Math.min((scrollPosition - slideThreshold) * 0.5, 100)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrollPosition(window.scrollY)
+    }
+
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
 
   const handleConnect = () => {
     try {
@@ -44,12 +62,25 @@ export default function Header() {
   return (
     <Box as="header" py={4} position="fixed" w="100%" top={0} zIndex={10}>
       <Flex justify="space-between" align="center" px={4}>
-        <Link href="/">
-          <Heading as="h3" size="md" textAlign="center">
-            Genji
-          </Heading>
-        </Link>
-        <Flex gap={2} align="center">
+        <Box
+          transform={`translateX(-${leftSlideValue}px)`}
+          opacity={Math.max(1 - leftSlideValue / 100, 0)}
+          transition="all 0.5s ease-in-out"
+        >
+          <Link href="/">
+            <Heading as="h3" size="md" textAlign="center">
+              Genji
+            </Heading>
+          </Link>
+        </Box>
+
+        <Flex
+          gap={2}
+          align="center"
+          transform={`translateX(${rightSlideValue}px)`}
+          opacity={Math.max(1 - rightSlideValue / 100, 0)}
+          transition="all 0.5s ease-in-out"
+        >
           {!isConnected ? (
             <Button
               bg="#8c1c84"
