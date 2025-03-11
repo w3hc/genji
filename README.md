@@ -22,9 +22,7 @@ Add your own keys in the `.env` file (you can get it in your [Reown dashboard](h
 pnpm dev
 ```
 
-## Getting Started Guide
-
-### 1. Customize Your App
+## Customize Your App
 
 Change the app name and details in these files:
 
@@ -35,7 +33,7 @@ src/context/index.tsx           # metadata.name, metadata.description
 src/components/Header.tsx       # Heading text
 ```
 
-### 2. Configure SEO
+### Configure SEO
 
 #### Default SEO (src/app/metadata.ts):
 
@@ -69,7 +67,7 @@ export const metadata: Metadata = {
 }
 ```
 
-### 3. Configure Networks
+### Configure Networks
 
 Edit supported networks in `src/context/index.tsx`:
 
@@ -82,7 +80,7 @@ networks: [
 ]
 ```
 
-### 4. Set Up Reown
+### Set Up Reown
 
 1. Create an account at [Reown Dashboard](https://cloud.reown.com/)
 2. Create a new project
@@ -93,13 +91,13 @@ networks: [
 NEXT_PUBLIC_PROJECT_ID=your_project_id
 ```
 
-### 5. Domain Verification
+### Domain Verification
 
 1. Create `.well-known/walletconnect.txt` in your `public` folder
 2. Add your verification details from Reown dashboard
 3. Ensure it's accessible at: `your-domain/.well-known/walletconnect.txt`
 
-### 6. Documentation References
+### Documentation References
 
 - [Ethers.js `v6`](https://docs.ethers.org/v6/) - Ethereum library
 - [Reown AppKit](https://reown.com/appkit) - Web3 authentication
@@ -109,3 +107,5 @@ NEXT_PUBLIC_PROJECT_ID=your_project_id
 ## Support
 
 Feel free to reach out to [Julien](https://github.com/julienbrg) on [Farcaster](https://warpcast.com/julien-), [Element](https://matrix.to/#/@julienbrg:matrix.org), [Status](https://status.app/u/iwSACggKBkp1bGllbgM=#zQ3shmh1sbvE6qrGotuyNQB22XU5jTrZ2HFC8bA56d5kTS2fy), [Telegram](https://t.me/julienbrg), [Twitter](https://twitter.com/julienbrg), [Discord](https://discordapp.com/users/julienbrg), or [LinkedIn](https://www.linkedin.com/in/julienberanger/).
+
+<img src="https://bafkreid5xwxz4bed67bxb2wjmwsec4uhlcjviwy7pkzwoyu5oesjd3sp64.ipfs.w3s.link" alt="built-with-ethereum-w3hc" width="100"/>
