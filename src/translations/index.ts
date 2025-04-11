@@ -42,6 +42,7 @@ type TranslationKeys = {
   navigation: {
     newPage: string
     walletGenerator: string
+    referral: string
   }
   newPage: {
     title: string
@@ -98,6 +99,7 @@ export const translations: Translations = {
     navigation: {
       newPage: 'New page',
       walletGenerator: 'Wallet generator',
+      referral: 'Referral',
     },
     newPage: {
       title: 'Welcome to New Page',
