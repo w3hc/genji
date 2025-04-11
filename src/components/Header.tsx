@@ -127,6 +127,9 @@ export default function Header() {
               <Link href="/wallet" color="white">
                 <MenuItem fontSize="md">{t.navigation.walletGenerator}</MenuItem>
               </Link>
+              <Link href="/referral" color="white">
+                <MenuItem fontSize="md">{t.navigation.referral}</MenuItem>
+              </Link>
             </MenuList>
           </Menu>
           <LanguageSelector />
