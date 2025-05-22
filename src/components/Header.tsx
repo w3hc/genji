@@ -27,12 +27,9 @@ export default function Header() {
 
   const [scrollPosition, setScrollPosition] = useState(0)
 
-  const slideThreshold = 50
-  const leftSlideValue =
-    scrollPosition <= slideThreshold ? 0 : Math.min((scrollPosition - slideThreshold) * 0.5, 100)
-
-  const rightSlideValue =
-    scrollPosition <= slideThreshold ? 0 : Math.min((scrollPosition - slideThreshold) * 0.5, 100)
+  const shouldSlide = scrollPosition > 0
+  const leftSlideValue = shouldSlide ? 2000 : 0
+  const rightSlideValue = shouldSlide ? 2000 : 0
 
   useEffect(() => {
     const handleScroll = () => {
@@ -62,11 +59,7 @@ export default function Header() {
   return (
     <Box as="header" py={4} position="fixed" w="100%" top={0} zIndex={10}>
       <Flex justify="space-between" align="center" px={4}>
-        <Box
-          transform={`translateX(-${leftSlideValue}px)`}
-          opacity={Math.max(1 - leftSlideValue / 100, 0)}
-          transition="all 0.5s ease-in-out"
-        >
+        <Box transform={`translateX(-${leftSlideValue}px)`} transition="transform 0.5s ease-in-out">
           <Link href="/">
             <Heading as="h3" size="md" textAlign="center">
               Genji
@@ -78,8 +71,7 @@ export default function Header() {
           gap={2}
           align="center"
           transform={`translateX(${rightSlideValue}px)`}
-          opacity={Math.max(1 - rightSlideValue / 100, 0)}
-          transition="all 0.5s ease-in-out"
+          transition="transform 0.5s ease-in-out"
         >
           {!isConnected ? (
             <Button
@@ -95,9 +87,7 @@ export default function Header() {
             </Button>
           ) : (
             <>
-              <Box transform="scale(0.85)" transformOrigin="right center">
-                {/* <appkit-network-button /> */}
-              </Box>
+              <Box transform="scale(0.85)" transformOrigin="right center"></Box>
               <Button
                 bg="#8c1c84"
                 color="white"
@@ -129,6 +119,9 @@ export default function Header() {
               </Link>
               <Link href="/referral" color="white">
                 <MenuItem fontSize="md">{t.navigation.referral}</MenuItem>
+              </Link>
+              <Link href="/subscribe" color="white">
+                <MenuItem fontSize="md">Subscribe</MenuItem>
               </Link>
             </MenuList>
           </Menu>
