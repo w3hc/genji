@@ -123,6 +123,9 @@ export default function Header() {
               <Link href="/subscribe" color="white">
                 <MenuItem fontSize="md">Subscribe</MenuItem>
               </Link>
+              <Link href="/chat" color="white">
+                <MenuItem fontSize="md">Chat</MenuItem>
+              </Link>
             </MenuList>
           </Menu>
           <LanguageSelector />
