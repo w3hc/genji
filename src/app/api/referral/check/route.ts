@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { ethers } from 'ethers'
 
+// Force dynamic rendering
+export const dynamic = 'force-dynamic'
+
 // ReferralTracker contract ABI (only the methods we need for checking referrals)
 const referralTrackerABI = [
   {

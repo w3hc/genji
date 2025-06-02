@@ -13,8 +13,9 @@ import {
 } from '@chakra-ui/react'
 import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
+import { Suspense } from 'react'
 
-export default function SubscriptionSuccessPage() {
+function SuccessContent() {
   const searchParams = useSearchParams()
   const sessionId = searchParams.get('session_id')
 
@@ -56,5 +57,23 @@ export default function SubscriptionSuccessPage() {
         </Box>
       </VStack>
     </Container>
+  )
+}
+
+export default function SubscriptionSuccessPage() {
+  return (
+    <Suspense
+      fallback={
+        <Container maxW="container.sm" py={20}>
+          <VStack spacing={8} align="stretch" textAlign="center">
+            <Heading as="h1" size="xl">
+              Loading...
+            </Heading>
+          </VStack>
+        </Container>
+      }
+    >
+      <SuccessContent />
+    </Suspense>
   )
 }
