@@ -34,7 +34,7 @@ export default function NewPage() {
     checkBalance()
   }, [address, walletProvider])
 
-  const hasEnoughBalance = Number(balance) >= 0.0001
+  const hasEnoughBalance = Number(balance) >= 0.00001
 
   return (
     <main>

@@ -7,6 +7,8 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { useTranslation } from '@/hooks/useTranslation'
 
+const testAddress = '0x502fb0dFf6A2adbF43468C9888D1A26943eAC6D1' // You can change the test address
+
 export default function Home() {
   const [isLoading, setIsLoading] = useState(false)
   const [txLink, setTxLink] = useState<string>()
@@ -14,6 +16,7 @@ export default function Home() {
   const [balance, setBalance] = useState<string>('0')
 
   const { address, isConnected } = useAppKitAccount()
+  const { caipNetwork, chainId } = useAppKitNetwork()
   const { walletProvider } = useAppKitProvider('eip155')
   const toast = useToast()
   const t = useTranslation()
@@ -32,11 +35,12 @@ export default function Home() {
     }
 
     checkBalance()
-  }, [address, walletProvider])
+  }, [address, walletProvider, chainId])
 
   const handleSend = async () => {
     setTxHash('')
     setTxLink('')
+
     if (!address || !walletProvider) {
       toast({
         title: t.common.error,
@@ -48,33 +52,60 @@ export default function Home() {
       return
     }
 
+    console.log('Current network:', caipNetwork, 'Chain ID:', chainId)
+
     setIsLoading(true)
     try {
       const provider = new BrowserProvider(walletProvider as any)
+
+      const network = await provider.getNetwork()
+      console.log('Provider network:', network)
+
       const signer = await provider.getSigner()
+      console.log('Signer address:', await signer.getAddress())
 
       const tx = await signer.sendTransaction({
-        to: address,
-        value: parseEther('0.0001'),
+        to: testAddress,
+        value: parseEther('0.00001'),
       })
 
       const receipt = await tx.wait(1)
 
       setTxHash(receipt?.hash)
-      setTxLink('https://sepolia.etherscan.io/tx/' + receipt?.hash)
+
+      let explorerUrl = 'https://sepolia.etherscan.io/tx/'
+      if (chainId === 11155420) {
+        // OP Sepolia
+        explorerUrl = 'https://sepolia-optimism.etherscan.io/tx/'
+      } else if (chainId === 84532) {
+        // Base Sepolia
+        explorerUrl = 'https://sepolia.basescan.org/tx/'
+      }
+
+      setTxLink(explorerUrl + receipt?.hash)
 
       toast({
         title: t.common.success,
-        description: `${t.home.transactionSuccess}: 0.0001 ETH to ${address}`,
+        description: `${t.home.transactionSuccess}: 0.00001 ETH to ${testAddress}`,
         status: 'success',
         duration: 5000,
         isClosable: true,
       })
-    } catch (error) {
+    } catch (error: any) {
       console.error('Transaction failed:', error)
+
+      let errorMessage = 'Unknown error occurred'
+      if (error?.message) {
+        errorMessage = error.message
+      } else if (error?.reason) {
+        errorMessage = error.reason
+      } else if (error?.code) {
+        errorMessage = `Error code: ${error.code}`
+      }
+
       toast({
         title: t.home.transactionFailed,
-        description: error instanceof Error ? error.message : 'Unknown error occurred',
+        description: errorMessage,
         status: 'error',
         duration: 5000,
         isClosable: true,
@@ -84,11 +115,33 @@ export default function Home() {
     }
   }
 
-  const hasEnoughBalance = Number(balance) >= 0.0001
+  const hasEnoughBalance = Number(balance) >= 0.00001
 
   return (
     <Container maxW="container.sm" py={20}>
       <Text mb={4}>{t.home.title}</Text>
+
+      {/* Debug info */}
+      {isConnected && (
+        <>
+          <Text fontSize="sm" color="gray.500" mb={4}>
+            Network: {caipNetwork?.name || 'Unknown'} (Chain ID: {chainId})
+          </Text>
+
+          <Text fontSize="sm" color="gray.500" mb={4}>
+            Connected wallet address: <strong>{address}</strong>
+          </Text>
+
+          <Text fontSize="sm" color="gray.500" mb={4}>
+            Balance: {parseFloat(balance).toFixed(5)} ETH
+          </Text>
+
+          <Text fontSize="sm" color="gray.500" mb={4}>
+            Recipient address: <strong>{testAddress}</strong>
+          </Text>
+        </>
+      )}
+
       {isConnected && (
         <Tooltip
           label={!hasEnoughBalance ? t.home.insufficientBalance : ''}

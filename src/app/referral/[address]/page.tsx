@@ -167,14 +167,93 @@ export default function ReferralLandingPage() {
 
   // Try to register when the user connects their wallet
   useEffect(() => {
-    const attemptRegistration = async () => {
-      if (isConnected && address && referrerAddress) {
-        await registerReferralOnChain()
+    if (!isConnected || !address || !referrerAddress) return
+
+    // Inline the registration logic to avoid function dependency
+    const registerReferral = async () => {
+      // Check if user is trying to refer themselves
+      if (address.toLowerCase() === referrerAddress.toLowerCase()) {
+        toast({
+          title: 'Self Referral Not Allowed',
+          description: 'You cannot invite yourself',
+          status: 'info',
+          duration: 5000,
+          isClosable: true,
+        })
+        return false
+      }
+
+      // First check if the user is already registered
+      try {
+        const response = await fetch(`/api/referral/check?address=${address}`, {
+          method: 'GET',
+        })
+        const data = await response.json()
+
+        if (data.isRegistered) {
+          toast({
+            title: 'Already Registered',
+            description: 'Your wallet is already registered with a referrer',
+            status: 'info',
+            duration: 5000,
+            isClosable: true,
+          })
+          return false
+        }
+      } catch (error) {
+        console.error('Referral check error:', error)
+        return false
+      }
+
+      // Register the referral
+      try {
+        const response = await fetch('/api/referral', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            referrer: referrerAddress,
+            referee: address,
+          }),
+        })
+
+        const data = await response.json()
+
+        if (!response.ok) {
+          throw new Error(data.message || 'Failed to register referral on chain')
+        }
+
+        toast({
+          title: 'Referral Registered on Chain',
+          description: `Transaction Hash: ${data.txHash.substring(0, 10)}...`,
+          status: 'success',
+          duration: 5000,
+          isClosable: true,
+        })
+
+        // Redirect to the main referral page after successful registration
+        setTimeout(() => {
+          router.push('/referral')
+        }, 2000)
+
+        return true
+      } catch (error) {
+        console.error('Referral registration error:', error)
+        toast({
+          title: 'Error',
+          description:
+            error instanceof Error ? error.message : 'Failed to register referral on chain',
+          status: 'error',
+          duration: 5000,
+          isClosable: true,
+        })
+        return false
       }
     }
 
-    attemptRegistration()
-  }, [isConnected, address])
+    registerReferral()
+  }, [isConnected, address, referrerAddress, toast, router])
 
   // Check if the address is valid
   const isValidAddress =

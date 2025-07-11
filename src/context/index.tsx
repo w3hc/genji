@@ -58,6 +58,15 @@ createAppKit({
   },
   enableEIP6963: true,
   enableCoinbase: true,
+  allowUnsupportedChain: false,
+  enableWalletConnect: true,
+  enableInjected: true,
+  features: {
+    analytics: true,
+    email: true,
+    socials: ['google', 'discord', 'github', 'apple'],
+    emailShowWallets: true,
+  },
 })
 
 const theme = extendTheme({

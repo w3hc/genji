@@ -74,7 +74,7 @@ export const translations: Translations = {
     },
     home: {
       title: 'Hello world!',
-      sendEth: 'Send 0.0001 ETH to self',
+      sendEth: 'Send 0.00001 ETH',
       transactionSuccess: 'Transaction successful',
       transactionFailed: 'Transaction failed',
       notConnected: 'Please connect your wallet',
@@ -125,7 +125,7 @@ export const translations: Translations = {
     },
     home: {
       title: '你好，世界！',
-      sendEth: '向自己发送 0.0001 ETH',
+      sendEth: '发送 0.00001 ETH',
       transactionSuccess: '交易成功',
       transactionFailed: '交易失败',
       notConnected: '请连接您的钱包',
@@ -176,7 +176,7 @@ export const translations: Translations = {
     },
     home: {
       title: 'नमस्ते दुनिया!',
-      sendEth: 'स्वयं को 0.0001 ETH भेजें',
+      sendEth: '0.00001 ETH भेजें',
       transactionSuccess: 'लेन-देन सफल',
       transactionFailed: 'लेन-देन विफल',
       notConnected: 'कृपया अपना वॉलेट कनेक्ट करें',
@@ -227,7 +227,7 @@ export const translations: Translations = {
     },
     home: {
       title: '¡Hola mundo!',
-      sendEth: 'Enviar 0.0001 ETH a sí mismo',
+      sendEth: 'Enviar 0.00001 ETH',
       transactionSuccess: 'Transacción exitosa',
       transactionFailed: 'Transacción fallida',
       notConnected: 'Por favor conecte su billetera',
@@ -278,7 +278,7 @@ export const translations: Translations = {
     },
     home: {
       title: 'Salut tout le monde !',
-      sendEth: 'Envoyer 0.0001 ETH à soi-même',
+      sendEth: 'Envoyer 0.00001 ETH',
       transactionSuccess: 'Transaction réussie',
       transactionFailed: 'Échec de la transaction',
       notConnected: 'Veuillez connecter votre wallet',
@@ -329,7 +329,7 @@ export const translations: Translations = {
     },
     home: {
       title: 'مرحبا بالعالم!',
-      sendEth: 'إرسال 0.0001 ETH لنفسك',
+      sendEth: 'إرسال 0.00001 ETH',
       transactionSuccess: 'تمت المعاملة بنجاح',
       transactionFailed: 'فشلت المعاملة',
       notConnected: 'يرجى توصيل محفظتك',
@@ -380,7 +380,7 @@ export const translations: Translations = {
     },
     home: {
       title: 'ওহে বিশ্ব!',
-      sendEth: 'নিজেকে 0.0001 ETH পাঠান',
+      sendEth: '0.00001 ETH পাঠান',
       transactionSuccess: 'লেনদেন সফল',
       transactionFailed: 'লেনদেন ব্যর্থ',
       notConnected: 'অনুগ্রহ করে আপনার ওয়ালেট সংযুক্ত করুন',
@@ -431,7 +431,7 @@ export const translations: Translations = {
     },
     home: {
       title: 'Привет, мир!',
-      sendEth: 'Отправить 0.0001 ETH себе',
+      sendEth: 'Отправить 0.00001 ETH',
       transactionSuccess: 'Транзакция успешна',
       transactionFailed: 'Транзакция не удалась',
       notConnected: 'Пожалуйста, подключите ваш кошелек',
@@ -483,7 +483,7 @@ export const translations: Translations = {
     },
     home: {
       title: 'Olá, mundo!',
-      sendEth: 'Enviar 0.0001 ETH para si mesmo',
+      sendEth: 'Enviar 0.00001 ETH',
       transactionSuccess: 'Transação bem-sucedida',
       transactionFailed: 'Falha na transação',
       notConnected: 'Por favor, conecte sua carteira',
@@ -534,7 +534,7 @@ export const translations: Translations = {
     },
     home: {
       title: 'ہیلو دنیا!',
-      sendEth: 'خود کو 0.0001 ETH بھیجیں',
+      sendEth: '0.00001 ETH بھیجیں',
       transactionSuccess: 'لین دین کامیاب',
       transactionFailed: 'لین دین ناکام',
       notConnected: 'براہ کرم اپنا والیٹ منسلک کریں',
