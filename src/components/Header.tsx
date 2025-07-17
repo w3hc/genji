@@ -70,9 +70,19 @@ export default function Header() {
   const checkBuildStatus = async () => {
     setIsChecking(true)
     try {
-      const status = await buildDetector.checkIfUpToDate('w3hc', 'genji')
-      console.log('status:', status)
+      // Use live build files when user clicks to get real-time build status
+      const status = await buildDetector.checkBuildStatusFromLiveFiles('w3hc', 'genji')
+      console.log('Live build status:', status)
       setBuildStatus(status)
+
+      // Also update the displayed build ID with the live one
+      if (status?.currentBuildId) {
+        const liveBuildId =
+          status.currentBuildId.length > 7
+            ? status.currentBuildId.slice(0, 7)
+            : status.currentBuildId
+        setBuildId(liveBuildId)
+      }
     } catch (error) {
       console.warn('Failed to check build status:', error)
     } finally {
