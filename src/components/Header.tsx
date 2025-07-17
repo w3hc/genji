@@ -48,8 +48,8 @@ export default function Header() {
 
   useEffect(() => {
     // Wait for client-side hydration
-    const initializeBuildId = () => {
-      const id = buildDetector.getShortBuildId()
+    const initializeBuildId = async () => {
+      const id = await buildDetector.getShortBuildId()
       console.log('Build ID extracted:', id) // Debug log
       setBuildId(id)
 
