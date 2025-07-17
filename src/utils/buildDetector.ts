@@ -1,5 +1,6 @@
 export interface BuildStatus {
   currentBuildId: string
+  currentBuildHash?: string
   latestCommitSha: string
   isUpToDate: boolean
   latestCommit?: {
@@ -9,19 +10,293 @@ export interface BuildStatus {
     date: string
     url: string
   }
+  hashMethod?: 'git-commit' | 'file-hash' | 'hybrid'
+}
+
+export interface FileHash {
+  path: string
+  hash: string
+  size: number
+}
+
+export interface FileHashRecord {
+  [filePath: string]: string
 }
 
 export class BuildDetector {
   private buildId: string | null = null
   private initialized: boolean = false
+  private fileHashes: FileHashRecord = {}
 
   constructor() {
-    // Don't extract on server-side
     if (typeof window !== 'undefined') {
       this.initializeBuildId()
     }
   }
 
+  // Calculate SHA-256 hash of file content
+  private async calculateFileHash(content: string): Promise<string> {
+    const encoder = new TextEncoder()
+    const data = encoder.encode(content)
+    const hashBuffer = await crypto.subtle.digest('SHA-256', data)
+    const hashArray = Array.from(new Uint8Array(hashBuffer))
+    return hashArray.map(b => b.toString(16).padStart(2, '0')).join('')
+  }
+
+  // Get all critical build files and their hashes
+  private async calculateBuildHash(): Promise<string> {
+    console.log('🔒 Calculating build hash from deployed files...')
+
+    const criticalFiles: string[] = []
+    const fileHashes: FileHash[] = []
+
+    try {
+      // Strategy 1: Hash all JavaScript chunks
+      const scripts = Array.from(document.querySelectorAll('script[src]'))
+      for (let i = 0; i < scripts.length; i++) {
+        const script = scripts[i]
+        const src = script.getAttribute('src')
+        if (src && src.includes('_next/static/chunks/')) {
+          criticalFiles.push(src)
+        }
+      }
+
+      // Strategy 2: Hash CSS files
+      const links = Array.from(document.querySelectorAll('link[rel="stylesheet"]'))
+      for (let i = 0; i < links.length; i++) {
+        const link = links[i]
+        const href = link.getAttribute('href')
+        if (href && href.includes('_next/static/css/')) {
+          criticalFiles.push(href)
+        }
+      }
+
+      // Strategy 3: Hash main application files
+      const mainFiles = [
+        '/_next/static/chunks/main.js',
+        '/_next/static/chunks/pages/_app.js',
+        '/_next/static/chunks/webpack.js',
+        '/_next/static/chunks/framework.js',
+      ]
+      criticalFiles.push(...mainFiles)
+
+      // Fetch and hash each file
+      const fetchPromises = criticalFiles.map(async filePath => {
+        try {
+          console.log(`📄 Fetching file for hash: ${filePath}`)
+          const response = await fetch(filePath)
+          if (response.ok) {
+            const content = await response.text()
+            const hash = await this.calculateFileHash(content)
+            const fileHash: FileHash = {
+              path: filePath,
+              hash: hash.substring(0, 16), // Use first 16 chars for brevity
+              size: content.length,
+            }
+            fileHashes.push(fileHash)
+            console.log(`✅ Hashed ${filePath}: ${fileHash.hash} (${fileHash.size} bytes)`)
+            return fileHash
+          }
+        } catch (error) {
+          console.warn(`⚠️ Could not fetch ${filePath}:`, error)
+          return null
+        }
+        return null
+      })
+
+      const results = await Promise.all(fetchPromises)
+      const validHashes = results.filter((result): result is FileHash => result !== null)
+
+      if (validHashes.length === 0) {
+        throw new Error('No files could be hashed')
+      }
+
+      // Sort files by path for consistent ordering
+      validHashes.sort((a, b) => a.path.localeCompare(b.path))
+
+      // Combine all file hashes into a single build hash
+      const combinedHash = validHashes.map(f => f.hash).join('')
+      const buildHash = await this.calculateFileHash(combinedHash)
+      const shortBuildHash = buildHash.substring(0, 8)
+
+      console.log(`🔒 Build hash calculated from ${validHashes.length} files: ${shortBuildHash}`)
+      console.log('📋 Hashed files:', validHashes)
+
+      // Store file hashes for debugging using object instead of Map
+      this.fileHashes = {}
+      validHashes.forEach(f => {
+        this.fileHashes[f.path] = f.hash
+      })
+
+      return shortBuildHash
+    } catch (error) {
+      console.error('💥 Error calculating build hash:', error)
+      throw error
+    }
+  }
+
+  // Enhanced method that uses both git commit and file hash
+  async checkBuildStatusWithFileHash(owner: string, repo: string): Promise<BuildStatus | null> {
+    console.log(`🔍 Checking build status with file hashing for ${owner}/${repo}`)
+
+    try {
+      // Step 1: Calculate current build hash from deployed files
+      const currentBuildHash = await this.calculateBuildHash()
+
+      // Step 2: Get git commit ID (fallback method)
+      const gitCommitId = await this.extractBuildIdFromLiveFiles()
+
+      // Step 3: Fetch latest commit from GitHub
+      console.log('🌐 Fetching latest commit from GitHub API...')
+      const response = await fetch(`https://api.github.com/repos/${owner}/${repo}/commits/main`, {
+        headers: { Accept: 'application/vnd.github.v3+json' },
+      })
+
+      if (!response.ok) {
+        throw new Error(`GitHub API error: ${response.status}`)
+      }
+
+      const latestCommit = await response.json()
+      const latestSha = latestCommit.sha
+      const latestShortSha = latestSha.substring(0, 8)
+
+      // Step 4: Try to fetch build hash from GitHub for this commit
+      const githubBuildHash = await this.fetchBuildHashFromGitHub(owner, repo, latestSha)
+
+      console.log(`📊 Enhanced Build Comparison:`)
+      console.log(`   Current build hash:   ${currentBuildHash}`)
+      console.log(`   GitHub build hash:    ${githubBuildHash || 'not available'}`)
+      console.log(`   Git commit ID:        ${gitCommitId || 'not available'}`)
+      console.log(`   Latest GitHub commit: ${latestShortSha}`)
+
+      // Step 5: Determine if up-to-date using multiple strategies
+      let isUpToDate = false
+      let method: 'git-commit' | 'file-hash' | 'hybrid' = 'hybrid'
+
+      if (githubBuildHash && currentBuildHash === githubBuildHash) {
+        // Best case: file hashes match
+        isUpToDate = true
+        method = 'file-hash'
+        console.log('✅ Build up-to-date: File hashes match')
+      } else if (gitCommitId && (gitCommitId === latestSha || gitCommitId === latestShortSha)) {
+        // Fallback: git commits match
+        isUpToDate = true
+        method = 'git-commit'
+        console.log('✅ Build up-to-date: Git commits match')
+      } else {
+        console.log('❌ Build appears to be outdated')
+      }
+
+      const status: BuildStatus = {
+        currentBuildId: gitCommitId || currentBuildHash,
+        currentBuildHash,
+        latestCommitSha: latestSha,
+        isUpToDate,
+        hashMethod: method,
+        latestCommit: {
+          sha: latestSha,
+          message: latestCommit.commit.message,
+          author: latestCommit.commit.author.name,
+          date: latestCommit.commit.author.date,
+          url: latestCommit.html_url,
+        },
+      }
+
+      console.log('📋 Enhanced build status:', status)
+      return status
+    } catch (error) {
+      console.error('💥 Error in enhanced build status check:', error)
+      return null
+    }
+  }
+
+  // Fetch build hash from GitHub (if available)
+  private async fetchBuildHashFromGitHub(
+    owner: string,
+    repo: string,
+    commitSha: string
+  ): Promise<string | null> {
+    try {
+      // Try to fetch a build manifest or hash file from GitHub
+      const possiblePaths = [
+        `https://raw.githubusercontent.com/${owner}/${repo}/${commitSha}/public/build-hash.json`,
+        `https://raw.githubusercontent.com/${owner}/${repo}/${commitSha}/.build-hash`,
+        `https://api.github.com/repos/${owner}/${repo}/contents/public/build-hash.json?ref=${commitSha}`,
+      ]
+
+      for (let i = 0; i < possiblePaths.length; i++) {
+        const url = possiblePaths[i]
+        try {
+          console.log(`🔍 Trying to fetch build hash from: ${url}`)
+          const response = await fetch(url)
+          if (response.ok) {
+            const content = await response.text()
+
+            try {
+              // Try parsing as JSON first
+              const data = JSON.parse(content)
+              if (data.buildHash) {
+                console.log(`✅ Found build hash in GitHub: ${data.buildHash}`)
+                return data.buildHash
+              }
+            } catch {
+              // If not JSON, treat as plain text hash
+              const hash = content.trim()
+              if (hash.length >= 8 && /^[a-f0-9]+$/i.test(hash)) {
+                console.log(`✅ Found build hash in GitHub: ${hash}`)
+                return hash
+              }
+            }
+          }
+        } catch (error) {
+          console.log(`⚠️ Could not fetch from ${url}:`, error)
+        }
+      }
+
+      console.log('ℹ️ No build hash found in GitHub repository')
+      return null
+    } catch (error) {
+      console.warn('⚠️ Error fetching build hash from GitHub:', error)
+      return null
+    }
+  }
+
+  // Get debug information about file hashes
+  getFileHashes(): FileHashRecord {
+    return { ...this.fileHashes }
+  }
+
+  // Generate a build hash file for CI/CD to store in repository
+  async generateBuildHashFile(): Promise<{ buildHash: string; files: FileHash[] }> {
+    try {
+      const buildHash = await this.calculateBuildHash()
+      const files: FileHash[] = []
+
+      // Convert object to array
+      Object.keys(this.fileHashes).forEach(path => {
+        files.push({
+          path,
+          hash: this.fileHashes[path],
+          size: 0, // Size would need to be stored separately
+        })
+      })
+
+      const buildInfo = {
+        buildHash,
+        files,
+        timestamp: new Date().toISOString(),
+        method: 'file-hash',
+      }
+
+      console.log('📋 Generated build hash file:', buildInfo)
+      return buildInfo
+    } catch (error) {
+      console.error('💥 Error generating build hash file:', error)
+      throw error
+    }
+  }
+
+  // Existing methods for backward compatibility
   private async initializeBuildId(): Promise<void> {
     try {
       await this.extractBuildId()
@@ -32,7 +307,6 @@ export class BuildDetector {
 
   private async extractBuildId(): Promise<void> {
     console.log('🔍 Starting build ID extraction from API...')
-
     try {
       await this.tryFetchBuildInfoAPI()
       if (this.buildId) {
@@ -40,11 +314,11 @@ export class BuildDetector {
         this.initialized = true
       } else {
         console.warn('❌ Could not extract build ID from API')
-        this.initialized = true // Mark as initialized even if failed
+        this.initialized = true
       }
     } catch (error) {
       console.error('💥 Error during build ID extraction:', error)
-      this.initialized = true // Mark as initialized even if failed
+      this.initialized = true
     }
   }
 
@@ -52,11 +326,9 @@ export class BuildDetector {
     try {
       console.log('🌐 Fetching build info from /api/build-info...')
       const response = await fetch('/api/build-info')
-
       if (response.ok) {
         const buildInfo = await response.json()
         console.log('📋 Build info from API:', buildInfo)
-
         if (buildInfo.buildId) {
           console.log(`🎯 Found build ID from API: ${buildInfo.buildId}`)
           this.buildId = buildInfo.buildId
@@ -70,7 +342,6 @@ export class BuildDetector {
     }
   }
 
-  // NEW: Extract build ID from live build files
   async extractBuildIdFromLiveFiles(): Promise<string | null> {
     console.log('🔍 Extracting build ID from live build files...')
 
@@ -91,24 +362,8 @@ export class BuildDetector {
         return staticPathId
       }
 
-      // Strategy 2: Try build manifests
-      console.log('🎯 Strategy 2: Checking build manifests...')
-      const manifestId = await this.tryFetchBuildManifest()
-      if (manifestId) {
-        console.log(`✅ Found build ID in manifest: ${manifestId}`)
-        return manifestId
-      }
-
-      // Strategy 3: Try webpack runtime
-      console.log('🎯 Strategy 3: Checking webpack runtime...')
-      const webpackId = await this.tryFetchWebpackRuntime()
-      if (webpackId) {
-        console.log(`✅ Found build ID in webpack runtime: ${webpackId}`)
-        return webpackId
-      }
-
-      // Strategy 4: Use API as fallback for live builds
-      console.log('🎯 Strategy 4: Trying API as fallback...')
+      // Strategy 2: Try API as fallback for live builds
+      console.log('🎯 Strategy 2: Trying API as fallback...')
       const apiId = await this.tryFetchAPIBuildId()
       if (apiId) {
         console.log(`✅ Found build ID from API: ${apiId}`)
@@ -150,7 +405,8 @@ export class BuildDetector {
     const scripts = Array.from(document.querySelectorAll('script[src]'))
     console.log(`📄 Found ${scripts.length} script tags with src attributes`)
 
-    for (const script of scripts) {
+    for (let i = 0; i < scripts.length; i++) {
+      const script = scripts[i]
       const src = script.getAttribute('src') || ''
       console.log(`🔗 Checking script: ${src}`)
 
@@ -166,7 +422,8 @@ export class BuildDetector {
     const links = Array.from(document.querySelectorAll('link[href]'))
     console.log(`📄 Found ${links.length} link tags with href attributes`)
 
-    for (const link of links) {
+    for (let i = 0; i < links.length; i++) {
+      const link = links[i]
       const href = link.getAttribute('href') || ''
       console.log(`🔗 Checking link: ${href}`)
 
@@ -179,84 +436,6 @@ export class BuildDetector {
 
     console.log('⚠️ No build ID found in static paths')
     return null
-  }
-
-  private async tryFetchBuildManifest(): Promise<string | null> {
-    try {
-      console.log('📋 Trying to fetch build manifest...')
-
-      const manifestPaths = [
-        '/_next/static/chunks/manifest.json',
-        '/_buildManifest.js',
-        '/_next/static/chunks/_buildManifest.js',
-      ]
-
-      for (const path of manifestPaths) {
-        try {
-          console.log(`📋 Trying manifest at: ${path}`)
-          const response = await fetch(path)
-          if (response.ok) {
-            const content = await response.text()
-            console.log(`📋 Found manifest at ${path}, content length:`, content.length)
-
-            // Look for build ID patterns in manifest content
-            const patterns = [
-              /"buildId":\s*"([a-f0-9]+)"/,
-              /buildId["\']?:\s*["\']([a-f0-9]+)["\']/,
-              /__BUILD_ID__["\']?:\s*["\']([a-f0-9]+)["\']/,
-            ]
-
-            for (const pattern of patterns) {
-              const match = content.match(pattern)
-              if (match && match[1]) {
-                console.log(`✅ Found build ID in manifest: ${match[1]}`)
-                return match[1]
-              }
-            }
-          }
-        } catch (pathError) {
-          console.log(`⚠️ Could not fetch ${path}:`, pathError)
-        }
-      }
-
-      console.log('⚠️ No build ID found in any manifest files')
-      return null
-    } catch (error) {
-      console.warn('⚠️ Error in manifest fetching:', error)
-      return null
-    }
-  }
-
-  private async tryFetchWebpackRuntime(): Promise<string | null> {
-    try {
-      console.log('⚙️ Trying to fetch webpack runtime...')
-      const response = await fetch('/_next/static/chunks/webpack-runtime.js')
-      if (response.ok) {
-        const content = await response.text()
-        console.log('📦 Webpack runtime content length:', content.length)
-
-        // Look for build ID patterns in the webpack runtime
-        const patterns = [
-          /buildId["\']?:\s*["\']([a-f0-9]+)["\']/,
-          /__BUILD_ID__["\']?:\s*["\']([a-f0-9]+)["\']/,
-          /BUILD_ID["\']?=\s*["\']([a-f0-9]+)["\']/,
-        ]
-
-        for (const pattern of patterns) {
-          const match = content.match(pattern)
-          if (match && match[1]) {
-            console.log(`✅ Found build ID in webpack runtime: ${match[1]}`)
-            return match[1]
-          }
-        }
-
-        console.log('⚠️ No build ID patterns found in webpack runtime')
-      }
-      return null
-    } catch (error) {
-      console.warn('⚠️ Could not fetch webpack runtime:', error)
-      return null
-    }
   }
 
   private async ensureInitialized(): Promise<void> {
@@ -282,133 +461,6 @@ export class BuildDetector {
     console.log(`✂️ Short build ID: ${shortId} (from ${this.buildId})`)
     return shortId
   }
-
-  // NEW: Get build ID from live files and compare with GitHub
-  async checkBuildStatusFromLiveFiles(owner: string, repo: string): Promise<BuildStatus | null> {
-    console.log(`🔍 Checking build status using live build files for ${owner}/${repo}`)
-
-    // Extract build ID from the actual build files the user is running
-    const liveBuildId = await this.extractBuildIdFromLiveFiles()
-
-    if (!liveBuildId) {
-      console.warn('❌ No live build ID available for comparison')
-      return null
-    }
-
-    try {
-      console.log('🌐 Fetching latest commit from GitHub API...')
-
-      // Get latest commit from main branch
-      const response = await fetch(`https://api.github.com/repos/${owner}/${repo}/commits/main`, {
-        headers: { Accept: 'application/vnd.github.v3+json' },
-      })
-
-      if (!response.ok) {
-        console.error(`❌ GitHub API error: ${response.status} ${response.statusText}`)
-        throw new Error('Failed to fetch latest commit')
-      }
-
-      const latestCommit = await response.json()
-      const latestSha = latestCommit.sha
-      const latestShortSha = latestSha.substring(0, 8)
-
-      console.log(`📊 Live Build Comparison:`)
-      console.log(`   Live build ID:    ${liveBuildId}`)
-      console.log(`   Live short ID:    ${liveBuildId.substring(0, 8)}`)
-      console.log(`   Latest commit:    ${latestSha}`)
-      console.log(`   Latest short:     ${latestShortSha}`)
-
-      // Check multiple comparison strategies
-      const isUpToDate =
-        liveBuildId === latestSha ||
-        liveBuildId === latestShortSha ||
-        liveBuildId.substring(0, 8) === latestShortSha ||
-        liveBuildId.substring(0, 7) === latestSha.substring(0, 7) // Sometimes commits are truncated to 7 chars
-
-      console.log(`✅ Live build up to date: ${isUpToDate}`)
-
-      const status: BuildStatus = {
-        currentBuildId: liveBuildId,
-        latestCommitSha: latestSha,
-        isUpToDate,
-        latestCommit: {
-          sha: latestSha,
-          message: latestCommit.commit.message,
-          author: latestCommit.commit.author.name,
-          date: latestCommit.commit.author.date,
-          url: latestCommit.html_url,
-        },
-      }
-
-      console.log('📋 Live build status:', status)
-      return status
-    } catch (error) {
-      console.error('💥 Error checking live build status:', error)
-      return null
-    }
-  }
-
-  async checkIfUpToDate(owner: string, repo: string): Promise<BuildStatus | null> {
-    await this.ensureInitialized()
-    console.log(`🔍 Checking if build is up to date for ${owner}/${repo}`)
-
-    if (!this.buildId) {
-      console.warn('❌ No build ID available for comparison')
-      return null
-    }
-
-    try {
-      console.log('🌐 Fetching latest commit from GitHub API...')
-
-      // Get latest commit from main branch
-      const response = await fetch(`https://api.github.com/repos/${owner}/${repo}/commits/main`, {
-        headers: { Accept: 'application/vnd.github.v3+json' },
-      })
-
-      if (!response.ok) {
-        console.error(`❌ GitHub API error: ${response.status} ${response.statusText}`)
-        throw new Error('Failed to fetch latest commit')
-      }
-
-      const latestCommit = await response.json()
-      const latestSha = latestCommit.sha
-      const latestShortSha = latestSha.substring(0, 8)
-
-      console.log(`📊 Comparison:`)
-      console.log(`   Current build ID: ${this.buildId}`)
-      console.log(`   Current short ID: ${this.buildId.substring(0, 8)}`)
-      console.log(`   Latest commit:    ${latestSha}`)
-      console.log(`   Latest short:     ${latestShortSha}`)
-
-      // Check multiple comparison strategies
-      const isUpToDate =
-        this.buildId === latestSha ||
-        this.buildId === latestShortSha ||
-        this.buildId.substring(0, 8) === latestShortSha ||
-        this.buildId.substring(0, 7) === latestSha.substring(0, 7) // Sometimes commits are truncated to 7 chars
-
-      console.log(`✅ Build up to date: ${isUpToDate}`)
-
-      const status: BuildStatus = {
-        currentBuildId: this.buildId,
-        latestCommitSha: latestSha,
-        isUpToDate,
-        latestCommit: {
-          sha: latestSha,
-          message: latestCommit.commit.message,
-          author: latestCommit.commit.author.name,
-          date: latestCommit.commit.author.date,
-          url: latestCommit.html_url,
-        },
-      }
-
-      console.log('📋 Final status:', status)
-      return status
-    } catch (error) {
-      console.error('💥 Error checking build status:', error)
-      return null
-    }
-  }
 }
 
 // Create singleton instance only on client-side
@@ -416,18 +468,17 @@ let buildDetectorInstance: BuildDetector | null = null
 
 export const buildDetector = (() => {
   if (typeof window === 'undefined') {
-    // Return a mock object for server-side rendering
     return {
       getBuildId: async () => null,
       getShortBuildId: async () => null,
-      checkIfUpToDate: async () => null,
-      checkBuildStatusFromLiveFiles: async () => null,
-      extractBuildIdFromLiveFiles: async () => null,
+      checkBuildStatusWithFileHash: async () => null,
+      generateBuildHashFile: async () => ({ buildHash: '', files: [] }),
+      getFileHashes: () => ({}),
     }
   }
 
   if (!buildDetectorInstance) {
-    console.log('🚀 Initializing build detector singleton...')
+    console.log('🚀 Initializing enhanced build detector singleton...')
     buildDetectorInstance = new BuildDetector()
   }
 
