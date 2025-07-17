@@ -47,15 +47,19 @@ export default function Header() {
   }, [])
 
   useEffect(() => {
-    // Wait for client-side hydration
+    // Initialize build ID on client-side
     const initializeBuildId = async () => {
-      const id = await buildDetector.getShortBuildId()
-      console.log('Build ID extracted:', id) // Debug log
-      setBuildId(id)
+      try {
+        const id = await buildDetector.getShortBuildId()
+        console.log('Build ID extracted:', id)
+        setBuildId(id)
 
-      // Check build status on mount
-      if (id) {
-        checkBuildStatus()
+        // Check build status on mount
+        if (id) {
+          checkBuildStatus()
+        }
+      } catch (error) {
+        console.error('Failed to get build ID:', error)
       }
     }
 
@@ -89,11 +93,10 @@ export default function Header() {
 
   const getBuildTooltip = () => {
     if (isChecking) return 'Checking build status...'
-    if (!buildStatus) return `Build ID: ${buildDetector.getBuildId()}`
+    if (!buildStatus) return `Build ID: ${buildId || 'Loading...'}`
 
     const status = buildStatus.isUpToDate ? 'Up to date' : 'Update available'
     const latest = buildStatus.latestCommit
-    console.log('buildStatus.currentBuildId:', buildStatus.currentBuildId)
     return `${status}\nCurrent: ${buildStatus.currentBuildId}\nLatest: ${latest?.message} (${latest?.author})`
   }
 
