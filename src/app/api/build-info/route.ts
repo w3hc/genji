@@ -13,6 +13,14 @@ export async function GET() {
       deployedCommitHash = process.env.COMMIT_REF
       source = 'netlify-commit-ref'
       console.log('✅ Build Info API: Found commit from COMMIT_REF')
+    } else if (process.env.HEAD) {
+      deployedCommitHash = process.env.HEAD
+      source = 'netlify-head'
+      console.log('✅ Build Info API: Found commit from HEAD')
+    } else if (process.env.CACHED_COMMIT_REF) {
+      deployedCommitHash = process.env.CACHED_COMMIT_REF
+      source = 'netlify-cached'
+      console.log('✅ Build Info API: Found commit from CACHED_COMMIT_REF')
     } else if (process.env.NETLIFY_COMMIT_REF) {
       deployedCommitHash = process.env.NETLIFY_COMMIT_REF
       source = 'netlify-commit-ref-alt'
@@ -46,6 +54,8 @@ export async function GET() {
         console.error('❌ Build Info API: Could not determine deployed commit hash')
         console.error('❌ Build Info API: Available env vars:', {
           COMMIT_REF: !!process.env.COMMIT_REF,
+          HEAD: !!process.env.HEAD,
+          CACHED_COMMIT_REF: !!process.env.CACHED_COMMIT_REF,
           NETLIFY_COMMIT_REF: !!process.env.NETLIFY_COMMIT_REF,
           VERCEL_GIT_COMMIT_SHA: !!process.env.VERCEL_GIT_COMMIT_SHA,
           GITHUB_SHA: !!process.env.GITHUB_SHA,
@@ -61,6 +71,8 @@ export async function GET() {
             debug: {
               availableEnvVars: {
                 COMMIT_REF: !!process.env.COMMIT_REF,
+                HEAD: !!process.env.HEAD,
+                CACHED_COMMIT_REF: !!process.env.CACHED_COMMIT_REF,
                 NETLIFY_COMMIT_REF: !!process.env.NETLIFY_COMMIT_REF,
                 VERCEL_GIT_COMMIT_SHA: !!process.env.VERCEL_GIT_COMMIT_SHA,
                 GITHUB_SHA: !!process.env.GITHUB_SHA,
