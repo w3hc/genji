@@ -31,6 +31,7 @@ export default function Header() {
 
   const [scrollPosition, setScrollPosition] = useState(0)
   const [buildId, setBuildId] = useState<string | null>(null)
+  const [buildHash, setBuildHash] = useState<string | null>(null)
   const [buildStatus, setBuildStatus] = useState<BuildStatus | null>(null)
   const [isChecking, setIsChecking] = useState(false)
 
@@ -73,18 +74,22 @@ export default function Header() {
   const checkBuildStatus = async () => {
     setIsChecking(true)
     try {
-      // Use live build files when user clicks to get real-time build status
-      const status = await buildDetector.checkBuildStatusFromLiveFiles('w3hc', 'genji')
-      console.log('Live build status:', status)
+      // Use the new file hashing method for more accurate comparison
+      const status = await buildDetector.checkBuildStatusWithFileHash('w3hc', 'genji')
+      console.log('File hash build status:', status)
       setBuildStatus(status)
 
-      // Also update the displayed build ID with the live one
+      // Update the displayed build ID and hash
       if (status?.currentBuildId) {
         const liveBuildId =
           status.currentBuildId.length > 7
             ? status.currentBuildId.slice(0, 7)
             : status.currentBuildId
         setBuildId(liveBuildId)
+      }
+
+      if (status?.currentBuildHash) {
+        setBuildHash(status.currentBuildHash)
       }
     } catch (error) {
       console.warn('Failed to check build status:', error)
@@ -105,12 +110,43 @@ export default function Header() {
   }
 
   const getBuildTooltip = () => {
-    if (isChecking) return 'Checking build status...'
+    if (isChecking) return 'Checking build status with file hashing...'
     if (!buildStatus) return `Build ID: ${buildId || 'Loading...'}`
 
+    const method = buildStatus.hashMethod || 'unknown'
     const status = buildStatus.isUpToDate ? 'Up to date' : 'Update available'
     const latest = buildStatus.latestCommit
-    return `${status}\nCurrent: ${buildStatus.currentBuildId}\nLatest: ${latest?.message} (${latest?.author})`
+
+    let tooltip = `${status} (${method})`
+
+    if (buildStatus.currentBuildHash) {
+      tooltip += `\nBuild Hash: ${buildStatus.currentBuildHash}`
+    }
+
+    if (buildStatus.currentBuildId) {
+      tooltip += `\nCommit: ${buildStatus.currentBuildId}`
+    }
+
+    if (latest) {
+      tooltip += `\nLatest: ${latest.message} (${latest.author})`
+    }
+
+    return tooltip
+  }
+
+  // Debug function to show file hashes
+  const showFileHashes = () => {
+    const fileHashes = buildDetector.getFileHashes()
+    const hashEntries = Object.entries(fileHashes)
+
+    if (hashEntries.length > 0) {
+      console.log('📋 Current file hashes:')
+      hashEntries.forEach(([path, hash]) => {
+        console.log(`   ${path}: ${hash}`)
+      })
+    } else {
+      console.log('ℹ️ No file hashes available. Click the build ID to calculate them.')
+    }
   }
 
   const handleConnect = () => {
@@ -127,6 +163,12 @@ export default function Header() {
     } catch (error) {
       console.error('Disconnect error:', error)
     }
+  }
+
+  const handleBuildIdClick = () => {
+    checkBuildStatus()
+    // Also show file hashes in console for debugging
+    setTimeout(showFileHashes, 1000)
   }
 
   return (
@@ -146,7 +188,7 @@ export default function Header() {
                   color={getBuildStatusColor()}
                   fontFamily="mono"
                   cursor="pointer"
-                  onClick={checkBuildStatus}
+                  onClick={handleBuildIdClick}
                   _hover={{ opacity: 0.8 }}
                   display="flex"
                   alignItems="center"
@@ -156,7 +198,8 @@ export default function Header() {
                   justifyContent="center"
                 >
                   <span>{getBuildStatusIcon()}</span>
-                  {buildId}
+                  {buildHash ? buildHash : buildId}
+                  {buildStatus?.hashMethod === 'file-hash' && '🔒'}
                 </Text>
               </Tooltip>
             ) : (
