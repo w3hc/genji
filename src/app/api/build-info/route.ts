@@ -1,3 +1,4 @@
+// src/app/api/build-info/route.ts
 import { NextResponse } from 'next/server'
 import { execSync } from 'child_process'
 
@@ -52,15 +53,28 @@ export async function GET() {
         console.log('✅ Build Info API: Git command successful')
       } catch (error) {
         console.error('❌ Build Info API: Could not determine deployed commit hash')
-        console.error('❌ Build Info API: Available env vars:', {
-          COMMIT_REF: !!process.env.COMMIT_REF,
-          HEAD: !!process.env.HEAD,
-          CACHED_COMMIT_REF: !!process.env.CACHED_COMMIT_REF,
-          NETLIFY_COMMIT_REF: !!process.env.NETLIFY_COMMIT_REF,
-          VERCEL_GIT_COMMIT_SHA: !!process.env.VERCEL_GIT_COMMIT_SHA,
-          GITHUB_SHA: !!process.env.GITHUB_SHA,
-          CF_PAGES_COMMIT_SHA: !!process.env.CF_PAGES_COMMIT_SHA,
-        })
+
+        // Get all environment variables that might contain commit info
+        const allEnvVars = Object.keys(process.env)
+          .filter(
+            key =>
+              key.includes('COMMIT') ||
+              key.includes('SHA') ||
+              key.includes('HEAD') ||
+              key.includes('GIT') ||
+              key.includes('NETLIFY') ||
+              key.includes('VERCEL') ||
+              key.includes('GITHUB')
+          )
+          .reduce(
+            (acc, key) => {
+              acc[key] = process.env[key] ? process.env[key].substring(0, 8) + '...' : 'not set'
+              return acc
+            },
+            {} as Record<string, string>
+          )
+
+        console.error('❌ Build Info API: All relevant env vars:', allEnvVars)
 
         return NextResponse.json(
           {
@@ -69,7 +83,7 @@ export async function GET() {
             source: 'unavailable',
             timestamp: new Date().toISOString(),
             debug: {
-              availableEnvVars: {
+              checkedVars: {
                 COMMIT_REF: !!process.env.COMMIT_REF,
                 HEAD: !!process.env.HEAD,
                 CACHED_COMMIT_REF: !!process.env.CACHED_COMMIT_REF,
@@ -78,6 +92,7 @@ export async function GET() {
                 GITHUB_SHA: !!process.env.GITHUB_SHA,
                 CF_PAGES_COMMIT_SHA: !!process.env.CF_PAGES_COMMIT_SHA,
               },
+              availableGitVars: allEnvVars,
             },
           },
           { status: 503 }
