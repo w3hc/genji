@@ -20,7 +20,20 @@ const nextConfig: NextConfig = {
     }
   },
 
-  webpack: (config: WebpackConfig, { isServer, dev }): WebpackConfig => {
+  webpack: (config: WebpackConfig, { buildId, isServer, dev }): WebpackConfig => {
+    // Inject build ID into the client-side bundle
+    if (!isServer && !dev) {
+      config.plugins = config.plugins || []
+
+      // Add a plugin to inject build ID as a global variable
+      const webpack = require('webpack')
+      config.plugins.push(
+        new webpack.DefinePlugin({
+          __NEXT_BUILD_ID__: JSON.stringify(buildId),
+        })
+      )
+    }
+
     const optimization = config.optimization || {}
     const splitChunks = optimization.splitChunks || {}
     const cacheGroups = (splitChunks as any).cacheGroups || {}

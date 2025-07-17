@@ -75,6 +75,14 @@ export class BuildDetector {
     console.log('🔍 Extracting build ID from live build files...')
 
     try {
+      // Strategy 0: Check for injected global build ID first
+      console.log('🎯 Strategy 0: Checking for global __NEXT_BUILD_ID__...')
+      if (typeof window !== 'undefined' && (window as any).__NEXT_BUILD_ID__) {
+        const globalBuildId = (window as any).__NEXT_BUILD_ID__
+        console.log(`✅ Found build ID from global variable: ${globalBuildId}`)
+        return globalBuildId
+      }
+
       // Strategy 1: Look for Next.js build ID in static paths
       console.log('🎯 Strategy 1: Looking for Next.js build ID in static paths...')
       const staticPathId = this.tryExtractFromStaticPaths()
@@ -99,18 +107,41 @@ export class BuildDetector {
         return webpackId
       }
 
-      // Strategy 4: Extract from chunk hashes (fallback)
-      console.log('🎯 Strategy 4: Falling back to chunk hashes...')
-      const chunkId = this.tryExtractFromChunkHashes()
-      if (chunkId) {
-        console.log(`⚠️ Using chunk hash as build ID: ${chunkId}`)
-        return chunkId
+      // Strategy 4: Use API as fallback for live builds
+      console.log('🎯 Strategy 4: Trying API as fallback...')
+      const apiId = await this.tryFetchAPIBuildId()
+      if (apiId) {
+        console.log(`✅ Found build ID from API: ${apiId}`)
+        return apiId
       }
 
       console.warn('❌ Could not extract build ID from any live build files')
       return null
     } catch (error) {
       console.error('💥 Error extracting build ID from live files:', error)
+      return null
+    }
+  }
+
+  private async tryFetchAPIBuildId(): Promise<string | null> {
+    try {
+      console.log('🌐 Fetching build ID from API as fallback...')
+      const response = await fetch('/api/build-info')
+
+      if (response.ok) {
+        const buildInfo = await response.json()
+        if (buildInfo.buildId || buildInfo.shortCommitHash || buildInfo.deployedCommitHash) {
+          const buildId =
+            buildInfo.buildId || buildInfo.shortCommitHash || buildInfo.deployedCommitHash
+          console.log(`🎯 API provided build ID: ${buildId}`)
+          return buildId
+        }
+      }
+
+      console.log('⚠️ API did not provide a usable build ID')
+      return null
+    } catch (error) {
+      console.warn('⚠️ Could not fetch from API:', error)
       return null
     }
   }
@@ -125,6 +156,21 @@ export class BuildDetector {
 
       // Look for the build ID in the _next/static/{buildId}/ structure
       const buildIdMatch = src.match(/_next\/static\/([a-f0-9]{8,})\//)
+      if (buildIdMatch && buildIdMatch[1] && buildIdMatch[1] !== 'chunks') {
+        console.log(`🎯 Found Next.js build ID in static path: ${buildIdMatch[1]}`)
+        return buildIdMatch[1]
+      }
+    }
+
+    // Also check link tags for CSS files
+    const links = Array.from(document.querySelectorAll('link[href]'))
+    console.log(`📄 Found ${links.length} link tags with href attributes`)
+
+    for (const link of links) {
+      const href = link.getAttribute('href') || ''
+      console.log(`🔗 Checking link: ${href}`)
+
+      const buildIdMatch = href.match(/_next\/static\/([a-f0-9]{8,})\//)
       if (buildIdMatch && buildIdMatch[1] && buildIdMatch[1] !== 'chunks') {
         console.log(`🎯 Found Next.js build ID in static path: ${buildIdMatch[1]}`)
         return buildIdMatch[1]
@@ -211,32 +257,6 @@ export class BuildDetector {
       console.warn('⚠️ Could not fetch webpack runtime:', error)
       return null
     }
-  }
-
-  private tryExtractFromChunkHashes(): string | null {
-    const scripts = Array.from(document.querySelectorAll('script[src]'))
-    console.log('🔄 Attempting to extract from chunk hashes as last resort...')
-
-    for (const script of scripts) {
-      const src = script.getAttribute('src') || ''
-
-      // Check for webpack chunks with hashes
-      let match = src.match(/webpack-([a-f0-9]+)\.js/)
-      if (match && match[1]) {
-        console.log(`⚠️ Using webpack chunk hash as fallback: ${match[1]}`)
-        return match[1]
-      }
-
-      // Check for any Next.js chunk pattern
-      match = src.match(/_next\/static\/chunks\/.*?-([a-f0-9]{8,})\.js/)
-      if (match && match[1]) {
-        console.log(`⚠️ Using Next.js chunk hash as fallback: ${match[1]}`)
-        return match[1]
-      }
-    }
-
-    console.log('❌ No chunk hashes found for fallback')
-    return null
   }
 
   private async ensureInitialized(): Promise<void> {
