@@ -152,8 +152,8 @@ export default function Header() {
                   alignItems="center"
                   gap={1}
                   lineHeight="1"
-                  height="fit-content"
-                  alignSelf="center"
+                  minHeight="24px"
+                  justifyContent="center"
                 >
                   <span>{getBuildStatusIcon()}</span>
                   {buildId}
@@ -165,17 +165,20 @@ export default function Header() {
                 color="gray.600"
                 fontFamily="mono"
                 lineHeight="1"
-                height="fit-content"
-                alignSelf="center"
+                minHeight="24px"
+                display="flex"
+                alignItems="center"
+                justifyContent="center"
               >
                 dev
               </Text>
             )}
             <IconButton
-              as={Link}
+              as="a"
               href="https://github.com/w3hc/genji"
+              target="_blank"
+              rel="noopener noreferrer"
               aria-label="GitHub"
-              // @ts-ignore - This is just to bypass the TypeScript error
               icon={<GitHubIcon />}
               variant="ghost"
               size="sm"
