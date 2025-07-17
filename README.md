@@ -14,6 +14,7 @@ A Next.js Web3 app template.
 - 🔐 **Wallet Generator** - Secure local wallet creation and message signing
 - 🌍 **Multi-language** - i18n support for 10+ languages
 - 📱 **Responsive** - Mobile-first design
+- 🔧 **Build Tracking** - Real-time build status and version detection
 
 ## Tech Stack
 
@@ -142,6 +143,15 @@ networks: [
 - Webhook integration for subscription events
 - Wallet-based user identification
 
+### 🔧 Build Tracking
+
+- Real-time build status monitoring
+- Automatic build ID extraction from webpack chunks
+- GitHub integration for checking latest commits
+- Visual indicators for up-to-date vs outdated builds
+- Click to refresh build status
+- Tooltip showing current vs latest commit info
+
 ### 🌍 Internationalization
 
 Supports 10 languages:
@@ -208,6 +218,8 @@ src/
 ├── hooks/                 # Custom React hooks
 ├── translations/          # i18n translations
 └── utils/                 # Utility functions
+    ├── buildDetector.ts   # Build tracking and GitHub integration
+    └── i18n.ts           # Internationalization utilities
 ```
 
 ## Contributing

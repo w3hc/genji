@@ -120,7 +120,6 @@ export default function Home() {
   return (
     <Container maxW="container.sm" py={20}>
       <Text mb={4}>{t.home.title}</Text>
-
       {/* Debug info */}
       {isConnected && (
         <>
