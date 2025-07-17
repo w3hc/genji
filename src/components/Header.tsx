@@ -21,6 +21,7 @@ import LanguageSelector from './LanguageSelector'
 import { useTranslation } from '@/hooks/useTranslation'
 import { useState, useEffect } from 'react'
 import { buildDetector, type BuildStatus } from '@/utils/buildDetector'
+import { FaGithub } from 'react-icons/fa'
 
 export default function Header() {
   const { open } = useAppKit()
@@ -36,6 +37,8 @@ export default function Header() {
   const shouldSlide = scrollPosition > 0
   const leftSlideValue = shouldSlide ? 2000 : 0
   const rightSlideValue = shouldSlide ? 2000 : 0
+
+  const GitHubIcon = FaGithub
 
   useEffect(() => {
     const handleScroll = () => {
@@ -70,9 +73,19 @@ export default function Header() {
   const checkBuildStatus = async () => {
     setIsChecking(true)
     try {
-      const status = await buildDetector.checkIfUpToDate('w3hc', 'genji')
-      console.log('status:', status)
+      // Use live build files when user clicks to get real-time build status
+      const status = await buildDetector.checkBuildStatusFromLiveFiles('w3hc', 'genji')
+      console.log('Live build status:', status)
       setBuildStatus(status)
+
+      // Also update the displayed build ID with the live one
+      if (status?.currentBuildId) {
+        const liveBuildId =
+          status.currentBuildId.length > 7
+            ? status.currentBuildId.slice(0, 7)
+            : status.currentBuildId
+        setBuildId(liveBuildId)
+      }
     } catch (error) {
       console.warn('Failed to check build status:', error)
     } finally {
@@ -139,8 +152,8 @@ export default function Header() {
                   alignItems="center"
                   gap={1}
                   lineHeight="1"
-                  height="fit-content"
-                  alignSelf="center"
+                  minHeight="24px"
+                  justifyContent="center"
                 >
                   <span>{getBuildStatusIcon()}</span>
                   {buildId}
@@ -152,12 +165,26 @@ export default function Header() {
                 color="gray.600"
                 fontFamily="mono"
                 lineHeight="1"
-                height="fit-content"
-                alignSelf="center"
+                minHeight="24px"
+                display="flex"
+                alignItems="center"
+                justifyContent="center"
               >
                 dev
               </Text>
             )}
+            <IconButton
+              as="a"
+              href="https://github.com/w3hc/genji"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="GitHub"
+              icon={<GitHubIcon />}
+              variant="ghost"
+              size="sm"
+              color="white"
+              _hover={{ color: 'white', bg: 'transparent' }}
+            />
           </Flex>
         </Box>
 
