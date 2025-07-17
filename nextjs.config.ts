@@ -7,11 +7,16 @@ const nextConfig: NextConfig = {
     try {
       // Use git commit hash as build ID for GitHub matching
       const gitHash = execSync('git rev-parse HEAD', { encoding: 'utf8' }).trim()
-      console.log('Using git hash as build ID:', gitHash.substring(0, 8))
-      return gitHash
+      const shortHash = gitHash.substring(0, 8)
+      console.log('🏗️ Using git hash as build ID:', shortHash, '(full:', gitHash + ')')
+
+      // Return the short hash for better compatibility
+      return shortHash
     } catch (error) {
-      console.warn('Could not get git hash, using timestamp')
-      return `build-${Date.now()}`
+      console.warn('⚠️ Could not get git hash, using timestamp')
+      const fallback = `build-${Date.now()}`
+      console.log('🏗️ Using fallback build ID:', fallback)
+      return fallback
     }
   },
 
@@ -61,6 +66,9 @@ const nextConfig: NextConfig = {
   experimental: {
     optimizePackageImports: ['@reown/appkit', '@walletconnect/universal-provider'],
   },
+
+  // Force production build behavior for static paths
+  assetPrefix: process.env.NODE_ENV === 'production' ? undefined : undefined,
 }
 
 export default nextConfig
