@@ -1,7 +1,20 @@
 import type { NextConfig } from 'next'
 import type { Configuration as WebpackConfig } from 'webpack'
+import { execSync } from 'child_process'
 
 const nextConfig: NextConfig = {
+  generateBuildId: async () => {
+    try {
+      // Use git commit hash as build ID for GitHub matching
+      const gitHash = execSync('git rev-parse HEAD', { encoding: 'utf8' }).trim()
+      console.log('Using git hash as build ID:', gitHash.substring(0, 8))
+      return gitHash
+    } catch (error) {
+      console.warn('Could not get git hash, using timestamp')
+      return `build-${Date.now()}`
+    }
+  },
+
   webpack: (config: WebpackConfig, { isServer, dev }): WebpackConfig => {
     const optimization = config.optimization || {}
     const splitChunks = optimization.splitChunks || {}
@@ -44,6 +57,7 @@ const nextConfig: NextConfig = {
 
     return config
   },
+
   experimental: {
     optimizePackageImports: ['@reown/appkit', '@walletconnect/universal-provider'],
   },
