@@ -41,14 +41,55 @@ export async function GET() {
       source = 'cloudflare-pages'
       console.log('✅ Build Info API: Found commit from Cloudflare Pages')
     }
-    // Strategy 3: Try git command
+    // Strategy 3: Try git command with better error handling
     else {
       try {
         console.log('🔄 Build Info API: No environment variables found, trying git command')
-        deployedCommitHash = execSync('git rev-parse HEAD', {
-          encoding: 'utf8',
-          timeout: 5000,
-        }).trim()
+
+        // Try multiple git approaches
+        let gitHash: string
+
+        try {
+          // Method 1: Standard git command
+          gitHash = execSync('git rev-parse HEAD', {
+            encoding: 'utf8',
+            timeout: 5000,
+            stdio: ['ignore', 'pipe', 'pipe'],
+          }).trim()
+          console.log('✅ Build Info API: Standard git command successful')
+        } catch (standardError) {
+          console.log('⚠️ Build Info API: Standard git failed, trying alternatives')
+
+          try {
+            // Method 2: Check if we're in a git repository
+            const isGitRepo = execSync('git status --porcelain', {
+              encoding: 'utf8',
+              timeout: 3000,
+              stdio: ['ignore', 'pipe', 'ignore'],
+            })
+            gitHash = execSync('git log -1 --format=%H', {
+              encoding: 'utf8',
+              timeout: 3000,
+            }).trim()
+            console.log('✅ Build Info API: Git log method successful')
+          } catch (logError) {
+            console.log('⚠️ Build Info API: Git log failed, checking for shallow repo')
+
+            try {
+              // Method 3: For shallow repositories
+              gitHash = execSync('git rev-parse --verify HEAD', {
+                encoding: 'utf8',
+                timeout: 3000,
+              }).trim()
+              console.log('✅ Build Info API: Shallow repo method successful')
+            } catch (shallowError) {
+              console.error('❌ Build Info API: All git methods failed')
+              throw new Error(`Git unavailable: ${standardError}`)
+            }
+          }
+        }
+
+        deployedCommitHash = gitHash
         source = 'git-command'
         console.log('✅ Build Info API: Git command successful')
       } catch (error) {
@@ -93,6 +134,7 @@ export async function GET() {
                 CF_PAGES_COMMIT_SHA: !!process.env.CF_PAGES_COMMIT_SHA,
               },
               availableGitVars: allEnvVars,
+              gitError: error instanceof Error ? error.message : String(error),
             },
           },
           { status: 503 }
