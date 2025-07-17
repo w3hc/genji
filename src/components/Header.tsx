@@ -21,6 +21,7 @@ import LanguageSelector from './LanguageSelector'
 import { useTranslation } from '@/hooks/useTranslation'
 import { useState, useEffect } from 'react'
 import { buildDetector, type BuildStatus } from '@/utils/buildDetector'
+import { FaGithub } from 'react-icons/fa'
 
 export default function Header() {
   const { open } = useAppKit()
@@ -36,6 +37,8 @@ export default function Header() {
   const shouldSlide = scrollPosition > 0
   const leftSlideValue = shouldSlide ? 2000 : 0
   const rightSlideValue = shouldSlide ? 2000 : 0
+
+  const GitHubIcon = FaGithub
 
   useEffect(() => {
     const handleScroll = () => {
@@ -168,6 +171,17 @@ export default function Header() {
                 dev
               </Text>
             )}
+            <IconButton
+              as={Link}
+              href="https://github.com/w3hc/genji"
+              aria-label="GitHub"
+              // @ts-ignore - This is just to bypass the TypeScript error
+              icon={<GitHubIcon />}
+              variant="ghost"
+              size="sm"
+              color="white"
+              _hover={{ color: 'white', bg: 'transparent' }}
+            />
           </Flex>
         </Box>
 
