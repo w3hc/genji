@@ -57,29 +57,45 @@ createAppKit({
     url: 'https://genji-app.netlify.app',
     icons: ['./favicon.ico'],
   },
+
+  // Wallet configuration to minimize wallet prominence
+  featuredWalletIds: [], // Empty array to not feature any specific wallets
+  allWallets: 'SHOW', // Can be 'SHOW', 'HIDE', or 'ONLY_MOBILE'
+
+  // Enable Web3 features
   enableEIP6963: true,
   enableCoinbase: true,
   allowUnsupportedChain: false,
   enableWalletConnect: true,
   enableInjected: true,
-  // Add these properties to prevent auto-connection
-  // enableOnramp: false,
+
+  // Theme configuration
   themeMode: 'dark',
   themeVariables: {
     '--w3m-z-index': 1000,
   },
+
+  // Features configuration - controls what appears in modal
   features: {
     analytics: true,
-    email: true,
-    socials: ['google', 'discord', 'github', 'apple'],
-    emailShowWallets: true,
-    // Disable features that might trigger auto-connection
+
+    // Email/Social configuration
+    email: true, // Enable email login
+    socials: ['google', 'farcaster', 'github', 'discord', 'facebook', 'x', 'apple'],
+    emailShowWallets: true, // Show wallets on same screen as email/social
+
+    // KEY PROPERTY: Control the order of connection methods
+    // Options: 'wallet', 'email', 'social'
+    connectMethodsOrder: ['email', 'social', 'wallet'], // This puts email/social at top
+
+    // Disable other features for cleaner email/social focus
     onramp: false,
     swaps: false,
     history: false,
+
+    // Optional: Disable legal checkbox if you want cleaner UI
+    legalCheckbox: false,
   },
-  // Important: Don't include any auto-connection options
-  // Remove any connectOnMount, autoConnect, or similar properties
 })
 
 const theme = extendTheme({

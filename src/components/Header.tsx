@@ -159,11 +159,6 @@ export default function Header() {
                   Subscribe
                 </MenuItem>
               </Link>
-              <Link href="/chat" color="white">
-                <MenuItem fontSize="md" px={4} py={3}>
-                  Chat
-                </MenuItem>
-              </Link>
             </MenuList>
           </Menu>
           <LanguageSelector />
