@@ -38,5 +38,19 @@
     "eslint-config-prettier": "^10.1.5",
     "prettier": "^3.4.2",
     "typescript": "^5.7.2"
+  },
+  "pnpm": {
+    "overrides": {
+      "lit": "^3.0.0",
+      "lit-element": "^4.0.0",
+      "lit-html": "^3.0.0",
+      "@lit/reactive-element": "^2.0.0"
+    }
+  },
+  "resolutions": {
+    "lit": "^3.0.0",
+    "lit-element": "^4.0.0",
+    "lit-html": "^3.0.0",
+    "@lit/reactive-element": "^2.0.0"
   }
 }

@@ -21,21 +21,32 @@ export default function Home() {
   const toast = useToast()
   const t = useTranslation()
 
+  // Only check balance when user is actually connected (not on page load)
   useEffect(() => {
     const checkBalance = async () => {
-      if (address && walletProvider) {
-        try {
-          const provider = new BrowserProvider(walletProvider as any)
-          const balance = await provider.getBalance(address)
-          setBalance(formatEther(balance))
-        } catch (error) {
-          console.error('Error fetching balance:', error)
-        }
+      // Only proceed if user is connected AND we have a provider
+      if (!isConnected || !address || !walletProvider) {
+        setBalance('0')
+        return
+      }
+
+      try {
+        const provider = new BrowserProvider(walletProvider as any)
+        const balance = await provider.getBalance(address)
+        setBalance(formatEther(balance))
+      } catch (error) {
+        console.error('Error fetching balance:', error)
+        // Don't show error toast on page load, just log it
+        setBalance('0')
       }
     }
 
-    checkBalance()
-  }, [address, walletProvider, chainId])
+    // Add a small delay to ensure connection is fully established
+    if (isConnected && address && walletProvider) {
+      const timeoutId = setTimeout(checkBalance, 500)
+      return () => clearTimeout(timeoutId)
+    }
+  }, [address, walletProvider, chainId, isConnected])
 
   const handleSend = async () => {
     setTxHash('')
@@ -120,7 +131,8 @@ export default function Home() {
   return (
     <Container maxW="container.sm" py={20}>
       <Text mb={4}>{t.home.title}</Text>
-      {/* Debug info */}
+
+      {/* Debug info - only show when connected */}
       {isConnected && (
         <>
           <Text fontSize="sm" color="gray.500" mb={4}>
@@ -141,6 +153,7 @@ export default function Home() {
         </>
       )}
 
+      {/* Only show send button when connected */}
       {isConnected && (
         <Tooltip
           label={!hasEnoughBalance ? t.home.insufficientBalance : ''}
@@ -168,6 +181,8 @@ export default function Home() {
           </Button>
         </Tooltip>
       )}
+
+      {/* Transaction result - only show when there's a transaction */}
       {txHash && isConnected && (
         <Text py={4} fontSize="14px" color="#45a2f8">
           <Link target="_blank" rel="noopener noreferrer" href={txLink ? txLink : ''}>

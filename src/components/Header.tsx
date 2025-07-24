@@ -45,15 +45,23 @@ export default function Header() {
 
   const handleConnect = () => {
     try {
+      // Explicitly open the Connect view only when button is clicked
       open({ view: 'Connect' })
     } catch (error) {
       console.error('Connection error:', error)
     }
   }
 
-  const handleDisconnect = () => {
+  const handleDisconnect = async () => {
     try {
-      disconnect()
+      await disconnect()
+      // Clear any stored connection data to prevent auto-reconnection
+      if (typeof window !== 'undefined') {
+        localStorage.removeItem('wagmi.wallet')
+        localStorage.removeItem('wagmi.store')
+        localStorage.removeItem('@w3m/wallet_id')
+        localStorage.removeItem('@w3m/connected_connector')
+      }
     } catch (error) {
       console.error('Disconnect error:', error)
     }
@@ -99,6 +107,9 @@ export default function Header() {
               }}
               onClick={handleConnect}
               size="sm"
+              // Add explicit prevention of auto-trigger
+              onMouseEnter={undefined}
+              onFocus={undefined}
             >
               {t.common.login}
             </Button>
