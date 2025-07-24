@@ -4,3 +4,8 @@
   padding: 0;
   margin: 0;
 }
+
+/* Prevent Chrome auto-translate popup globally */
+html {
+  translate: no;
+}

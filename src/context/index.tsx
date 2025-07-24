@@ -22,7 +22,8 @@ import {
 import { type ReactNode, memo } from 'react'
 import { ChakraProvider, extendTheme } from '@chakra-ui/react'
 
-const projectId = process.env['NEXT_PUBLIC_PROJECT_ID']
+// Use process.env with proper typing for Next.js
+const projectId = process.env.NEXT_PUBLIC_PROJECT_ID
 if (!projectId) {
   throw new Error('NEXT_PUBLIC_PROJECT_ID is not set')
 }
@@ -61,12 +62,24 @@ createAppKit({
   allowUnsupportedChain: false,
   enableWalletConnect: true,
   enableInjected: true,
+  // Add these properties to prevent auto-connection
+  // enableOnramp: false,
+  themeMode: 'dark',
+  themeVariables: {
+    '--w3m-z-index': 1000,
+  },
   features: {
     analytics: true,
     email: true,
     socials: ['google', 'discord', 'github', 'apple'],
     emailShowWallets: true,
+    // Disable features that might trigger auto-connection
+    onramp: false,
+    swaps: false,
+    history: false,
   },
+  // Important: Don't include any auto-connection options
+  // Remove any connectOnMount, autoConnect, or similar properties
 })
 
 const theme = extendTheme({

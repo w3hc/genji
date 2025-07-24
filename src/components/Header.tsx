@@ -10,8 +10,6 @@ import {
   MenuList,
   MenuItem,
   IconButton,
-  Text,
-  Tooltip,
 } from '@chakra-ui/react'
 import { useAppKit } from '@reown/appkit/react'
 import { useAppKitAccount, useDisconnect } from '@reown/appkit/react'
@@ -20,7 +18,6 @@ import { HamburgerIcon } from '@chakra-ui/icons'
 import LanguageSelector from './LanguageSelector'
 import { useTranslation } from '@/hooks/useTranslation'
 import { useState, useEffect } from 'react'
-import { buildDetector, type BuildStatus } from '@/utils/buildDetector'
 import { FaGithub } from 'react-icons/fa'
 
 export default function Header() {
@@ -30,10 +27,6 @@ export default function Header() {
   const t = useTranslation()
 
   const [scrollPosition, setScrollPosition] = useState(0)
-  const [buildId, setBuildId] = useState<string | null>(null)
-  const [buildHash, setBuildHash] = useState<string | null>(null)
-  const [buildStatus, setBuildStatus] = useState<BuildStatus | null>(null)
-  const [isChecking, setIsChecking] = useState(false)
 
   const shouldSlide = scrollPosition > 0
   const leftSlideValue = shouldSlide ? 2000 : 0
@@ -50,125 +43,28 @@ export default function Header() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  useEffect(() => {
-    // Initialize build ID on client-side
-    const initializeBuildId = async () => {
-      try {
-        const id = await buildDetector.getShortBuildId()
-        console.log('Build ID extracted:', id)
-        setBuildId(id)
-
-        // Check build status on mount
-        if (id) {
-          checkBuildStatus()
-        }
-      } catch (error) {
-        console.error('Failed to get build ID:', error)
-      }
-    }
-
-    // Small delay to ensure DOM is ready
-    setTimeout(initializeBuildId, 100)
-  }, [])
-
-  const checkBuildStatus = async () => {
-    setIsChecking(true)
-    try {
-      // Use the new file hashing method for more accurate comparison
-      const status = await buildDetector.checkBuildStatusWithFileHash('w3hc', 'genji')
-      console.log('File hash build status:', status)
-      setBuildStatus(status)
-
-      // Update the displayed build ID and hash
-      if (status?.currentBuildId) {
-        const liveBuildId =
-          status.currentBuildId.length > 7
-            ? status.currentBuildId.slice(0, 7)
-            : status.currentBuildId
-        setBuildId(liveBuildId)
-      }
-
-      if (status?.currentBuildHash) {
-        setBuildHash(status.currentBuildHash)
-      }
-    } catch (error) {
-      console.warn('Failed to check build status:', error)
-    } finally {
-      setIsChecking(false)
-    }
-  }
-
-  const getBuildStatusColor = () => {
-    if (!buildStatus) return 'gray.400'
-    return buildStatus.isUpToDate ? 'green.400' : 'orange.400'
-  }
-
-  const getBuildStatusIcon = () => {
-    if (isChecking) return '⏳'
-    if (!buildStatus) return '❓'
-    return buildStatus.isUpToDate ? '✅' : '⚠️'
-  }
-
-  const getBuildTooltip = () => {
-    if (isChecking) return 'Checking build status with file hashing...'
-    if (!buildStatus) return `Build ID: ${buildId || 'Loading...'}`
-
-    const method = buildStatus.hashMethod || 'unknown'
-    const status = buildStatus.isUpToDate ? 'Up to date' : 'Update available'
-    const latest = buildStatus.latestCommit
-
-    let tooltip = `${status} (${method})`
-
-    if (buildStatus.currentBuildHash) {
-      tooltip += `\nBuild Hash: ${buildStatus.currentBuildHash}`
-    }
-
-    if (buildStatus.currentBuildId) {
-      tooltip += `\nCommit: ${buildStatus.currentBuildId}`
-    }
-
-    if (latest) {
-      tooltip += `\nLatest: ${latest.message} (${latest.author})`
-    }
-
-    return tooltip
-  }
-
-  // Debug function to show file hashes
-  const showFileHashes = () => {
-    const fileHashes = buildDetector.getFileHashes()
-    const hashEntries = Object.entries(fileHashes)
-
-    if (hashEntries.length > 0) {
-      console.log('📋 Current file hashes:')
-      hashEntries.forEach(([path, hash]) => {
-        console.log(`   ${path}: ${hash}`)
-      })
-    } else {
-      console.log('ℹ️ No file hashes available. Click the build ID to calculate them.')
-    }
-  }
-
   const handleConnect = () => {
     try {
+      // Explicitly open the Connect view only when button is clicked
       open({ view: 'Connect' })
     } catch (error) {
       console.error('Connection error:', error)
     }
   }
 
-  const handleDisconnect = () => {
+  const handleDisconnect = async () => {
     try {
-      disconnect()
+      await disconnect()
+      // Clear any stored connection data to prevent auto-reconnection
+      if (typeof window !== 'undefined') {
+        localStorage.removeItem('wagmi.wallet')
+        localStorage.removeItem('wagmi.store')
+        localStorage.removeItem('@w3m/wallet_id')
+        localStorage.removeItem('@w3m/connected_connector')
+      }
     } catch (error) {
       console.error('Disconnect error:', error)
     }
-  }
-
-  const handleBuildIdClick = () => {
-    checkBuildStatus()
-    // Also show file hashes in console for debugging
-    setTimeout(showFileHashes, 1000)
   }
 
   return (
@@ -181,41 +77,6 @@ export default function Header() {
                 Genji
               </Heading>
             </Link>
-            {buildId ? (
-              <Tooltip label={getBuildTooltip()} hasArrow whiteSpace="pre-line">
-                <Text
-                  fontSize="xs"
-                  color={getBuildStatusColor()}
-                  fontFamily="mono"
-                  cursor="pointer"
-                  onClick={handleBuildIdClick}
-                  _hover={{ opacity: 0.8 }}
-                  display="flex"
-                  alignItems="center"
-                  gap={1}
-                  lineHeight="1"
-                  minHeight="24px"
-                  justifyContent="center"
-                >
-                  <span>{getBuildStatusIcon()}</span>
-                  {buildHash ? buildHash : buildId}
-                  {buildStatus?.hashMethod === 'file-hash' && '🔒'}
-                </Text>
-              </Tooltip>
-            ) : (
-              <Text
-                fontSize="xs"
-                color="gray.600"
-                fontFamily="mono"
-                lineHeight="1"
-                minHeight="24px"
-                display="flex"
-                alignItems="center"
-                justifyContent="center"
-              >
-                dev
-              </Text>
-            )}
             <IconButton
               as="a"
               href="https://github.com/w3hc/genji"
@@ -246,6 +107,9 @@ export default function Header() {
               }}
               onClick={handleConnect}
               size="sm"
+              // Add explicit prevention of auto-trigger
+              onMouseEnter={undefined}
+              onFocus={undefined}
             >
               {t.common.login}
             </Button>
@@ -274,21 +138,31 @@ export default function Header() {
               variant="ghost"
               size="sm"
             />
-            <MenuList>
+            <MenuList minWidth="180px" px={2}>
               <Link href="/new" color="white">
-                <MenuItem fontSize="md">{t.navigation.newPage}</MenuItem>
+                <MenuItem fontSize="md" px={4} py={3}>
+                  {t.navigation.newPage}
+                </MenuItem>
               </Link>
               <Link href="/wallet" color="white">
-                <MenuItem fontSize="md">{t.navigation.walletGenerator}</MenuItem>
+                <MenuItem fontSize="md" px={4} py={3}>
+                  {t.navigation.walletGenerator}
+                </MenuItem>
               </Link>
               <Link href="/referral" color="white">
-                <MenuItem fontSize="md">{t.navigation.referral}</MenuItem>
+                <MenuItem fontSize="md" px={4} py={3}>
+                  {t.navigation.referral}
+                </MenuItem>
               </Link>
               <Link href="/subscribe" color="white">
-                <MenuItem fontSize="md">Subscribe</MenuItem>
+                <MenuItem fontSize="md" px={4} py={3}>
+                  Subscribe
+                </MenuItem>
               </Link>
               <Link href="/chat" color="white">
-                <MenuItem fontSize="md">Chat</MenuItem>
+                <MenuItem fontSize="md" px={4} py={3}>
+                  Chat
+                </MenuItem>
               </Link>
             </MenuList>
           </Menu>
