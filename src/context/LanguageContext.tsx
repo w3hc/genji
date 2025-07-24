@@ -33,14 +33,20 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
     const initializeLanguage = () => {
       // Check if there's a stored language preference
       const storedLang = localStorage.getItem('userLanguage')
-      
+
       if (storedLang && isValidLanguage(storedLang)) {
         setLanguageState(storedLang)
+        // Update HTML lang attribute and prevent auto-translate
+        document.documentElement.lang = storedLang
+        document.documentElement.setAttribute('translate', 'no')
       } else {
         // If no stored preference, detect from browser
         const detectedLang = detectUserLanguage()
         setLanguageState(detectedLang)
         localStorage.setItem('userLanguage', detectedLang)
+        // Update HTML attributes
+        document.documentElement.lang = detectedLang
+        document.documentElement.setAttribute('translate', 'no')
       }
     }
 
@@ -53,6 +59,8 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
     localStorage.setItem('userLanguage', lang)
     // Update HTML lang attribute for accessibility and SEO
     document.documentElement.lang = lang
+    // Keep translate="no" to prevent Chrome auto-translate interference
+    document.documentElement.setAttribute('translate', 'no')
   }
 
   return (
