@@ -2,13 +2,8 @@
   "name": "genji",
   "version": "3.0.0",
   "scripts": {
-    "prebuild": "node scripts/generate-build-info.js",
     "dev": "next dev",
     "build": "next build",
-    "postbuild": "node scripts/generate-build-hash.js",
-    "build:full": "npm run build && npm run hash",
-    "hash": "node scripts/generate-build-hash.js",
-    "hash:verify": "node scripts/verify-build-hash.js",
     "start": "next start",
     "lint": "next lint",
     "format": "prettier --write .",
