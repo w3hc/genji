@@ -149,11 +149,6 @@ export default function Header() {
                   {t.navigation.walletGenerator}
                 </MenuItem>
               </Link>
-              <Link href="/referral" color="white">
-                <MenuItem fontSize="md" px={4} py={3}>
-                  {t.navigation.referral}
-                </MenuItem>
-              </Link>
               <Link href="/subscribe" color="white">
                 <MenuItem fontSize="md" px={4} py={3}>
                   Subscribe

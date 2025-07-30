@@ -8,13 +8,10 @@ A Next.js Web3 app template.
 - 🎨 **Chakra UI v2** - Accessible component library
 - 🔗 **Web3 Integration** - Wallet connection via Reown AppKit
 - 💰 **Ethereum Support** - Send transactions with Ethers.js v6
-- 🔗 **On-chain Referrals** - Smart contract-based referral system
 - 💳 **Stripe Subscriptions** - $1/month subscription system
-- 🤖 **AI Chat** - Integrated Claude AI assistant
 - 🔐 **Wallet Generator** - Secure local wallet creation and message signing
 - 🌍 **Multi-language** - i18n support for 10+ languages
 - 📱 **Responsive** - Mobile-first design
-- 🔧 **Build Tracking** - Real-time build status and version detection
 
 ## Tech Stack
 
@@ -22,7 +19,6 @@ A Next.js Web3 app template.
 - **UI**: Chakra UI v2, Framer Motion 12
 - **Web3**: Ethers.js v6, Reown AppKit
 - **Backend**: Next.js API routes, Stripe
-- **AI**: Anthropic Claude API
 - **Build**: ESBuild, PNPM
 
 ## Requirements
@@ -53,8 +49,6 @@ STRIPE_SECRET_KEY=sk_test_your_stripe_key
 STRIPE_PUBLISHABLE_KEY=pk_test_your_stripe_key
 STRIPE_WEBHOOK_SECRET=whsec_your_webhook_secret
 NEXT_PUBLIC_APP_URL=http://localhost:3000
-ANTHROPIC_API_KEY=your_claude_api_key
-OPERATOR_PRIVATE_KEY=your_operator_wallet_private_key  # For referral contract
 ```
 
 Then start the development server:
@@ -110,25 +104,7 @@ networks: [
 3. Set up webhook endpoints for subscription events
 4. Add all keys to your `.env` file
 
-### AI Chat Setup
-
-1. Get an Anthropic API key
-2. Add to `.env` as `ANTHROPIC_API_KEY`
-3. Customize the AI behavior in `src/app/api/chat/route.ts`
-
 ## Key Features Explained
-
-### 🔗 On-chain Referrals
-
-- Smart contract deployed on OP Sepolia
-- Gasless referral registration via API
-- Shareable referral links: `/referral/[wallet-address]`
-
-### 🤖 AI Chat
-
-- Powered by Claude (Anthropic)
-- Custom system prompts
-- API endpoint: `/api/chat`
 
 ### 🔐 Wallet Generator
 
@@ -143,21 +119,11 @@ networks: [
 - Webhook integration for subscription events
 - Wallet-based user identification
 
-### 🔧 Build Tracking
-
-- Real-time build status monitoring
-- Automatic build ID extraction from webpack chunks
-- GitHub integration for checking latest commits
-- Visual indicators for up-to-date vs outdated builds
-- Click to refresh build status
-- Tooltip showing current vs latest commit info
-
 ### 🌍 Internationalization
 
 Supports 10 languages:
 
-- English, 中文, हिन्दी, Español, Français
-- العربية, বাংলা, Русский, Português, اردو
+English, 中文, हिन्दी, Español, Français, العربية, বাংলা, Русский, Português, اردو
 
 ## Development
 
@@ -206,11 +172,7 @@ Make sure to:
 src/
 ├── app/                   # Next.js 13+ app directory
 │   ├── api/               # API routes
-│   │   ├── chat/          # AI chat endpoint
-│   │   ├── referral/      # Referral system
 │   │   └── subscription/  # Stripe integration
-│   ├── chat/              # AI chat page
-│   ├── referral/          # Referral system
 │   ├── subscribe/         # Subscription pages
 │   └── wallet/            # Wallet generator
 ├── components/            # Reusable UI components
@@ -218,8 +180,7 @@ src/
 ├── hooks/                 # Custom React hooks
 ├── translations/          # i18n translations
 └── utils/                 # Utility functions
-    ├── buildDetector.ts   # Build tracking and GitHub integration
-    └── i18n.ts           # Internationalization utilities
+    └── i18n.ts            # Internationalization utilities
 ```
 
 ## Contributing
@@ -238,7 +199,6 @@ src/
 - [Ethers.js v6](https://docs.ethers.org/v6/) - Ethereum library
 - [Reown AppKit](https://reown.com/appkit) - Web3 wallet connection
 - [Stripe API](https://stripe.com/docs/api) - Payment processing
-- [Anthropic Claude](https://docs.anthropic.com/) - AI integration
 
 ## Support
 
