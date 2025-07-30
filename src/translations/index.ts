@@ -42,7 +42,6 @@ type TranslationKeys = {
   navigation: {
     newPage: string
     walletGenerator: string
-    referral: string
   }
   newPage: {
     title: string
@@ -99,7 +98,6 @@ export const translations: Translations = {
     navigation: {
       newPage: 'New page',
       walletGenerator: 'Wallet generator',
-      referral: 'Referral',
     },
     newPage: {
       title: 'Welcome to New Page',
@@ -150,7 +148,6 @@ export const translations: Translations = {
     navigation: {
       newPage: '新页面',
       walletGenerator: '钱包生成器',
-      referral: '推荐',
     },
     newPage: {
       title: '欢迎来到新页面',
@@ -201,7 +198,6 @@ export const translations: Translations = {
     navigation: {
       newPage: 'नया पेज',
       walletGenerator: 'वॉलेट जनरेटर',
-      referral: 'रेफरल',
     },
     newPage: {
       title: 'नए पेज पर आपका स्वागत है',
@@ -252,7 +248,6 @@ export const translations: Translations = {
     navigation: {
       newPage: 'Nueva página',
       walletGenerator: 'Generador de billetera',
-      referral: 'Referido',
     },
     newPage: {
       title: 'Bienvenido a Nueva Página',
@@ -303,7 +298,6 @@ export const translations: Translations = {
     navigation: {
       newPage: 'Nouvelle page',
       walletGenerator: 'Générateur de wallet',
-      referral: 'Parrainage',
     },
     newPage: {
       title: 'Bienvenue sur la nouvelle page',
@@ -354,7 +348,6 @@ export const translations: Translations = {
     navigation: {
       newPage: 'صفحة جديدة',
       walletGenerator: 'منشئ المحفظة',
-      referral: 'إحالة',
     },
     newPage: {
       title: 'مرحبًا بك في الصفحة الجديدة',
@@ -405,7 +398,6 @@ export const translations: Translations = {
     navigation: {
       newPage: 'নতুন পৃষ্ঠা',
       walletGenerator: 'ওয়ালেট জেনারেটর',
-      referral: 'রেফারেল',
     },
     newPage: {
       title: 'নতুন পৃষ্ঠায় স্বাগতম',
@@ -457,7 +449,6 @@ export const translations: Translations = {
     navigation: {
       newPage: 'Новая страница',
       walletGenerator: 'Генератор кошельков',
-      referral: 'Рекомендация',
     },
     newPage: {
       title: 'Добро пожаловать на новую страницу',
@@ -508,7 +499,6 @@ export const translations: Translations = {
     navigation: {
       newPage: 'Nova página',
       walletGenerator: 'Gerador de carteira',
-      referral: 'Indicação',
     },
     newPage: {
       title: 'Bem-vindo à Nova Página',
@@ -559,7 +549,6 @@ export const translations: Translations = {
     navigation: {
       newPage: 'نیا صفحہ',
       walletGenerator: 'والیٹ جنریٹر',
-      referral: 'حوالہ',
     },
     newPage: {
       title: 'نئے صفحے میں خوش آمدید',
