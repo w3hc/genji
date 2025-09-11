@@ -36,6 +36,9 @@ importers:
       '@reown/appkit-adapter-ethers':
         specifier: ^1.6.0
         version: 1.7.16(@ethersproject/sha2@5.8.0)(@types/react@19.1.8)(ethers@6.15.0)(react@19.1.0)(typescript@5.8.3)(zod@3.22.4)
+      '@simplewebauthn/browser':
+        specifier: ^13.1.2
+        version: 13.1.2
       ethers:
         specifier: ^6.13.4
         version: 6.15.0
@@ -814,6 +817,9 @@ packages:
 
   '@scure/bip39@1.6.0':
     resolution: {integrity: sha512-+lF0BbLiJNwVlev4eKelw1WWLaiKXw7sSl8T6FvBlWkdX+94aGJ4o8XjUdlyhTCjd8c+B3KT3JfS8P0bLRNU6A==}
+
+  '@simplewebauthn/browser@13.1.2':
+    resolution: {integrity: sha512-aZnW0KawAM83fSBUgglP5WofbrLbLyr7CoPqYr66Eppm7zO86YX6rrCjRB3hQKPrL7ATvY4FVXlykZ6w6FwYYw==}
 
   '@swc/helpers@0.5.15':
     resolution: {integrity: sha512-JQ5TuMi45Owi4/BIMAJBoSQoOJu12oOk/gADqlcUL9JEdHB8vyjUSsxqeNXnmXHjYKMi2WcYtezGEEhqUI/E2g==}
@@ -4097,6 +4103,8 @@ snapshots:
     dependencies:
       '@noble/hashes': 1.8.0
       '@scure/base': 1.2.6
+
+  '@simplewebauthn/browser@13.1.2': {}
 
   '@swc/helpers@0.5.15':
     dependencies:

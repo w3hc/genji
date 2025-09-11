@@ -154,6 +154,11 @@ export default function Header() {
                   Subscribe
                 </MenuItem>
               </Link>
+              <Link href="/webauthn" color="white">
+                <MenuItem fontSize="md" px={4} py={3}>
+                  WebAuthn
+                </MenuItem>
+              </Link>
             </MenuList>
           </Menu>
           <LanguageSelector />

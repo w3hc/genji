@@ -17,6 +17,7 @@
     "@emotion/styled": "^11.14.0",
     "@reown/appkit": "^1.6.0",
     "@reown/appkit-adapter-ethers": "^1.6.0",
+    "@simplewebauthn/browser": "^13.1.2",
     "ethers": "^6.13.4",
     "framer-motion": "^12.23.3",
     "next": "^15.1.3",
