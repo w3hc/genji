@@ -25,21 +25,27 @@ import {
   TabPanels,
   Tab,
   TabPanel,
-  Icon,
   Flex,
   Spacer,
+  Code,
+  Textarea,
+  useClipboard,
+  IconButton,
 } from '@chakra-ui/react'
 import { useState, useEffect } from 'react'
+import { CopyIcon, CheckIcon } from '@chakra-ui/icons'
 import Link from 'next/link'
 import { useTranslation } from '@/hooks/useTranslation'
 
 // WebAuthn types
 interface WebAuthnUser {
-  id: string
+  id: string // Ethereum address
+  privateKey?: string // Only included during registration
   username: string
   email: string
   hasAuthenticators: boolean
   authenticatorCount: number
+  ethereumAddress: string
 }
 
 interface ApiResponse<T = any> {
@@ -48,15 +54,32 @@ interface ApiResponse<T = any> {
   data?: T
 }
 
+interface WalletInfo {
+  address: string
+  privateKey: string
+}
+
+interface SignatureResponse {
+  message: string
+  ethereumAddress: string
+  signature: string
+  recoveredAddress: string
+}
+
 export default function WebAuthnPage() {
   const [isLoading, setIsLoading] = useState(false)
   const [user, setUser] = useState<WebAuthnUser | null>(null)
-  const [userId, setUserId] = useState('user123')
-  const [username, setUsername] = useState('john_doe')
+  const [ethereumAddress, setEthereumAddress] = useState('')
+  const [username, setUsername] = useState('Michael Jackson')
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [lastAction, setLastAction] = useState<string>('')
   const [useUsernameless, setUseUsernameless] = useState(true)
   const [activeTab, setActiveTab] = useState(0)
+  const [walletInfo, setWalletInfo] = useState<WalletInfo | null>(null)
+
+  // Message signing state
+  const [messageToSign, setMessageToSign] = useState('Hello, this is a test message!')
+  const [signatureResult, setSignatureResult] = useState<SignatureResponse | null>(null)
 
   const toast = useToast()
   const t = useTranslation()
@@ -65,6 +88,20 @@ export default function WebAuthnPage() {
   const borderColor = useColorModeValue('#8c1c84', '#8c1c84')
 
   const API_BASE = process.env.NEXT_PUBLIC_WEBAUTHN_API_URL || 'http://localhost:3000'
+
+  // Clipboard functionality
+  const { onCopy: copyAddress, hasCopied: hasCopiedAddress } = useClipboard(
+    walletInfo?.address || ''
+  )
+  const { onCopy: copyPrivateKey, hasCopied: hasCopiedPrivateKey } = useClipboard(
+    walletInfo?.privateKey || ''
+  )
+  const { onCopy: copySignature, hasCopied: hasCopiedSignature } = useClipboard(
+    signatureResult?.signature || ''
+  )
+  const { onCopy: copyRecoveredAddress, hasCopied: hasCopiedRecoveredAddress } = useClipboard(
+    signatureResult?.recoveredAddress || ''
+  )
 
   // Load SimpleWebAuthn browser library
   useEffect(() => {
@@ -103,13 +140,13 @@ export default function WebAuthnPage() {
   }
 
   const register = async () => {
-    if (!userId || !username) {
-      showToast('Error', 'Please enter both User ID and Username', 'error')
+    if (!username) {
+      showToast('Error', 'Please enter a username', 'error')
       return
     }
 
     setIsLoading(true)
-    setLastAction('Registering...')
+    setLastAction('Starting registration...')
 
     try {
       // Check if SimpleWebAuthn is loaded
@@ -119,13 +156,13 @@ export default function WebAuthnPage() {
 
       const { startRegistration } = window.SimpleWebAuthnBrowser
 
-      // Begin registration
+      // Begin registration - API will generate Ethereum address
       const beginResponse = await fetch(`${API_BASE}/webauthn/register/begin`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ userId, username }),
+        body: JSON.stringify({ username }), // Only username needed now
       })
 
       if (!beginResponse.ok) {
@@ -133,32 +170,40 @@ export default function WebAuthnPage() {
         throw new Error(`HTTP ${beginResponse.status}: ${beginResponse.statusText} - ${errorText}`)
       }
 
-      const beginResult: ApiResponse = await beginResponse.json()
+      const beginResult: ApiResponse<{
+        options: any
+        ethereumAddress: string
+        privateKey: string
+      }> = await beginResponse.json()
 
-      if (!beginResult.success) {
+      if (!beginResult.success || !beginResult.data) {
         throw new Error(beginResult.message || 'Failed to begin registration')
       }
 
-      const options = beginResult.data?.options
-      if (!options) {
-        throw new Error('Invalid response: missing options data')
-      }
+      const { options, ethereumAddress: newEthereumAddress, privateKey } = beginResult.data
 
-      setLastAction('Waiting for authenticator...')
+      // Store the generated Ethereum info
+      setEthereumAddress(newEthereumAddress)
+      setWalletInfo({
+        address: newEthereumAddress,
+        privateKey: privateKey,
+      })
+
+      setLastAction(`Ethereum wallet created: ${newEthereumAddress}. Waiting for authenticator...`)
 
       // Start WebAuthn registration
       const attResp = await startRegistration(options)
 
       setLastAction('Verifying registration...')
 
-      // Complete registration
+      // Complete registration using the Ethereum address
       const completeResponse = await fetch(`${API_BASE}/webauthn/register/complete`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          userId,
+          ethereumAddress: newEthereumAddress,
           response: attResp,
         }),
       })
@@ -177,7 +222,7 @@ export default function WebAuthnPage() {
         setLastAction('Registration completed successfully!')
         showToast(
           'Success',
-          'Passkey registered successfully! You can now use usernameless authentication.',
+          `Passkey registered successfully! Ethereum wallet created: ${newEthereumAddress}`,
           'success'
         )
 
@@ -225,7 +270,7 @@ export default function WebAuthnPage() {
 
       const { startAuthentication } = window.SimpleWebAuthnBrowser
 
-      // First, get authentication options from server for usernameless auth
+      // Begin usernameless authentication
       const beginResponse = await fetch(`${API_BASE}/webauthn/authenticate/usernameless/begin`, {
         method: 'POST',
         headers: {
@@ -252,12 +297,12 @@ export default function WebAuthnPage() {
 
       setLastAction('Waiting for authenticator...')
 
-      // Start WebAuthn authentication with empty allowCredentials (for discoverable credentials)
+      // Start WebAuthn authentication
       const authResp = await startAuthentication(options)
 
       setLastAction('Verifying authentication...')
 
-      // Complete authentication - the server will identify the user from the credential
+      // Complete authentication
       const completeResponse = await fetch(
         `${API_BASE}/webauthn/authenticate/usernameless/complete`,
         {
@@ -283,8 +328,7 @@ export default function WebAuthnPage() {
       if (completeResult.success && completeResult.data?.user) {
         setUser(completeResult.data.user)
         setIsAuthenticated(true)
-        setUserId(completeResult.data.user.id) // Auto-fill the discovered user ID
-        setUsername(completeResult.data.user.username) // Auto-fill the discovered username
+        setEthereumAddress(completeResult.data.user.ethereumAddress)
         setLastAction('Usernameless authentication successful!')
         showToast('Success', `Welcome back, ${completeResult.data.user.username}!`, 'success')
       } else {
@@ -294,25 +338,11 @@ export default function WebAuthnPage() {
       console.error('Usernameless authentication error:', error)
       setLastAction(`Usernameless authentication failed: ${error.message}`)
 
-      // Provide helpful error messages
       if (error.name === 'NotAllowedError') {
         showToast(
           'Authentication Cancelled',
           'You cancelled the authentication or it timed out.',
           'warning'
-        )
-      } else if (error.message.includes('404')) {
-        showToast(
-          'Feature Not Available',
-          'Usernameless authentication is not yet implemented on the server. Please use traditional authentication.',
-          'info'
-        )
-        setUseUsernameless(false) // Switch to traditional mode
-      } else if (error.name === 'SecurityError') {
-        showToast(
-          'Security Error',
-          'Please ensure you are using HTTPS and the domain is configured correctly.',
-          'error'
         )
       } else {
         showToast('Authentication Failed', error.message, 'error')
@@ -322,10 +352,10 @@ export default function WebAuthnPage() {
     }
   }
 
-  // Regular authentication with userId
+  // Regular authentication with Ethereum address
   const authenticate = async () => {
-    if (!userId) {
-      showToast('Error', 'Please enter User ID', 'error')
+    if (!ethereumAddress) {
+      showToast('Error', 'Please enter an Ethereum address', 'error')
       return
     }
 
@@ -345,7 +375,7 @@ export default function WebAuthnPage() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ userId }),
+        body: JSON.stringify({ ethereumAddress }),
       })
 
       if (!beginResponse.ok) {
@@ -378,7 +408,7 @@ export default function WebAuthnPage() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          userId,
+          ethereumAddress,
           response: authResp,
         }),
       })
@@ -404,7 +434,6 @@ export default function WebAuthnPage() {
       console.error('Authentication error:', error)
       setLastAction(`Authentication failed: ${error.message}`)
 
-      // Provide helpful error messages
       if (error.name === 'NotAllowedError') {
         showToast(
           'Authentication Cancelled',
@@ -412,7 +441,11 @@ export default function WebAuthnPage() {
           'warning'
         )
       } else if (error.message.includes('User not found')) {
-        showToast('User Not Found', 'No user found with that ID. Please register first.', 'error')
+        showToast(
+          'User Not Found',
+          'No user found with that Ethereum address. Please register first.',
+          'error'
+        )
       } else {
         showToast('Authentication Failed', error.message, 'error')
       }
@@ -422,8 +455,8 @@ export default function WebAuthnPage() {
   }
 
   const getUserInfo = async () => {
-    if (!userId) {
-      showToast('Error', 'Please enter User ID', 'error')
+    if (!ethereumAddress) {
+      showToast('Error', 'Please enter an Ethereum address', 'error')
       return
     }
 
@@ -431,7 +464,9 @@ export default function WebAuthnPage() {
     setLastAction('Fetching user data...')
 
     try {
-      const response = await fetch(`${API_BASE}/webauthn/user?userId=${encodeURIComponent(userId)}`)
+      const response = await fetch(
+        `${API_BASE}/webauthn/user?ethereumAddress=${encodeURIComponent(ethereumAddress)}`
+      )
 
       if (!response.ok) {
         const errorText = await response.text()
@@ -452,9 +487,63 @@ export default function WebAuthnPage() {
       setLastAction(`Query failed: ${error.message}`)
 
       if (error.message.includes('User not found')) {
-        showToast('User Not Found', 'No user found with that ID.', 'error')
+        showToast('User Not Found', 'No user found with that Ethereum address.', 'error')
       } else {
         showToast('Query Failed', error.message, 'error')
+      }
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  const signMessage = async () => {
+    if (!messageToSign.trim()) {
+      showToast('Error', 'Please enter a message to sign', 'error')
+      return
+    }
+
+    if (!ethereumAddress) {
+      showToast('Error', 'Please enter an Ethereum address', 'error')
+      return
+    }
+
+    setIsLoading(true)
+    setLastAction('Signing message...')
+
+    try {
+      const response = await fetch(`${API_BASE}/web3/sign-message`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ethereumAddress,
+          message: messageToSign,
+        }),
+      })
+
+      if (!response.ok) {
+        const errorText = await response.text()
+        throw new Error(`HTTP ${response.status}: ${response.statusText} - ${errorText}`)
+      }
+
+      const result: ApiResponse<SignatureResponse> = await response.json()
+
+      if (result.success && result.data) {
+        setSignatureResult(result.data)
+        setLastAction('Message signed successfully!')
+        showToast('Success', 'Message signed successfully!', 'success')
+      } else {
+        throw new Error(result.message || 'Failed to sign message')
+      }
+    } catch (error: any) {
+      console.error('Sign message error:', error)
+      setLastAction(`Sign message failed: ${error.message}`)
+
+      if (error.message.includes('User not found')) {
+        showToast('User Not Found', 'No user found with that Ethereum address.', 'error')
+      } else {
+        showToast('Sign Message Failed', error.message, 'error')
       }
     } finally {
       setIsLoading(false)
@@ -464,46 +553,33 @@ export default function WebAuthnPage() {
   const logout = () => {
     setUser(null)
     setIsAuthenticated(false)
+    setWalletInfo(null)
+    setSignatureResult(null)
     setLastAction('Logged out')
     showToast('Info', 'Logged out successfully', 'info')
   }
 
   const clearForm = () => {
-    setUserId('')
+    setEthereumAddress('')
     setUsername('')
     setUser(null)
     setIsAuthenticated(false)
+    setWalletInfo(null)
+    setSignatureResult(null)
+    setMessageToSign('Hello, this is a test message!')
     setLastAction('')
   }
 
   return (
     <main>
       <Container maxW="container.lg" py={8} position="relative">
-        {/* Floating logout button */}
-        {isAuthenticated && (
-          <Button
-            onClick={logout}
-            variant="outline"
-            borderColor="red.400"
-            color="red.400"
-            _hover={{ bg: 'red.50' }}
-            size="sm"
-            position="absolute"
-            top={4}
-            right={4}
-            zIndex={10}
-          >
-            Logout
-          </Button>
-        )}
-
         <VStack spacing={8} align="stretch">
           <header>
             <Heading as="h1" size="xl" mb={2} color="#45a2f8" textAlign="center">
-              WebAuthn Authentication Demo
+              WebAuthn Playground
             </Heading>
             <Text fontSize="lg" color="gray.400" textAlign="center">
-              Secure passwordless authentication using FIDO2/WebAuthn standards
+              Passwordless auth for everyone
             </Text>
           </header>
 
@@ -514,11 +590,11 @@ export default function WebAuthnPage() {
               <Box>
                 <AlertTitle color="green.800">Successfully Authenticated!</AlertTitle>
                 <AlertDescription color="green.700">
-                  Welcome back, <strong>{user.username}</strong> (ID: {user.id})
+                  Welcome back, <strong>{user.username}</strong>
                 </AlertDescription>
               </Box>
               <Spacer />
-              <Button size="sm" onClick={logout} variant="outline" colorScheme="green">
+              <Button size="sm" onClick={logout} colorScheme="red">
                 Logout
               </Button>
             </Alert>
@@ -534,7 +610,7 @@ export default function WebAuthnPage() {
                 <Text fontSize="sm" color="gray.400">
                   {useUsernameless
                     ? 'One-click authentication using passkeys (recommended)'
-                    : 'Traditional authentication requiring User ID input'}
+                    : 'Traditional authentication requiring Ethereum address input'}
                 </Text>
               </VStack>
               <VStack align="end" spacing={2}>
@@ -563,9 +639,10 @@ export default function WebAuthnPage() {
             onChange={index => setActiveTab(index)}
           >
             <TabList>
-              <Tab>1. Register Passkey</Tab>
-              <Tab>2. Authenticate</Tab>
-              <Tab>3. User Info</Tab>
+              <Tab>Register Passkey</Tab>
+              <Tab>Authenticate</Tab>
+              <Tab>User Info</Tab>
+              <Tab>Sign Message</Tab>
             </TabList>
 
             <TabPanels>
@@ -575,11 +652,8 @@ export default function WebAuthnPage() {
                   <Alert status="info" borderRadius="md">
                     <AlertIcon />
                     <Box>
-                      <AlertTitle>First Time Setup</AlertTitle>
-                      <AlertDescription>
-                        Register a passkey to enable secure, passwordless authentication. This will
-                        create a resident key that can be used for usernameless login.
-                      </AlertDescription>
+                      <AlertTitle>Create Your Passkey</AlertTitle>
+                      Register a passkey to enable secure, passwordless authentication.
                     </Box>
                   </Alert>
 
@@ -593,25 +667,18 @@ export default function WebAuthnPage() {
                   >
                     <VStack spacing={4}>
                       <FormControl>
-                        <FormLabel color="#45a2f8">User ID</FormLabel>
-                        <Input
-                          value={userId}
-                          onChange={e => setUserId(e.target.value)}
-                          placeholder="Enter unique user ID (e.g., user123)"
-                          borderColor={borderColor}
-                          _focus={{ borderColor: '#45a2f8', boxShadow: '0 0 0 1px #45a2f8' }}
-                        />
-                      </FormControl>
-
-                      <FormControl>
                         <FormLabel color="#45a2f8">Username</FormLabel>
                         <Input
                           value={username}
                           onChange={e => setUsername(e.target.value)}
-                          placeholder="Enter display name (e.g., john_doe)"
+                          placeholder="Enter display name (e.g., Michael Jackson)"
                           borderColor={borderColor}
                           _focus={{ borderColor: '#45a2f8', boxShadow: '0 0 0 1px #45a2f8' }}
                         />
+                        <Text fontSize="xs" color="gray.500" mt={1}>
+                          An Ethereum wallet will be automatically generated and used as your unique
+                          ID.
+                        </Text>
                       </FormControl>
                     </VStack>
                   </Box>
@@ -620,7 +687,7 @@ export default function WebAuthnPage() {
                     <Button
                       onClick={register}
                       isLoading={isLoading}
-                      loadingText="Registering..."
+                      loadingText="Creating Wallet & Passkey..."
                       bg="linear-gradient(135deg, #8c1c84, #45a2f8)"
                       color="white"
                       _hover={{ transform: 'translateY(-2px)', opacity: 0.9 }}
@@ -628,7 +695,7 @@ export default function WebAuthnPage() {
                       size="lg"
                       height="60px"
                     >
-                      Register Passkey
+                      Create Passkey
                     </Button>
 
                     <Button onClick={clearForm} variant="ghost" size="sm" color="gray.500">
@@ -666,7 +733,7 @@ export default function WebAuthnPage() {
                         height="60px"
                         fontSize="lg"
                       >
-                        🔐 Authenticate with Passkey
+                        Authenticate with Passkey
                       </Button>
 
                       <Text fontSize="sm" color="gray.500" textAlign="center">
@@ -680,7 +747,8 @@ export default function WebAuthnPage() {
                         <Box>
                           <AlertTitle>Traditional Authentication</AlertTitle>
                           <AlertDescription>
-                            Enter your User ID to authenticate with your registered passkey.
+                            Enter your ID (Ethereum address) to authenticate with your registered
+                            passkey.
                           </AlertDescription>
                         </Box>
                       </Alert>
@@ -694,11 +762,11 @@ export default function WebAuthnPage() {
                         width="100%"
                       >
                         <FormControl>
-                          <FormLabel color="#45a2f8">User ID</FormLabel>
+                          <FormLabel color="#45a2f8">Ethereum Address</FormLabel>
                           <Input
-                            value={userId}
-                            onChange={e => setUserId(e.target.value)}
-                            placeholder="Enter your user ID (e.g., user123)"
+                            value={ethereumAddress}
+                            onChange={e => setEthereumAddress(e.target.value)}
+                            placeholder="Enter your Ethereum address (0x...)"
                             borderColor={borderColor}
                             _focus={{ borderColor: '#45a2f8', boxShadow: '0 0 0 1px #45a2f8' }}
                           />
@@ -716,7 +784,7 @@ export default function WebAuthnPage() {
                         size="lg"
                         height="60px"
                       >
-                        Authenticate with User ID
+                        Authenticate with Ethereum Address
                       </Button>
                     </VStack>
                   )}
@@ -731,7 +799,7 @@ export default function WebAuthnPage() {
                     <Box>
                       <AlertTitle>User Information Lookup</AlertTitle>
                       <AlertDescription>
-                        Query user information and registered authenticators by User ID.
+                        Query user information and registered authenticators by Ethereum address.
                       </AlertDescription>
                     </Box>
                   </Alert>
@@ -745,11 +813,11 @@ export default function WebAuthnPage() {
                     width="100%"
                   >
                     <FormControl>
-                      <FormLabel color="#45a2f8">User ID</FormLabel>
+                      <FormLabel color="#45a2f8">Ethereum Address</FormLabel>
                       <Input
-                        value={userId}
-                        onChange={e => setUserId(e.target.value)}
-                        placeholder="Enter user ID to lookup (e.g., user123)"
+                        value={ethereumAddress}
+                        onChange={e => setEthereumAddress(e.target.value)}
+                        placeholder="Enter Ethereum address to lookup (0x...)"
                         borderColor={borderColor}
                         _focus={{ borderColor: '#45a2f8', boxShadow: '0 0 0 1px #45a2f8' }}
                       />
@@ -772,8 +840,278 @@ export default function WebAuthnPage() {
                   </Button>
                 </VStack>
               </TabPanel>
+
+              {/* Sign Message Tab */}
+              <TabPanel>
+                <VStack spacing={6}>
+                  <Alert status="info" borderRadius="md">
+                    <AlertIcon />
+                    <Box>
+                      <AlertTitle>Sign Message</AlertTitle>
+                      <AlertDescription>
+                        Sign a message using the private key associated with your Ethereum address.
+                      </AlertDescription>
+                    </Box>
+                  </Alert>
+
+                  <Box
+                    bg={bgColor}
+                    p={6}
+                    borderRadius="lg"
+                    border="2px solid"
+                    borderColor={borderColor}
+                    width="100%"
+                  >
+                    <VStack spacing={4}>
+                      <FormControl>
+                        <FormLabel color="#45a2f8">Ethereum Address</FormLabel>
+                        <Input
+                          value={ethereumAddress}
+                          onChange={e => setEthereumAddress(e.target.value)}
+                          placeholder="Enter your Ethereum address (0x...)"
+                          borderColor={borderColor}
+                          _focus={{ borderColor: '#45a2f8', boxShadow: '0 0 0 1px #45a2f8' }}
+                        />
+                      </FormControl>
+
+                      <FormControl>
+                        <FormLabel color="#45a2f8">Message to Sign</FormLabel>
+                        <Textarea
+                          value={messageToSign}
+                          onChange={e => setMessageToSign(e.target.value)}
+                          placeholder="Enter the message you want to sign..."
+                          borderColor={borderColor}
+                          _focus={{ borderColor: '#45a2f8', boxShadow: '0 0 0 1px #45a2f8' }}
+                          rows={3}
+                        />
+                        <Text fontSize="xs" color="gray.500" mt={1}>
+                          This message will be signed using your private key.
+                        </Text>
+                      </FormControl>
+                    </VStack>
+                  </Box>
+
+                  <Button
+                    onClick={signMessage}
+                    isLoading={isLoading}
+                    loadingText="Signing..."
+                    bg="linear-gradient(135deg, #8c1c84, #45a2f8)"
+                    color="white"
+                    _hover={{ transform: 'translateY(-2px)', opacity: 0.9 }}
+                    width="100%"
+                    size="lg"
+                    height="60px"
+                  >
+                    Sign Message
+                  </Button>
+
+                  {/* Signature Result Display */}
+                  {signatureResult && (
+                    <Box
+                      bg={bgColor}
+                      p={6}
+                      borderRadius="lg"
+                      border="2px solid"
+                      borderColor="green.500"
+                      width="100%"
+                    >
+                      <VStack spacing={4} align="stretch">
+                        <Heading size="md" color="green.500" textAlign="center">
+                          Message Signed Successfully!
+                        </Heading>
+
+                        <VStack spacing={3} align="stretch">
+                          <Box>
+                            <HStack justify="space-between" align="center">
+                              <Text fontWeight="bold" color="#45a2f8">
+                                Original Message:
+                              </Text>
+                            </HStack>
+                            <Box bg="whiteAlpha.50" p={3} borderRadius="md" mt={1}>
+                              <Text fontSize="sm" fontFamily="mono" wordBreak="break-word">
+                                {signatureResult.message}
+                              </Text>
+                            </Box>
+                          </Box>
+
+                          <Box>
+                            <HStack justify="space-between" align="center">
+                              <Text fontWeight="bold" color="#45a2f8">
+                                Ethereum Address:
+                              </Text>
+                              <IconButton
+                                aria-label="Copy address"
+                                icon={hasCopiedRecoveredAddress ? <CheckIcon /> : <CopyIcon />}
+                                size="sm"
+                                onClick={copyRecoveredAddress}
+                                variant="ghost"
+                                colorScheme={hasCopiedRecoveredAddress ? 'green' : 'gray'}
+                              />
+                            </HStack>
+                            <Code
+                              fontSize="sm"
+                              p={2}
+                              borderRadius="md"
+                              bg="whiteAlpha.50"
+                              wordBreak="break-all"
+                              display="block"
+                            >
+                              {signatureResult.ethereumAddress}
+                            </Code>
+                          </Box>
+
+                          <Box>
+                            <HStack justify="space-between" align="center">
+                              <Text fontWeight="bold" color="#45a2f8">
+                                Signature:
+                              </Text>
+                              <IconButton
+                                aria-label="Copy signature"
+                                icon={hasCopiedSignature ? <CheckIcon /> : <CopyIcon />}
+                                size="sm"
+                                onClick={copySignature}
+                                variant="ghost"
+                                colorScheme={hasCopiedSignature ? 'green' : 'gray'}
+                              />
+                            </HStack>
+                            <Code
+                              fontSize="xs"
+                              p={2}
+                              borderRadius="md"
+                              bg="whiteAlpha.50"
+                              wordBreak="break-all"
+                              display="block"
+                            >
+                              {signatureResult.signature}
+                            </Code>
+                          </Box>
+
+                          <Box>
+                            <HStack justify="space-between" align="center">
+                              <Text fontWeight="bold" color="#45a2f8">
+                                Recovered Address:
+                              </Text>
+                              <Badge
+                                colorScheme={
+                                  signatureResult.recoveredAddress.toLowerCase() ===
+                                  signatureResult.ethereumAddress.toLowerCase()
+                                    ? 'green'
+                                    : 'red'
+                                }
+                                variant="solid"
+                              >
+                                {signatureResult.recoveredAddress.toLowerCase() ===
+                                signatureResult.ethereumAddress.toLowerCase()
+                                  ? 'Valid'
+                                  : 'Invalid'}
+                              </Badge>
+                            </HStack>
+                            <Code
+                              fontSize="sm"
+                              p={2}
+                              borderRadius="md"
+                              bg="whiteAlpha.50"
+                              wordBreak="break-all"
+                              display="block"
+                            >
+                              {signatureResult.recoveredAddress}
+                            </Code>
+                            <Text fontSize="xs" color="gray.500" mt={1}>
+                              This address was recovered from the signature and should match your
+                              Ethereum address.
+                            </Text>
+                          </Box>
+                        </VStack>
+
+                        <Button
+                          onClick={() => setSignatureResult(null)}
+                          variant="outline"
+                          size="sm"
+                          colorScheme="gray"
+                        >
+                          Clear Result
+                        </Button>
+                      </VStack>
+                    </Box>
+                  )}
+                </VStack>
+              </TabPanel>
             </TabPanels>
           </Tabs>
+
+          {/* Wallet Info Display */}
+          {walletInfo && (
+            <Box bg={bgColor} p={6} borderRadius="lg" border="2px solid" borderColor="orange.500">
+              <Heading size="md" mb={4} color="orange.500">
+                Generated Wallet Information
+              </Heading>
+              <Alert status="warning" mb={4} borderRadius="md">
+                <AlertIcon />
+                <Box>
+                  <AlertTitle>Security Warning</AlertTitle>
+                  <AlertDescription>
+                    Save your private key securely! This is only shown once during registration.
+                  </AlertDescription>
+                </Box>
+              </Alert>
+              <VStack align="stretch" spacing={3}>
+                <Box>
+                  <HStack justify="space-between" align="center">
+                    <Text fontWeight="bold" color="#45a2f8">
+                      Ethereum Address:
+                    </Text>
+                    <IconButton
+                      aria-label="Copy address"
+                      icon={hasCopiedAddress ? <CheckIcon /> : <CopyIcon />}
+                      size="sm"
+                      onClick={copyAddress}
+                      variant="ghost"
+                      colorScheme={hasCopiedAddress ? 'green' : 'gray'}
+                    />
+                  </HStack>
+                  <Code
+                    fontSize="sm"
+                    p={2}
+                    borderRadius="md"
+                    bg="whiteAlpha.50"
+                    wordBreak="break-all"
+                    display="block"
+                  >
+                    {walletInfo.address}
+                  </Code>
+                </Box>
+
+                <Box>
+                  <HStack justify="space-between" align="center">
+                    <Text fontWeight="bold" color="#45a2f8">
+                      Private Key:
+                    </Text>
+                    <IconButton
+                      aria-label="Copy private key"
+                      icon={hasCopiedPrivateKey ? <CheckIcon /> : <CopyIcon />}
+                      size="sm"
+                      onClick={copyPrivateKey}
+                      variant="ghost"
+                      colorScheme={hasCopiedPrivateKey ? 'green' : 'gray'}
+                    />
+                  </HStack>
+                  <Code
+                    fontSize="xs"
+                    p={2}
+                    borderRadius="md"
+                    bg="whiteAlpha.50"
+                    wordBreak="break-all"
+                    display="block"
+                  >
+                    {walletInfo.privateKey}
+                  </Code>
+                  <Text fontSize="xs" color="gray.500" mt={1}>
+                    Never share your private key with anyone. Store it securely offline.
+                  </Text>
+                </Box>
+              </VStack>
+            </Box>
+          )}
 
           {/* User Information Display */}
           {user && (
@@ -783,25 +1121,27 @@ export default function WebAuthnPage() {
               </Heading>
               <VStack align="start" spacing={3}>
                 <HStack>
-                  <Text fontWeight="bold" minW="120px">
-                    ID:
+                  <Text fontWeight="bold" minW="140px">
+                    Address (ID):
                   </Text>
-                  <Text fontFamily="mono">{user.id}</Text>
+                  <Code fontFamily="mono" fontSize="sm">
+                    {user.ethereumAddress}
+                  </Code>
                 </HStack>
                 <HStack>
-                  <Text fontWeight="bold" minW="120px">
+                  <Text fontWeight="bold" minW="140px">
                     Username:
                   </Text>
                   <Text>{user.username}</Text>
                 </HStack>
                 <HStack>
-                  <Text fontWeight="bold" minW="120px">
+                  <Text fontWeight="bold" minW="140px">
                     Email:
                   </Text>
-                  <Text>{user.email}</Text>
+                  <Text>{user.email || 'Not set'}</Text>
                 </HStack>
                 <HStack>
-                  <Text fontWeight="bold" minW="120px">
+                  <Text fontWeight="bold" minW="140px">
                     Authenticators:
                   </Text>
                   <Badge
@@ -814,7 +1154,7 @@ export default function WebAuthnPage() {
                   </Badge>
                 </HStack>
                 <HStack>
-                  <Text fontWeight="bold" minW="120px">
+                  <Text fontWeight="bold" minW="140px">
                     Status:
                   </Text>
                   <Badge
@@ -850,7 +1190,10 @@ export default function WebAuthnPage() {
             </nav>
 
             <Box textAlign="center" fontSize="sm" color="gray.500">
-              <Text>WebAuthn requires HTTPS in production. Current API: {API_BASE}</Text>
+              <Text>WebAuthn + Ethereum Integration. Current API: {API_BASE}</Text>
+              <Text mt={1}>
+                Each passkey registration creates a new Ethereum wallet automatically
+              </Text>
               <Text mt={1}>Supported browsers: Chrome 67+, Firefox 60+, Safari 14+, Edge 18+</Text>
             </Box>
           </VStack>
