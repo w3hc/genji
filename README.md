@@ -1,31 +1,50 @@
-# Genji
+[![WCAG 2.1 AA](https://img.shields.io/badge/WCAG-2.1%20AA-green.svg)](https://www.w3.org/WAI/WCAG21/quickref/?versions=2.1&levels=aa)
 
-A Next.js Web3 app template.
+# Genji Passkey
 
-## Features
+Next.js Web3 starter with passkey auth and [WCAG 2.1 AA](https://www.levelaccess.com/understanding-wcag-emea/) compliant accessibility.
 
-- ⚡ **React 19** - Latest React with improved performance and hydration
-- 🎨 **Chakra UI v2** - Accessible component library
-- 🔗 **Web3 Integration** - Wallet connection via Reown AppKit
-- 💰 **Ethereum Support** - Send transactions with Ethers.js v6
-- 💳 **Stripe Subscriptions** - $1/month subscription system
-- 🔐 **Wallet Generator** - Secure local wallet creation and message signing
-- 🌍 **Multi-language** - i18n support for 10+ languages
-- 📱 **Responsive** - Mobile-first design
+- [Live demo](https://genji.w3hc.org)
+- [Tutorial](https://dev.to/julienbrg/getting-started-with-genji-your-web3-adventure-begins-here-3oec)
 
-## Tech Stack
+Includes:
 
-- **Frontend**: Next.js 15, React 19, TypeScript
-- **UI**: Chakra UI v2, Framer Motion 12
-- **Web3**: Ethers.js v6, Reown AppKit
-- **Backend**: Next.js API routes, Stripe
-- **Build**: ESBuild, PNPM
+- **[w3pk](https://w3pk.w3hc.org/)** `v0.10.2`
+- [Next.js](https://nextjs.org/) `v16.3.1`
+- [Ethers](https://docs.ethers.org/) `v6.17.0`
+- [Chakra UI](https://chakra-ui.com/) `v3.36.1`
 
-## Requirements
+> **Note:** `typescript` and `eslint` are pinned to `6.0.3` and `9.39.5`. `typescript-eslint` doesn't yet support TypeScript 7 or ESLint 10 in a stable release ([tracking issue](https://github.com/typescript-eslint/typescript-eslint/issues/11762)) — revisit once TS 7.1 ships (stable expected November 2026) and `typescript-eslint` catches up.
 
-- **Node.js**: 18+ (recommended: 20+)
-- **PNPM**: Latest version
-- **Environment**: Browser with Web3 wallet support
+## Fork
+
+You can [use this template directly](https://github.com/w3hc/genji/generate), or bootstrap it with create-next-app:
+
+```bash
+npx create-next-app --example https://github.com/w3hc/genji my-app
+```
+
+Then run the customization script so you start with a fresh app:
+
+```bash
+pnpm customize
+```
+
+A reminder to run it is printed after `pnpm install` (npm hides it during create-next-app's install step). The script itself will also self-destruct and remove the reminder.
+
+`pnpm customize` also writes a `.genji-version` file recording which template release your project started from.
+
+## Staying up to date
+
+Projects made from this template keep getting template updates — security headers, dependency bumps, chassis fixes — without a fork or a merge.
+
+Each project's own CI checks its `.genji-version` against the newest tag here and prints a warning on the pull request when it has fallen behind — no tokens, no repository list, nothing to keep in sync. To apply the update, run the `genji-sync` [Claude Code](https://claude.com/claude-code) skill in your project:
+
+```
+/genji-sync
+```
+
+It diffs this template against _itself_ between your `.genji-version` and the new release, then applies that patch to your project: chassis files are taken as-is, files needing judgment are merged (your own CSP origins in `next.config.ts` are preserved, your `package.json` name and scripts survive a dependency bump), and anything your project owns is left alone. [`.genji-sync.json`](.genji-sync.json) declares which paths fall into which category. Nothing is committed or pushed for you — you review the diff and commit it yourself.
 
 ## Install
 
@@ -35,173 +54,28 @@ pnpm i
 
 ## Run
 
-Create a `.env` file:
-
-```bash
-cp .env.template .env
-```
-
-Add your own keys in the `.env` file:
-
-```env
-NEXT_PUBLIC_PROJECT_ID=your_reown_project_id  # Get yours at https://cloud.reown.com/
-STRIPE_SECRET_KEY=sk_test_your_stripe_key
-STRIPE_PUBLISHABLE_KEY=pk_test_your_stripe_key
-STRIPE_WEBHOOK_SECRET=whsec_your_webhook_secret
-NEXT_PUBLIC_APP_URL=http://localhost:3000
-```
-
-Then start the development server:
-
 ```bash
 pnpm dev
 ```
 
-## Customize Your App
-
-Change the app name and details in these files:
-
-```
-package.json                    # name, version, description
-src/app/metadata.ts             # title, description, SEO
-src/context/index.tsx           # Web3 metadata
-src/components/Header.tsx       # Navigation and branding
-src/translations/index.ts       # Multi-language content
-```
-
-## Configuration
-
-### Web3 Networks
-
-Edit supported networks in `src/context/index.tsx`:
-
-```typescript
-networks: [
-  sepolia, // Default testnet
-  optimism,
-  base,
-  arbitrum,
-  // Add or remove networks as needed
-]
-```
-
-### Reown AppKit Setup
-
-1. Create an account at [Reown Dashboard](https://cloud.reown.com/)
-2. Create a new project
-3. Copy your Project ID to `.env`
-
-### Domain Verification
-
-1. Create `.well-known/walletconnect.txt` in your `public` folder
-2. Add your verification details from Reown dashboard
-3. Ensure it's accessible at: `your-domain/.well-known/walletconnect.txt`
-
-### Stripe Integration
-
-1. Create a Stripe account
-2. Get your API keys from the Stripe dashboard
-3. Set up webhook endpoints for subscription events
-4. Add all keys to your `.env` file
-
-## Key Features Explained
-
-### 🔐 Wallet Generator
-
-- Secure client-side wallet generation
-- Encrypted private key storage in IndexedDB
-- Message signing and verification
-- No private keys leave the browser
-
-### 💳 Subscriptions
-
-- $1/month via Stripe
-- Webhook integration for subscription events
-- Wallet-based user identification
-
-### 🌍 Internationalization
-
-Supports 10 languages:
-
-English, 中文, हिन्दी, Español, Français, العربية, বাংলা, Русский, Português, اردو
-
-## Development
-
-### Build
+## Build
 
 ```bash
 pnpm build
 ```
 
-### Lint
+## Docs
 
-```bash
-pnpm lint
-```
+See the [/docs](docs/) to learn more about the context (for assistants), design guidelines, and [w3pk build verification](https://w3pk.w3hc.org/docs#build-verification).
 
-### Format
+## License
 
-```bash
-pnpm format
-```
+GPL-3.0
 
-### Type Check
+## Contact
 
-```bash
-npx tsc --noEmit
-```
+**Julien Béranger** ([GitHub](https://github.com/julienbrg))
 
-## Deployment
-
-This app can be deployed to:
-
-- **Vercel** (recommended for Next.js)
-- **Netlify**
-- **Railway**
-- Any platform supporting Next.js
-
-Make sure to:
-
-1. Set all environment variables
-2. Configure domain verification for Reown
-3. Set up Stripe webhooks with your production URL
-
-## Architecture
-
-```
-src/
-├── app/                   # Next.js 13+ app directory
-│   ├── api/               # API routes
-│   │   └── subscription/  # Stripe integration
-│   ├── subscribe/         # Subscription pages
-│   └── wallet/            # Wallet generator
-├── components/            # Reusable UI components
-├── context/               # React contexts (Web3, i18n)
-├── hooks/                 # Custom React hooks
-├── translations/          # i18n translations
-└── utils/                 # Utility functions
-    └── i18n.ts            # Internationalization utilities
-```
-
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Test thoroughly
-5. Submit a pull request
-
-## Documentation References
-
-- [React 19](https://react.dev/blog/2024/12/05/react-19) - Latest React features
-- [Next.js 15](https://nextjs.org/docs) - React framework
-- [Chakra UI v2](https://v2.chakra-ui.com/) - UI component library
-- [Ethers.js v6](https://docs.ethers.org/v6/) - Ethereum library
-- [Reown AppKit](https://reown.com/appkit) - Web3 wallet connection
-- [Stripe API](https://stripe.com/docs/api) - Payment processing
-
-## Support
-
-Feel free to reach out to [Julien](https://github.com/julienbrg) on [Farcaster](https://warpcast.com/julien-), [Element](https://matrix.to/#/@julienbrg:matrix.org), [Status](https://status.app/u/iwSACggKBkp1bGllbgM=#zQ3shmh1sbvE6qrGotuyNQB22XU5jTrZ2HFC8bA56d5kTS2fy), [Telegram](https://t.me/julienbrg), [Twitter](https://twitter.com/julienbrg), [Discord](https://discordapp.com/users/julienbrg), or [LinkedIn](https://www.linkedin.com/in/julienberanger/).
-
-<img src="https://bafkreid5xwxz4bed67bxb2wjmwsec4uhlcjviwy7pkzwoyu5oesjd3sp64.ipfs.w3s.link" alt="built-with-ethereum-w3hc" width="100"/>
+- Element: [@julienbrg:matrix.org](https://matrix.to/#/@julienbrg:matrix.org)
+- Farcaster: [julien-](https://warpcast.com/julien-)
+- Telegram: [@julienbrg](https://t.me/julienbrg)

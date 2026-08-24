@@ -1,0 +1,81 @@
+name: Build
+
+on:
+  pull_request:
+    branches:
+      - main
+    types: [opened, synchronize, reopened]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      # Informational only: never fails the build (see continue-on-error).
+      # In a project generated from the template it compares .genji-version
+      # against the newest tag upstream. In genji itself there is no
+      # .genji-version, so it instead catches a tag pushed without bumping
+      # genji.templateVersion — the field new projects read to write theirs.
+      - name: Check template version
+        continue-on-error: true
+        run: |
+          LATEST=$(git ls-remote --tags --sort=-v:refname \
+            https://github.com/w3hc/genji 'v*' \
+            | grep -v '\^{}' | head -1 | sed 's|.*refs/tags/||')
+
+          if [ -z "$LATEST" ]; then
+            echo "Could not read upstream tags, skipping."
+            exit 0
+          fi
+
+          if [ -f .genji-version ]; then
+            CURRENT="v$(cat .genji-version)"
+            if [ "$CURRENT" != "$LATEST" ]; then
+              echo "::warning::Template update available: $CURRENT → $LATEST. Run /genji-sync to merge it in."
+            else
+              echo "Up to date with genji $LATEST."
+            fi
+          else
+            DECLARED="v$(node -p "require('./package.json').genji?.templateVersion || ''")"
+            OLDEST=$(printf '%s\n%s\n' "$DECLARED" "$LATEST" | sort -V | head -1)
+            if [ "$DECLARED" != "v" ] && [ "$DECLARED" != "$LATEST" ] && [ "$OLDEST" = "$DECLARED" ]; then
+              echo "::warning::genji.templateVersion is $DECLARED but $LATEST is tagged. Bump it in package.json — new projects read it to write their .genji-version."
+            fi
+          fi
+
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
+
+      - name: Setup pnpm cache
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Run build
+        run: pnpm build
+
+      - name: Run lint
+        run: pnpm lint
+
+      - name: Check format
+        run: pnpm format:check

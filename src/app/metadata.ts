@@ -1,25 +1,24 @@
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://genji-app.netlify.app'),
+  metadataBase: new URL('https://w3pk.w3hc.org'),
 
   title: 'Genji',
-  description: 'Next.js + Web3 Modal + Ethers.js + Chakra UI',
+  description: 'Next.js Web3 starter with passkey auth',
 
-  keywords: ['Web3', 'Next.js', 'Ethereum', 'DApp', 'Blockchain', 'Wallet'],
-  authors: [{ name: 'Julien', url: 'https://github.com/julienbrg' }],
+  keywords: ['Genji', 'w3pk', 'WebAuthn', 'Next.js', 'Web3', 'Ethereum'],
+  authors: [{ name: 'W3HC', url: 'https://github.com/w3hc' }],
 
   openGraph: {
     title: 'Genji',
-    description: 'Next.js + Web3 Modal + Ethers.js + Chakra UI',
-    url: 'https://genji-app.netlify.app',
+    description: 'Next.js Web3 starter with passkey auth',
     siteName: 'Genji',
     images: [
       {
         url: '/huangshan.png',
         width: 1200,
         height: 630,
-        alt: 'Genji Web3 Application',
+        alt: 'Next.js Web3 starter with passkey auth',
       },
     ],
     locale: 'en_US',
@@ -29,7 +28,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Genji',
-    description: 'Next.js + Web3 Modal + Ethers.js + Chakra UI',
+    description: 'Next.js Web3 starter with passkey auth',
     images: ['/huangshan.png'],
     creator: '@julienbrg',
   },
