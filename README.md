@@ -1,6 +1,6 @@
 [![WCAG 2.1 AA](https://img.shields.io/badge/WCAG-2.1%20AA-green.svg)](https://www.w3.org/WAI/WCAG21/quickref/?versions=2.1&levels=aa)
 
-# Genji Passkey
+# Genji
 
 Next.js Web3 starter with passkey auth and [WCAG 2.1 AA](https://www.levelaccess.com/understanding-wcag-emea/) compliant accessibility.
 
@@ -30,11 +30,7 @@ Then run the customization script so you start with a fresh app:
 pnpm customize
 ```
 
-A reminder to run it is printed after `pnpm install` (npm hides it during create-next-app's install step). The script itself will also self-destruct and remove the reminder.
-
-`pnpm customize` also writes a `.genji-version` file recording which template release your project started from.
-
-## Staying up to date
+## Sync
 
 Projects made from this template keep getting template updates — security headers, dependency bumps, chassis fixes — without a fork or a merge.
 
