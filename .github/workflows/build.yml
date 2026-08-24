@@ -20,7 +20,7 @@ jobs:
           node-version: '20'
 
       - name: Setup pnpm
-        uses: pnpm/action-setup@v4
+        uses: pnpm/action-setup@v6
 
       # Informational only: never fails the build (see continue-on-error).
       # In a project generated from the template it compares .genji-version
