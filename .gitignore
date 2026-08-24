@@ -39,3 +39,7 @@ next-env.d.ts
 # Misc
 NOTES.md
 /zhankai
+.docs
+MAILING_LIST.txt
+.claude/
+docs/notes
