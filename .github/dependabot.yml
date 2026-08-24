@@ -3,9 +3,23 @@ updates:
   - package-ecosystem: 'npm'
     directory: '/'
     schedule:
-      interval: 'weekly'
+      interval: 'monthly'
     open-pull-requests-limit: 10
+    # Minor and patch updates land in a single monthly PR. Majors are left
+    # ungrouped so each one gets its own review — a Next.js major is not the
+    # same kind of change as a batch of patch bumps.
+    groups:
+      npm-dependencies:
+        patterns:
+          - '*'
+        update-types:
+          - 'minor'
+          - 'patch'
   - package-ecosystem: 'github-actions'
     directory: '/'
     schedule:
-      interval: 'weekly'
+      interval: 'monthly'
+    groups:
+      github-actions:
+        patterns:
+          - '*'
