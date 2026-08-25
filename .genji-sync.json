@@ -3,7 +3,6 @@
   "_comment": "Manifest read by the genji-sync skill. It lives here, in the template, so it is versioned alongside the code it describes: the skill always reads the copy at the target ref.",
 
   "sync": [
-    ".github/dependabot.yml",
     ".github/workflows/build.yml",
     ".prettierrc",
     ".prettierignore",
