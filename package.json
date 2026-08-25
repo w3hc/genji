@@ -1,10 +1,7 @@
 {
   "name": "genji",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "description": "Next.js Web3 starter with passkey auth",
-  "genji": {
-    "templateVersion": "3.0.0"
-  },
   "main": "index.js",
   "scripts": {
     "dev": "next dev",

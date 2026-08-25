@@ -23,10 +23,11 @@ jobs:
         uses: pnpm/action-setup@v4
 
       # Informational only: never fails the build (see continue-on-error).
-      # In a project generated from the template it compares .genji-version
-      # against the newest tag upstream. In genji itself there is no
-      # .genji-version, so it instead catches a tag pushed without bumping
-      # genji.templateVersion — the field new projects read to write theirs.
+      # A project generated from the template carries templateVersion in its
+      # package.json (customize.js writes it, genji-sync updates it); this
+      # compares that against the newest tag upstream. genji itself has no
+      # templateVersion, so it instead catches a tag pushed without bumping
+      # its own version — the field new projects read to write theirs.
       - name: Check template version
         continue-on-error: true
         run: |
@@ -39,18 +40,27 @@ jobs:
             exit 0
           fi
 
-          if [ -f .genji-version ]; then
-            CURRENT="v$(cat .genji-version)"
+          TPL="$(node -p "require('./package.json').templateVersion || ''")"
+
+          # Legacy: projects generated before templateVersion moved into
+          # package.json still carry a .genji-version file. genji-sync
+          # migrates them on the next sync.
+          if [ -z "$TPL" ] && [ -f .genji-version ]; then
+            TPL="$(cat .genji-version)"
+          fi
+
+          if [ -n "$TPL" ]; then
+            CURRENT="v$TPL"
             if [ "$CURRENT" != "$LATEST" ]; then
               echo "::warning::Template update available: $CURRENT → $LATEST. Run /genji-sync to merge it in."
             else
               echo "Up to date with genji $LATEST."
             fi
           else
-            DECLARED="v$(node -p "require('./package.json').genji?.templateVersion || ''")"
+            DECLARED="v$(node -p "require('./package.json').version || ''")"
             OLDEST=$(printf '%s\n%s\n' "$DECLARED" "$LATEST" | sort -V | head -1)
             if [ "$DECLARED" != "v" ] && [ "$DECLARED" != "$LATEST" ] && [ "$OLDEST" = "$DECLARED" ]; then
-              echo "::warning::genji.templateVersion is $DECLARED but $LATEST is tagged. Bump it in package.json — new projects read it to write their .genji-version."
+              echo "::warning::package.json version is $DECLARED but $LATEST is tagged. Bump it — new projects read it to write their templateVersion."
             fi
           fi
 

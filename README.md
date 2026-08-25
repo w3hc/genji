@@ -34,13 +34,13 @@ pnpm customize
 
 Projects made from this template keep getting template updates — security headers, dependency bumps, chassis fixes — without a fork or a merge.
 
-Each project's own CI checks its `.genji-version` against the newest tag here and prints a warning on the pull request when it has fallen behind — no tokens, no repository list, nothing to keep in sync. To apply the update, run the `genji-sync` [Claude Code](https://claude.com/claude-code) skill in your project:
+Each project's own CI checks its `templateVersion` (in its `package.json`) against the newest tag here and prints a warning on the pull request when it has fallen behind — no tokens, no repository list, nothing to keep in sync. To apply the update, run the `genji-sync` [Claude Code](https://claude.com/claude-code) skill in your project:
 
 ```
 /genji-sync
 ```
 
-It diffs this template against _itself_ between your `.genji-version` and the new release, then applies that patch to your project: chassis files are taken as-is, files needing judgment are merged (your own CSP origins in `next.config.ts` are preserved, your `package.json` name and scripts survive a dependency bump), and anything your project owns is left alone. [`.genji-sync.json`](.genji-sync.json) declares which paths fall into which category. Nothing is committed or pushed for you — you review the diff and commit it yourself.
+It diffs this template against _itself_ between your `templateVersion` and the new release, then applies that patch to your project: chassis files are taken as-is, files needing judgment are merged (your own CSP origins in `next.config.ts` are preserved, your `package.json` name and scripts survive a dependency bump), and anything your project owns is left alone. [`.genji-sync.json`](.genji-sync.json) declares which paths fall into which category. Nothing is committed or pushed for you — you review the diff and commit it yourself.
 
 ## Install
 

@@ -29,7 +29,7 @@ async function main() {
   console.log('  • Changing the project name')
   console.log('  • Updating metadata (title, description)')
   console.log('  • Removing deploy.yml workflow')
-  console.log('  • Recording the template version in .genji-version')
+  console.log('  • Recording the template version in package.json (templateVersion)')
   console.log('  • Updating translations')
   console.log('  • Replacing homepage content')
   console.log('  • Replacing header component')
@@ -96,32 +96,45 @@ async function main() {
   if (fs.existsSync(packageJsonPath)) {
     const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'))
 
-    // Remember which template release this project is being created from
-    // (written to .genji-version below, where the genji-sync skill reads it).
-    // The field itself is template metadata and has no place in the
-    // generated project.
-    templateVersion = packageJson.genji && packageJson.genji.templateVersion
-    delete packageJson.genji
+    // genji is not published to npm, so its own `version` is the template
+    // release number. Record it here as `templateVersion`, which from now on
+    // is this project's lineage: `version` is free to move on its own, and
+    // the genji-sync skill reads and updates `templateVersion`.
+    templateVersion = packageJson.version
 
     packageJson.name = projectName.toLowerCase().replace(/\s+/g, '-')
     if (description) {
       packageJson.description = description
     }
 
+    // Rebuild so `templateVersion` sits next to `version` rather than being
+    // appended after the dependency blocks.
+    const ordered = {}
+    for (const key of Object.keys(packageJson)) {
+      ordered[key] = packageJson[key]
+      if (key === 'description') {
+        ordered.templateVersion = templateVersion
+      }
+    }
+    if (!ordered.templateVersion) {
+      ordered.templateVersion = templateVersion
+    }
+
     // Remove the customize script from package.json
-    if (packageJson.scripts && packageJson.scripts.customize) {
-      delete packageJson.scripts.customize
+    if (ordered.scripts && ordered.scripts.customize) {
+      delete ordered.scripts.customize
       console.log('   ✓ Removed "customize" script from package.json')
     }
 
     // Remove the postinstall hint so future installs stay silent
-    if (packageJson.scripts && packageJson.scripts.postinstall) {
-      delete packageJson.scripts.postinstall
+    if (ordered.scripts && ordered.scripts.postinstall) {
+      delete ordered.scripts.postinstall
       console.log('   ✓ Removed "postinstall" hint from package.json')
     }
 
-    fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2) + '\n')
-    console.log(`   ✓ Updated name to "${packageJson.name}"`)
+    fs.writeFileSync(packageJsonPath, JSON.stringify(ordered, null, 2) + '\n')
+    console.log(`   ✓ Updated name to "${ordered.name}"`)
+    console.log(`   ✓ Recorded templateVersion ${templateVersion}`)
   }
 
   // 6. Update metadata.ts
@@ -723,14 +736,12 @@ export default function Home() {
     console.log('   ✓ Replaced homepage content in src/app/page.tsx')
   }
 
-  // 13. Record the template version for future syncs
-  console.log('📌 Recording template version...')
+  // 13. Report the recorded template version (written in step 5)
   if (templateVersion) {
-    fs.writeFileSync(path.join(__dirname, '.genji-version'), templateVersion + '\n')
-    console.log(`   ✓ Wrote .genji-version (${templateVersion})`)
-    console.log('     Run /genji-sync later to pull in template updates')
+    console.log(`\n📌 Template lineage recorded: templateVersion ${templateVersion}`)
+    console.log('   Run /genji-sync later to pull in template updates')
   } else {
-    console.log('   ⚠ No genji.templateVersion in package.json, skipping')
+    console.log('\n⚠ No version in package.json — templateVersion not recorded')
   }
 
   // 14. Self-destruct - Remove this script and related files
