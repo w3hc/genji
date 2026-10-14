@@ -86,7 +86,6 @@ type TranslationKeys = {
     debugStorageDescription: string
     inspectingText: string
     inspectLocalStorageButton: string
-    inspectIndexedDBButton: string
 
     inspectSecurityDescriptionSmall: string
     inspectSecurityButton: string
@@ -104,12 +103,6 @@ type TranslationKeys = {
     itemsCount: (n: number) => string
     encryptedBadge: string
     clearItemAria: string
-    indexedDBResultsHeading: string
-    databasesCount: (n: number) => string
-    storesLabel: string
-    recordsLabel: string
-    clearRecordAria: string
-    storeKeyLabel: (store: string, key: string) => string
 
     currentAccountHeading: string
     currentAccountDescription: string
@@ -253,9 +246,6 @@ type TranslationKeys = {
     localStorageModalTitle: string
     foundItemsText: (n: number) => string
     noDataFound: string
-    indexedDBModalTitle: string
-    foundDatabasesText: (n: number) => string
-    noDatabasesFound: string
 
     registrationSuccessTitle: string
     registrationSuccessDescription: string
@@ -265,15 +255,9 @@ type TranslationKeys = {
     localStorageInspectedDescription: (n: number) => string
     genericErrorTitle: string
     failedInspectLocalStorage: string
-    indexedDBInspectedTitle: string
-    indexedDBInspectedDescription: (dbCount: number, recordCount: number) => string
-    failedInspectIndexedDB: string
     itemClearedTitle: string
     itemClearedDescription: (key: string) => string
     failedClearItem: (key: string) => string
-    recordClearedTitle: string
-    recordClearedDescription: (db: string, store: string) => string
-    failedClearRecord: string
     errorLoadingAddressesTitle: string
     failedDeriveAddresses: string
     errorLoadingBackupStatusTitle: string
@@ -492,7 +476,6 @@ export const translations: Translations = {
       debugStorageDescription: 'Inspect browser storage and activity logs',
       inspectingText: 'Inspecting...',
       inspectLocalStorageButton: 'Inspect LocalStorage',
-      inspectIndexedDBButton: 'Inspect IndexedDB',
 
       inspectSecurityDescriptionSmall:
         'Analyze this application for transaction and signing methods.',
@@ -512,12 +495,6 @@ export const translations: Translations = {
       itemsCount: n => `${n} items`,
       encryptedBadge: 'Encrypted',
       clearItemAria: 'Clear item',
-      indexedDBResultsHeading: 'IndexedDB Results',
-      databasesCount: n => `${n} database(s)`,
-      storesLabel: 'Stores:',
-      recordsLabel: 'Records:',
-      clearRecordAria: 'Clear record',
-      storeKeyLabel: (store, key) => `Store: ${store} | Key: ${key}`,
 
       currentAccountHeading: 'Current account',
       currentAccountDescription: 'This is your currently logged-in account.',
@@ -644,7 +621,7 @@ export const translations: Translations = {
       generatedLabel: 'Generated:',
       linkWalletButton: 'Link This Wallet to Your Passkey Account',
       linkExplanation:
-        'What happens when you link: This will save the wallet addresses to both localStorage and IndexedDB, creating a persistent link between your passkey account and this HD wallet. You can use this to verify or sync wallet data across devices.',
+        'What happens when you link: This will save the wallet addresses to localStorage, creating a persistent link between your passkey account and this HD wallet. You can use this to verify or sync wallet data across devices.',
       howQrWorksHeading: 'How QR Code Wallet Sync Works',
       qrStep1:
         "Step 1: Generate QR Code - On your primary device, generate a QR code containing your wallet's public addresses. This QR code is safe to share as it only contains public information.",
@@ -653,7 +630,7 @@ export const translations: Translations = {
       qrStep3:
         'Step 3: Link Wallets - Paste the JSON data into the verification area above and click "Link This Wallet". This creates a persistent connection between your passkey account and the HD wallet addresses.',
       whatGetsStored:
-        'What Gets Stored: Only public wallet addresses are stored in localStorage and IndexedDB. Your private keys and recovery phrase remain secure and are never transmitted or stored through this sync mechanism.',
+        'What Gets Stored: Only public wallet addresses are stored in localStorage. Your private keys and recovery phrase remain secure and are never transmitted or stored through this sync mechanism.',
       platformSyncHeading: 'Passkey Platform Sync',
       platformSyncIntro:
         'Your passkey credentials automatically sync across devices within the same ecosystem:',
@@ -695,9 +672,6 @@ export const translations: Translations = {
       localStorageModalTitle: 'LocalStorage Inspection',
       foundItemsText: n => `Found ${n} items in localStorage`,
       noDataFound: 'No data found',
-      indexedDBModalTitle: 'IndexedDB Inspection',
-      foundDatabasesText: n => `Found ${n} database(s)`,
-      noDatabasesFound: 'No w3pk-related databases found',
 
       registrationSuccessTitle: 'Registration Successful',
       registrationSuccessDescription: 'Your new account has been created.',
@@ -707,16 +681,9 @@ export const translations: Translations = {
       localStorageInspectedDescription: n => `Found ${n} items. Scroll down to see results.`,
       genericErrorTitle: 'Error',
       failedInspectLocalStorage: 'Failed to inspect localStorage',
-      indexedDBInspectedTitle: 'IndexedDB Inspected',
-      indexedDBInspectedDescription: (dbCount, recordCount) =>
-        `Found ${dbCount} database(s) with ${recordCount} record(s). Scroll down to see results.`,
-      failedInspectIndexedDB: 'Failed to inspect IndexedDB',
       itemClearedTitle: 'Item Cleared',
       itemClearedDescription: key => `Removed "${key}" from localStorage`,
       failedClearItem: key => `Failed to clear "${key}"`,
-      recordClearedTitle: 'Record Cleared',
-      recordClearedDescription: (db, store) => `Removed record from ${db}/${store}`,
-      failedClearRecord: 'Failed to clear record',
       errorLoadingAddressesTitle: 'Error loading addresses',
       failedDeriveAddresses: 'Failed to derive wallet addresses',
       errorLoadingBackupStatusTitle: 'Error loading backup status',
@@ -944,7 +911,6 @@ export const translations: Translations = {
       debugStorageDescription: '检查浏览器存储和活动日志',
       inspectingText: '正在检查...',
       inspectLocalStorageButton: '检查 LocalStorage',
-      inspectIndexedDBButton: '检查 IndexedDB',
 
       inspectSecurityDescriptionSmall: '分析此应用程序的交易和签名方法。',
       inspectSecurityButton: '检查安全性',
@@ -963,12 +929,6 @@ export const translations: Translations = {
       itemsCount: n => `${n} 项`,
       encryptedBadge: '已加密',
       clearItemAria: '清除项目',
-      indexedDBResultsHeading: 'IndexedDB 结果',
-      databasesCount: n => `${n} 个数据库`,
-      storesLabel: '存储对象：',
-      recordsLabel: '记录：',
-      clearRecordAria: '清除记录',
-      storeKeyLabel: (store, key) => `存储对象：${store} | 键：${key}`,
 
       currentAccountHeading: '当前账户',
       currentAccountDescription: '这是您当前登录的账户。',
@@ -1089,7 +1049,7 @@ export const translations: Translations = {
       generatedLabel: '生成时间：',
       linkWalletButton: '将此钱包关联到您的通行密钥账户',
       linkExplanation:
-        '关联后会发生什么：这将把钱包地址同时保存到 localStorage 和 IndexedDB 中，在您的通行密钥账户与此 HD 钱包之间建立持久关联。您可以借此在各设备间验证或同步钱包数据。',
+        '关联后会发生什么：这将把钱包地址保存到 localStorage 中，在您的通行密钥账户与此 HD 钱包之间建立持久关联。您可以借此在各设备间验证或同步钱包数据。',
       howQrWorksHeading: '二维码钱包同步的工作原理',
       qrStep1:
         '第一步：生成二维码 - 在您的主设备上，生成一个包含钱包公开地址的二维码。由于该二维码仅包含公开信息，可以安全分享。',
@@ -1098,7 +1058,7 @@ export const translations: Translations = {
       qrStep3:
         '第三步：关联钱包 - 将 JSON 数据粘贴到上方的验证区域，然后点击"关联此钱包"。这将在您的通行密钥账户与 HD 钱包地址之间建立持久连接。',
       whatGetsStored:
-        '存储内容：localStorage 和 IndexedDB 中仅存储公开的钱包地址。您的私钥和恢复助记词始终保持安全，绝不会通过此同步机制被传输或存储。',
+        '存储内容：localStorage 中仅存储公开的钱包地址。您的私钥和恢复助记词始终保持安全，绝不会通过此同步机制被传输或存储。',
       platformSyncHeading: '通行密钥平台同步',
       platformSyncIntro: '您的通行密钥凭证会在同一生态系统内的各设备间自动同步：',
       appleSyncNote: 'Apple：通过 iCloud Keychain 同步（iPhone、iPad、Mac）',
@@ -1135,9 +1095,6 @@ export const translations: Translations = {
       localStorageModalTitle: 'LocalStorage 检查',
       foundItemsText: n => `在 localStorage 中找到 ${n} 项`,
       noDataFound: '未找到数据',
-      indexedDBModalTitle: 'IndexedDB 检查',
-      foundDatabasesText: n => `找到 ${n} 个数据库`,
-      noDatabasesFound: '未找到与 w3pk 相关的数据库',
 
       registrationSuccessTitle: '注册成功',
       registrationSuccessDescription: '您的新账户已创建。',
@@ -1147,16 +1104,9 @@ export const translations: Translations = {
       localStorageInspectedDescription: n => `找到 ${n} 项。向下滚动查看结果。`,
       genericErrorTitle: '错误',
       failedInspectLocalStorage: '检查 localStorage 失败',
-      indexedDBInspectedTitle: 'IndexedDB 检查完成',
-      indexedDBInspectedDescription: (dbCount, recordCount) =>
-        `找到 ${dbCount} 个数据库，共 ${recordCount} 条记录。向下滚动查看结果。`,
-      failedInspectIndexedDB: '检查 IndexedDB 失败',
       itemClearedTitle: '项目已清除',
       itemClearedDescription: key => `已从 localStorage 中移除 "${key}"`,
       failedClearItem: key => `清除 "${key}" 失败`,
-      recordClearedTitle: '记录已清除',
-      recordClearedDescription: (db, store) => `已从 ${db}/${store} 中移除记录`,
-      failedClearRecord: '清除记录失败',
       errorLoadingAddressesTitle: '加载地址出错',
       failedDeriveAddresses: '派生钱包地址失败',
       errorLoadingBackupStatusTitle: '加载备份状态出错',
@@ -1379,7 +1329,6 @@ export const translations: Translations = {
       debugStorageDescription: 'ब्राउज़र स्टोरेज और गतिविधि लॉग का निरीक्षण करें',
       inspectingText: 'निरीक्षण हो रहा है...',
       inspectLocalStorageButton: 'LocalStorage का निरीक्षण करें',
-      inspectIndexedDBButton: 'IndexedDB का निरीक्षण करें',
 
       inspectSecurityDescriptionSmall:
         'लेनदेन और हस्ताक्षर विधियों के लिए इस एप्लिकेशन का विश्लेषण करें।',
@@ -1399,12 +1348,6 @@ export const translations: Translations = {
       itemsCount: n => `${n} आइटम`,
       encryptedBadge: 'एन्क्रिप्टेड',
       clearItemAria: 'आइटम साफ़ करें',
-      indexedDBResultsHeading: 'IndexedDB परिणाम',
-      databasesCount: n => `${n} डेटाबेस`,
-      storesLabel: 'स्टोर्स:',
-      recordsLabel: 'रिकॉर्ड्स:',
-      clearRecordAria: 'रिकॉर्ड साफ़ करें',
-      storeKeyLabel: (store, key) => `स्टोर: ${store} | की: ${key}`,
 
       currentAccountHeading: 'वर्तमान खाता',
       currentAccountDescription: 'यह आपका वर्तमान में लॉग इन किया गया खाता है।',
@@ -1535,7 +1478,7 @@ export const translations: Translations = {
       generatedLabel: 'जनरेट किया गया:',
       linkWalletButton: 'इस वॉलेट को अपने पासकी खाते से लिंक करें',
       linkExplanation:
-        'लिंक करने पर क्या होता है: यह वॉलेट पतों को localStorage और IndexedDB दोनों में सहेजेगा, जिससे आपके पासकी खाते और इस HD वॉलेट के बीच एक स्थायी लिंक बनेगा। आप इसका उपयोग डिवाइसों में वॉलेट डेटा को सत्यापित या सिंक करने के लिए कर सकते हैं।',
+        'लिंक करने पर क्या होता है: यह वॉलेट पतों को localStorage में सहेजेगा, जिससे आपके पासकी खाते और इस HD वॉलेट के बीच एक स्थायी लिंक बनेगा। आप इसका उपयोग डिवाइसों में वॉलेट डेटा को सत्यापित या सिंक करने के लिए कर सकते हैं।',
       howQrWorksHeading: 'QR कोड वॉलेट सिंक कैसे काम करता है',
       qrStep1:
         'चरण 1: QR कोड जनरेट करें - अपने प्राथमिक डिवाइस पर, अपने वॉलेट के सार्वजनिक पतों वाला एक QR कोड जनरेट करें। यह QR कोड साझा करने के लिए सुरक्षित है क्योंकि इसमें केवल सार्वजनिक जानकारी है।',
@@ -1544,7 +1487,7 @@ export const translations: Translations = {
       qrStep3:
         'चरण 3: वॉलेट लिंक करें - ऊपर दिए गए सत्यापन क्षेत्र में JSON डेटा पेस्ट करें और "इस वॉलेट को लिंक करें" पर क्लिक करें। इससे आपके पासकी खाते और HD वॉलेट पतों के बीच एक स्थायी कनेक्शन बनता है।',
       whatGetsStored:
-        'क्या संग्रहीत किया जाता है: localStorage और IndexedDB में केवल सार्वजनिक वॉलेट पते संग्रहीत किए जाते हैं। आपकी निजी कुंजियां और रिकवरी फ्रेज़ सुरक्षित रहते हैं और इस सिंक तंत्र के माध्यम से कभी भी प्रसारित या संग्रहीत नहीं किए जाते।',
+        'क्या संग्रहीत किया जाता है: localStorage में केवल सार्वजनिक वॉलेट पते संग्रहीत किए जाते हैं। आपकी निजी कुंजियां और रिकवरी फ्रेज़ सुरक्षित रहते हैं और इस सिंक तंत्र के माध्यम से कभी भी प्रसारित या संग्रहीत नहीं किए जाते।',
       platformSyncHeading: 'पासकी प्लेटफ़ॉर्म सिंक',
       platformSyncIntro:
         'आपकी पासकी क्रेडेंशियल्स एक ही इकोसिस्टम के भीतर डिवाइसों में स्वचालित रूप से सिंक होती हैं:',
@@ -1588,9 +1531,6 @@ export const translations: Translations = {
       localStorageModalTitle: 'LocalStorage निरीक्षण',
       foundItemsText: n => `localStorage में ${n} आइटम मिले`,
       noDataFound: 'कोई डेटा नहीं मिला',
-      indexedDBModalTitle: 'IndexedDB निरीक्षण',
-      foundDatabasesText: n => `${n} डेटाबेस मिले`,
-      noDatabasesFound: 'w3pk-संबंधित कोई डेटाबेस नहीं मिला',
 
       registrationSuccessTitle: 'पंजीकरण सफल',
       registrationSuccessDescription: 'आपका नया खाता बना दिया गया है।',
@@ -1601,16 +1541,9 @@ export const translations: Translations = {
         `${n} आइटम मिले। परिणाम देखने के लिए नीचे स्क्रॉल करें।`,
       genericErrorTitle: 'त्रुटि',
       failedInspectLocalStorage: 'localStorage का निरीक्षण करने में विफल',
-      indexedDBInspectedTitle: 'IndexedDB निरीक्षित',
-      indexedDBInspectedDescription: (dbCount, recordCount) =>
-        `${recordCount} रिकॉर्ड के साथ ${dbCount} डेटाबेस मिले। परिणाम देखने के लिए नीचे स्क्रॉल करें।`,
-      failedInspectIndexedDB: 'IndexedDB का निरीक्षण करने में विफल',
       itemClearedTitle: 'आइटम साफ़ किया गया',
       itemClearedDescription: key => `localStorage से "${key}" हटाया गया`,
       failedClearItem: key => `"${key}" साफ़ करने में विफल`,
-      recordClearedTitle: 'रिकॉर्ड साफ़ किया गया',
-      recordClearedDescription: (db, store) => `${db}/${store} से रिकॉर्ड हटाया गया`,
-      failedClearRecord: 'रिकॉर्ड साफ़ करने में विफल',
       errorLoadingAddressesTitle: 'पते लोड करने में त्रुटि',
       failedDeriveAddresses: 'वॉलेट पते प्राप्त करने में विफल',
       errorLoadingBackupStatusTitle: 'बैकअप स्थिति लोड करने में त्रुटि',
@@ -1846,7 +1779,6 @@ export const translations: Translations = {
         'Inspecciona el almacenamiento del navegador y los registros de actividad',
       inspectingText: 'Inspeccionando...',
       inspectLocalStorageButton: 'Inspeccionar LocalStorage',
-      inspectIndexedDBButton: 'Inspeccionar IndexedDB',
 
       inspectSecurityDescriptionSmall:
         'Analiza esta aplicación en busca de métodos de transacción y firma.',
@@ -1867,12 +1799,6 @@ export const translations: Translations = {
       itemsCount: n => `${n} elementos`,
       encryptedBadge: 'Cifrado',
       clearItemAria: 'Borrar elemento',
-      indexedDBResultsHeading: 'Resultados de IndexedDB',
-      databasesCount: n => `${n} base(s) de datos`,
-      storesLabel: 'Almacenes:',
-      recordsLabel: 'Registros:',
-      clearRecordAria: 'Borrar registro',
-      storeKeyLabel: (store, key) => `Almacén: ${store} | Clave: ${key}`,
 
       currentAccountHeading: 'Cuenta actual',
       currentAccountDescription: 'Esta es la cuenta con la que has iniciado sesión actualmente.',
@@ -2007,7 +1933,7 @@ export const translations: Translations = {
       generatedLabel: 'Generado:',
       linkWalletButton: 'Vincular esta billetera a tu cuenta de clave de acceso',
       linkExplanation:
-        'Qué ocurre al vincular: esto guardará las direcciones de la billetera tanto en localStorage como en IndexedDB, creando un vínculo persistente entre tu cuenta de clave de acceso y esta billetera HD. Puedes usarlo para verificar o sincronizar los datos de la billetera entre dispositivos.',
+        'Qué ocurre al vincular: esto guardará las direcciones de la billetera en localStorage, creando un vínculo persistente entre tu cuenta de clave de acceso y esta billetera HD. Puedes usarlo para verificar o sincronizar los datos de la billetera entre dispositivos.',
       howQrWorksHeading: 'Cómo funciona la sincronización de billetera por código QR',
       qrStep1:
         'Paso 1: generar código QR - En tu dispositivo principal, genera un código QR que contenga las direcciones públicas de tu billetera. Este código QR es seguro de compartir, ya que solo contiene información pública.',
@@ -2016,7 +1942,7 @@ export const translations: Translations = {
       qrStep3:
         'Paso 3: vincular billeteras - Pega los datos JSON en el área de verificación de arriba y haz clic en "Vincular esta billetera". Esto crea una conexión persistente entre tu cuenta de clave de acceso y las direcciones de la billetera HD.',
       whatGetsStored:
-        'Qué se almacena: solo las direcciones públicas de la billetera se guardan en localStorage y en IndexedDB. Tus claves privadas y tu frase de recuperación permanecen seguras y nunca se transmiten ni se almacenan mediante este mecanismo de sincronización.',
+        'Qué se almacena: solo las direcciones públicas de la billetera se guardan en localStorage. Tus claves privadas y tu frase de recuperación permanecen seguras y nunca se transmiten ni se almacenan mediante este mecanismo de sincronización.',
       platformSyncHeading: 'Sincronización de la clave de acceso entre plataformas',
       platformSyncIntro:
         'Tus credenciales de clave de acceso se sincronizan automáticamente entre dispositivos dentro del mismo ecosistema:',
@@ -2063,9 +1989,6 @@ export const translations: Translations = {
       localStorageModalTitle: 'Inspección de LocalStorage',
       foundItemsText: n => `Se encontraron ${n} elementos en localStorage`,
       noDataFound: 'No se encontraron datos',
-      indexedDBModalTitle: 'Inspección de IndexedDB',
-      foundDatabasesText: n => `Se encontraron ${n} base(s) de datos`,
-      noDatabasesFound: 'No se encontraron bases de datos relacionadas con w3pk',
 
       registrationSuccessTitle: 'Registro exitoso',
       registrationSuccessDescription: 'Tu nueva cuenta ha sido creada.',
@@ -2076,16 +1999,9 @@ export const translations: Translations = {
         `Se encontraron ${n} elementos. Desplázate hacia abajo para ver los resultados.`,
       genericErrorTitle: 'Error',
       failedInspectLocalStorage: 'No se pudo inspeccionar localStorage',
-      indexedDBInspectedTitle: 'IndexedDB inspeccionado',
-      indexedDBInspectedDescription: (dbCount, recordCount) =>
-        `Se encontraron ${dbCount} base(s) de datos con ${recordCount} registro(s). Desplázate hacia abajo para ver los resultados.`,
-      failedInspectIndexedDB: 'No se pudo inspeccionar IndexedDB',
       itemClearedTitle: 'Elemento borrado',
       itemClearedDescription: key => `Se eliminó "${key}" de localStorage`,
       failedClearItem: key => `No se pudo borrar "${key}"`,
-      recordClearedTitle: 'Registro borrado',
-      recordClearedDescription: (db, store) => `Se eliminó el registro de ${db}/${store}`,
-      failedClearRecord: 'No se pudo borrar el registro',
       errorLoadingAddressesTitle: 'Error al cargar las direcciones',
       failedDeriveAddresses: 'No se pudieron derivar las direcciones de la billetera',
       errorLoadingBackupStatusTitle: 'Error al cargar el estado de la copia de seguridad',
@@ -2328,7 +2244,6 @@ export const translations: Translations = {
       debugStorageDescription: "Inspecter le stockage du navigateur et les journaux d'activité",
       inspectingText: 'Inspection en cours...',
       inspectLocalStorageButton: 'Inspecter LocalStorage',
-      inspectIndexedDBButton: 'Inspecter IndexedDB',
 
       inspectSecurityDescriptionSmall:
         'Analyser cette application pour ses méthodes de transaction et de signature.',
@@ -2349,12 +2264,6 @@ export const translations: Translations = {
       itemsCount: n => `${n} éléments`,
       encryptedBadge: 'Chiffré',
       clearItemAria: "Effacer l'élément",
-      indexedDBResultsHeading: 'Résultats IndexedDB',
-      databasesCount: n => `${n} base(s) de données`,
-      storesLabel: 'Magasins :',
-      recordsLabel: 'Enregistrements :',
-      clearRecordAria: "Effacer l'enregistrement",
-      storeKeyLabel: (store, key) => `Magasin : ${store} | Clé : ${key}`,
 
       currentAccountHeading: 'Compte actuel',
       currentAccountDescription: 'Voici le compte actuellement connecté.',
@@ -2489,7 +2398,7 @@ export const translations: Translations = {
       generatedLabel: 'Généré :',
       linkWalletButton: "Lier ce portefeuille à votre compte à clé d'accès",
       linkExplanation:
-        "Ce qui se passe lors de la liaison : les adresses du portefeuille seront enregistrées à la fois dans localStorage et IndexedDB, créant un lien persistant entre votre compte à clé d'accès et ce portefeuille HD. Cela vous permet de vérifier ou de synchroniser les données du portefeuille entre vos appareils.",
+        "Ce qui se passe lors de la liaison : les adresses du portefeuille seront enregistrées dans localStorage, créant un lien persistant entre votre compte à clé d'accès et ce portefeuille HD. Cela vous permet de vérifier ou de synchroniser les données du portefeuille entre vos appareils.",
       howQrWorksHeading: 'Comment fonctionne la synchronisation du portefeuille par QR code',
       qrStep1:
         'Étape 1 : générer le QR code - Sur votre appareil principal, générez un QR code contenant les adresses publiques de votre portefeuille. Ce QR code peut être partagé sans risque car il ne contient que des informations publiques.',
@@ -2498,7 +2407,7 @@ export const translations: Translations = {
       qrStep3:
         "Étape 3 : lier les portefeuilles - Collez les données JSON dans la zone de vérification ci-dessus et cliquez sur « Lier ce portefeuille ». Cela crée une connexion persistante entre votre compte à clé d'accès et les adresses du portefeuille HD.",
       whatGetsStored:
-        'Ce qui est stocké : seules les adresses publiques du portefeuille sont stockées dans localStorage et IndexedDB. Vos clés privées et votre phrase de récupération restent sécurisées et ne sont jamais transmises ni stockées via ce mécanisme de synchronisation.',
+        'Ce qui est stocké : seules les adresses publiques du portefeuille sont stockées dans localStorage. Vos clés privées et votre phrase de récupération restent sécurisées et ne sont jamais transmises ni stockées via ce mécanisme de synchronisation.',
       platformSyncHeading: "Synchronisation des clés d'accès par plateforme",
       platformSyncIntro:
         "Vos identifiants de clé d'accès se synchronisent automatiquement entre vos appareils au sein du même écosystème :",
@@ -2546,9 +2455,6 @@ export const translations: Translations = {
       localStorageModalTitle: 'Inspection de LocalStorage',
       foundItemsText: n => `${n} éléments trouvés dans localStorage`,
       noDataFound: 'Aucune donnée trouvée',
-      indexedDBModalTitle: 'Inspection de IndexedDB',
-      foundDatabasesText: n => `${n} base(s) de données trouvée(s)`,
-      noDatabasesFound: 'Aucune base de données liée à w3pk trouvée',
 
       registrationSuccessTitle: 'Inscription réussie',
       registrationSuccessDescription: 'Votre nouveau compte a été créé.',
@@ -2560,16 +2466,9 @@ export const translations: Translations = {
         `${n} éléments trouvés. Faites défiler vers le bas pour voir les résultats.`,
       genericErrorTitle: 'Erreur',
       failedInspectLocalStorage: "Échec de l'inspection de localStorage",
-      indexedDBInspectedTitle: 'IndexedDB inspecté',
-      indexedDBInspectedDescription: (dbCount, recordCount) =>
-        `${dbCount} base(s) de données trouvée(s) avec ${recordCount} enregistrement(s). Faites défiler vers le bas pour voir les résultats.`,
-      failedInspectIndexedDB: "Échec de l'inspection de IndexedDB",
       itemClearedTitle: 'Élément effacé',
       itemClearedDescription: key => `« ${key} » supprimé de localStorage`,
       failedClearItem: key => `Échec de la suppression de « ${key} »`,
-      recordClearedTitle: 'Enregistrement effacé',
-      recordClearedDescription: (db, store) => `Enregistrement supprimé de ${db}/${store}`,
-      failedClearRecord: "Échec de la suppression de l'enregistrement",
       errorLoadingAddressesTitle: 'Erreur lors du chargement des adresses',
       failedDeriveAddresses: 'Échec de la dérivation des adresses du portefeuille',
       errorLoadingBackupStatusTitle: "Erreur lors du chargement de l'état de la sauvegarde",
@@ -2812,7 +2711,6 @@ export const translations: Translations = {
       debugStorageDescription: 'فحص تخزين المتصفح وسجلات النشاط',
       inspectingText: 'جارٍ الفحص...',
       inspectLocalStorageButton: 'فحص LocalStorage',
-      inspectIndexedDBButton: 'فحص IndexedDB',
 
       inspectSecurityDescriptionSmall: 'تحليل هذا التطبيق لطرق المعاملات والتوقيع.',
       inspectSecurityButton: 'فحص الأمان',
@@ -2831,12 +2729,6 @@ export const translations: Translations = {
       itemsCount: n => `${n} عنصر`,
       encryptedBadge: 'مشفّر',
       clearItemAria: 'مسح العنصر',
-      indexedDBResultsHeading: 'نتائج IndexedDB',
-      databasesCount: n => `${n} قاعدة بيانات`,
-      storesLabel: 'المخازن:',
-      recordsLabel: 'السجلات:',
-      clearRecordAria: 'مسح السجل',
-      storeKeyLabel: (store, key) => `المخزن: ${store} | المفتاح: ${key}`,
 
       currentAccountHeading: 'الحساب الحالي',
       currentAccountDescription: 'هذا هو الحساب الذي قمت بتسجيل الدخول إليه حالياً.',
@@ -2963,7 +2855,7 @@ export const translations: Translations = {
       generatedLabel: 'تاريخ الإنشاء:',
       linkWalletButton: 'ربط هذه المحفظة بحساب مفتاح المرور الخاص بك',
       linkExplanation:
-        'ماذا يحدث عند الربط: سيؤدي هذا إلى حفظ عناوين المحفظة في كل من localStorage وIndexedDB، مما ينشئ رابطاً دائماً بين حساب مفتاح المرور الخاص بك ومحفظة HD هذه. يمكنك استخدام ذلك للتحقق من بيانات المحفظة أو مزامنتها عبر الأجهزة.',
+        'ماذا يحدث عند الربط: سيؤدي هذا إلى حفظ عناوين المحفظة في localStorage، مما ينشئ رابطاً دائماً بين حساب مفتاح المرور الخاص بك ومحفظة HD هذه. يمكنك استخدام ذلك للتحقق من بيانات المحفظة أو مزامنتها عبر الأجهزة.',
       howQrWorksHeading: 'كيف تعمل مزامنة المحفظة عبر رمز QR',
       qrStep1:
         'الخطوة 1: إنشاء رمز QR - على جهازك الأساسي، أنشئ رمز QR يحتوي على العناوين العامة لمحفظتك. رمز QR هذا آمن للمشاركة لأنه يحتوي فقط على معلومات عامة.',
@@ -2972,7 +2864,7 @@ export const translations: Translations = {
       qrStep3:
         'الخطوة 3: ربط المحافظ - الصق بيانات JSON في منطقة التحقق أعلاه وانقر على "ربط هذه المحفظة". يؤدي هذا إلى إنشاء اتصال دائم بين حساب مفتاح المرور الخاص بك وعناوين محفظة HD.',
       whatGetsStored:
-        'ما الذي يتم تخزينه: يتم تخزين عناوين المحفظة العامة فقط في localStorage وIndexedDB. تبقى مفاتيحك الخاصة وعبارة الاسترداد آمنة ولا يتم إرسالها أو تخزينها أبداً عبر آلية المزامنة هذه.',
+        'ما الذي يتم تخزينه: يتم تخزين عناوين المحفظة العامة فقط في localStorage. تبقى مفاتيحك الخاصة وعبارة الاسترداد آمنة ولا يتم إرسالها أو تخزينها أبداً عبر آلية المزامنة هذه.',
       platformSyncHeading: 'مزامنة منصة مفتاح المرور',
       platformSyncIntro:
         'تتم مزامنة بيانات اعتماد مفتاح المرور الخاص بك تلقائياً عبر الأجهزة ضمن نفس النظام البيئي:',
@@ -3015,9 +2907,6 @@ export const translations: Translations = {
       localStorageModalTitle: 'فحص LocalStorage',
       foundItemsText: n => `تم العثور على ${n} عنصر في localStorage`,
       noDataFound: 'لم يتم العثور على بيانات',
-      indexedDBModalTitle: 'فحص IndexedDB',
-      foundDatabasesText: n => `تم العثور على ${n} قاعدة بيانات`,
-      noDatabasesFound: 'لم يتم العثور على قواعد بيانات متعلقة بـ w3pk',
 
       registrationSuccessTitle: 'تم التسجيل بنجاح',
       registrationSuccessDescription: 'تم إنشاء حسابك الجديد.',
@@ -3027,16 +2916,9 @@ export const translations: Translations = {
       localStorageInspectedDescription: n => `تم العثور على ${n} عنصر. مرر لأسفل لرؤية النتائج.`,
       genericErrorTitle: 'خطأ',
       failedInspectLocalStorage: 'فشل فحص localStorage',
-      indexedDBInspectedTitle: 'تم فحص IndexedDB',
-      indexedDBInspectedDescription: (dbCount, recordCount) =>
-        `تم العثور على ${dbCount} قاعدة بيانات تحتوي على ${recordCount} سجل. مرر لأسفل لرؤية النتائج.`,
-      failedInspectIndexedDB: 'فشل فحص IndexedDB',
       itemClearedTitle: 'تم مسح العنصر',
       itemClearedDescription: key => `تمت إزالة "${key}" من localStorage`,
       failedClearItem: key => `فشل مسح "${key}"`,
-      recordClearedTitle: 'تم مسح السجل',
-      recordClearedDescription: (db, store) => `تمت إزالة السجل من ${db}/${store}`,
-      failedClearRecord: 'فشل مسح السجل',
       errorLoadingAddressesTitle: 'خطأ في تحميل العناوين',
       failedDeriveAddresses: 'فشل اشتقاق عناوين المحفظة',
       errorLoadingBackupStatusTitle: 'خطأ في تحميل حالة النسخ الاحتياطي',
@@ -3264,7 +3146,6 @@ export const translations: Translations = {
       debugStorageDescription: 'ব্রাউজার স্টোরেজ এবং কার্যকলাপ লগ পরিদর্শন করুন',
       inspectingText: 'পরিদর্শন করা হচ্ছে...',
       inspectLocalStorageButton: 'LocalStorage পরিদর্শন করুন',
-      inspectIndexedDBButton: 'IndexedDB পরিদর্শন করুন',
 
       inspectSecurityDescriptionSmall:
         'লেনদেন এবং স্বাক্ষর পদ্ধতির জন্য এই অ্যাপ্লিকেশনটি বিশ্লেষণ করুন।',
@@ -3284,12 +3165,6 @@ export const translations: Translations = {
       itemsCount: n => `${n}টি আইটেম`,
       encryptedBadge: 'এনক্রিপ্টেড',
       clearItemAria: 'আইটেম মুছুন',
-      indexedDBResultsHeading: 'IndexedDB ফলাফল',
-      databasesCount: n => `${n}টি ডাটাবেস`,
-      storesLabel: 'স্টোর:',
-      recordsLabel: 'রেকর্ড:',
-      clearRecordAria: 'রেকর্ড মুছুন',
-      storeKeyLabel: (store, key) => `স্টোর: ${store} | কী: ${key}`,
 
       currentAccountHeading: 'বর্তমান অ্যাকাউন্ট',
       currentAccountDescription: 'এটি আপনার বর্তমানে লগইন করা অ্যাকাউন্ট।',
@@ -3421,7 +3296,7 @@ export const translations: Translations = {
       generatedLabel: 'তৈরি হয়েছে:',
       linkWalletButton: 'এই ওয়ালেটটি আপনার পাসকী অ্যাকাউন্টের সাথে লিঙ্ক করুন',
       linkExplanation:
-        'লিঙ্ক করলে যা ঘটবে: এটি localStorage এবং IndexedDB উভয় স্থানে ওয়ালেট ঠিকানা সংরক্ষণ করবে, আপনার পাসকী অ্যাকাউন্ট এবং এই HD ওয়ালেটের মধ্যে একটি স্থায়ী লিঙ্ক তৈরি করবে। ডিভাইসগুলির মধ্যে ওয়ালেট ডেটা যাচাই বা সিঙ্ক করতে আপনি এটি ব্যবহার করতে পারেন।',
+        'লিঙ্ক করলে যা ঘটবে: এটি localStorage-এ ওয়ালেট ঠিকানা সংরক্ষণ করবে, আপনার পাসকী অ্যাকাউন্ট এবং এই HD ওয়ালেটের মধ্যে একটি স্থায়ী লিঙ্ক তৈরি করবে। ডিভাইসগুলির মধ্যে ওয়ালেট ডেটা যাচাই বা সিঙ্ক করতে আপনি এটি ব্যবহার করতে পারেন।',
       howQrWorksHeading: 'QR কোড ওয়ালেট সিঙ্ক যেভাবে কাজ করে',
       qrStep1:
         'ধাপ ১: QR কোড তৈরি করুন - আপনার প্রধান ডিভাইসে, আপনার ওয়ালেটের পাবলিক ঠিকানা সম্বলিত একটি QR কোড তৈরি করুন। এই QR কোড শেয়ার করা নিরাপদ কারণ এতে শুধুমাত্র পাবলিক তথ্য রয়েছে।',
@@ -3430,7 +3305,7 @@ export const translations: Translations = {
       qrStep3:
         'ধাপ ৩: ওয়ালেট লিঙ্ক করুন - উপরের যাচাইকরণ এলাকায় JSON ডেটা পেস্ট করুন এবং "Link This Wallet"-এ ক্লিক করুন। এটি আপনার পাসকী অ্যাকাউন্ট এবং HD ওয়ালেট ঠিকানার মধ্যে একটি স্থায়ী সংযোগ তৈরি করে।',
       whatGetsStored:
-        'যা সংরক্ষিত হয়: শুধুমাত্র পাবলিক ওয়ালেট ঠিকানা localStorage এবং IndexedDB-তে সংরক্ষিত হয়। আপনার প্রাইভেট কী এবং পুনরুদ্ধার ফ্রেজ নিরাপদ থাকে এবং এই সিঙ্ক পদ্ধতির মাধ্যমে কখনও প্রেরণ বা সংরক্ষণ করা হয় না।',
+        'যা সংরক্ষিত হয়: শুধুমাত্র পাবলিক ওয়ালেট ঠিকানা localStorage-এ সংরক্ষিত হয়। আপনার প্রাইভেট কী এবং পুনরুদ্ধার ফ্রেজ নিরাপদ থাকে এবং এই সিঙ্ক পদ্ধতির মাধ্যমে কখনও প্রেরণ বা সংরক্ষণ করা হয় না।',
       platformSyncHeading: 'পাসকী প্ল্যাটফর্ম সিঙ্ক',
       platformSyncIntro:
         'আপনার পাসকী পরিচয়পত্র একই ইকোসিস্টেমের মধ্যে ডিভাইসগুলিতে স্বয়ংক্রিয়ভাবে সিঙ্ক হয়:',
@@ -3476,9 +3351,6 @@ export const translations: Translations = {
       localStorageModalTitle: 'LocalStorage পরিদর্শন',
       foundItemsText: n => `localStorage-এ ${n}টি আইটেম পাওয়া গেছে`,
       noDataFound: 'কোনো ডেটা পাওয়া যায়নি',
-      indexedDBModalTitle: 'IndexedDB পরিদর্শন',
-      foundDatabasesText: n => `${n}টি ডাটাবেস পাওয়া গেছে`,
-      noDatabasesFound: 'কোনো w3pk-সম্পর্কিত ডাটাবেস পাওয়া যায়নি',
 
       registrationSuccessTitle: 'নিবন্ধন সফল হয়েছে',
       registrationSuccessDescription: 'আপনার নতুন অ্যাকাউন্ট তৈরি করা হয়েছে।',
@@ -3490,16 +3362,9 @@ export const translations: Translations = {
         `${n}টি আইটেম পাওয়া গেছে। ফলাফল দেখতে নিচে স্ক্রল করুন।`,
       genericErrorTitle: 'ত্রুটি',
       failedInspectLocalStorage: 'localStorage পরিদর্শন করতে ব্যর্থ হয়েছে',
-      indexedDBInspectedTitle: 'IndexedDB পরিদর্শন করা হয়েছে',
-      indexedDBInspectedDescription: (dbCount, recordCount) =>
-        `${recordCount} রেকর্ডস সহ ${dbCount}টি ডাটাবেস পাওয়া গেছে। ফলাফল দেখতে নিচে স্ক্রল করুন।`,
-      failedInspectIndexedDB: 'IndexedDB পরিদর্শন করতে ব্যর্থ হয়েছে',
       itemClearedTitle: 'আইটেম মুছে ফেলা হয়েছে',
       itemClearedDescription: key => `localStorage থেকে "${key}" সরানো হয়েছে`,
       failedClearItem: key => `"${key}" মুছতে ব্যর্থ হয়েছে`,
-      recordClearedTitle: 'রেকর্ড মুছে ফেলা হয়েছে',
-      recordClearedDescription: (db, store) => `${db}/${store} থেকে রেকর্ড সরানো হয়েছে`,
-      failedClearRecord: 'রেকর্ড মুছতে ব্যর্থ হয়েছে',
       errorLoadingAddressesTitle: 'ঠিকানা লোড করতে ত্রুটি',
       failedDeriveAddresses: 'ওয়ালেট ঠিকানা ডেরাইভ করতে ব্যর্থ হয়েছে',
       errorLoadingBackupStatusTitle: 'ব্যাকআপ অবস্থা লোড করতে ত্রুটি',
@@ -3741,7 +3606,6 @@ export const translations: Translations = {
       debugStorageDescription: 'Проверка хранилища браузера и журналов активности',
       inspectingText: 'Проверка...',
       inspectLocalStorageButton: 'Проверить LocalStorage',
-      inspectIndexedDBButton: 'Проверить IndexedDB',
 
       inspectSecurityDescriptionSmall:
         'Анализ этого приложения на предмет методов транзакций и подписи.',
@@ -3761,12 +3625,6 @@ export const translations: Translations = {
       itemsCount: n => `${n} ${ruPlural(n, 'элемент', 'элемента', 'элементов')}`,
       encryptedBadge: 'Зашифровано',
       clearItemAria: 'Очистить элемент',
-      indexedDBResultsHeading: 'Результаты IndexedDB',
-      databasesCount: n => `${n} ${ruPlural(n, 'база данных', 'базы данных', 'баз данных')}`,
-      storesLabel: 'Хранилища:',
-      recordsLabel: 'Записи:',
-      clearRecordAria: 'Очистить запись',
-      storeKeyLabel: (store, key) => `Хранилище: ${store} | Ключ: ${key}`,
 
       currentAccountHeading: 'Текущий аккаунт',
       currentAccountDescription: 'Это ваш текущий активный аккаунт.',
@@ -3900,7 +3758,7 @@ export const translations: Translations = {
       generatedLabel: 'Сгенерировано:',
       linkWalletButton: 'Привязать этот кошелёк к аккаунту с ключом доступа',
       linkExplanation:
-        'Что произойдёт при привязке: адреса кошелька будут сохранены как в localStorage, так и в IndexedDB, что создаст постоянную связь между вашим аккаунтом с ключом доступа и этим HD-кошельком. Это можно использовать для проверки или синхронизации данных кошелька между устройствами.',
+        'Что произойдёт при привязке: адреса кошелька будут сохранены в localStorage, что создаст постоянную связь между вашим аккаунтом с ключом доступа и этим HD-кошельком. Это можно использовать для проверки или синхронизации данных кошелька между устройствами.',
       howQrWorksHeading: 'Как работает синхронизация кошелька через QR-код',
       qrStep1:
         'Шаг 1: Сгенерируйте QR-код — на основном устройстве сгенерируйте QR-код, содержащий публичные адреса вашего кошелька. Этим QR-кодом безопасно делиться, так как он содержит только публичную информацию.',
@@ -3909,7 +3767,7 @@ export const translations: Translations = {
       qrStep3:
         'Шаг 3: Свяжите кошельки — вставьте данные JSON в поле проверки выше и нажмите «Привязать этот кошелёк». Это создаст постоянную связь между вашим аккаунтом с ключом доступа и адресами HD-кошелька.',
       whatGetsStored:
-        'Что сохраняется: в localStorage и IndexedDB сохраняются только публичные адреса кошелька. Ваши приватные ключи и фраза восстановления остаются в безопасности и никогда не передаются и не сохраняются через этот механизм синхронизации.',
+        'Что сохраняется: в localStorage сохраняются только публичные адреса кошелька. Ваши приватные ключи и фраза восстановления остаются в безопасности и никогда не передаются и не сохраняются через этот механизм синхронизации.',
       platformSyncHeading: 'Синхронизация ключа доступа на платформе',
       platformSyncIntro:
         'Учётные данные вашего ключа доступа автоматически синхронизируются между устройствами в рамках одной экосистемы:',
@@ -3955,10 +3813,6 @@ export const translations: Translations = {
       foundItemsText: n =>
         `Найдено ${n} ${ruPlural(n, 'элемент', 'элемента', 'элементов')} в localStorage`,
       noDataFound: 'Данные не найдены',
-      indexedDBModalTitle: 'Проверка IndexedDB',
-      foundDatabasesText: n =>
-        `Найдено ${n} ${ruPlural(n, 'база данных', 'базы данных', 'баз данных')}`,
-      noDatabasesFound: 'Базы данных, связанные с w3pk, не найдены',
 
       registrationSuccessTitle: 'Регистрация успешна',
       registrationSuccessDescription: 'Ваш новый аккаунт создан.',
@@ -3970,16 +3824,9 @@ export const translations: Translations = {
         `Найдено ${n} ${ruPlural(n, 'элемент', 'элемента', 'элементов')}. Прокрутите вниз, чтобы увидеть результаты.`,
       genericErrorTitle: 'Ошибка',
       failedInspectLocalStorage: 'Не удалось проверить localStorage',
-      indexedDBInspectedTitle: 'IndexedDB проверен',
-      indexedDBInspectedDescription: (dbCount, recordCount) =>
-        `Найдено ${dbCount} ${ruPlural(dbCount, 'база данных', 'базы данных', 'баз данных')} и ${recordCount} ${ruPlural(recordCount, 'запись', 'записи', 'записей')}. Прокрутите вниз, чтобы увидеть результаты.`,
-      failedInspectIndexedDB: 'Не удалось проверить IndexedDB',
       itemClearedTitle: 'Элемент очищен',
       itemClearedDescription: key => `Удалён элемент «${key}» из localStorage`,
       failedClearItem: key => `Не удалось очистить «${key}»`,
-      recordClearedTitle: 'Запись очищена',
-      recordClearedDescription: (db, store) => `Запись удалена из ${db}/${store}`,
-      failedClearRecord: 'Не удалось очистить запись',
       errorLoadingAddressesTitle: 'Ошибка загрузки адресов',
       failedDeriveAddresses: 'Не удалось получить адреса кошелька',
       errorLoadingBackupStatusTitle: 'Ошибка загрузки статуса резервной копии',
@@ -4219,7 +4066,6 @@ export const translations: Translations = {
       debugStorageDescription: 'Inspecione o armazenamento do navegador e os registos de atividade',
       inspectingText: 'A inspecionar...',
       inspectLocalStorageButton: 'Inspecionar LocalStorage',
-      inspectIndexedDBButton: 'Inspecionar IndexedDB',
 
       inspectSecurityDescriptionSmall:
         'Analise esta aplicação quanto a métodos de transação e assinatura.',
@@ -4239,12 +4085,6 @@ export const translations: Translations = {
       itemsCount: n => `${n} itens`,
       encryptedBadge: 'Encriptado',
       clearItemAria: 'Limpar item',
-      indexedDBResultsHeading: 'Resultados do IndexedDB',
-      databasesCount: n => `${n} base(s) de dados`,
-      storesLabel: 'Armazenamentos:',
-      recordsLabel: 'Registos:',
-      clearRecordAria: 'Limpar registo',
-      storeKeyLabel: (store, key) => `Armazenamento: ${store} | Chave: ${key}`,
 
       currentAccountHeading: 'Conta atual',
       currentAccountDescription: 'Esta é a conta com sessão iniciada atualmente.',
@@ -4379,7 +4219,7 @@ export const translations: Translations = {
       generatedLabel: 'Gerado:',
       linkWalletButton: 'Associar esta carteira à sua conta de chave de acesso',
       linkExplanation:
-        'O que acontece quando associa: isto guardará os endereços da carteira tanto no localStorage como no IndexedDB, criando uma ligação persistente entre a sua conta de chave de acesso e esta carteira HD. Pode utilizar isto para verificar ou sincronizar dados da carteira entre dispositivos.',
+        'O que acontece quando associa: isto guardará os endereços da carteira no localStorage, criando uma ligação persistente entre a sua conta de chave de acesso e esta carteira HD. Pode utilizar isto para verificar ou sincronizar dados da carteira entre dispositivos.',
       howQrWorksHeading: 'Como funciona a sincronização da carteira por código QR',
       qrStep1:
         'Passo 1: Gerar código QR - No seu dispositivo principal, gere um código QR contendo os endereços públicos da sua carteira. Este código QR é seguro de partilhar, pois contém apenas informação pública.',
@@ -4388,7 +4228,7 @@ export const translations: Translations = {
       qrStep3:
         'Passo 3: Associar carteiras - Cole os dados JSON na área de verificação acima e clique em "Associar esta carteira". Isto cria uma ligação persistente entre a sua conta de chave de acesso e os endereços da carteira HD.',
       whatGetsStored:
-        'O que é armazenado: apenas os endereços públicos da carteira são armazenados no localStorage e no IndexedDB. As suas chaves privadas e a frase de recuperação permanecem seguras e nunca são transmitidas ou armazenadas através deste mecanismo de sincronização.',
+        'O que é armazenado: apenas os endereços públicos da carteira são armazenados no localStorage. As suas chaves privadas e a frase de recuperação permanecem seguras e nunca são transmitidas ou armazenadas através deste mecanismo de sincronização.',
       platformSyncHeading: 'Sincronização de plataforma da chave de acesso',
       platformSyncIntro:
         'As suas credenciais de chave de acesso sincronizam automaticamente entre dispositivos dentro do mesmo ecossistema:',
@@ -4435,9 +4275,6 @@ export const translations: Translations = {
       localStorageModalTitle: 'Inspeção do LocalStorage',
       foundItemsText: n => `Encontrados ${n} itens no localStorage`,
       noDataFound: 'Nenhum dado encontrado',
-      indexedDBModalTitle: 'Inspeção do IndexedDB',
-      foundDatabasesText: n => `Encontrada(s) ${n} base(s) de dados`,
-      noDatabasesFound: 'Nenhuma base de dados relacionada com w3pk encontrada',
 
       registrationSuccessTitle: 'Registo concluído com sucesso',
       registrationSuccessDescription: 'A sua nova conta foi criada.',
@@ -4449,16 +4286,9 @@ export const translations: Translations = {
         `Encontrados ${n} itens. Desça para ver os resultados.`,
       genericErrorTitle: 'Erro',
       failedInspectLocalStorage: 'Falha ao inspecionar o localStorage',
-      indexedDBInspectedTitle: 'IndexedDB inspecionado',
-      indexedDBInspectedDescription: (dbCount, recordCount) =>
-        `Encontrada(s) ${dbCount} base(s) de dados com ${recordCount} registo(s). Desça para ver os resultados.`,
-      failedInspectIndexedDB: 'Falha ao inspecionar o IndexedDB',
       itemClearedTitle: 'Item removido',
       itemClearedDescription: key => `"${key}" removido do localStorage`,
       failedClearItem: key => `Falha ao limpar "${key}"`,
-      recordClearedTitle: 'Registo removido',
-      recordClearedDescription: (db, store) => `Registo removido de ${db}/${store}`,
-      failedClearRecord: 'Falha ao limpar o registo',
       errorLoadingAddressesTitle: 'Erro ao carregar endereços',
       failedDeriveAddresses: 'Falha ao derivar os endereços da carteira',
       errorLoadingBackupStatusTitle: 'Erro ao carregar o estado da cópia de segurança',
@@ -4699,7 +4529,6 @@ export const translations: Translations = {
       debugStorageDescription: 'براؤزر اسٹوریج اور سرگرمی لاگز کا معائنہ کریں',
       inspectingText: 'معائنہ ہو رہا ہے...',
       inspectLocalStorageButton: 'LocalStorage کا معائنہ کریں',
-      inspectIndexedDBButton: 'IndexedDB کا معائنہ کریں',
 
       inspectSecurityDescriptionSmall:
         'ٹرانزیکشن اور دستخطی طریقوں کے لیے اس ایپلیکیشن کا تجزیہ کریں۔',
@@ -4719,12 +4548,6 @@ export const translations: Translations = {
       itemsCount: n => `${n} اشیاء`,
       encryptedBadge: 'خفیہ کردہ',
       clearItemAria: 'آئٹم صاف کریں',
-      indexedDBResultsHeading: 'IndexedDB نتائج',
-      databasesCount: n => `${n} ڈیٹا بیس`,
-      storesLabel: 'اسٹورز:',
-      recordsLabel: 'ریکارڈز:',
-      clearRecordAria: 'ریکارڈ صاف کریں',
-      storeKeyLabel: (store, key) => `اسٹور: ${store} | کلید: ${key}`,
 
       currentAccountHeading: 'موجودہ اکاؤنٹ',
       currentAccountDescription: 'یہ آپ کا فی الحال لاگ ان اکاؤنٹ ہے۔',
@@ -4854,7 +4677,7 @@ export const translations: Translations = {
       generatedLabel: 'تیار شدہ:',
       linkWalletButton: 'اس والیٹ کو اپنے پاس کی اکاؤنٹ سے منسلک کریں',
       linkExplanation:
-        'منسلک کرنے پر کیا ہوتا ہے: یہ والیٹ کے پتے localStorage اور IndexedDB دونوں میں محفوظ کر دے گا، جس سے آپ کے پاس کی اکاؤنٹ اور اس HD والیٹ کے درمیان ایک مستقل ربط بن جائے گا۔ آپ اسے ڈیوائسز کے درمیان والیٹ ڈیٹا کی تصدیق یا مطابقت پذیری کے لیے استعمال کر سکتے ہیں۔',
+        'منسلک کرنے پر کیا ہوتا ہے: یہ والیٹ کے پتے localStorage میں محفوظ کر دے گا، جس سے آپ کے پاس کی اکاؤنٹ اور اس HD والیٹ کے درمیان ایک مستقل ربط بن جائے گا۔ آپ اسے ڈیوائسز کے درمیان والیٹ ڈیٹا کی تصدیق یا مطابقت پذیری کے لیے استعمال کر سکتے ہیں۔',
       howQrWorksHeading: 'QR کوڈ والیٹ مطابقت پذیری کیسے کام کرتی ہے',
       qrStep1:
         'مرحلہ 1: QR کوڈ تیار کریں - اپنے بنیادی ڈیوائس پر، اپنے والیٹ کے پبلک پتوں پر مشتمل ایک QR کوڈ تیار کریں۔ اس QR کوڈ کو شیئر کرنا محفوظ ہے کیونکہ اس میں صرف عوامی معلومات شامل ہیں۔',
@@ -4863,7 +4686,7 @@ export const translations: Translations = {
       qrStep3:
         'مرحلہ 3: والیٹس کو منسلک کریں - JSON ڈیٹا کو اوپر دی گئی تصدیقی جگہ میں پیسٹ کریں اور "اس والیٹ کو منسلک کریں" پر کلک کریں۔ اس سے آپ کے پاس کی اکاؤنٹ اور HD والیٹ کے پتوں کے درمیان ایک مستقل کنکشن بنتا ہے۔',
       whatGetsStored:
-        'کیا محفوظ کیا جاتا ہے: صرف عوامی والیٹ پتے localStorage اور IndexedDB میں محفوظ کیے جاتے ہیں۔ آپ کی پرائیویٹ کیز اور بحالی کا فقرہ محفوظ رہتے ہیں اور اس مطابقت پذیری کے طریقہ کار کے ذریعے کبھی منتقل یا محفوظ نہیں کیے جاتے۔',
+        'کیا محفوظ کیا جاتا ہے: صرف عوامی والیٹ پتے localStorage میں محفوظ کیے جاتے ہیں۔ آپ کی پرائیویٹ کیز اور بحالی کا فقرہ محفوظ رہتے ہیں اور اس مطابقت پذیری کے طریقہ کار کے ذریعے کبھی منتقل یا محفوظ نہیں کیے جاتے۔',
       platformSyncHeading: 'پاس کی پلیٹ فارم مطابقت پذیری',
       platformSyncIntro:
         'آپ کی پاس کی کی تفصیلات ایک ہی ایکو سسٹم کے اندر ڈیوائسز کے درمیان خودکار طور پر مطابقت پذیر ہوتی ہیں:',
@@ -4907,9 +4730,6 @@ export const translations: Translations = {
       localStorageModalTitle: 'LocalStorage معائنہ',
       foundItemsText: n => `localStorage میں ${n} اشیاء ملیں`,
       noDataFound: 'کوئی ڈیٹا نہیں ملا',
-      indexedDBModalTitle: 'IndexedDB معائنہ',
-      foundDatabasesText: n => `${n} ڈیٹا بیس ملے`,
-      noDatabasesFound: 'کوئی w3pk سے متعلق ڈیٹا بیس نہیں ملا',
 
       registrationSuccessTitle: 'رجسٹریشن کامیاب',
       registrationSuccessDescription: 'آپ کا نیا اکاؤنٹ بن گیا ہے۔',
@@ -4920,16 +4740,9 @@ export const translations: Translations = {
         `${n} اشیاء ملیں۔ نتائج دیکھنے کے لیے نیچے سکرول کریں۔`,
       genericErrorTitle: 'خرابی',
       failedInspectLocalStorage: 'localStorage کا معائنہ ناکام ہوا',
-      indexedDBInspectedTitle: 'IndexedDB کا معائنہ مکمل',
-      indexedDBInspectedDescription: (dbCount, recordCount) =>
-        `${recordCount} ریکارڈز کے ساتھ ${dbCount} ڈیٹا بیس ملے۔ نتائج دیکھنے کے لیے نیچے سکرول کریں۔`,
-      failedInspectIndexedDB: 'IndexedDB کا معائنہ ناکام ہوا',
       itemClearedTitle: 'آئٹم صاف ہو گیا',
       itemClearedDescription: key => `"${key}" کو localStorage سے ہٹا دیا گیا`,
       failedClearItem: key => `"${key}" کو صاف کرنا ناکام ہوا`,
-      recordClearedTitle: 'ریکارڈ صاف ہو گیا',
-      recordClearedDescription: (db, store) => `${db}/${store} سے ریکارڈ ہٹا دیا گیا`,
-      failedClearRecord: 'ریکارڈ صاف کرنا ناکام ہوا',
       errorLoadingAddressesTitle: 'پتے لوڈ کرنے میں خرابی',
       failedDeriveAddresses: 'والیٹ کے پتے اخذ کرنا ناکام ہوا',
       errorLoadingBackupStatusTitle: 'بیک اپ کی صورتحال لوڈ کرنے میں خرابی',

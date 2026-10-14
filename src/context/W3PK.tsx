@@ -178,7 +178,7 @@ interface W3pkType {
   /** Update the "Remember Me" window; applies at the next real (prompted) login */
   setPersistentSessionDuration: (days: number) => void
   /**
-   * Whether a persistent session blob exists in IndexedDB. When the user is
+   * Whether a persistent session blob exists in localStorage. When the user is
    * authenticated but this is false, the authenticator lacks WebAuthn PRF
    * support and w3pk keeps sessions in memory only (no "Remember Me").
    */
@@ -208,8 +208,7 @@ interface W3pkProviderProps {
 
 const REGISTRATION_TIMEOUT_MS = 45000 // 45 seconds
 
-const SESSIONS_DB_NAME = 'Web3PasskeyPersistentSessions'
-const SESSIONS_STORE_NAME = 'sessions'
+const SESSION_KEY_PREFIX = 'w3pk_session_'
 
 export function isUserCancelledError(error: unknown): boolean {
   if (error && typeof error === 'object' && 'name' in error && 'message' in error) {
@@ -253,53 +252,12 @@ function isAuthRequiredError(error: unknown, extraMatches: string[] = []): boole
 }
 
 /**
- * Open the w3pk persistent sessions database, or resolve null if it
- * doesn't exist yet (or IndexedDB is unavailable).
- */
-async function openSessionsDB(): Promise<IDBDatabase | null> {
-  if (typeof window === 'undefined' || !window.indexedDB) {
-    return null
-  }
-
-  return new Promise(resolve => {
-    const request = indexedDB.open(SESSIONS_DB_NAME)
-    request.onerror = () => resolve(null)
-    request.onsuccess = event => {
-      const db = (event.target as IDBOpenDBRequest).result
-      if (!db.objectStoreNames.contains(SESSIONS_STORE_NAME)) {
-        db.close()
-        resolve(null)
-        return
-      }
-      resolve(db)
-    }
-  })
-}
-
-/**
- * Check if any persistent session exists in IndexedDB
+ * Check if any persistent session exists in localStorage
  * This allows us to avoid triggering WebAuthn prompt when no session exists
  */
-async function checkIndexedDBForPersistentSession(): Promise<boolean> {
+function hasStoredPersistentSession(): boolean {
   try {
-    const db = await openSessionsDB()
-    if (!db) {
-      return false
-    }
-
-    try {
-      const countRequest = db
-        .transaction([SESSIONS_STORE_NAME], 'readonly')
-        .objectStore(SESSIONS_STORE_NAME)
-        .count()
-
-      return await new Promise<boolean>(resolve => {
-        countRequest.onsuccess = () => resolve(countRequest.result > 0)
-        countRequest.onerror = () => resolve(false)
-      })
-    } finally {
-      db.close()
-    }
+    return Object.keys(localStorage).some(key => key.startsWith(SESSION_KEY_PREFIX))
   } catch {
     return false
   }
@@ -391,15 +349,7 @@ export const W3pkProvider: React.FC<W3pkProviderProps> = ({ children }) => {
           return
         }
 
-        // Check if persistent session exists in IndexedDB with timeout for mobile
-        const checkPromise = checkIndexedDBForPersistentSession()
-        const timeoutPromise = new Promise<boolean>(
-          resolve => setTimeout(() => resolve(false), 3000) // 3 second timeout for mobile
-        )
-
-        const hasPersistentSession = await Promise.race([checkPromise, timeoutPromise])
-
-        if (hasPersistentSession) {
+        if (hasStoredPersistentSession()) {
           // Try to restore from persistent session via login()
           try {
             await w3pk.login()
@@ -705,7 +655,7 @@ export const W3pkProvider: React.FC<W3pkProviderProps> = ({ children }) => {
 
   const logout = async (): Promise<void> => {
     // The SDK's logout() clears the in-memory session and ALL persistent
-    // sessions from IndexedDB. Awaiting it ensures the IndexedDB clear
+    // sessions from localStorage. Awaiting it ensures the clear
     // completes before any navigation (interrupted clears used to leave
     // stale sessions behind on mobile)
     try {
@@ -733,7 +683,7 @@ export const W3pkProvider: React.FC<W3pkProviderProps> = ({ children }) => {
   }
 
   const hasPersistentSession = (): Promise<boolean> => {
-    return checkIndexedDBForPersistentSession()
+    return Promise.resolve(hasStoredPersistentSession())
   }
 
   const hasLocalCredentials = async (): Promise<boolean> => {

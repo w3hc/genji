@@ -1,27 +1,22 @@
 /**
  * Storage inspection utilities for w3pk
- * Allows debugging and inspection of localStorage and IndexedDB
+ * Allows debugging and inspection of localStorage, where w3pk keeps all its data
  */
 
 export interface LocalStorageItem {
   key: string
   value: string
   parsedValue?: any
-  type: 'w3pk_credential' | 'w3pk_credential_index' | 'w3pk_auth_state' | 'other_w3pk' | 'other'
+  type:
+    | 'w3pk_credential'
+    | 'w3pk_credential_index'
+    | 'w3pk_wallet'
+    | 'w3pk_session'
+    | 'w3pk_backup'
+    | 'w3pk_auth_state'
+    | 'other_w3pk'
+    | 'other'
   encrypted?: boolean
-}
-
-export interface IndexedDBRecord {
-  key: string
-  value: any
-  store: string
-}
-
-export interface IndexedDBInfo {
-  name: string
-  version: number
-  stores: string[]
-  records: IndexedDBRecord[]
 }
 
 /**
@@ -48,6 +43,14 @@ export async function inspectLocalStorage(): Promise<LocalStorageItem[]> {
         encrypted = true
       } else if (key === 'w3pk_credential_index') {
         type = 'w3pk_credential_index'
+      } else if (key.startsWith('w3pk_wallet_')) {
+        type = 'w3pk_wallet'
+        encrypted = true
+      } else if (key.startsWith('w3pk_session_')) {
+        type = 'w3pk_session'
+        encrypted = true
+      } else if (key === 'w3pk_backups' || key === 'w3pk_backup_verifications') {
+        type = 'w3pk_backup'
       } else if (key === 'w3pk_auth_state') {
         type = 'w3pk_auth_state'
       } else if (key.includes('w3pk') || key.includes('passkey')) {
@@ -80,6 +83,9 @@ export async function inspectLocalStorage(): Promise<LocalStorageItem[]> {
         'w3pk_credential_index',
         'w3pk_auth_state',
         'w3pk_credential',
+        'w3pk_wallet',
+        'w3pk_session',
+        'w3pk_backup',
         'other_w3pk',
         'other',
       ]
@@ -89,127 +95,6 @@ export async function inspectLocalStorage(): Promise<LocalStorageItem[]> {
   })
 
   return items
-}
-
-/**
- * Inspects IndexedDB for w3pk-related databases
- */
-export async function inspectIndexedDB(): Promise<IndexedDBInfo[]> {
-  if (typeof window === 'undefined' || !window.indexedDB) {
-    return []
-  }
-
-  const dbInfos: IndexedDBInfo[] = []
-
-  try {
-    // Get all databases
-    const databases = await indexedDB.databases()
-
-    for (const dbInfo of databases) {
-      if (!dbInfo.name) continue
-
-      // Only inspect w3pk-related databases or all if debugging
-      if (
-        dbInfo.name.toLowerCase().includes('web3') ||
-        dbInfo.name.toLowerCase().includes('passkey') ||
-        dbInfo.name.toLowerCase().includes('w3pk')
-      ) {
-        try {
-          const db = await openDatabase(dbInfo.name, dbInfo.version)
-          const stores = Array.from(db.objectStoreNames)
-          const records: IndexedDBRecord[] = []
-
-          // Read all records from all stores
-          for (const storeName of stores) {
-            try {
-              const storeRecords = await getAllRecordsFromStore(db, storeName)
-              records.push(
-                ...storeRecords.map(record => ({
-                  key: record.key,
-                  value: record.value,
-                  store: storeName,
-                }))
-              )
-            } catch (error) {
-              console.error(`Error reading store ${storeName}:`, error)
-            }
-          }
-
-          dbInfos.push({
-            name: dbInfo.name,
-            version: dbInfo.version || 1,
-            stores,
-            records,
-          })
-
-          db.close()
-        } catch (error) {
-          console.error(`Error opening database ${dbInfo.name}:`, error)
-        }
-      }
-    }
-  } catch (error) {
-    console.error('Error getting databases:', error)
-  }
-
-  return dbInfos
-}
-
-/**
- * Opens an IndexedDB database
- */
-function openDatabase(name: string, version?: number): Promise<IDBDatabase> {
-  return new Promise((resolve, reject) => {
-    const request = version ? indexedDB.open(name, version) : indexedDB.open(name)
-
-    request.onerror = () => reject(request.error)
-    request.onsuccess = () => resolve(request.result)
-    request.onupgradeneeded = () => {
-      // Don't modify the database during inspection
-    }
-  })
-}
-
-/**
- * Gets all records from an IndexedDB object store
- */
-function getAllRecordsFromStore(
-  db: IDBDatabase,
-  storeName: string
-): Promise<Array<{ key: string; value: any }>> {
-  return new Promise((resolve, reject) => {
-    try {
-      const transaction = db.transaction(storeName, 'readonly')
-      const store = transaction.objectStore(storeName)
-      const request = store.getAll()
-
-      request.onerror = () => reject(request.error)
-      request.onsuccess = () => {
-        const records = request.result || []
-
-        // Get the keys as well
-        const keysRequest = store.getAllKeys()
-        keysRequest.onsuccess = () => {
-          const keys = keysRequest.result || []
-          const result = records.map((value, index) => ({
-            key: keys[index]?.toString() || index.toString(),
-            value,
-          }))
-          resolve(result)
-        }
-        keysRequest.onerror = () => {
-          // Fallback: use index as key
-          const result = records.map((value, index) => ({
-            key: index.toString(),
-            value,
-          }))
-          resolve(result)
-        }
-      }
-    } catch (error) {
-      reject(error)
-    }
-  })
 }
 
 /**
@@ -282,37 +167,6 @@ export function clearLocalStorageItem(key: string): boolean {
 }
 
 /**
- * Clears a single record from IndexedDB
- */
-export async function clearIndexedDBRecord(
-  dbName: string,
-  storeName: string,
-  key: string
-): Promise<boolean> {
-  if (typeof window === 'undefined' || !window.indexedDB) {
-    return false
-  }
-
-  try {
-    const db = await openDatabase(dbName)
-    const transaction = db.transaction(storeName, 'readwrite')
-    const store = transaction.objectStore(storeName)
-
-    await new Promise<void>((resolve, reject) => {
-      const request = store.delete(key)
-      request.onsuccess = () => resolve()
-      request.onerror = () => reject(request.error)
-    })
-
-    db.close()
-    return true
-  } catch (error) {
-    console.error(`Error clearing IndexedDB record ${dbName}/${storeName}/${key}:`, error)
-    return false
-  }
-}
-
-/**
  * Clears all w3pk-related data from localStorage
  */
 export function clearAllW3pkLocalStorage(): { cleared: string[]; failed: string[] } {
@@ -334,53 +188,6 @@ export function clearAllW3pkLocalStorage(): { cleared: string[]; failed: string[
       console.error(`Error clearing localStorage key ${key}:`, error)
       failed.push(key)
     }
-  }
-
-  return { cleared, failed }
-}
-
-/**
- * Clears all w3pk-related IndexedDB databases
- */
-export async function clearAllW3pkIndexedDB(): Promise<{ cleared: string[]; failed: string[] }> {
-  const cleared: string[] = []
-  const failed: string[] = []
-
-  if (typeof window === 'undefined' || !window.indexedDB) {
-    return { cleared, failed }
-  }
-
-  try {
-    const databases = await indexedDB.databases()
-
-    for (const dbInfo of databases) {
-      if (!dbInfo.name) continue
-
-      // Only clear w3pk-related databases
-      if (
-        dbInfo.name.toLowerCase().includes('web3') ||
-        dbInfo.name.toLowerCase().includes('passkey') ||
-        dbInfo.name.toLowerCase().includes('w3pk')
-      ) {
-        try {
-          await new Promise<void>((resolve, reject) => {
-            const request = indexedDB.deleteDatabase(dbInfo.name!)
-            request.onsuccess = () => resolve()
-            request.onerror = () => reject(request.error)
-            request.onblocked = () => {
-              console.warn(`Deletion of ${dbInfo.name} is blocked`)
-              reject(new Error('Deletion blocked'))
-            }
-          })
-          cleared.push(dbInfo.name)
-        } catch (error) {
-          console.error(`Error clearing IndexedDB ${dbInfo.name}:`, error)
-          failed.push(dbInfo.name)
-        }
-      }
-    }
-  } catch (error) {
-    console.error('Error getting databases:', error)
   }
 
   return { cleared, failed }
