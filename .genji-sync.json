@@ -16,6 +16,8 @@
     "src/app/globals.css",
     "src/app/settings/",
     "src/components/ui/",
+    "src/components/BackupBanner.tsx",
+    "src/components/BackupStep.tsx",
     "src/components/BuildVerification.tsx",
     "src/components/CodeBlock.tsx",
     "src/components/LanguageSelector.tsx",
@@ -24,7 +26,8 @@
     "src/context/W3PK.tsx",
     "src/hooks/",
     "src/theme/",
-    "src/utils/"
+    "src/utils/",
+    "src/utils/evictionRisk.ts"
   ],
 
   "merge": {
@@ -32,7 +35,7 @@
     "next.config.ts": "Union, never replace. Take new or changed security headers, but keep every origin the project added to connect-src / img-src / frame-src — its RPC, API and CDN hosts are not the template's business. A project on a different chain will have a different RPC in connect-src; that entry must survive. If the project has no headers() block or no CSP at all, it lost them in a refactor rather than choosing to drop them: restore this file's whole security block, then add the project's own origins to connect-src. A missing CSP only shows up in production, so check for its presence on every sync, not just for changed directives.",
     ".env.template": "Add new variables, keep the project's own.",
     "src/context/index.tsx": "Provider composition. Add providers the template introduced, keep providers the project added.",
-    "src/app/layout.tsx": "Take structural changes, keep project-specific metadata, fonts and analytics.",
+    "src/app/layout.tsx": "Take structural changes, keep project-specific metadata, fonts and analytics. The <BackupBanner /> above the page content and the <BackupStep /> next to the Toaster are chassis: add them if the project's layout lacks them (they need src/utils/evictionRisk.ts, the backup.* translations and the W3PK context's backup state).",
     "src/translations/index.ts": "Project-owned branding text — never delete or overwrite a key the project already has. But add every key and locale genji introduces that the project is missing, so the project's UI never falls back to an undefined string. Keys that only serve a page in the never list are the exception — about.* and navigation.about belong to src/app/about, which customize.js deletes, so a project without that page does not need them and adding them is dead weight. If a new key needs project-specific wording (a product name, a URL), add it with genji's default text and flag it in the sync report for the user to localize."
   },
 
