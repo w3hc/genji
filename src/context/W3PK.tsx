@@ -194,8 +194,8 @@ interface W3pkType {
   /** null until the backup status is known for the logged-in user */
   hasBackup: boolean | null
   /**
-   * The "Back up your wallet" step. It opens after a registration without a
-   * backup, and is blocking only where the browser can wipe the wallet (Safari)
+   * The "Back up your wallet" step. It opens, blocking, after a registration
+   * without a backup, only where the browser can wipe the wallet (Safari)
    */
   backupPrompt: { open: boolean; blocking: boolean }
   openBackupPrompt: () => void
@@ -427,8 +427,8 @@ export const W3pkProvider: React.FC<W3pkProviderProps> = ({ children }) => {
       console.log('[W3PK] Registration successful')
 
       setHasBackup(result.hasBackup)
-      if (!result.hasBackup) {
-        setBackupPrompt({ open: true, blocking: hasEvictionRisk(w3pk.storagePersisted) })
+      if (!result.hasBackup && hasEvictionRisk(w3pk.storagePersisted)) {
+        setBackupPrompt({ open: true, blocking: true })
       }
 
       toaster.create({
