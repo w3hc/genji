@@ -78,7 +78,7 @@ src/
 �� utils/
    �� i18n.ts             # Language detection
    �� browserDetection.ts # WebAuthn capability check
-   �� storageInspection.ts # localStorage/IndexedDB tools
+   �� storageInspection.ts # localStorage inspection tools
 �� theme/
    �� index.ts            # Brand colors (Purple #8c1c84, Blue #45a2f8)
    �� system.ts           # Chakra theme config
@@ -92,7 +92,7 @@ src/
 
 **Passkeys**: Stored in browser's Secure Enclave (hardware-backed, survives data clearing)
 
-**Encrypted Wallet Mnemonic**: Stored in `localStorage` using AES-GCM encryption
+**Encrypted Wallet Mnemonic**: Stored in `localStorage` using AES-GCM encryption, with persistent sessions and backup records (w3pk ≥ 0.10.3 no longer uses IndexedDB)
 
 - **Risk**: Cleared when users clear cookies/site data
 - **Mitigation**: Backup creation UI prominently featured in settings
