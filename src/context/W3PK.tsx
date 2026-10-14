@@ -191,14 +191,11 @@ interface W3pkType {
    * failing, so the caller should offer registration directly.
    */
   hasLocalCredentials: () => Promise<boolean>
-  /** null until the backup status is known for the logged-in user */
-  hasBackup: boolean | null
   /**
    * The "Back up your wallet" step. It opens, blocking, after a registration
    * without a backup, only where the browser can wipe the wallet (Safari)
    */
   backupPrompt: { open: boolean; blocking: boolean }
-  openBackupPrompt: () => void
   closeBackupPrompt: () => void
   /** Record that the user chose to go on without a backup, and close the step */
   skipBackup: () => void
@@ -280,7 +277,6 @@ export const W3pkProvider: React.FC<W3pkProviderProps> = ({ children }) => {
   const [user, setUser] = useState<W3pkUser | null>(null)
   const [isLoading, setIsLoading] = useState(false)
   const [isMounted, setIsMounted] = useState(false)
-  const [hasBackup, setHasBackup] = useState<boolean | null>(null)
   const [backupPrompt, setBackupPrompt] = useState({ open: false, blocking: false })
 
   useEffect(() => {
@@ -385,24 +381,9 @@ export const W3pkProvider: React.FC<W3pkProviderProps> = ({ children }) => {
   }, [isMounted, w3pk, handleAuthStateChanged])
 
   useEffect(() => {
-    if (!isAuthenticated) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setHasBackup(null)
-      setBackupPrompt({ open: false, blocking: false })
-      return
-    }
-
-    let cancelled = false
-    w3pk
-      .getBackupStatus()
-      .then(status => {
-        if (!cancelled) setHasBackup(status.hasBackup)
-      })
-      .catch(error => console.error('[W3PK] Failed to read backup status:', error))
-    return () => {
-      cancelled = true
-    }
-  }, [isAuthenticated, w3pk])
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    if (!isAuthenticated) setBackupPrompt({ open: false, blocking: false })
+  }, [isAuthenticated])
 
   const register = async (username: string): Promise<void> => {
     try {
@@ -426,7 +407,6 @@ export const W3pkProvider: React.FC<W3pkProviderProps> = ({ children }) => {
 
       console.log('[W3PK] Registration successful')
 
-      setHasBackup(result.hasBackup)
       if (!result.hasBackup && hasEvictionRisk(w3pk.storagePersisted)) {
         setBackupPrompt({ open: true, blocking: true })
       }
@@ -763,7 +743,6 @@ export const W3pkProvider: React.FC<W3pkProviderProps> = ({ children }) => {
     try {
       setIsLoading(true)
       const result = await runWithAuthRetry(() => w3pk.createBackupFile('password', password))
-      setHasBackup(true)
       setBackupPrompt({ open: false, blocking: false })
       return result.blob
     } catch (error) {
@@ -1084,10 +1063,6 @@ export const W3pkProvider: React.FC<W3pkProviderProps> = ({ children }) => {
     }
   }
 
-  const openBackupPrompt = (): void => {
-    setBackupPrompt({ open: true, blocking: false })
-  }
-
   const closeBackupPrompt = (): void => {
     setBackupPrompt(prompt => (prompt.blocking ? prompt : { open: false, blocking: false }))
   }
@@ -1126,9 +1101,7 @@ export const W3pkProvider: React.FC<W3pkProviderProps> = ({ children }) => {
         setPersistentSessionDuration,
         hasPersistentSession,
         hasLocalCredentials,
-        hasBackup,
         backupPrompt,
-        openBackupPrompt,
         closeBackupPrompt,
         skipBackup,
       }}

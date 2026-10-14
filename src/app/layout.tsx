@@ -6,7 +6,6 @@ import { Box, Container } from '@chakra-ui/react'
 import { metadata } from './metadata'
 import { LanguageProvider } from '@/context/LanguageContext'
 import { Toaster } from '@/components/ui/toaster'
-import BackupBanner from '@/components/BackupBanner'
 import BackupStep from '@/components/BackupStep'
 
 const inter = Inter({ subsets: ['latin'] })
@@ -36,7 +35,6 @@ export default function RootLayout({
                 px={{ base: 4, md: 6, lg: 8 }}
                 mx="auto"
               >
-                <BackupBanner />
                 {children}
               </Container>
             </Box>
