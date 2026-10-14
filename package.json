@@ -51,9 +51,13 @@
     "overrides": {
       "underscore@<1.13.8": ">=1.13.8",
       "ws@>=8.0.0 <8.21.0": ">=8.21.0",
-      "brace-expansion@1": ">=1.1.18 <2",
-      "brace-expansion@2": ">=2.1.4 <3",
-      "js-yaml@4": ">=4.3.1 <5",
+      "brace-expansion@1": ">=1.1.21 <2",
+      "brace-expansion@2": ">=2.1.7 <3",
+      "brace-expansion@5": ">=5.0.12 <6",
+      "js-yaml@4": ">=4.3.2 <5",
+      "source-map-js@1": ">=1.2.2 <2",
+      "sharp@<0.35.5": ">=0.35.5",
+      "baseline-browser-mapping@2": ">=2.11.0 <3",
       "esbuild@>=0.27.3 <0.28.1": ">=0.28.1"
     },
     "onlyBuiltDependencies": [
