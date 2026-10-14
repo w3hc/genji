@@ -40,7 +40,7 @@
    - Password-protected ZIP backups with AES-256-GCM encryption
    - Restoration from ZIP/JSON files
    - Security scoring and recovery recommendations
-   - Backup step after registration ([BackupStep.tsx](../src/components/BackupStep.tsx)), blocking only on Safari, plus a banner while no backup exists
+   - Backup step after registration ([BackupStep.tsx](../src/components/BackupStep.tsx)), blocking, on Safari only
    - Three-layer recovery architecture:
      1. Passkey auto-sync (iCloud Keychain, Google Password Manager, etc.)
      2. Encrypted backup files (user-generated)
@@ -69,7 +69,6 @@ src/
 �� components/
    �� ui/                 # Chakra UI component wrappers
    �� Header.tsx          # Navigation + auth UI
-   �� BackupBanner.tsx    # "No backup yet" banner
    �� BackupStep.tsx      # Backup step after registration
    �� PasswordModal.tsx   # Password input for backup/restore
 �� context/
@@ -99,7 +98,7 @@ src/
 **Encrypted Wallet Mnemonic**: Stored in `localStorage` using AES-GCM encryption, with persistent sessions and backup records (w3pk ≥ 0.10.3 no longer uses IndexedDB)
 
 - **Risk**: Cleared when users clear cookies/site data, and by Safari after 7 days without a visit (unless the app runs from the Home Screen)
-- **Mitigation**: A backup step opens after registration when no backup exists (blocking on Safari, dismissible elsewhere), and a banner stays up until one does
+- **Mitigation**: A backup step opens after registration when no backup exists on Safari, where the browser can wipe it, and is blocking until the user backs up or accepts the risk
 - **Future**: Consider browser extension for persistent storage
 
 ### Security
