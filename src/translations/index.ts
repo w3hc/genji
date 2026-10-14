@@ -342,7 +342,6 @@ type TranslationKeys = {
     downloadButton: string
     passwordModalTitle: string
     passwordModalDescription: string
-    laterButton: string
     skipButton: string
     backupCreatedTitle: string
     backupFailedTitle: string
@@ -798,7 +797,6 @@ export const translations: Translations = {
       passwordModalTitle: 'Protect your backup',
       passwordModalDescription:
         'Choose a strong password. You will need it to restore your wallet from this file.',
-      laterButton: 'Later',
       skipButton: 'I understand the risk',
       backupCreatedTitle: 'Backup downloaded',
       backupFailedTitle: 'Backup failed',
@@ -1227,7 +1225,6 @@ export const translations: Translations = {
       downloadButton: '下载备份文件',
       passwordModalTitle: '保护您的备份',
       passwordModalDescription: '请选择一个强密码。从此文件恢复钱包时需要用到它。',
-      laterButton: '稍后',
       skipButton: '我了解风险',
       backupCreatedTitle: '备份已下载',
       backupFailedTitle: '备份失败',
@@ -1689,7 +1686,6 @@ export const translations: Translations = {
       passwordModalTitle: 'अपने बैकअप को सुरक्षित करें',
       passwordModalDescription:
         'एक मज़बूत पासवर्ड चुनें। इस फ़ाइल से वॉलेट पुनर्स्थापित करने के लिए इसकी आवश्यकता होगी।',
-      laterButton: 'बाद में',
       skipButton: 'मैं जोखिम समझता/समझती हूँ',
       backupCreatedTitle: 'बैकअप डाउनलोड हो गया',
       backupFailedTitle: 'बैकअप विफल रहा',
@@ -2166,7 +2162,6 @@ export const translations: Translations = {
       passwordModalTitle: 'Protege tu copia de seguridad',
       passwordModalDescription:
         'Elige una contraseña segura. La necesitarás para restaurar tu billetera desde este archivo.',
-      laterButton: 'Más tarde',
       skipButton: 'Entiendo el riesgo',
       backupCreatedTitle: 'Copia de seguridad descargada',
       backupFailedTitle: 'Error en la copia de seguridad',
@@ -2652,7 +2647,6 @@ export const translations: Translations = {
       passwordModalTitle: 'Protégez votre sauvegarde',
       passwordModalDescription:
         'Choisissez un mot de passe fort. Il vous sera demandé pour restaurer votre portefeuille à partir de ce fichier.',
-      laterButton: 'Plus tard',
       skipButton: 'Je comprends le risque',
       backupCreatedTitle: 'Sauvegarde téléchargée',
       backupFailedTitle: 'Échec de la sauvegarde',
@@ -3106,7 +3100,6 @@ export const translations: Translations = {
       downloadButton: 'تنزيل ملف النسخة الاحتياطية',
       passwordModalTitle: 'احمِ نسختك الاحتياطية',
       passwordModalDescription: 'اختر كلمة مرور قوية. ستحتاجها لاستعادة محفظتك من هذا الملف.',
-      laterButton: 'لاحقاً',
       skipButton: 'أفهم المخاطرة',
       backupCreatedTitle: 'تم تنزيل النسخة الاحتياطية',
       backupFailedTitle: 'فشل النسخ الاحتياطي',
@@ -3578,7 +3571,6 @@ export const translations: Translations = {
       passwordModalTitle: 'আপনার ব্যাকআপ সুরক্ষিত করুন',
       passwordModalDescription:
         'একটি শক্তিশালী পাসওয়ার্ড বেছে নিন। এই ফাইল থেকে ওয়ালেট পুনরুদ্ধার করতে এটি লাগবে।',
-      laterButton: 'পরে',
       skipButton: 'আমি ঝুঁকি বুঝি',
       backupCreatedTitle: 'ব্যাকআপ ডাউনলোড হয়েছে',
       backupFailedTitle: 'ব্যাকআপ ব্যর্থ হয়েছে',
@@ -4055,7 +4047,6 @@ export const translations: Translations = {
       passwordModalTitle: 'Защитите резервную копию',
       passwordModalDescription:
         'Выберите надёжный пароль. Он понадобится, чтобы восстановить кошелёк из этого файла.',
-      laterButton: 'Позже',
       skipButton: 'Я понимаю риск',
       backupCreatedTitle: 'Резервная копия скачана',
       backupFailedTitle: 'Не удалось создать резервную копию',
@@ -4533,7 +4524,6 @@ export const translations: Translations = {
       passwordModalTitle: 'Proteja a sua cópia de segurança',
       passwordModalDescription:
         'Escolha uma palavra-passe forte. Vai precisar dela para restaurar a carteira a partir deste ficheiro.',
-      laterButton: 'Mais tarde',
       skipButton: 'Compreendo o risco',
       backupCreatedTitle: 'Cópia de segurança transferida',
       backupFailedTitle: 'Falha na cópia de segurança',
@@ -5003,7 +4993,6 @@ export const translations: Translations = {
       passwordModalTitle: 'اپنے بیک اپ کو محفوظ کریں',
       passwordModalDescription:
         'ایک مضبوط پاس ورڈ منتخب کریں۔ اس فائل سے والیٹ بحال کرنے کے لیے اس کی ضرورت ہوگی۔',
-      laterButton: 'بعد میں',
       skipButton: 'میں خطرہ سمجھتا/سمجھتی ہوں',
       backupCreatedTitle: 'بیک اپ ڈاؤن لوڈ ہو گیا',
       backupFailedTitle: 'بیک اپ ناکام ہو گیا',

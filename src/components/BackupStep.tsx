@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { Text, VStack, Flex, CloseButton } from '@chakra-ui/react'
+import { Text, VStack, Flex } from '@chakra-ui/react'
 import { Dialog, Portal } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
 import { Alert } from '@/components/ui/alert'
@@ -24,7 +24,7 @@ function downloadBlob(blob: Blob, filename: string) {
 
 export default function BackupStep() {
   const t = useTranslation()
-  const { user, backupPrompt, closeBackupPrompt, skipBackup, createBackup } = useW3PK()
+  const { user, backupPrompt, skipBackup, createBackup } = useW3PK()
   const [showPasswordModal, setShowPasswordModal] = useState(false)
 
   const handlePasswordSubmit = async (password: string) => {
@@ -47,15 +47,12 @@ export default function BackupStep() {
     }
   }
 
-  const { blocking } = backupPrompt
-
   return (
     <>
       <Dialog.Root
         open={backupPrompt.open && !showPasswordModal}
-        onOpenChange={(e: { open: boolean }) => (e.open ? null : closeBackupPrompt())}
-        closeOnInteractOutside={!blocking}
-        closeOnEscape={!blocking}
+        closeOnInteractOutside={false}
+        closeOnEscape={false}
       >
         <Portal>
           <Dialog.Backdrop />
@@ -67,13 +64,11 @@ export default function BackupStep() {
               <Dialog.Body pt={4}>
                 <VStack align="stretch" gap={4}>
                   <Text>{t.backup.description}</Text>
-                  {blocking && (
-                    <Alert.Root status="warning">
-                      <Alert.Indicator />
-                      <Alert.Title>{t.backup.safariWarning}</Alert.Title>
-                    </Alert.Root>
-                  )}
-                  {blocking && isIOS() && (
+                  <Alert.Root status="warning">
+                    <Alert.Indicator />
+                    <Alert.Title>{t.backup.safariWarning}</Alert.Title>
+                  </Alert.Root>
+                  {isIOS() && (
                     <Text fontSize="sm" color="gray.400">
                       {t.backup.homeScreenHint}
                     </Text>
@@ -82,15 +77,9 @@ export default function BackupStep() {
               </Dialog.Body>
               <Dialog.Footer pt={6}>
                 <Flex gap={3} justify="flex-end" wrap="wrap" w="full">
-                  {blocking ? (
-                    <Button variant="ghost" onClick={skipBackup}>
-                      {t.backup.skipButton}
-                    </Button>
-                  ) : (
-                    <Button variant="ghost" onClick={closeBackupPrompt}>
-                      {t.backup.laterButton}
-                    </Button>
-                  )}
+                  <Button variant="ghost" onClick={skipBackup}>
+                    {t.backup.skipButton}
+                  </Button>
                   <Button
                     bg={brandColors.primary}
                     color="white"
@@ -101,11 +90,6 @@ export default function BackupStep() {
                   </Button>
                 </Flex>
               </Dialog.Footer>
-              {!blocking && (
-                <Dialog.CloseTrigger asChild>
-                  <CloseButton size="sm" />
-                </Dialog.CloseTrigger>
-              )}
             </Dialog.Content>
           </Dialog.Positioner>
         </Portal>

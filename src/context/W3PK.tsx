@@ -195,8 +195,7 @@ interface W3pkType {
    * The "Back up your wallet" step. It opens, blocking, after a registration
    * without a backup, only where the browser can wipe the wallet (Safari)
    */
-  backupPrompt: { open: boolean; blocking: boolean }
-  closeBackupPrompt: () => void
+  backupPrompt: { open: boolean }
   /** Record that the user chose to go on without a backup, and close the step */
   skipBackup: () => void
 }
@@ -277,7 +276,7 @@ export const W3pkProvider: React.FC<W3pkProviderProps> = ({ children }) => {
   const [user, setUser] = useState<W3pkUser | null>(null)
   const [isLoading, setIsLoading] = useState(false)
   const [isMounted, setIsMounted] = useState(false)
-  const [backupPrompt, setBackupPrompt] = useState({ open: false, blocking: false })
+  const [backupPrompt, setBackupPrompt] = useState({ open: false })
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
@@ -382,7 +381,7 @@ export const W3pkProvider: React.FC<W3pkProviderProps> = ({ children }) => {
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
-    if (!isAuthenticated) setBackupPrompt({ open: false, blocking: false })
+    if (!isAuthenticated) setBackupPrompt({ open: false })
   }, [isAuthenticated])
 
   const register = async (username: string): Promise<void> => {
@@ -408,7 +407,7 @@ export const W3pkProvider: React.FC<W3pkProviderProps> = ({ children }) => {
       console.log('[W3PK] Registration successful')
 
       if (!result.hasBackup && hasEvictionRisk(w3pk.storagePersisted)) {
-        setBackupPrompt({ open: true, blocking: true })
+        setBackupPrompt({ open: true })
       }
 
       toaster.create({
@@ -743,7 +742,7 @@ export const W3pkProvider: React.FC<W3pkProviderProps> = ({ children }) => {
     try {
       setIsLoading(true)
       const result = await runWithAuthRetry(() => w3pk.createBackupFile('password', password))
-      setBackupPrompt({ open: false, blocking: false })
+      setBackupPrompt({ open: false })
       return result.blob
     } catch (error) {
       if (!isUserCancelledError(error)) {
@@ -1063,15 +1062,11 @@ export const W3pkProvider: React.FC<W3pkProviderProps> = ({ children }) => {
     }
   }
 
-  const closeBackupPrompt = (): void => {
-    setBackupPrompt(prompt => (prompt.blocking ? prompt : { open: false, blocking: false }))
-  }
-
   const skipBackup = (): void => {
     if (user) {
       localStorage.setItem(`genji_backup_skipped_${user.ethereumAddress}`, new Date().toISOString())
     }
-    setBackupPrompt({ open: false, blocking: false })
+    setBackupPrompt({ open: false })
   }
 
   return (
@@ -1102,7 +1097,6 @@ export const W3pkProvider: React.FC<W3pkProviderProps> = ({ children }) => {
         hasPersistentSession,
         hasLocalCredentials,
         backupPrompt,
-        closeBackupPrompt,
         skipBackup,
       }}
     >
