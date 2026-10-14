@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 3.2.0 - 2026-10-14
 
 ### Removed
 
@@ -8,9 +8,8 @@
 
 ### Added
 
-- Backup step after registration: when `register()` reports no backup, a "Back up your wallet" dialog offers a password-protected backup file. On Safari in a tab (WebKit outside a home-screen app, with storage not persisted, detected by `src/utils/evictionRisk.ts`) it is blocking, and can only be closed with a backup or an explicit "I understand the risk", which is recorded per address; on iOS it suggests "Add to Home Screen". Elsewhere it is dismissible
-- A banner while the logged-in wallet has no backup (`getBackupStatus().hasBackup === false`), with a "Back up now" button; the W3PK context exposes `hasBackup`, `backupPrompt`, `openBackupPrompt`, `closeBackupPrompt` and `skipBackup`
-- `.genji-sync.json` syncs `BackupStep.tsx`, `BackupBanner.tsx` and `src/utils/evictionRisk.ts`, and its `layout.tsx` merge rule asks projects to mount both components
+- Backup step after registration, on Safari only: when `register()` reports no backup and the browser can wipe the wallet (WebKit in a tab, outside a home-screen app, with storage not persisted, detected by `src/utils/evictionRisk.ts`), a blocking "Back up your wallet" dialog offers a password-protected backup file. It can only be closed with a backup or an explicit "I understand the risk", which is recorded per address; on iOS it suggests "Add to Home Screen". Other browsers get no prompt; backups stay available from Settings. The W3PK context exposes `backupPrompt` and `skipBackup`
+- `.genji-sync.json` syncs `BackupStep.tsx` and `src/utils/evictionRisk.ts`, and its `layout.tsx` merge rule asks projects to mount `<BackupStep />`
 - HTTP security headers on every route in `next.config.ts`, adopted from the presidentielle security audit (22 Aug 2026): a Content-Security-Policy (`default-src 'self'`; `connect-src` limited to same-origin plus the Optimism RPC and the w3pk endpoints; `frame-ancestors 'none'`; `object-src 'none'`), `X-Frame-Options: DENY`, `X-Content-Type-Options: nosniff`, `Referrer-Policy: strict-origin-when-cross-origin`, a restrictive `Permissions-Policy`, and `Strict-Transport-Security` with `includeSubDomains; preload`
 - `pnpm.overrides` in `package.json` forcing patched versions of transitive dependencies with known advisories (`underscore`, `ws`, `brace-expansion` v1/v2, `js-yaml`, `esbuild`); `pnpm audit` now reports only two advisories with no patched release: the low-severity `elliptic` one (reachable only via the legacy ethers 5.8 bundled by `circomlibjs`) and the high-severity `braces` one (dev-only, via `eslint-config-next` → `fast-glob`), down from 7 high / 1 moderate / 2 low
 - `pnpm-workspace.yaml` with `minimumReleaseAge: 4320` (3 days), so freshly published — potentially hijacked — dependency versions cannot be installed immediately (`w3pk` excluded, as it is published by this project's own maintainer)
