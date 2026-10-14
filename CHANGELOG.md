@@ -21,6 +21,7 @@
 
 ### Fixed
 
+- README dependency versions now match `package.json` (w3pk `v0.10.3`, Next.js `v16.4.0`, Chakra UI `v3.37.0`)
 - "Remember Me" restores the session silently again with w3pk 0.10.3, which moved persistent sessions from IndexedDB to localStorage: the W3PK context now detects them from the `w3pk_session_` keys
 - Build verification no longer fails with `TypeError: Failed to fetch`: `connect-src` in `next.config.ts` now allows `https://unpkg.com`, where `getCurrentBuildHash()` downloads the published w3pk build to hash it
 - Login button on a device with no registered passkey now opens the registration modal directly instead of triggering the browser's cross-device "scan this QR code" passkey dialog (the W3PK context now exposes `hasLocalCredentials()`, checked before calling `login()`)
