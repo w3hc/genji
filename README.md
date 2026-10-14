@@ -9,10 +9,10 @@ Next.js Web3 starter with passkey auth and [WCAG 2.1 AA](https://www.levelaccess
 
 Includes:
 
-- **[w3pk](https://w3pk.w3hc.org/)** `v0.10.2`
-- [Next.js](https://nextjs.org/) `v16.3.1`
+- **[w3pk](https://w3pk.w3hc.org/)** `v0.10.3`
+- [Next.js](https://nextjs.org/) `v16.4.0`
 - [Ethers](https://docs.ethers.org/) `v6.17.0`
-- [Chakra UI](https://chakra-ui.com/) `v3.36.1`
+- [Chakra UI](https://chakra-ui.com/) `v3.37.0`
 
 > **Note:** `typescript` and `eslint` are pinned to `6.0.3` and `9.39.5`. `typescript-eslint` doesn't yet support TypeScript 7 or ESLint 10 in a stable release ([tracking issue](https://github.com/typescript-eslint/typescript-eslint/issues/11762)) — revisit once TS 7.1 ships (stable expected November 2026) and `typescript-eslint` catches up.
 
