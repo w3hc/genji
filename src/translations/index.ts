@@ -334,6 +334,21 @@ type TranslationKeys = {
     noAccountFoundDescription: string
     alreadyRegisteredLink: string
   }
+  backup: {
+    title: string
+    description: string
+    safariWarning: string
+    homeScreenHint: string
+    downloadButton: string
+    passwordModalTitle: string
+    passwordModalDescription: string
+    laterButton: string
+    skipButton: string
+    bannerText: string
+    bannerButton: string
+    backupCreatedTitle: string
+    backupFailedTitle: string
+  }
   passwordModal: {
     passwordLabel: string
     passwordPlaceholder: string
@@ -774,6 +789,24 @@ export const translations: Translations = {
       noAccountFoundDescription: 'No passkey found. Please register to create a new account.',
       alreadyRegisteredLink: 'I already registered on another device',
     },
+    backup: {
+      title: 'Back up your wallet',
+      description:
+        'Your wallet is stored only in this browser. If its data is wiped, a backup file is the only way to get your wallet back.',
+      safariWarning:
+        "Safari deletes this site's data after 7 days without a visit. Without a backup, your wallet would be lost.",
+      homeScreenHint: 'Add this app to your Home Screen: Safari then keeps its data.',
+      downloadButton: 'Download a backup file',
+      passwordModalTitle: 'Protect your backup',
+      passwordModalDescription:
+        'Choose a strong password. You will need it to restore your wallet from this file.',
+      laterButton: 'Later',
+      skipButton: 'I understand the risk',
+      bannerText: 'Your wallet has no backup yet.',
+      bannerButton: 'Back up now',
+      backupCreatedTitle: 'Backup downloaded',
+      backupFailedTitle: 'Backup failed',
+    },
     passwordModal: {
       passwordLabel: 'Password',
       passwordPlaceholder: 'Enter your password',
@@ -1189,6 +1222,21 @@ export const translations: Translations = {
       noAccountFoundTitle: '未找到账户',
       noAccountFoundDescription: '未找到通行密钥。请注册以创建新账户。',
       alreadyRegisteredLink: '我已在其他设备上注册过',
+    },
+    backup: {
+      title: '备份您的钱包',
+      description: '您的钱包仅存储在此浏览器中。如果其数据被清除，备份文件是找回钱包的唯一方式。',
+      safariWarning: 'Safari 会在 7 天未访问后删除此网站的数据。没有备份，您的钱包将会丢失。',
+      homeScreenHint: '将此应用添加到主屏幕：Safari 将会保留其数据。',
+      downloadButton: '下载备份文件',
+      passwordModalTitle: '保护您的备份',
+      passwordModalDescription: '请选择一个强密码。从此文件恢复钱包时需要用到它。',
+      laterButton: '稍后',
+      skipButton: '我了解风险',
+      bannerText: '您的钱包尚未备份。',
+      bannerButton: '立即备份',
+      backupCreatedTitle: '备份已下载',
+      backupFailedTitle: '备份失败',
     },
     passwordModal: {
       passwordLabel: '密码',
@@ -1635,6 +1683,24 @@ export const translations: Translations = {
       noAccountFoundTitle: 'कोई खाता नहीं मिला',
       noAccountFoundDescription: 'कोई पासकी नहीं मिली। नया खाता बनाने के लिए कृपया रजिस्टर करें।',
       alreadyRegisteredLink: 'मैंने पहले ही किसी अन्य डिवाइस पर पंजीकरण कर लिया है',
+    },
+    backup: {
+      title: 'अपने वॉलेट का बैकअप लें',
+      description:
+        'आपका वॉलेट केवल इसी ब्राउज़र में संग्रहीत है। यदि इसका डेटा मिट जाता है, तो बैकअप फ़ाइल ही आपका वॉलेट वापस पाने का एकमात्र तरीका है।',
+      safariWarning:
+        'Safari 7 दिनों तक साइट पर न आने पर इसका डेटा हटा देता है। बैकअप के बिना आपका वॉलेट खो जाएगा।',
+      homeScreenHint: 'इस ऐप को अपनी होम स्क्रीन पर जोड़ें: तब Safari इसका डेटा सुरक्षित रखता है।',
+      downloadButton: 'बैकअप फ़ाइल डाउनलोड करें',
+      passwordModalTitle: 'अपने बैकअप को सुरक्षित करें',
+      passwordModalDescription:
+        'एक मज़बूत पासवर्ड चुनें। इस फ़ाइल से वॉलेट पुनर्स्थापित करने के लिए इसकी आवश्यकता होगी।',
+      laterButton: 'बाद में',
+      skipButton: 'मैं जोखिम समझता/समझती हूँ',
+      bannerText: 'आपके वॉलेट का अभी तक कोई बैकअप नहीं है।',
+      bannerButton: 'अभी बैकअप लें',
+      backupCreatedTitle: 'बैकअप डाउनलोड हो गया',
+      backupFailedTitle: 'बैकअप विफल रहा',
     },
     passwordModal: {
       passwordLabel: 'पासवर्ड',
@@ -2096,6 +2162,24 @@ export const translations: Translations = {
       noAccountFoundDescription:
         'No se encontró ninguna clave de acceso. Por favor regístrate para crear una nueva cuenta.',
       alreadyRegisteredLink: 'Ya me registré en otro dispositivo',
+    },
+    backup: {
+      title: 'Haz una copia de seguridad de tu billetera',
+      description:
+        'Tu billetera solo está guardada en este navegador. Si sus datos se borran, un archivo de copia de seguridad es la única forma de recuperarla.',
+      safariWarning:
+        'Safari borra los datos de este sitio tras 7 días sin visitarlo. Sin una copia de seguridad, perderías tu billetera.',
+      homeScreenHint: 'Añade esta app a tu pantalla de inicio: así Safari conserva sus datos.',
+      downloadButton: 'Descargar un archivo de copia de seguridad',
+      passwordModalTitle: 'Protege tu copia de seguridad',
+      passwordModalDescription:
+        'Elige una contraseña segura. La necesitarás para restaurar tu billetera desde este archivo.',
+      laterButton: 'Más tarde',
+      skipButton: 'Entiendo el riesgo',
+      bannerText: 'Tu billetera aún no tiene copia de seguridad.',
+      bannerButton: 'Hacer copia ahora',
+      backupCreatedTitle: 'Copia de seguridad descargada',
+      backupFailedTitle: 'Error en la copia de seguridad',
     },
     passwordModal: {
       passwordLabel: 'Contraseña',
@@ -2566,6 +2650,25 @@ export const translations: Translations = {
         "Aucune clé d'accès trouvée. Veuillez vous inscrire pour créer un nouveau compte.",
       alreadyRegisteredLink: 'Je suis déjà inscrit sur un autre appareil',
     },
+    backup: {
+      title: 'Sauvegardez votre portefeuille',
+      description:
+        'Votre portefeuille est stocké uniquement dans ce navigateur. Si ses données sont effacées, un fichier de sauvegarde est le seul moyen de le récupérer.',
+      safariWarning:
+        'Safari supprime les données de ce site après 7 jours sans visite. Sans sauvegarde, votre portefeuille serait perdu.',
+      homeScreenHint:
+        "Ajoutez cette app à votre écran d'accueil : Safari conserve alors ses données.",
+      downloadButton: 'Télécharger un fichier de sauvegarde',
+      passwordModalTitle: 'Protégez votre sauvegarde',
+      passwordModalDescription:
+        'Choisissez un mot de passe fort. Il vous sera demandé pour restaurer votre portefeuille à partir de ce fichier.',
+      laterButton: 'Plus tard',
+      skipButton: 'Je comprends le risque',
+      bannerText: "Votre portefeuille n'a pas encore de sauvegarde.",
+      bannerButton: 'Sauvegarder maintenant',
+      backupCreatedTitle: 'Sauvegarde téléchargée',
+      backupFailedTitle: 'Échec de la sauvegarde',
+    },
     passwordModal: {
       passwordLabel: 'Mot de passe',
       passwordPlaceholder: 'Entrez votre mot de passe',
@@ -3004,6 +3107,23 @@ export const translations: Translations = {
       noAccountFoundTitle: 'لم يتم العثور على حساب',
       noAccountFoundDescription: 'لم يتم العثور على مفتاح مرور. يرجى التسجيل لإنشاء حساب جديد.',
       alreadyRegisteredLink: 'لقد قمت بالتسجيل بالفعل على جهاز آخر',
+    },
+    backup: {
+      title: 'انسخ محفظتك احتياطياً',
+      description:
+        'محفظتك مخزّنة في هذا المتصفح فقط. إذا مُسحت بياناته، فملف النسخة الاحتياطية هو الطريقة الوحيدة لاستعادة محفظتك.',
+      safariWarning:
+        'يحذف Safari بيانات هذا الموقع بعد 7 أيام دون زيارة. بدون نسخة احتياطية ستفقد محفظتك.',
+      homeScreenHint: 'أضف هذا التطبيق إلى شاشتك الرئيسية: عندها يحتفظ Safari ببياناته.',
+      downloadButton: 'تنزيل ملف النسخة الاحتياطية',
+      passwordModalTitle: 'احمِ نسختك الاحتياطية',
+      passwordModalDescription: 'اختر كلمة مرور قوية. ستحتاجها لاستعادة محفظتك من هذا الملف.',
+      laterButton: 'لاحقاً',
+      skipButton: 'أفهم المخاطرة',
+      bannerText: 'لا توجد نسخة احتياطية لمحفظتك بعد.',
+      bannerButton: 'انسخ احتياطياً الآن',
+      backupCreatedTitle: 'تم تنزيل النسخة الاحتياطية',
+      backupFailedTitle: 'فشل النسخ الاحتياطي',
     },
     passwordModal: {
       passwordLabel: 'كلمة المرور',
@@ -3460,6 +3580,24 @@ export const translations: Translations = {
       noAccountFoundDescription:
         'কোনো পাসকী পাওয়া যায়নি। নতুন অ্যাকাউন্ট তৈরি করতে অনুগ্রহ করে নিবন্ধন করুন।',
       alreadyRegisteredLink: 'আমি ইতিমধ্যে অন্য ডিভাইসে নিবন্ধিত হয়েছি',
+    },
+    backup: {
+      title: 'আপনার ওয়ালেটের ব্যাকআপ নিন',
+      description:
+        'আপনার ওয়ালেট শুধুমাত্র এই ব্রাউজারে সংরক্ষিত। এর ডেটা মুছে গেলে, ব্যাকআপ ফাইলই ওয়ালেট ফিরে পাওয়ার একমাত্র উপায়।',
+      safariWarning:
+        'Safari ৭ দিন সাইটে না এলে এর ডেটা মুছে ফেলে। ব্যাকআপ ছাড়া আপনার ওয়ালেট হারিয়ে যাবে।',
+      homeScreenHint: 'এই অ্যাপটি আপনার হোম স্ক্রিনে যোগ করুন: তখন Safari এর ডেটা রেখে দেয়।',
+      downloadButton: 'ব্যাকআপ ফাইল ডাউনলোড করুন',
+      passwordModalTitle: 'আপনার ব্যাকআপ সুরক্ষিত করুন',
+      passwordModalDescription:
+        'একটি শক্তিশালী পাসওয়ার্ড বেছে নিন। এই ফাইল থেকে ওয়ালেট পুনরুদ্ধার করতে এটি লাগবে।',
+      laterButton: 'পরে',
+      skipButton: 'আমি ঝুঁকি বুঝি',
+      bannerText: 'আপনার ওয়ালেটের এখনও কোনো ব্যাকআপ নেই।',
+      bannerButton: 'এখনই ব্যাকআপ নিন',
+      backupCreatedTitle: 'ব্যাকআপ ডাউনলোড হয়েছে',
+      backupFailedTitle: 'ব্যাকআপ ব্যর্থ হয়েছে',
     },
     passwordModal: {
       passwordLabel: 'পাসওয়ার্ড',
@@ -3921,6 +4059,24 @@ export const translations: Translations = {
       noAccountFoundDescription:
         'Ключ доступа не найден. Пожалуйста, зарегистрируйтесь, чтобы создать новый аккаунт.',
       alreadyRegisteredLink: 'Я уже зарегистрирован на другом устройстве',
+    },
+    backup: {
+      title: 'Создайте резервную копию кошелька',
+      description:
+        'Ваш кошелёк хранится только в этом браузере. Если его данные будут удалены, резервный файл — единственный способ вернуть кошелёк.',
+      safariWarning:
+        'Safari удаляет данные этого сайта, если его не открывали 7 дней. Без резервной копии кошелёк будет потерян.',
+      homeScreenHint: 'Добавьте это приложение на экран «Домой»: тогда Safari сохранит его данные.',
+      downloadButton: 'Скачать резервный файл',
+      passwordModalTitle: 'Защитите резервную копию',
+      passwordModalDescription:
+        'Выберите надёжный пароль. Он понадобится, чтобы восстановить кошелёк из этого файла.',
+      laterButton: 'Позже',
+      skipButton: 'Я понимаю риск',
+      bannerText: 'У вашего кошелька ещё нет резервной копии.',
+      bannerButton: 'Создать копию',
+      backupCreatedTitle: 'Резервная копия скачана',
+      backupFailedTitle: 'Не удалось создать резервную копию',
     },
     passwordModal: {
       passwordLabel: 'Пароль',
@@ -4384,6 +4540,24 @@ export const translations: Translations = {
         'Nenhuma chave de acesso encontrada. Por favor, registre-se para criar uma nova conta.',
       alreadyRegisteredLink: 'Já me registrei em outro dispositivo',
     },
+    backup: {
+      title: 'Faça uma cópia de segurança da sua carteira',
+      description:
+        'A sua carteira está guardada apenas neste navegador. Se os dados forem apagados, um ficheiro de cópia de segurança é a única forma de a recuperar.',
+      safariWarning:
+        'O Safari apaga os dados deste site após 7 dias sem visita. Sem uma cópia de segurança, perderia a sua carteira.',
+      homeScreenHint: 'Adicione esta app ao ecrã principal: assim o Safari mantém os dados.',
+      downloadButton: 'Transferir um ficheiro de cópia de segurança',
+      passwordModalTitle: 'Proteja a sua cópia de segurança',
+      passwordModalDescription:
+        'Escolha uma palavra-passe forte. Vai precisar dela para restaurar a carteira a partir deste ficheiro.',
+      laterButton: 'Mais tarde',
+      skipButton: 'Compreendo o risco',
+      bannerText: 'A sua carteira ainda não tem cópia de segurança.',
+      bannerButton: 'Fazer cópia agora',
+      backupCreatedTitle: 'Cópia de segurança transferida',
+      backupFailedTitle: 'Falha na cópia de segurança',
+    },
     passwordModal: {
       passwordLabel: 'Senha',
       passwordPlaceholder: 'Digite sua senha',
@@ -4836,6 +5010,25 @@ export const translations: Translations = {
       noAccountFoundDescription:
         'کوئی پاس کی نہیں ملی۔ نیا اکاؤنٹ بنانے کے لیے براہ کرم رجسٹر کریں۔',
       alreadyRegisteredLink: 'میں پہلے ہی دوسرے ڈیوائس پر رجسٹر ہو چکا ہوں',
+    },
+    backup: {
+      title: 'اپنے والیٹ کا بیک اپ لیں',
+      description:
+        'آپ کا والیٹ صرف اسی براؤزر میں محفوظ ہے۔ اگر اس کا ڈیٹا مٹ جائے تو بیک اپ فائل ہی والیٹ واپس پانے کا واحد طریقہ ہے۔',
+      safariWarning:
+        'Safari سات دن تک سائٹ پر نہ آنے پر اس کا ڈیٹا حذف کر دیتا ہے۔ بیک اپ کے بغیر آپ کا والیٹ ضائع ہو جائے گا۔',
+      homeScreenHint:
+        'اس ایپ کو اپنی ہوم اسکرین پر شامل کریں: پھر Safari اس کا ڈیٹا برقرار رکھتا ہے۔',
+      downloadButton: 'بیک اپ فائل ڈاؤن لوڈ کریں',
+      passwordModalTitle: 'اپنے بیک اپ کو محفوظ کریں',
+      passwordModalDescription:
+        'ایک مضبوط پاس ورڈ منتخب کریں۔ اس فائل سے والیٹ بحال کرنے کے لیے اس کی ضرورت ہوگی۔',
+      laterButton: 'بعد میں',
+      skipButton: 'میں خطرہ سمجھتا/سمجھتی ہوں',
+      bannerText: 'آپ کے والیٹ کا ابھی کوئی بیک اپ نہیں ہے۔',
+      bannerButton: 'ابھی بیک اپ لیں',
+      backupCreatedTitle: 'بیک اپ ڈاؤن لوڈ ہو گیا',
+      backupFailedTitle: 'بیک اپ ناکام ہو گیا',
     },
     passwordModal: {
       passwordLabel: 'پاس ورڈ',
