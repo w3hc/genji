@@ -65,8 +65,8 @@ importers:
         specifier: ^2.0.2
         version: 2.0.2
       w3pk:
-        specifier: ^0.10.2
-        version: 0.10.2(ethers@6.17.0)
+        specifier: ^0.10.3
+        version: 0.10.3(ethers@6.17.0)
     devDependencies:
       '@eslint/eslintrc':
         specifier: ^3.3.6
@@ -3634,8 +3634,8 @@ packages:
   vfile@6.0.3:
     resolution: {integrity: sha512-KzIbH/9tXat2u30jf+smMwFCsno4wHVdNmzFyL+T/L3UGqqk6JKfVqOFOZEpZSHADH1k40ab6NUIXZq422ov3Q==}
 
-  w3pk@0.10.2:
-    resolution: {integrity: sha512-thx43DXvqFZ6fMqQD6M1dPIemgWo+83vVJVQJ1rTwvqRTy+yORWh4JNHyW8scnA7tJ1Evv7Jq3LKG3a8sttLIg==}
+  w3pk@0.10.3:
+    resolution: {integrity: sha512-gC4BNxQPmavFle068r/dilEQR2N4nmLn1+t7f78BJRuBeO0it8qOMEhM58Vv35r+Hj47JaJrdahL68YLtWMqOQ==}
     peerDependencies:
       ethers: ^6.0.0
 
@@ -8560,7 +8560,7 @@ snapshots:
       '@types/unist': 3.0.3
       vfile-message: 4.0.3
 
-  w3pk@0.10.2(ethers@6.17.0):
+  w3pk@0.10.3(ethers@6.17.0):
     dependencies:
       '@noble/hashes': 2.2.0
       ethers: 6.17.0

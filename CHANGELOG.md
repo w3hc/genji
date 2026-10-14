@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+### Removed
+
+- The IndexedDB inspector on the Settings page, its modal and translations, the IndexedDB helpers in `src/utils/storageInspection.ts` (including the unused `clearAllW3pkIndexedDB()`), and the `w3pk-wallet-sync` IndexedDB copy of linked wallets, which are now saved to localStorage only
+
 ### Added
 
 - HTTP security headers on every route in `next.config.ts`, adopted from the presidentielle security audit (22 Aug 2026): a Content-Security-Policy (`default-src 'self'`; `connect-src` limited to same-origin plus the Optimism RPC and the w3pk endpoints; `frame-ancestors 'none'`; `object-src 'none'`), `X-Frame-Options: DENY`, `X-Content-Type-Options: nosniff`, `Referrer-Policy: strict-origin-when-cross-origin`, a restrictive `Permissions-Policy`, and `Strict-Transport-Security` with `includeSubDomains; preload`
@@ -15,12 +19,16 @@
 
 ### Fixed
 
+- "Remember Me" restores the session silently again with w3pk 0.10.3, which moved persistent sessions from IndexedDB to localStorage: the W3PK context now detects them from the `w3pk_session_` keys
+- Build verification no longer fails with `TypeError: Failed to fetch`: `connect-src` in `next.config.ts` now allows `https://unpkg.com`, where `getCurrentBuildHash()` downloads the published w3pk build to hash it
 - Login button on a device with no registered passkey now opens the registration modal directly instead of triggering the browser's cross-device "scan this QR code" passkey dialog (the W3PK context now exposes `hasLocalCredentials()`, checked before calling `login()`)
 - `isNoPasskeyError` now recognizes the w3pk 0.10.x "No passkey found" error message, so cancelling a passkey prompt with no account still falls back to the registration modal
 - `customize.js` now produces prettier-clean output: the translations rewrite is a precise line-based removal of the `about` navigation entries (it no longer strips trailing commas across the whole file), and the doubled blank line in the generated `Header.tsx` template is gone — `pnpm format:check` and `pnpm lint` pass right after `pnpm customize`
 
 ### Changed
 
+- Bumped `w3pk` to 0.10.3, which keeps the wallet, persistent sessions and backups in localStorage instead of IndexedDB
+- The Settings storage inspector now lists those records under localStorage (`w3pk_wallet`, `w3pk_session` and `w3pk_backup` types, wallet and session records marked as encrypted)
 - Disabled the AI-powered security inspection feature (the "Security Inspect" cards on the Settings page, the `about` page feature bullet, the `window.w3pk.inspect()`/`inspectNow()` console shortcuts, and the related `BuildVerification` console hint); the underlying `w3pk` `inspect`/`inspectNow` calls are commented out rather than removed
 - The Settings page (accounts, backup, device sync, social recovery, browser/security inspection, all toasts and dialogs), the About page (intro, features list, email subscription), and the remaining Home page strings (sign-message toast, loading/not-available states) are now fully translated in all 10 supported languages, closing the gap left by the earlier partial translation pass (large expansion of `settings` and new top-level `about` section in `src/translations/index.ts`)
 - The "Sign a message" button on the home page is now translated in all 10 supported languages (new `home.signMessage` translation key)
