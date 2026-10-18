@@ -373,6 +373,7 @@ type TranslationKeys = {
     introPart2: string
     emailBoxText: string
     emailPlaceholder: string
+    firstNamePlaceholder: string
     subscribeButton: string
     githubLabel: string
     npmLabel: string
@@ -830,6 +831,7 @@ export const translations: Translations = {
       emailBoxText:
         'w3pk is under dev. Receive emails when we ship new features (EIP-1193 support, AI capacities, Viem helpers, chain abstraction, and more)',
       emailPlaceholder: 'your@email.com',
+      firstNamePlaceholder: 'First name',
       subscribeButton: 'Subscribe',
       githubLabel: 'GitHub',
       npmLabel: 'NPM',
@@ -1258,6 +1260,7 @@ export const translations: Translations = {
       emailBoxText:
         'w3pk 仍在开发中。订阅后可在我们发布新功能时收到邮件通知（EIP-1193 支持、AI 能力、Viem 辅助工具、链抽象等）',
       emailPlaceholder: 'your@email.com',
+      firstNamePlaceholder: '名字',
       subscribeButton: '订阅',
       githubLabel: 'GitHub',
       npmLabel: 'NPM',
@@ -1720,6 +1723,7 @@ export const translations: Translations = {
       emailBoxText:
         'w3pk अभी विकासाधीन है। जब हम नई सुविधाएं जारी करें (EIP-1193 समर्थन, AI क्षमताएं, Viem हेल्पर्स, चेन एब्स्ट्रैक्शन, और अधिक) तो ईमेल प्राप्त करें',
       emailPlaceholder: 'your@email.com',
+      firstNamePlaceholder: 'पहला नाम',
       subscribeButton: 'सब्सक्राइब करें',
       githubLabel: 'GitHub',
       npmLabel: 'NPM',
@@ -2197,6 +2201,7 @@ export const translations: Translations = {
       emailBoxText:
         'w3pk está en desarrollo. Recibe correos electrónicos cuando publiquemos nuevas funciones (soporte de EIP-1193, capacidades de IA, ayudantes de Viem, abstracción de cadenas y más)',
       emailPlaceholder: 'your@email.com',
+      firstNamePlaceholder: 'Nombre',
       subscribeButton: 'Suscribirse',
       githubLabel: 'GitHub',
       npmLabel: 'NPM',
@@ -2682,6 +2687,7 @@ export const translations: Translations = {
       emailBoxText:
         'w3pk est en cours de développement. Recevez des e-mails lorsque nous publions de nouvelles fonctionnalités (support EIP-1193, capacités IA, aides Viem, abstraction de chaîne, et plus encore)',
       emailPlaceholder: 'your@email.com',
+      firstNamePlaceholder: 'Prénom',
       subscribeButton: "S'abonner",
       githubLabel: 'GitHub',
       npmLabel: 'NPM',
@@ -3133,6 +3139,7 @@ export const translations: Translations = {
       emailBoxText:
         'w3pk قيد التطوير. استلم رسائل بريد إلكتروني عند إطلاقنا لميزات جديدة (دعم EIP-1193، وقدرات الذكاء الاصطناعي، ومساعدات Viem، وتجريد السلاسل (chain abstraction)، والمزيد)',
       emailPlaceholder: 'your@email.com',
+      firstNamePlaceholder: 'الاسم الأول',
       subscribeButton: 'اشتراك',
       githubLabel: 'GitHub',
       npmLabel: 'NPM',
@@ -3606,6 +3613,7 @@ export const translations: Translations = {
       emailBoxText:
         'w3pk এখনও উন্নয়নাধীন। আমরা যখন নতুন বৈশিষ্ট্য প্রকাশ করি তখন ইমেইল পান (EIP-1193 সমর্থন, AI ক্ষমতা, Viem হেল্পার, চেইন অ্যাবস্ট্র্যাকশন এবং আরও অনেক কিছু)',
       emailPlaceholder: 'your@email.com',
+      firstNamePlaceholder: 'প্রথম নাম',
       subscribeButton: 'সাবস্ক্রাইব করুন',
       githubLabel: 'GitHub',
       npmLabel: 'NPM',
@@ -4082,6 +4090,7 @@ export const translations: Translations = {
       emailBoxText:
         'w3pk находится в разработке. Подписывайтесь на рассылку, чтобы узнавать о новых функциях (поддержка EIP-1193, возможности ИИ, хелперы Viem, абстракция сети и многое другое)',
       emailPlaceholder: 'your@email.com',
+      firstNamePlaceholder: 'Имя',
       subscribeButton: 'Подписаться',
       githubLabel: 'GitHub',
       npmLabel: 'NPM',
@@ -4559,6 +4568,7 @@ export const translations: Translations = {
       emailBoxText:
         'O w3pk está em desenvolvimento. Receba emails quando lançarmos novas funcionalidades (suporte EIP-1193, capacidades de IA, auxiliares Viem, abstração de cadeia, e mais)',
       emailPlaceholder: 'your@email.com',
+      firstNamePlaceholder: 'Nome',
       subscribeButton: 'Subscrever',
       githubLabel: 'GitHub',
       npmLabel: 'NPM',
@@ -5027,6 +5037,7 @@ export const translations: Translations = {
       emailBoxText:
         'w3pk ابھی زیر تعمیر ہے۔ جب ہم نئی خصوصیات شپ کریں (EIP-1193 سپورٹ، AI صلاحیتیں، Viem ہیلپرز، چین ایبسٹریکشن، اور مزید) تو ای میلز حاصل کریں',
       emailPlaceholder: 'your@email.com',
+      firstNamePlaceholder: 'پہلا نام',
       subscribeButton: 'سبسکرائب کریں',
       githubLabel: 'GitHub',
       npmLabel: 'NPM',
