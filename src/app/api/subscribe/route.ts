@@ -1,44 +1,24 @@
-import { NextRequest, NextResponse } from 'next/server'
-import { neon } from '@neondatabase/serverless'
+import { Pool } from 'pg'
 
-export async function POST(request: NextRequest) {
+const pool = new Pool({ connectionString: process.env.DATABASE_URL })
+
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
+export async function POST(req: Request) {
   try {
-    const { email } = await request.json()
-
-    if (!email || !email.includes('@')) {
-      return NextResponse.json({ error: 'Invalid email address' }, { status: 400 })
+    const { firstName, email } = await req.json()
+    if (!emailRegex.test(email?.trim() ?? '')) {
+      return Response.json({ error: 'Invalid input' }, { status: 400 })
     }
-
-    // Basic email validation
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-    if (!emailRegex.test(email)) {
-      return NextResponse.json({ error: 'Invalid email format' }, { status: 400 })
-    }
-
-    const databaseUrl = process.env.DATABASE_URL
-    if (!databaseUrl) {
-      console.error('DATABASE_URL is not configured')
-      return NextResponse.json({ error: 'Database configuration error' }, { status: 500 })
-    }
-
-    const sql = neon(databaseUrl)
-
-    // Try to insert the email, handle duplicate case
-    try {
-      await sql`
-        INSERT INTO subscribers (email)
-        VALUES (${email.toLowerCase()})
-      `
-      return NextResponse.json({ message: 'Successfully subscribed' }, { status: 200 })
-    } catch (error: any) {
-      // Check if it's a unique constraint violation (duplicate email)
-      if (error.code === '23505') {
-        return NextResponse.json({ message: 'Email already subscribed' }, { status: 200 })
-      }
-      throw error
-    }
+    await pool.query(
+      `INSERT INTO leads (first_name, email, topic)
+       VALUES ($1, $2, $3)
+       ON CONFLICT (email, topic) DO NOTHING`,
+      [firstName?.trim() || null, email.trim().toLowerCase(), 'genji']
+    )
+    return Response.json({ ok: true })
   } catch (error) {
-    console.error('Error saving email:', error)
-    return NextResponse.json({ error: 'Failed to subscribe' }, { status: 500 })
+    console.error('Error saving lead:', error)
+    return Response.json({ error: 'Failed to subscribe' }, { status: 500 })
   }
 }

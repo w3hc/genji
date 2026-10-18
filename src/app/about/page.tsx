@@ -11,6 +11,7 @@ import { useTranslation } from '@/hooks/useTranslation'
 
 export default function About() {
   const t = useTranslation()
+  const [firstName, setFirstName] = useState('')
   const [email, setEmail] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
 
@@ -32,7 +33,7 @@ export default function About() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ firstName, email }),
       })
 
       if (response.ok) {
@@ -42,6 +43,7 @@ export default function About() {
           type: 'success',
           duration: 3000,
         })
+        setFirstName('')
         setEmail('')
       } else {
         throw new Error('Subscription failed')
@@ -87,6 +89,20 @@ export default function About() {
           {t.about.emailBoxText}
         </Text>
         <HStack gap={3}>
+          <Input
+            placeholder={t.about.firstNamePlaceholder}
+            value={firstName}
+            onChange={e => setFirstName(e.target.value)}
+            onKeyDown={e => e.key === 'Enter' && handleEmailSubmit()}
+            bg="gray.800"
+            borderColor="gray.600"
+            pl={3}
+            _hover={{ borderColor: 'gray.500' }}
+            _focus={{
+              borderColor: brandColors.accent,
+              boxShadow: `0 0 0 1px ${brandColors.accent}`,
+            }}
+          />
           <Input
             placeholder={t.about.emailPlaceholder}
             value={email}

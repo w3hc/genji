@@ -1,5 +1,16 @@
 # Changelog
 
+## Unreleased
+
+### Changed
+
+- `/api/subscribe` writes to the shared `leads` table (`first_name`, `email`, `topic`) through `pg`, with topic `genji`, and ignores duplicates on `(email, topic)`
+- The About page subscription form has an optional first-name field
+
+### Removed
+
+- `@neondatabase/serverless`
+
 ## 3.2.0 - 2026-10-14
 
 ### Removed
