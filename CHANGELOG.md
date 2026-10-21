@@ -11,6 +11,10 @@
 
 - `@neondatabase/serverless`
 
+### Security
+
+- CI builds on Node.js 24 instead of end-of-life Node.js 20, and `package.json` requires Node.js `>=24.22.1` through `engines`, which fixes the [October 2026 Node.js security releases](https://nodejs.org/en/blog/vulnerability/october-2026-security-releases) (including CVE-2026-111497, a Brotli decoder out-of-bounds write that allows remote code execution, and the TLS certificate hostname bypasses)
+
 ## 3.2.0 - 2026-10-14
 
 ### Removed

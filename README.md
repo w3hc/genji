@@ -44,6 +44,8 @@ It diffs this template against _itself_ between your `templateVersion` and the n
 
 ## Install
 
+Requires Node.js 24.22.1 or later (see the [October 2026 security releases](https://nodejs.org/en/blog/vulnerability/october-2026-security-releases)).
+
 ```bash
 pnpm i
 ```
