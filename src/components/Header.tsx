@@ -333,7 +333,7 @@ export default function Header() {
                   </Field>{' '}
                   <ChakraLink
                     as={Link}
-                    href="/settings#restore-backup"
+                    href="/settings#sync-import"
                     onClick={handleModalClose}
                     fontSize="sm"
                     color={brandColors.accent}

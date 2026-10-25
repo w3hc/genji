@@ -25,7 +25,10 @@ import {
   // inspectNow,
   SocialRecoveryManager,
   PrfUnsupportedError,
+  SyncRequiredError,
+  WalletMissingError,
 } from 'w3pk'
+import { useRouter } from 'next/navigation'
 import { toaster } from '@/components/ui/toaster'
 
 type SecurityMode = 'PRIMARY' | 'STRICT' | 'STANDARD' | 'YOLO'
@@ -279,6 +282,7 @@ function hasStoredPersistentSession(): boolean {
 }
 
 export const W3pkProvider: React.FC<W3pkProviderProps> = ({ children }) => {
+  const router = useRouter()
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [user, setUser] = useState<W3pkUser | null>(null)
   const [isLoading, setIsLoading] = useState(false)
@@ -463,6 +467,22 @@ export const W3pkProvider: React.FC<W3pkProviderProps> = ({ children }) => {
       })
     } catch (error) {
       console.error('[W3PK] Login failed:', error)
+
+      // The passkey works, but this device has no wallet for it: send the
+      // user to sync it from another device, or restore a backup
+      if (error instanceof SyncRequiredError || error instanceof WalletMissingError) {
+        toaster.create({
+          title: 'Wallet Not on This Device',
+          description:
+            error instanceof SyncRequiredError
+              ? 'Your passkey synced here, but your wallet did not. Import a sync file from your other device, or restore a backup.'
+              : 'This browser cleared your wallet. Import a sync file from another device, or restore a backup.',
+          type: 'warning',
+          duration: 8000,
+        })
+        router.push('/settings#sync-import')
+        throw error
+      }
 
       // Silence cancellations, "no passkey on this device" (the Header handles
       // it by offering registration), and duplicate concurrent login attempts —
