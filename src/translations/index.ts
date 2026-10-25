@@ -77,8 +77,8 @@ type TranslationKeys = {
     firefoxMobileNote: string
 
     restoreBackupHeading: string
-    restoreBackupDescription: string
     restoreBackupSyncHint: string
+    restoreBackupDescription: string
     restoringText: string
     restoreBackupButton: string
 
@@ -477,10 +477,10 @@ export const translations: Translations = {
       firefoxMobileNote: 'Firefox Mobile - ⚠️ Avoid (known passkey persistence issues)',
 
       restoreBackupHeading: 'Restore from Backup',
+      restoreBackupSyncHint:
+        "If your passkey already synced to this device, the restore uses it. Otherwise you'll create a new passkey for the restored wallet. To move a wallet without a password, use a sync file instead.",
       restoreBackupDescription:
         'If you have a backup file, you can restore your wallet without logging in first.',
-      restoreBackupSyncHint:
-        'To sync with another device: log in on your other device, go to Settings → Create Backup to download an encrypted backup file, then upload it here and enter the same password.',
       restoringText: 'Restoring...',
       restoreBackupButton: 'Restore from Backup File',
 
@@ -935,9 +935,9 @@ export const translations: Translations = {
       firefoxMobileNote: 'Firefox 移动版 - ⚠️ 请避免使用（已知通行密钥持久化问题）',
 
       restoreBackupHeading: '从备份恢复',
-      restoreBackupDescription: '如果您有备份文件，无需先登录即可恢复您的钱包。',
       restoreBackupSyncHint:
-        '要与其他设备同步：请在您的另一台设备上登录，前往"设置 → 创建备份"下载加密备份文件，然后在此处上传该文件并输入相同的密码。',
+        '如果您的通行密钥已同步到此设备，恢复时将使用它；否则，您将为恢复的钱包创建一个新的通行密钥。如需无密码迁移钱包，请改用同步文件。',
+      restoreBackupDescription: '如果您有备份文件，无需先登录即可恢复您的钱包。',
       restoringText: '正在恢复...',
       restoreBackupButton: '从备份文件恢复',
 
@@ -1369,10 +1369,10 @@ export const translations: Translations = {
       firefoxMobileNote: 'Firefox Mobile - ⚠️ से बचें (पासकी स्थायित्व की ज्ञात समस्याएं)',
 
       restoreBackupHeading: 'बैकअप से पुनर्स्थापित करें',
+      restoreBackupSyncHint:
+        'अगर आपकी पासकी इस डिवाइस पर पहले से सिंक है, तो रिस्टोर उसी का उपयोग करेगा। नहीं तो, आप रिस्टोर किए गए वॉलेट के लिए नई पासकी बनाएँगे। बिना पासवर्ड वॉलेट ले जाने के लिए, सिंक फ़ाइल का उपयोग करें।',
       restoreBackupDescription:
         'यदि आपके पास बैकअप फ़ाइल है, तो आप पहले लॉगिन किए बिना अपना वॉलेट पुनर्स्थापित कर सकते हैं।',
-      restoreBackupSyncHint:
-        'किसी अन्य डिवाइस के साथ सिंक करने के लिए: अपने दूसरे डिवाइस पर लॉगिन करें, एन्क्रिप्टेड बैकअप फ़ाइल डाउनलोड करने के लिए सेटिंग्स → बैकअप बनाएं पर जाएं, फिर इसे यहां अपलोड करें और वही पासवर्ड दर्ज करें।',
       restoringText: 'पुनर्स्थापित हो रहा है...',
       restoreBackupButton: 'बैकअप फ़ाइल से पुनर्स्थापित करें',
 
@@ -1839,10 +1839,10 @@ export const translations: Translations = {
         'Firefox Mobile - ⚠️ Evitar (problemas conocidos de persistencia de claves de acceso)',
 
       restoreBackupHeading: 'Restaurar desde copia de seguridad',
+      restoreBackupSyncHint:
+        'Si tu passkey ya se sincronizó en este dispositivo, la restauración la usa. Si no, crearás una passkey nueva para la billetera restaurada. Para mover una billetera sin contraseña, usa un archivo de sincronización.',
       restoreBackupDescription:
         'Si tienes un archivo de copia de seguridad, puedes restaurar tu billetera sin iniciar sesión primero.',
-      restoreBackupSyncHint:
-        'Para sincronizar con otro dispositivo: inicia sesión en tu otro dispositivo, ve a Configuración → Crear copia de seguridad para descargar un archivo de copia de seguridad cifrado, luego súbelo aquí e introduce la misma contraseña.',
       restoringText: 'Restaurando...',
       restoreBackupButton: 'Restaurar desde archivo de copia de seguridad',
 
@@ -2325,10 +2325,10 @@ export const translations: Translations = {
         "Firefox Mobile - ⚠️ À éviter (problèmes connus de persistance des clés d'accès)",
 
       restoreBackupHeading: 'Restaurer depuis une sauvegarde',
+      restoreBackupSyncHint:
+        "Si votre passkey est déjà synchronisée sur cet appareil, la restauration l'utilise. Sinon, vous créerez une nouvelle passkey pour le portefeuille restauré. Pour déplacer un portefeuille sans mot de passe, utilisez plutôt un fichier de synchronisation.",
       restoreBackupDescription:
         "Si vous disposez d'un fichier de sauvegarde, vous pouvez restaurer votre portefeuille sans vous connecter au préalable.",
-      restoreBackupSyncHint:
-        'Pour synchroniser avec un autre appareil : connectez-vous sur votre autre appareil, allez dans Paramètres → Créer une sauvegarde pour télécharger un fichier de sauvegarde chiffré, puis importez-le ici et saisissez le même mot de passe.',
       restoringText: 'Restauration en cours...',
       restoreBackupButton: 'Restaurer depuis un fichier de sauvegarde',
 
@@ -2812,10 +2812,10 @@ export const translations: Translations = {
       firefoxMobileNote: 'Firefox Mobile - ⚠️ تجنبه (مشاكل معروفة في استمرارية مفتاح المرور)',
 
       restoreBackupHeading: 'الاستعادة من نسخة احتياطية',
+      restoreBackupSyncHint:
+        'إذا كان مفتاح المرور قد تمت مزامنته مع هذا الجهاز، فستستخدمه الاستعادة. وإلا فستنشئ مفتاح مرور جديدًا للمحفظة المستعادة. لنقل محفظة دون كلمة مرور، استخدم ملف مزامنة بدلًا من ذلك.',
       restoreBackupDescription:
         'إذا كان لديك ملف نسخة احتياطية، يمكنك استعادة محفظتك دون تسجيل الدخول أولاً.',
-      restoreBackupSyncHint:
-        'للمزامنة مع جهاز آخر: سجّل الدخول على جهازك الآخر، انتقل إلى الإعدادات ← إنشاء نسخة احتياطية لتنزيل ملف نسخة احتياطية مشفّر، ثم قم برفعه هنا وأدخل نفس كلمة المرور.',
       restoringText: 'جارٍ الاستعادة...',
       restoreBackupButton: 'الاستعادة من ملف النسخة الاحتياطية',
 
@@ -3269,10 +3269,10 @@ export const translations: Translations = {
         'Firefox Mobile - ⚠️ এড়িয়ে চলুন (পাসকী স্থায়িত্বের পরিচিত সমস্যা রয়েছে)',
 
       restoreBackupHeading: 'ব্যাকআপ থেকে পুনরুদ্ধার করুন',
+      restoreBackupSyncHint:
+        'আপনার পাসকি এই ডিভাইসে আগে থেকেই সিঙ্ক থাকলে রিস্টোর সেটিই ব্যবহার করবে। না থাকলে, রিস্টোর করা ওয়ালেটের জন্য নতুন পাসকি তৈরি করবেন। পাসওয়ার্ড ছাড়া ওয়ালেট সরাতে সিঙ্ক ফাইল ব্যবহার করুন।',
       restoreBackupDescription:
         'যদি আপনার কাছে একটি ব্যাকআপ ফাইল থাকে, তাহলে আগে লগইন না করেই আপনি আপনার ওয়ালেট পুনরুদ্ধার করতে পারেন।',
-      restoreBackupSyncHint:
-        'অন্য একটি ডিভাইসের সাথে সিঙ্ক করতে: আপনার অন্য ডিভাইসে লগইন করুন, একটি এনক্রিপ্ট করা ব্যাকআপ ফাইল ডাউনলোড করতে Settings → Create Backup-এ যান, তারপর এটি এখানে আপলোড করুন এবং একই পাসওয়ার্ড লিখুন।',
       restoringText: 'পুনরুদ্ধার করা হচ্ছে...',
       restoreBackupButton: 'ব্যাকআপ ফাইল থেকে পুনরুদ্ধার করুন',
 
@@ -3749,10 +3749,10 @@ export const translations: Translations = {
         'Firefox Mobile — ⚠️ Не рекомендуется (известны проблемы с сохранением ключей доступа)',
 
       restoreBackupHeading: 'Восстановление из резервной копии',
+      restoreBackupSyncHint:
+        'Если ваш ключ доступа уже синхронизирован на это устройство, восстановление использует его. Иначе вы создадите новый ключ для восстановленного кошелька. Чтобы перенести кошелёк без пароля, используйте файл синхронизации.',
       restoreBackupDescription:
         'Если у вас есть файл резервной копии, вы можете восстановить кошелёк без предварительного входа.',
-      restoreBackupSyncHint:
-        'Чтобы синхронизировать с другим устройством: войдите на другом устройстве, перейдите в Настройки → Создать резервную копию, чтобы скачать зашифрованный файл резервной копии, затем загрузите его здесь и введите тот же пароль.',
       restoringText: 'Восстановление...',
       restoreBackupButton: 'Восстановить из файла резервной копии',
 
@@ -4229,10 +4229,10 @@ export const translations: Translations = {
         'Firefox Mobile - ⚠️ Evitar (problemas conhecidos de persistência de chaves de acesso)',
 
       restoreBackupHeading: 'Restaurar a partir de cópia de segurança',
+      restoreBackupSyncHint:
+        'Se a sua passkey já foi sincronizada neste dispositivo, a restauração a usa. Caso contrário, você criará uma nova passkey para a carteira restaurada. Para mover uma carteira sem senha, use um arquivo de sincronização.',
       restoreBackupDescription:
         'Se tiver um ficheiro de cópia de segurança, pode restaurar a sua carteira sem iniciar sessão primeiro.',
-      restoreBackupSyncHint:
-        'Para sincronizar com outro dispositivo: inicie sessão no seu outro dispositivo, vá a Configurações → Criar cópia de segurança para transferir um ficheiro de cópia de segurança encriptado, depois carregue-o aqui e introduza a mesma senha.',
       restoringText: 'A restaurar...',
       restoreBackupButton: 'Restaurar a partir de ficheiro de cópia de segurança',
 
@@ -4712,10 +4712,10 @@ export const translations: Translations = {
       firefoxMobileNote: 'Firefox Mobile - ⚠️ گریز کریں (پاس کی برقراری کے معلوم مسائل)',
 
       restoreBackupHeading: 'بیک اپ سے بحال کریں',
+      restoreBackupSyncHint:
+        'اگر آپ کی پاس کی اس ڈیوائس پر پہلے سے سنک ہے تو ریسٹور اسی کو استعمال کرے گا۔ ورنہ آپ ریسٹور کیے گئے والیٹ کے لیے نئی پاس کی بنائیں گے۔ بغیر پاس ورڈ والیٹ منتقل کرنے کے لیے سنک فائل استعمال کریں۔',
       restoreBackupDescription:
         'اگر آپ کے پاس بیک اپ فائل ہے، تو آپ پہلے لاگ ان کیے بغیر اپنا والیٹ بحال کر سکتے ہیں۔',
-      restoreBackupSyncHint:
-        'کسی دوسرے ڈیوائس کے ساتھ مطابقت پذیر کرنے کے لیے: اپنے دوسرے ڈیوائس پر لاگ ان کریں، ترتیبات → بیک اپ بنائیں پر جا کر ایک خفیہ کردہ بیک اپ فائل ڈاؤن لوڈ کریں، پھر اسے یہاں اپ لوڈ کریں اور وہی پاس ورڈ درج کریں۔',
       restoringText: 'بحال ہو رہا ہے...',
       restoreBackupButton: 'بیک اپ فائل سے بحال کریں',
 

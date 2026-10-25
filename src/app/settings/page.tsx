@@ -45,8 +45,8 @@ import {
   FiClock,
   FiUserPlus,
 } from 'react-icons/fi'
-import { PrfUnsupportedError } from 'w3pk'
-import { useW3PK } from '@/context/W3PK'
+import { AuthenticationError, PrfUnsupportedError, SyncBootstrapError } from 'w3pk'
+import { useW3PK, isUserCancelledError } from '@/context/W3PK'
 import { useTranslation } from '@/hooks/useTranslation'
 import Spinner from '@/components/Spinner'
 import PasswordModal from '@/components/PasswordModal'
@@ -196,6 +196,7 @@ const SettingsPage = () => {
     getBackupStatus,
     createBackup,
     exportForSync,
+    syncWalletWithPasskey,
     restoreFromBackup,
     registerWithBackupFile,
     login,
@@ -600,8 +601,37 @@ const SettingsPage = () => {
         }
       } catch (e) {}
 
-      // If NOT authenticated, prompt for username to register with backup file
       if (!isAuthenticated) {
+        // Restore into a passkey that already synced to this device; when
+        // there is none, or the backup can't name it, register a new one
+        try {
+          const result = await syncWalletWithPasskey(backupToRestore, password)
+          toaster.create({
+            title: t.settings.walletRestoredTitle,
+            description: t.settings.walletRestoredDescription(
+              `${result.ethereumAddress.slice(0, 6)}...${result.ethereumAddress.slice(-4)}`
+            ),
+            type: 'success',
+            duration: 5000,
+          })
+          setSelectedBackupFile(null)
+          return
+        } catch (error) {
+          if (
+            !(error instanceof SyncBootstrapError) &&
+            !(error instanceof AuthenticationError) &&
+            !isUserCancelledError(error)
+          ) {
+            toaster.create({
+              title: t.settings.syncImportErrorTitle,
+              description: (error as Error).message || t.settings.unexpectedErrorDescription,
+              type: 'error',
+              duration: 5000,
+            })
+            return
+          }
+        }
+
         setNeedsUsernameForRestore(true)
         setIsRestoring(false)
 
