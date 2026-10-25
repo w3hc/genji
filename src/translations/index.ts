@@ -199,28 +199,27 @@ type TranslationKeys = {
     syncExportButton: string
     syncExportNote: string
     syncQrAlt: string
+    syncImportHeading: string
+    syncImportDescription: string
+    syncImportButton: string
+    syncImportPasswordTitle: string
+    syncImportPasswordDescription: string
+    syncImportedTitle: string
+    syncImportErrorTitle: string
+    syncErrorInvalidFile: string
+    syncErrorCredentialMismatch: string
+    syncErrorPublicKeyMismatch: string
+    syncErrorUnsupportedBackup: string
+    syncErrorPrfUnsupported: string
+    syncErrorNoPasskey: string
+    syncHowHeading: string
+    syncStep1: string
+    syncStep2: string
+    syncStep3: string
     syncExportedTitle: string
     syncExportedPasswordDescription: string
     syncPasswordModalTitle: string
     syncPasswordModalDescription: string
-    verifyHeading: string
-    verifyDescription: string
-    verifyPlaceholder: string
-    errorLabel: string
-    parsedDataLabel: string
-    usernameFieldLabel: string
-    ethAddressLabel: string
-    index0FieldLabel: string
-    mainTaggedLabel: string
-    openbarTaggedLabel: string
-    generatedLabel: string
-    linkWalletButton: string
-    linkExplanation: string
-    howQrWorksHeading: string
-    qrStep1: string
-    qrStep2: string
-    qrStep3: string
-    whatGetsStored: string
     platformSyncHeading: string
     platformSyncIntro: string
     appleSyncNote: string
@@ -316,12 +315,6 @@ type TranslationKeys = {
     fileLoadedTitle: string
     fileLoadedDescription: string
     failedReadGuardianFile: string
-    cannotSaveTitle: string
-    cannotSaveDescription: string
-    walletLinkedTitle: string
-    walletLinkedDescription: (address: string) => string
-    errorSavingLinkTitle: string
-    failedSaveSyncData: string
     recoveryPasswordPrompt: string
     recoveryUsernamePrompt: (address: string) => string
   }
@@ -629,36 +622,39 @@ export const translations: Translations = {
       syncExportNote:
         'Only your passkey can open this file. Passkeys sync within one ecosystem (Apple or Google): to move across ecosystems, use a password backup instead.',
       syncQrAlt: 'Sync file QR code',
+      syncImportHeading: 'Import Sync File',
+      syncImportDescription:
+        'Bring your wallet to this device with a sync file from another device. Your passkey must already be synced here (iCloud Keychain or Google Password Manager).',
+      syncImportButton: 'Choose Sync File',
+      syncImportPasswordTitle: 'Enter the Sync Password',
+      syncImportPasswordDescription:
+        'This file is protected by a password. Enter the password you chose when you exported it.',
+      syncImportedTitle: 'Wallet synced to this device',
+      syncImportErrorTitle: 'Sync failed',
+      syncErrorInvalidFile: "This isn't a w3pk sync or backup file.",
+      syncErrorCredentialMismatch:
+        'This file belongs to another passkey. Log out, or pick the passkey that exported it.',
+      syncErrorPublicKeyMismatch:
+        "This file doesn't match your passkey. It may have been altered: export a new one.",
+      syncErrorUnsupportedBackup:
+        "This backup can't set up a new device. Restore it below, or export a sync file on your other device.",
+      syncErrorPrfUnsupported:
+        "This browser can't open a passwordless sync file. Try Chrome or Safari, or export a password backup instead.",
+      syncErrorNoPasskey:
+        "Your passkey isn't on this device yet. Turn on iCloud Keychain or Google Password Manager, wait for it to sync, then try again.",
+      syncHowHeading: 'How Device Sync Works',
+      syncStep1:
+        'Step 1: Export - On the device that has your wallet, export a sync file. Your passkey locks it: no password, and the file is useless without the passkey.',
+      syncStep2:
+        'Step 2: Move the file - Send it to your other device (AirDrop, a cloud drive or a cable), or scan its QR code.',
+      syncStep3:
+        "Step 3: Import - On the other device, open Settings, choose the file and confirm with your passkey. You're logged in with the same wallet.",
       syncExportedTitle: 'Sync file downloaded',
       syncExportedPasswordDescription:
         "Your passkey doesn't support passwordless sync, so this file needs the password you chose.",
       syncPasswordModalTitle: 'Set a Sync Password',
       syncPasswordModalDescription:
         "This browser or authenticator can't lock the file to your passkey alone. Choose a password: you'll enter it with your passkey on the other device.",
-      verifyHeading: 'Verify QR Code Data',
-      verifyDescription:
-        'Paste the JSON string from a scanned QR code to verify the wallet addresses.',
-      verifyPlaceholder: 'Paste JSON data here (e.g., {"username":"...","ethereumAddress":"..."})',
-      errorLabel: 'Error:',
-      parsedDataLabel: 'Parsed Data:',
-      usernameFieldLabel: 'Username:',
-      ethAddressLabel: 'Ethereum Address:',
-      index0FieldLabel: 'Index #0:',
-      mainTaggedLabel: 'MAIN-tagged:',
-      openbarTaggedLabel: 'OPENBAR-tagged:',
-      generatedLabel: 'Generated:',
-      linkWalletButton: 'Link This Wallet to Your Passkey Account',
-      linkExplanation:
-        'What happens when you link: This will save the wallet addresses to localStorage, creating a persistent link between your passkey account and this HD wallet. You can use this to verify or sync wallet data across devices.',
-      howQrWorksHeading: 'How QR Code Wallet Sync Works',
-      qrStep1:
-        "Step 1: Generate QR Code - On your primary device, generate a QR code containing your wallet's public addresses. This QR code is safe to share as it only contains public information.",
-      qrStep2:
-        'Step 2: Scan & Verify - On your secondary device, scan the QR code using any QR scanner app, or manually copy the JSON data displayed in the QR code.',
-      qrStep3:
-        'Step 3: Link Wallets - Paste the JSON data into the verification area above and click "Link This Wallet". This creates a persistent connection between your passkey account and the HD wallet addresses.',
-      whatGetsStored:
-        'What Gets Stored: Only public wallet addresses are stored in localStorage. Your private keys and recovery phrase remain secure and are never transmitted or stored through this sync mechanism.',
       platformSyncHeading: 'Passkey Platform Sync',
       platformSyncIntro:
         'Your passkey credentials automatically sync across devices within the same ecosystem:',
@@ -774,12 +770,6 @@ export const translations: Translations = {
       fileLoadedTitle: 'File Loaded',
       fileLoadedDescription: 'Guardian share loaded from file. Click "Add Share" to add it.',
       failedReadGuardianFile: 'Failed to read guardian share file',
-      cannotSaveTitle: 'Cannot save',
-      cannotSaveDescription: 'Invalid QR data or user not authenticated',
-      walletLinkedTitle: 'Wallet Linked Successfully!',
-      walletLinkedDescription: address => `Linked wallet ${address} to your passkey account`,
-      errorSavingLinkTitle: 'Error saving wallet link',
-      failedSaveSyncData: 'Failed to save wallet sync data',
       recoveryPasswordPrompt:
         'Enter the password you set when configuring social recovery.\n\nThis password was NOT shared with guardians - you set it during setup.',
       recoveryUsernamePrompt: address =>
@@ -1084,34 +1074,35 @@ export const translations: Translations = {
       syncExportNote:
         '只有您的通行密钥才能打开此文件。通行密钥仅在同一生态系统内同步（Apple 或 Google）：如需跨生态系统迁移，请改用密码备份。',
       syncQrAlt: '同步文件二维码',
+      syncImportHeading: '导入同步文件',
+      syncImportDescription:
+        '使用来自另一台设备的同步文件，将您的钱包导入此设备。您的通行密钥必须已同步到此设备（iCloud 钥匙串或 Google 密码管理器）。',
+      syncImportButton: '选择同步文件',
+      syncImportPasswordTitle: '输入同步密码',
+      syncImportPasswordDescription: '此文件受密码保护。请输入导出时设置的密码。',
+      syncImportedTitle: '钱包已同步到此设备',
+      syncImportErrorTitle: '同步失败',
+      syncErrorInvalidFile: '这不是 w3pk 同步或备份文件。',
+      syncErrorCredentialMismatch: '此文件属于另一个通行密钥。请退出登录，或选择导出它的通行密钥。',
+      syncErrorPublicKeyMismatch: '此文件与您的通行密钥不匹配，可能已被篡改：请重新导出。',
+      syncErrorUnsupportedBackup:
+        '此备份无法用于设置新设备。请在下方恢复，或在另一台设备上导出同步文件。',
+      syncErrorPrfUnsupported:
+        '此浏览器无法打开无密码同步文件。请尝试 Chrome 或 Safari，或改为导出密码备份。',
+      syncErrorNoPasskey:
+        '您的通行密钥尚未同步到此设备。请开启 iCloud 钥匙串或 Google 密码管理器，等待同步完成后重试。',
+      syncHowHeading: '设备同步的工作原理',
+      syncStep1:
+        '第 1 步：导出 - 在存有钱包的设备上导出同步文件。文件由您的通行密钥锁定：无需密码，没有通行密钥该文件无法使用。',
+      syncStep2:
+        '第 2 步：传输文件 - 将文件发送到另一台设备（AirDrop、云盘或数据线），或扫描其二维码。',
+      syncStep3:
+        '第 3 步：导入 - 在另一台设备上打开设置，选择该文件并用通行密钥确认。您将以同一个钱包登录。',
       syncExportedTitle: '同步文件已下载',
       syncExportedPasswordDescription: '您的通行密钥不支持无密码同步，因此此文件需要您设置的密码。',
       syncPasswordModalTitle: '设置同步密码',
       syncPasswordModalDescription:
         '此浏览器或认证器无法仅用通行密钥锁定文件。请设置一个密码：在另一台设备上，您需要同时使用通行密钥和该密码。',
-      verifyHeading: '验证二维码数据',
-      verifyDescription: '粘贴扫描二维码得到的 JSON 字符串以验证钱包地址。',
-      verifyPlaceholder: '在此粘贴 JSON 数据（例如：{"username":"...","ethereumAddress":"..."}）',
-      errorLabel: '错误：',
-      parsedDataLabel: '解析数据：',
-      usernameFieldLabel: '用户名：',
-      ethAddressLabel: '以太坊地址：',
-      index0FieldLabel: '索引 #0：',
-      mainTaggedLabel: 'MAIN 标记：',
-      openbarTaggedLabel: 'OPENBAR 标记：',
-      generatedLabel: '生成时间：',
-      linkWalletButton: '将此钱包关联到您的通行密钥账户',
-      linkExplanation:
-        '关联后会发生什么：这将把钱包地址保存到 localStorage 中，在您的通行密钥账户与此 HD 钱包之间建立持久关联。您可以借此在各设备间验证或同步钱包数据。',
-      howQrWorksHeading: '二维码钱包同步的工作原理',
-      qrStep1:
-        '第一步：生成二维码 - 在您的主设备上，生成一个包含钱包公开地址的二维码。由于该二维码仅包含公开信息，可以安全分享。',
-      qrStep2:
-        '第二步：扫描与验证 - 在您的辅助设备上，使用任意二维码扫描应用扫描该二维码，或手动复制二维码中显示的 JSON 数据。',
-      qrStep3:
-        '第三步：关联钱包 - 将 JSON 数据粘贴到上方的验证区域，然后点击"关联此钱包"。这将在您的通行密钥账户与 HD 钱包地址之间建立持久连接。',
-      whatGetsStored:
-        '存储内容：localStorage 中仅存储公开的钱包地址。您的私钥和恢复助记词始终保持安全，绝不会通过此同步机制被传输或存储。',
       platformSyncHeading: '通行密钥平台同步',
       platformSyncIntro: '您的通行密钥凭证会在同一生态系统内的各设备间自动同步：',
       appleSyncNote: 'Apple：通过 iCloud Keychain 同步（iPhone、iPad、Mac）',
@@ -1215,12 +1206,6 @@ export const translations: Translations = {
       fileLoadedTitle: '文件已加载',
       fileLoadedDescription: '已从文件加载监护人份额。点击"添加份额"以添加它。',
       failedReadGuardianFile: '读取监护人份额文件失败',
-      cannotSaveTitle: '无法保存',
-      cannotSaveDescription: '二维码数据无效或用户未通过身份验证',
-      walletLinkedTitle: '钱包关联成功！',
-      walletLinkedDescription: address => `已将钱包 ${address} 关联到您的通行密钥账户`,
-      errorSavingLinkTitle: '保存钱包关联出错',
-      failedSaveSyncData: '保存钱包同步数据失败',
       recoveryPasswordPrompt:
         '请输入您在配置社交恢复时设置的密码。\n\n此密码未与监护人共享——是您在设置时自行设定的。',
       recoveryUsernamePrompt: address =>
@@ -1532,37 +1517,39 @@ export const translations: Translations = {
       syncExportNote:
         'यह फ़ाइल केवल आपकी पासकी खोल सकती है। पासकी एक ही इकोसिस्टम (Apple या Google) में सिंक होती हैं: इकोसिस्टम बदलने के लिए, पासवर्ड बैकअप का उपयोग करें।',
       syncQrAlt: 'सिंक फ़ाइल QR कोड',
+      syncImportHeading: 'सिंक फ़ाइल इम्पोर्ट करें',
+      syncImportDescription:
+        'किसी दूसरे डिवाइस की सिंक फ़ाइल से अपना वॉलेट इस डिवाइस पर लाएँ। आपकी पासकी यहाँ पहले से सिंक होनी चाहिए (iCloud Keychain या Google Password Manager)।',
+      syncImportButton: 'सिंक फ़ाइल चुनें',
+      syncImportPasswordTitle: 'सिंक पासवर्ड दर्ज करें',
+      syncImportPasswordDescription:
+        'यह फ़ाइल पासवर्ड से सुरक्षित है। निर्यात करते समय चुना गया पासवर्ड दर्ज करें।',
+      syncImportedTitle: 'वॉलेट इस डिवाइस पर सिंक हो गया',
+      syncImportErrorTitle: 'सिंक विफल रहा',
+      syncErrorInvalidFile: 'यह w3pk सिंक या बैकअप फ़ाइल नहीं है।',
+      syncErrorCredentialMismatch:
+        'यह फ़ाइल किसी दूसरी पासकी की है। लॉग आउट करें, या वह पासकी चुनें जिससे इसे निर्यात किया गया था।',
+      syncErrorPublicKeyMismatch:
+        'यह फ़ाइल आपकी पासकी से मेल नहीं खाती। हो सकता है इसमें बदलाव किया गया हो: नई फ़ाइल निर्यात करें।',
+      syncErrorUnsupportedBackup:
+        'इस बैकअप से नया डिवाइस सेट नहीं हो सकता। इसे नीचे रिस्टोर करें, या अपने दूसरे डिवाइस पर सिंक फ़ाइल निर्यात करें।',
+      syncErrorPrfUnsupported:
+        'यह ब्राउज़र बिना पासवर्ड वाली सिंक फ़ाइल नहीं खोल सकता। Chrome या Safari आज़माएँ, या पासवर्ड बैकअप निर्यात करें।',
+      syncErrorNoPasskey:
+        'आपकी पासकी अभी इस डिवाइस पर नहीं है। iCloud Keychain या Google Password Manager चालू करें, सिंक होने दें, फिर दोबारा कोशिश करें।',
+      syncHowHeading: 'डिवाइस सिंक कैसे काम करता है',
+      syncStep1:
+        'चरण 1: निर्यात - जिस डिवाइस पर आपका वॉलेट है, वहाँ सिंक फ़ाइल निर्यात करें। आपकी पासकी इसे लॉक करती है: कोई पासवर्ड नहीं, और पासकी के बिना फ़ाइल बेकार है।',
+      syncStep2:
+        'चरण 2: फ़ाइल भेजें - इसे अपने दूसरे डिवाइस पर भेजें (AirDrop, क्लाउड ड्राइव या केबल), या इसका QR कोड स्कैन करें।',
+      syncStep3:
+        'चरण 3: इम्पोर्ट - दूसरे डिवाइस पर सेटिंग्स खोलें, फ़ाइल चुनें और अपनी पासकी से पुष्टि करें। आप उसी वॉलेट से लॉग इन हो जाएँगे।',
       syncExportedTitle: 'सिंक फ़ाइल डाउनलोड हो गई',
       syncExportedPasswordDescription:
         'आपकी पासकी बिना पासवर्ड सिंक का समर्थन नहीं करती, इसलिए इस फ़ाइल के लिए आपके चुने हुए पासवर्ड की ज़रूरत होगी।',
       syncPasswordModalTitle: 'सिंक पासवर्ड सेट करें',
       syncPasswordModalDescription:
         'यह ब्राउज़र या ऑथेंटिकेटर फ़ाइल को केवल आपकी पासकी से लॉक नहीं कर सकता। एक पासवर्ड चुनें: दूसरे डिवाइस पर आप इसे अपनी पासकी के साथ दर्ज करेंगे।',
-      verifyHeading: 'QR कोड डेटा सत्यापित करें',
-      verifyDescription:
-        'वॉलेट पतों को सत्यापित करने के लिए स्कैन किए गए QR कोड से JSON स्ट्रिंग पेस्ट करें।',
-      verifyPlaceholder:
-        'यहां JSON डेटा पेस्ट करें (उदाहरण के लिए, {"username":"...","ethereumAddress":"..."})',
-      errorLabel: 'त्रुटि:',
-      parsedDataLabel: 'पार्स किया गया डेटा:',
-      usernameFieldLabel: 'उपयोगकर्ता नाम:',
-      ethAddressLabel: 'एथेरियम पता:',
-      index0FieldLabel: 'इंडेक्स #0:',
-      mainTaggedLabel: 'MAIN-टैग:',
-      openbarTaggedLabel: 'OPENBAR-टैग:',
-      generatedLabel: 'जनरेट किया गया:',
-      linkWalletButton: 'इस वॉलेट को अपने पासकी खाते से लिंक करें',
-      linkExplanation:
-        'लिंक करने पर क्या होता है: यह वॉलेट पतों को localStorage में सहेजेगा, जिससे आपके पासकी खाते और इस HD वॉलेट के बीच एक स्थायी लिंक बनेगा। आप इसका उपयोग डिवाइसों में वॉलेट डेटा को सत्यापित या सिंक करने के लिए कर सकते हैं।',
-      howQrWorksHeading: 'QR कोड वॉलेट सिंक कैसे काम करता है',
-      qrStep1:
-        'चरण 1: QR कोड जनरेट करें - अपने प्राथमिक डिवाइस पर, अपने वॉलेट के सार्वजनिक पतों वाला एक QR कोड जनरेट करें। यह QR कोड साझा करने के लिए सुरक्षित है क्योंकि इसमें केवल सार्वजनिक जानकारी है।',
-      qrStep2:
-        'चरण 2: स्कैन करें और सत्यापित करें - अपने द्वितीयक डिवाइस पर, किसी भी QR स्कैनर ऐप का उपयोग करके QR कोड स्कैन करें, या QR कोड में प्रदर्शित JSON डेटा को मैन्युअल रूप से कॉपी करें।',
-      qrStep3:
-        'चरण 3: वॉलेट लिंक करें - ऊपर दिए गए सत्यापन क्षेत्र में JSON डेटा पेस्ट करें और "इस वॉलेट को लिंक करें" पर क्लिक करें। इससे आपके पासकी खाते और HD वॉलेट पतों के बीच एक स्थायी कनेक्शन बनता है।',
-      whatGetsStored:
-        'क्या संग्रहीत किया जाता है: localStorage में केवल सार्वजनिक वॉलेट पते संग्रहीत किए जाते हैं। आपकी निजी कुंजियां और रिकवरी फ्रेज़ सुरक्षित रहते हैं और इस सिंक तंत्र के माध्यम से कभी भी प्रसारित या संग्रहीत नहीं किए जाते।',
       platformSyncHeading: 'पासकी प्लेटफ़ॉर्म सिंक',
       platformSyncIntro:
         'आपकी पासकी क्रेडेंशियल्स एक ही इकोसिस्टम के भीतर डिवाइसों में स्वचालित रूप से सिंक होती हैं:',
@@ -1683,12 +1670,6 @@ export const translations: Translations = {
       fileLoadedDescription:
         'फ़ाइल से अभिभावक शेयर लोड हुआ। इसे जोड़ने के लिए "शेयर जोड़ें" पर क्लिक करें।',
       failedReadGuardianFile: 'अभिभावक शेयर फ़ाइल पढ़ने में विफल',
-      cannotSaveTitle: 'सहेज नहीं सकते',
-      cannotSaveDescription: 'अमान्य QR डेटा या उपयोगकर्ता प्रमाणित नहीं है',
-      walletLinkedTitle: 'वॉलेट सफलतापूर्वक लिंक हुआ!',
-      walletLinkedDescription: address => `वॉलेट ${address} को आपके पासकी खाते से लिंक किया गया`,
-      errorSavingLinkTitle: 'वॉलेट लिंक सहेजने में त्रुटि',
-      failedSaveSyncData: 'वॉलेट सिंक डेटा सहेजने में विफल',
       recoveryPasswordPrompt:
         'सामाजिक रिकवरी कॉन्फ़िगर करते समय आपने जो पासवर्ड सेट किया था उसे दर्ज करें।\n\nयह पासवर्ड अभिभावकों के साथ साझा नहीं किया गया था - आपने इसे सेटअप के दौरान सेट किया था।',
       recoveryUsernamePrompt: address =>
@@ -2012,37 +1993,39 @@ export const translations: Translations = {
       syncExportNote:
         'Solo tu passkey puede abrir este archivo. Las passkeys se sincronizan dentro de un mismo ecosistema (Apple o Google): para cambiar de ecosistema, usa una copia de seguridad con contraseña.',
       syncQrAlt: 'Código QR del archivo de sincronización',
+      syncImportHeading: 'Importar archivo de sincronización',
+      syncImportDescription:
+        'Trae tu billetera a este dispositivo con un archivo de sincronización de otro dispositivo. Tu passkey ya debe estar sincronizada aquí (Llavero de iCloud o Gestor de contraseñas de Google).',
+      syncImportButton: 'Elegir archivo de sincronización',
+      syncImportPasswordTitle: 'Introduce la contraseña de sincronización',
+      syncImportPasswordDescription:
+        'Este archivo está protegido con contraseña. Introduce la contraseña que elegiste al exportarlo.',
+      syncImportedTitle: 'Billetera sincronizada en este dispositivo',
+      syncImportErrorTitle: 'Error de sincronización',
+      syncErrorInvalidFile: 'Este no es un archivo de sincronización o copia de seguridad de w3pk.',
+      syncErrorCredentialMismatch:
+        'Este archivo pertenece a otra passkey. Cierra sesión o elige la passkey que lo exportó.',
+      syncErrorPublicKeyMismatch:
+        'Este archivo no coincide con tu passkey. Puede haber sido alterado: exporta uno nuevo.',
+      syncErrorUnsupportedBackup:
+        'Esta copia de seguridad no puede configurar un dispositivo nuevo. Restáurala abajo o exporta un archivo de sincronización en tu otro dispositivo.',
+      syncErrorPrfUnsupported:
+        'Este navegador no puede abrir un archivo de sincronización sin contraseña. Prueba con Chrome o Safari, o exporta una copia de seguridad con contraseña.',
+      syncErrorNoPasskey:
+        'Tu passkey aún no está en este dispositivo. Activa el Llavero de iCloud o el Gestor de contraseñas de Google, espera a que se sincronice e inténtalo de nuevo.',
+      syncHowHeading: 'Cómo funciona la sincronización de dispositivos',
+      syncStep1:
+        'Paso 1: Exportar - En el dispositivo que tiene tu billetera, exporta un archivo de sincronización. Tu passkey lo bloquea: sin contraseña, y el archivo no sirve sin la passkey.',
+      syncStep2:
+        'Paso 2: Mover el archivo - Envíalo a tu otro dispositivo (AirDrop, una unidad en la nube o un cable), o escanea su código QR.',
+      syncStep3:
+        'Paso 3: Importar - En el otro dispositivo, abre Ajustes, elige el archivo y confirma con tu passkey. Habrás iniciado sesión con la misma billetera.',
       syncExportedTitle: 'Archivo de sincronización descargado',
       syncExportedPasswordDescription:
         'Tu passkey no admite la sincronización sin contraseña, así que este archivo necesita la contraseña que elegiste.',
       syncPasswordModalTitle: 'Establece una contraseña de sincronización',
       syncPasswordModalDescription:
         'Este navegador o autenticador no puede vincular el archivo solo a tu passkey. Elige una contraseña: la introducirás junto con tu passkey en el otro dispositivo.',
-      verifyHeading: 'Verificar datos del código QR',
-      verifyDescription:
-        'Pega la cadena JSON de un código QR escaneado para verificar las direcciones de la billetera.',
-      verifyPlaceholder:
-        'Pega aquí los datos JSON (p. ej., {"username":"...","ethereumAddress":"..."})',
-      errorLabel: 'Error:',
-      parsedDataLabel: 'Datos analizados:',
-      usernameFieldLabel: 'Nombre de usuario:',
-      ethAddressLabel: 'Dirección de Ethereum:',
-      index0FieldLabel: 'Índice n.º 0:',
-      mainTaggedLabel: 'Etiquetada como MAIN:',
-      openbarTaggedLabel: 'Etiquetada como OPENBAR:',
-      generatedLabel: 'Generado:',
-      linkWalletButton: 'Vincular esta billetera a tu cuenta de clave de acceso',
-      linkExplanation:
-        'Qué ocurre al vincular: esto guardará las direcciones de la billetera en localStorage, creando un vínculo persistente entre tu cuenta de clave de acceso y esta billetera HD. Puedes usarlo para verificar o sincronizar los datos de la billetera entre dispositivos.',
-      howQrWorksHeading: 'Cómo funciona la sincronización de billetera por código QR',
-      qrStep1:
-        'Paso 1: generar código QR - En tu dispositivo principal, genera un código QR que contenga las direcciones públicas de tu billetera. Este código QR es seguro de compartir, ya que solo contiene información pública.',
-      qrStep2:
-        'Paso 2: escanear y verificar - En tu dispositivo secundario, escanea el código QR con cualquier aplicación de escaneo de QR, o copia manualmente los datos JSON que se muestran en el código QR.',
-      qrStep3:
-        'Paso 3: vincular billeteras - Pega los datos JSON en el área de verificación de arriba y haz clic en "Vincular esta billetera". Esto crea una conexión persistente entre tu cuenta de clave de acceso y las direcciones de la billetera HD.',
-      whatGetsStored:
-        'Qué se almacena: solo las direcciones públicas de la billetera se guardan en localStorage. Tus claves privadas y tu frase de recuperación permanecen seguras y nunca se transmiten ni se almacenan mediante este mecanismo de sincronización.',
       platformSyncHeading: 'Sincronización de la clave de acceso entre plataformas',
       platformSyncIntro:
         'Tus credenciales de clave de acceso se sincronizan automáticamente entre dispositivos dentro del mismo ecosistema:',
@@ -2167,13 +2150,6 @@ export const translations: Translations = {
       fileLoadedDescription:
         'Parte de guardián cargada desde el archivo. Haz clic en "Añadir parte" para agregarla.',
       failedReadGuardianFile: 'No se pudo leer el archivo de parte de guardián',
-      cannotSaveTitle: 'No se puede guardar',
-      cannotSaveDescription: 'Datos de QR no válidos o usuario no autenticado',
-      walletLinkedTitle: '¡Billetera vinculada correctamente!',
-      walletLinkedDescription: address =>
-        `Billetera ${address} vinculada a tu cuenta de clave de acceso`,
-      errorSavingLinkTitle: 'Error al guardar el vínculo de la billetera',
-      failedSaveSyncData: 'No se pudieron guardar los datos de sincronización de la billetera',
       recoveryPasswordPrompt:
         'Introduce la contraseña que estableciste al configurar la recuperación social.\n\nEsta contraseña NO se compartió con los guardianes: la estableciste durante la configuración.',
       recoveryUsernamePrompt: address =>
@@ -2502,37 +2478,39 @@ export const translations: Translations = {
       syncExportNote:
         "Seule votre passkey peut ouvrir ce fichier. Les passkeys se synchronisent au sein d'un même écosystème (Apple ou Google) : pour changer d'écosystème, utilisez plutôt une sauvegarde par mot de passe.",
       syncQrAlt: 'QR code du fichier de synchronisation',
+      syncImportHeading: 'Importer un fichier de synchronisation',
+      syncImportDescription:
+        "Récupérez votre portefeuille sur cet appareil avec un fichier de synchronisation venant d'un autre appareil. Votre passkey doit déjà être synchronisée ici (Trousseau iCloud ou Gestionnaire de mots de passe de Google).",
+      syncImportButton: 'Choisir le fichier de synchronisation',
+      syncImportPasswordTitle: 'Saisir le mot de passe de synchronisation',
+      syncImportPasswordDescription:
+        "Ce fichier est protégé par un mot de passe. Saisissez celui que vous avez choisi lors de l'export.",
+      syncImportedTitle: 'Portefeuille synchronisé sur cet appareil',
+      syncImportErrorTitle: 'Échec de la synchronisation',
+      syncErrorInvalidFile: "Ce n'est pas un fichier de synchronisation ou de sauvegarde w3pk.",
+      syncErrorCredentialMismatch:
+        "Ce fichier appartient à une autre passkey. Déconnectez-vous, ou choisissez la passkey qui l'a exporté.",
+      syncErrorPublicKeyMismatch:
+        'Ce fichier ne correspond pas à votre passkey. Il a peut-être été modifié : exportez-en un nouveau.',
+      syncErrorUnsupportedBackup:
+        'Cette sauvegarde ne peut pas configurer un nouvel appareil. Restaurez-la ci-dessous, ou exportez un fichier de synchronisation sur votre autre appareil.',
+      syncErrorPrfUnsupported:
+        'Ce navigateur ne peut pas ouvrir un fichier de synchronisation sans mot de passe. Essayez Chrome ou Safari, ou exportez plutôt une sauvegarde par mot de passe.',
+      syncErrorNoPasskey:
+        "Votre passkey n'est pas encore sur cet appareil. Activez le Trousseau iCloud ou le Gestionnaire de mots de passe de Google, attendez la synchronisation, puis réessayez.",
+      syncHowHeading: 'Comment fonctionne la synchronisation des appareils',
+      syncStep1:
+        "Étape 1 : Exporter - Sur l'appareil qui contient votre portefeuille, exportez un fichier de synchronisation. Votre passkey le verrouille : pas de mot de passe, et le fichier est inutilisable sans elle.",
+      syncStep2:
+        'Étape 2 : Transférer le fichier - Envoyez-le sur votre autre appareil (AirDrop, un stockage en ligne ou un câble), ou scannez son QR code.',
+      syncStep3:
+        "Étape 3 : Importer - Sur l'autre appareil, ouvrez les Paramètres, choisissez le fichier et confirmez avec votre passkey. Vous êtes connecté avec le même portefeuille.",
       syncExportedTitle: 'Fichier de synchronisation téléchargé',
       syncExportedPasswordDescription:
         'Votre passkey ne prend pas en charge la synchronisation sans mot de passe : ce fichier demandera le mot de passe que vous avez choisi.',
       syncPasswordModalTitle: 'Définir un mot de passe de synchronisation',
       syncPasswordModalDescription:
         "Ce navigateur ou cet authentificateur ne peut pas lier le fichier à votre seule passkey. Choisissez un mot de passe : vous le saisirez avec votre passkey sur l'autre appareil.",
-      verifyHeading: 'Vérifier les données du QR code',
-      verifyDescription:
-        "Collez la chaîne JSON issue d'un QR code scanné pour vérifier les adresses du portefeuille.",
-      verifyPlaceholder:
-        'Collez les données JSON ici (ex. : {"username":"...","ethereumAddress":"..."})',
-      errorLabel: 'Erreur :',
-      parsedDataLabel: 'Données analysées :',
-      usernameFieldLabel: "Nom d'utilisateur :",
-      ethAddressLabel: 'Adresse Ethereum :',
-      index0FieldLabel: 'Index #0 :',
-      mainTaggedLabel: 'Étiqueté MAIN :',
-      openbarTaggedLabel: 'Étiqueté OPENBAR :',
-      generatedLabel: 'Généré :',
-      linkWalletButton: "Lier ce portefeuille à votre compte à clé d'accès",
-      linkExplanation:
-        "Ce qui se passe lors de la liaison : les adresses du portefeuille seront enregistrées dans localStorage, créant un lien persistant entre votre compte à clé d'accès et ce portefeuille HD. Cela vous permet de vérifier ou de synchroniser les données du portefeuille entre vos appareils.",
-      howQrWorksHeading: 'Comment fonctionne la synchronisation du portefeuille par QR code',
-      qrStep1:
-        'Étape 1 : générer le QR code - Sur votre appareil principal, générez un QR code contenant les adresses publiques de votre portefeuille. Ce QR code peut être partagé sans risque car il ne contient que des informations publiques.',
-      qrStep2:
-        "Étape 2 : scanner et vérifier - Sur votre appareil secondaire, scannez le QR code avec n'importe quelle application de scan, ou copiez manuellement les données JSON affichées dans le QR code.",
-      qrStep3:
-        "Étape 3 : lier les portefeuilles - Collez les données JSON dans la zone de vérification ci-dessus et cliquez sur « Lier ce portefeuille ». Cela crée une connexion persistante entre votre compte à clé d'accès et les adresses du portefeuille HD.",
-      whatGetsStored:
-        'Ce qui est stocké : seules les adresses publiques du portefeuille sont stockées dans localStorage. Vos clés privées et votre phrase de récupération restent sécurisées et ne sont jamais transmises ni stockées via ce mécanisme de synchronisation.',
       platformSyncHeading: "Synchronisation des clés d'accès par plateforme",
       platformSyncIntro:
         "Vos identifiants de clé d'accès se synchronisent automatiquement entre vos appareils au sein du même écosystème :",
@@ -2660,14 +2638,6 @@ export const translations: Translations = {
       fileLoadedDescription:
         "Part de gardien chargée depuis le fichier. Cliquez sur « Ajouter la part » pour l'ajouter.",
       failedReadGuardianFile: 'Échec de la lecture du fichier de part de gardien',
-      cannotSaveTitle: "Impossible d'enregistrer",
-      cannotSaveDescription: 'Données QR invalides ou utilisateur non authentifié',
-      walletLinkedTitle: 'Portefeuille lié avec succès !',
-      walletLinkedDescription: address =>
-        `Portefeuille ${address} lié à votre compte à clé d'accès`,
-      errorSavingLinkTitle: "Erreur lors de l'enregistrement du lien du portefeuille",
-      failedSaveSyncData:
-        "Échec de l'enregistrement des données de synchronisation du portefeuille",
       recoveryPasswordPrompt:
         "Entrez le mot de passe que vous avez défini lors de la configuration de la récupération sociale.\n\nCe mot de passe n'a PAS été partagé avec les gardiens - vous l'avez défini lors de la configuration.",
       recoveryUsernamePrompt: address =>
@@ -2987,35 +2957,39 @@ export const translations: Translations = {
       syncExportNote:
         'لا يفتح هذا الملف إلا مفتاح المرور الخاص بك. تتم مزامنة مفاتيح المرور داخل منظومة واحدة (Apple أو Google): للانتقال بين المنظومات، استخدم نسخة احتياطية بكلمة مرور.',
       syncQrAlt: 'رمز QR لملف المزامنة',
+      syncImportHeading: 'استيراد ملف المزامنة',
+      syncImportDescription:
+        'انقل محفظتك إلى هذا الجهاز باستخدام ملف مزامنة من جهاز آخر. يجب أن يكون مفتاح المرور قد تمت مزامنته هنا مسبقًا (سلسلة مفاتيح iCloud أو مدير كلمات مرور Google).',
+      syncImportButton: 'اختر ملف المزامنة',
+      syncImportPasswordTitle: 'أدخل كلمة مرور المزامنة',
+      syncImportPasswordDescription:
+        'هذا الملف محمي بكلمة مرور. أدخل كلمة المرور التي اخترتها عند تصديره.',
+      syncImportedTitle: 'تمت مزامنة المحفظة على هذا الجهاز',
+      syncImportErrorTitle: 'فشلت المزامنة',
+      syncErrorInvalidFile: 'هذا ليس ملف مزامنة أو نسخة احتياطية من w3pk.',
+      syncErrorCredentialMismatch:
+        'ينتمي هذا الملف إلى مفتاح مرور آخر. سجّل الخروج، أو اختر مفتاح المرور الذي صدّره.',
+      syncErrorPublicKeyMismatch:
+        'هذا الملف لا يطابق مفتاح المرور الخاص بك. ربما تم تعديله: صدّر ملفًا جديدًا.',
+      syncErrorUnsupportedBackup:
+        'لا يمكن لهذه النسخة الاحتياطية إعداد جهاز جديد. استعدها أدناه، أو صدّر ملف مزامنة على جهازك الآخر.',
+      syncErrorPrfUnsupported:
+        'لا يستطيع هذا المتصفح فتح ملف مزامنة دون كلمة مرور. جرّب Chrome أو Safari، أو صدّر نسخة احتياطية بكلمة مرور بدلًا من ذلك.',
+      syncErrorNoPasskey:
+        'مفتاح المرور غير موجود على هذا الجهاز بعد. فعّل سلسلة مفاتيح iCloud أو مدير كلمات مرور Google، وانتظر المزامنة، ثم حاول مجددًا.',
+      syncHowHeading: 'كيف تعمل مزامنة الأجهزة',
+      syncStep1:
+        'الخطوة 1: التصدير - على الجهاز الذي يحتوي على محفظتك، صدّر ملف مزامنة. يقفله مفتاح المرور: دون كلمة مرور، ولا فائدة من الملف دون مفتاح المرور.',
+      syncStep2:
+        'الخطوة 2: نقل الملف - أرسله إلى جهازك الآخر (AirDrop أو تخزين سحابي أو كابل)، أو امسح رمز QR الخاص به.',
+      syncStep3:
+        'الخطوة 3: الاستيراد - على الجهاز الآخر، افتح الإعدادات، واختر الملف، وأكّد بمفتاح المرور. ستكون مسجّل الدخول بالمحفظة نفسها.',
       syncExportedTitle: 'تم تنزيل ملف المزامنة',
       syncExportedPasswordDescription:
         'لا يدعم مفتاح المرور الخاص بك المزامنة دون كلمة مرور، لذا يتطلب هذا الملف كلمة المرور التي اخترتها.',
       syncPasswordModalTitle: 'عيّن كلمة مرور للمزامنة',
       syncPasswordModalDescription:
         'لا يستطيع هذا المتصفح أو المصادِق قفل الملف بمفتاح المرور وحده. اختر كلمة مرور: ستُدخلها مع مفتاح المرور على الجهاز الآخر.',
-      verifyHeading: 'التحقق من بيانات رمز QR',
-      verifyDescription: 'الصق سلسلة JSON من رمز QR الممسوح ضوئياً للتحقق من عناوين المحفظة.',
-      verifyPlaceholder: 'الصق بيانات JSON هنا (مثال: {"username":"...","ethereumAddress":"..."})',
-      errorLabel: 'خطأ:',
-      parsedDataLabel: 'البيانات المحلَّلة:',
-      usernameFieldLabel: 'اسم المستخدم:',
-      ethAddressLabel: 'عنوان إيثريوم:',
-      index0FieldLabel: 'الفهرس #0:',
-      mainTaggedLabel: 'بعلامة MAIN:',
-      openbarTaggedLabel: 'بعلامة OPENBAR:',
-      generatedLabel: 'تاريخ الإنشاء:',
-      linkWalletButton: 'ربط هذه المحفظة بحساب مفتاح المرور الخاص بك',
-      linkExplanation:
-        'ماذا يحدث عند الربط: سيؤدي هذا إلى حفظ عناوين المحفظة في localStorage، مما ينشئ رابطاً دائماً بين حساب مفتاح المرور الخاص بك ومحفظة HD هذه. يمكنك استخدام ذلك للتحقق من بيانات المحفظة أو مزامنتها عبر الأجهزة.',
-      howQrWorksHeading: 'كيف تعمل مزامنة المحفظة عبر رمز QR',
-      qrStep1:
-        'الخطوة 1: إنشاء رمز QR - على جهازك الأساسي، أنشئ رمز QR يحتوي على العناوين العامة لمحفظتك. رمز QR هذا آمن للمشاركة لأنه يحتوي فقط على معلومات عامة.',
-      qrStep2:
-        'الخطوة 2: المسح والتحقق - على جهازك الثانوي، امسح رمز QR باستخدام أي تطبيق لمسح رموز QR، أو انسخ يدوياً بيانات JSON المعروضة في رمز QR.',
-      qrStep3:
-        'الخطوة 3: ربط المحافظ - الصق بيانات JSON في منطقة التحقق أعلاه وانقر على "ربط هذه المحفظة". يؤدي هذا إلى إنشاء اتصال دائم بين حساب مفتاح المرور الخاص بك وعناوين محفظة HD.',
-      whatGetsStored:
-        'ما الذي يتم تخزينه: يتم تخزين عناوين المحفظة العامة فقط في localStorage. تبقى مفاتيحك الخاصة وعبارة الاسترداد آمنة ولا يتم إرسالها أو تخزينها أبداً عبر آلية المزامنة هذه.',
       platformSyncHeading: 'مزامنة منصة مفتاح المرور',
       platformSyncIntro:
         'تتم مزامنة بيانات اعتماد مفتاح المرور الخاص بك تلقائياً عبر الأجهزة ضمن نفس النظام البيئي:',
@@ -3128,12 +3102,6 @@ export const translations: Translations = {
       fileLoadedTitle: 'تم تحميل الملف',
       fileLoadedDescription: 'تم تحميل حصة الوصي من الملف. انقر على "إضافة حصة" لإضافتها.',
       failedReadGuardianFile: 'فشل قراءة ملف حصة الوصي',
-      cannotSaveTitle: 'تعذر الحفظ',
-      cannotSaveDescription: 'بيانات QR غير صالحة أو المستخدم غير مصادَق عليه',
-      walletLinkedTitle: 'تم ربط المحفظة بنجاح!',
-      walletLinkedDescription: address => `تم ربط المحفظة ${address} بحساب مفتاح المرور الخاص بك`,
-      errorSavingLinkTitle: 'خطأ في حفظ رابط المحفظة',
-      failedSaveSyncData: 'فشل حفظ بيانات مزامنة المحفظة',
       recoveryPasswordPrompt:
         'أدخل كلمة المرور التي حددتها عند إعداد الاسترداد الاجتماعي.\n\nلم تتم مشاركة كلمة المرور هذه مع الأوصياء - لقد حددتها أثناء الإعداد.',
       recoveryUsernamePrompt: address =>
@@ -3450,37 +3418,39 @@ export const translations: Translations = {
       syncExportNote:
         'শুধু আপনার পাসকিই এই ফাইল খুলতে পারে। পাসকি একটি ইকোসিস্টেমের (Apple বা Google) মধ্যেই সিঙ্ক হয়: ইকোসিস্টেম বদলাতে পাসওয়ার্ড ব্যাকআপ ব্যবহার করুন।',
       syncQrAlt: 'সিঙ্ক ফাইলের QR কোড',
+      syncImportHeading: 'সিঙ্ক ফাইল ইমপোর্ট করুন',
+      syncImportDescription:
+        'অন্য ডিভাইসের একটি সিঙ্ক ফাইল দিয়ে আপনার ওয়ালেট এই ডিভাইসে আনুন। আপনার পাসকি আগে থেকেই এখানে সিঙ্ক থাকতে হবে (iCloud Keychain বা Google Password Manager)।',
+      syncImportButton: 'সিঙ্ক ফাইল বেছে নিন',
+      syncImportPasswordTitle: 'সিঙ্ক পাসওয়ার্ড দিন',
+      syncImportPasswordDescription:
+        'এই ফাইলটি পাসওয়ার্ড দিয়ে সুরক্ষিত। এক্সপোর্ট করার সময় যে পাসওয়ার্ড বেছে নিয়েছিলেন সেটি দিন।',
+      syncImportedTitle: 'ওয়ালেট এই ডিভাইসে সিঙ্ক হয়েছে',
+      syncImportErrorTitle: 'সিঙ্ক ব্যর্থ হয়েছে',
+      syncErrorInvalidFile: 'এটি w3pk সিঙ্ক বা ব্যাকআপ ফাইল নয়।',
+      syncErrorCredentialMismatch:
+        'এই ফাইলটি অন্য একটি পাসকির। লগ আউট করুন, অথবা যে পাসকি দিয়ে এটি এক্সপোর্ট হয়েছে সেটি বেছে নিন।',
+      syncErrorPublicKeyMismatch:
+        'এই ফাইলটি আপনার পাসকির সঙ্গে মেলে না। এটি পরিবর্তিত হয়ে থাকতে পারে: নতুন একটি এক্সপোর্ট করুন।',
+      syncErrorUnsupportedBackup:
+        'এই ব্যাকআপ দিয়ে নতুন ডিভাইস সেট আপ করা যায় না। নিচে এটি রিস্টোর করুন, অথবা অন্য ডিভাইসে একটি সিঙ্ক ফাইল এক্সপোর্ট করুন।',
+      syncErrorPrfUnsupported:
+        'এই ব্রাউজার পাসওয়ার্ড ছাড়া সিঙ্ক ফাইল খুলতে পারে না। Chrome বা Safari চেষ্টা করুন, অথবা পাসওয়ার্ড ব্যাকআপ এক্সপোর্ট করুন।',
+      syncErrorNoPasskey:
+        'আপনার পাসকি এখনও এই ডিভাইসে নেই। iCloud Keychain বা Google Password Manager চালু করুন, সিঙ্ক হওয়া পর্যন্ত অপেক্ষা করুন, তারপর আবার চেষ্টা করুন।',
+      syncHowHeading: 'ডিভাইস সিঙ্ক কীভাবে কাজ করে',
+      syncStep1:
+        'ধাপ ১: এক্সপোর্ট - যে ডিভাইসে আপনার ওয়ালেট আছে, সেখানে একটি সিঙ্ক ফাইল এক্সপোর্ট করুন। আপনার পাসকি এটি লক করে: কোনো পাসওয়ার্ড নেই, আর পাসকি ছাড়া ফাইলটি অকেজো।',
+      syncStep2:
+        'ধাপ ২: ফাইল পাঠান - এটি আপনার অন্য ডিভাইসে পাঠান (AirDrop, ক্লাউড ড্রাইভ বা কেবল), অথবা এর QR কোড স্ক্যান করুন।',
+      syncStep3:
+        'ধাপ ৩: ইমপোর্ট - অন্য ডিভাইসে সেটিংস খুলুন, ফাইলটি বেছে নিন এবং আপনার পাসকি দিয়ে নিশ্চিত করুন। আপনি একই ওয়ালেটে লগ ইন হবেন।',
       syncExportedTitle: 'সিঙ্ক ফাইল ডাউনলোড হয়েছে',
       syncExportedPasswordDescription:
         'আপনার পাসকি পাসওয়ার্ড ছাড়া সিঙ্ক সমর্থন করে না, তাই এই ফাইলের জন্য আপনার বেছে নেওয়া পাসওয়ার্ড লাগবে।',
       syncPasswordModalTitle: 'সিঙ্ক পাসওয়ার্ড সেট করুন',
       syncPasswordModalDescription:
         'এই ব্রাউজার বা অথেনটিকেটর শুধু আপনার পাসকি দিয়ে ফাইলটি লক করতে পারে না। একটি পাসওয়ার্ড বেছে নিন: অন্য ডিভাইসে পাসকির সঙ্গে এটি দিতে হবে।',
-      verifyHeading: 'QR কোড ডেটা যাচাই করুন',
-      verifyDescription:
-        'ওয়ালেট ঠিকানা যাচাই করতে স্ক্যান করা QR কোড থেকে JSON স্ট্রিং পেস্ট করুন।',
-      verifyPlaceholder:
-        'এখানে JSON ডেটা পেস্ট করুন (উদাহরণ, {"username":"...","ethereumAddress":"..."})',
-      errorLabel: 'ত্রুটি:',
-      parsedDataLabel: 'পার্স করা ডেটা:',
-      usernameFieldLabel: 'ব্যবহারকারীর নাম:',
-      ethAddressLabel: 'ইথেরিয়াম ঠিকানা:',
-      index0FieldLabel: 'ইনডেক্স #0:',
-      mainTaggedLabel: 'MAIN-ট্যাগযুক্ত:',
-      openbarTaggedLabel: 'OPENBAR-ট্যাগযুক্ত:',
-      generatedLabel: 'তৈরি হয়েছে:',
-      linkWalletButton: 'এই ওয়ালেটটি আপনার পাসকী অ্যাকাউন্টের সাথে লিঙ্ক করুন',
-      linkExplanation:
-        'লিঙ্ক করলে যা ঘটবে: এটি localStorage-এ ওয়ালেট ঠিকানা সংরক্ষণ করবে, আপনার পাসকী অ্যাকাউন্ট এবং এই HD ওয়ালেটের মধ্যে একটি স্থায়ী লিঙ্ক তৈরি করবে। ডিভাইসগুলির মধ্যে ওয়ালেট ডেটা যাচাই বা সিঙ্ক করতে আপনি এটি ব্যবহার করতে পারেন।',
-      howQrWorksHeading: 'QR কোড ওয়ালেট সিঙ্ক যেভাবে কাজ করে',
-      qrStep1:
-        'ধাপ ১: QR কোড তৈরি করুন - আপনার প্রধান ডিভাইসে, আপনার ওয়ালেটের পাবলিক ঠিকানা সম্বলিত একটি QR কোড তৈরি করুন। এই QR কোড শেয়ার করা নিরাপদ কারণ এতে শুধুমাত্র পাবলিক তথ্য রয়েছে।',
-      qrStep2:
-        'ধাপ ২: স্ক্যান ও যাচাই - আপনার দ্বিতীয় ডিভাইসে, যেকোনো QR স্ক্যানার অ্যাপ ব্যবহার করে QR কোড স্ক্যান করুন, অথবা QR কোডে প্রদর্শিত JSON ডেটা ম্যানুয়ালি কপি করুন।',
-      qrStep3:
-        'ধাপ ৩: ওয়ালেট লিঙ্ক করুন - উপরের যাচাইকরণ এলাকায় JSON ডেটা পেস্ট করুন এবং "Link This Wallet"-এ ক্লিক করুন। এটি আপনার পাসকী অ্যাকাউন্ট এবং HD ওয়ালেট ঠিকানার মধ্যে একটি স্থায়ী সংযোগ তৈরি করে।',
-      whatGetsStored:
-        'যা সংরক্ষিত হয়: শুধুমাত্র পাবলিক ওয়ালেট ঠিকানা localStorage-এ সংরক্ষিত হয়। আপনার প্রাইভেট কী এবং পুনরুদ্ধার ফ্রেজ নিরাপদ থাকে এবং এই সিঙ্ক পদ্ধতির মাধ্যমে কখনও প্রেরণ বা সংরক্ষণ করা হয় না।',
       platformSyncHeading: 'পাসকী প্ল্যাটফর্ম সিঙ্ক',
       platformSyncIntro:
         'আপনার পাসকী পরিচয়পত্র একই ইকোসিস্টেমের মধ্যে ডিভাইসগুলিতে স্বয়ংক্রিয়ভাবে সিঙ্ক হয়:',
@@ -3606,13 +3576,6 @@ export const translations: Translations = {
       fileLoadedDescription:
         'ফাইল থেকে অভিভাবক শেয়ার লোড হয়েছে। এটি যোগ করতে "Add Share"-এ ক্লিক করুন।',
       failedReadGuardianFile: 'অভিভাবক শেয়ার ফাইল পড়তে ব্যর্থ হয়েছে',
-      cannotSaveTitle: 'সংরক্ষণ করা যাচ্ছে না',
-      cannotSaveDescription: 'অবৈধ QR ডেটা অথবা ব্যবহারকারী প্রমাণীকৃত নয়',
-      walletLinkedTitle: 'ওয়ালেট সফলভাবে লিঙ্ক হয়েছে!',
-      walletLinkedDescription: address =>
-        `ওয়ালেট ${address} আপনার পাসকী অ্যাকাউন্টের সাথে লিঙ্ক করা হয়েছে`,
-      errorSavingLinkTitle: 'ওয়ালেট লিঙ্ক সংরক্ষণ করতে ত্রুটি',
-      failedSaveSyncData: 'ওয়ালেট সিঙ্ক ডেটা সংরক্ষণ করতে ব্যর্থ হয়েছে',
       recoveryPasswordPrompt:
         'সামাজিক পুনরুদ্ধার কনফিগার করার সময় আপনি যে পাসওয়ার্ড সেট করেছিলেন তা লিখুন।\n\nএই পাসওয়ার্ডটি অভিভাবকদের সাথে শেয়ার করা হয়নি - আপনি এটি সেটআপের সময় নির্ধারণ করেছিলেন।',
       recoveryUsernamePrompt: address =>
@@ -3937,37 +3900,39 @@ export const translations: Translations = {
       syncExportNote:
         'Открыть этот файл может только ваш ключ доступа. Ключи синхронизируются в пределах одной экосистемы (Apple или Google): для перехода между экосистемами используйте резервную копию с паролем.',
       syncQrAlt: 'QR-код файла синхронизации',
+      syncImportHeading: 'Импорт файла синхронизации',
+      syncImportDescription:
+        'Перенесите кошелёк на это устройство с помощью файла синхронизации с другого устройства. Ваш ключ доступа уже должен быть синхронизирован сюда (Связка ключей iCloud или Google Password Manager).',
+      syncImportButton: 'Выбрать файл синхронизации',
+      syncImportPasswordTitle: 'Введите пароль синхронизации',
+      syncImportPasswordDescription:
+        'Этот файл защищён паролем. Введите пароль, выбранный при экспорте.',
+      syncImportedTitle: 'Кошелёк синхронизирован на это устройство',
+      syncImportErrorTitle: 'Синхронизация не удалась',
+      syncErrorInvalidFile: 'Это не файл синхронизации или резервной копии w3pk.',
+      syncErrorCredentialMismatch:
+        'Этот файл принадлежит другому ключу доступа. Выйдите из аккаунта или выберите ключ, с которого он был экспортирован.',
+      syncErrorPublicKeyMismatch:
+        'Этот файл не соответствует вашему ключу доступа. Возможно, он был изменён: экспортируйте новый.',
+      syncErrorUnsupportedBackup:
+        'Эта резервная копия не может настроить новое устройство. Восстановите её ниже или экспортируйте файл синхронизации на другом устройстве.',
+      syncErrorPrfUnsupported:
+        'Этот браузер не может открыть файл синхронизации без пароля. Попробуйте Chrome или Safari или экспортируйте резервную копию с паролем.',
+      syncErrorNoPasskey:
+        'Вашего ключа доступа ещё нет на этом устройстве. Включите Связку ключей iCloud или Google Password Manager, дождитесь синхронизации и попробуйте снова.',
+      syncHowHeading: 'Как работает синхронизация устройств',
+      syncStep1:
+        'Шаг 1: Экспорт - На устройстве с кошельком экспортируйте файл синхронизации. Его запирает ваш ключ доступа: без пароля, и без ключа файл бесполезен.',
+      syncStep2:
+        'Шаг 2: Перенос файла - Отправьте его на другое устройство (AirDrop, облачный диск или кабель) или отсканируйте его QR-код.',
+      syncStep3:
+        'Шаг 3: Импорт - На другом устройстве откройте Настройки, выберите файл и подтвердите ключом доступа. Вы войдёте с тем же кошельком.',
       syncExportedTitle: 'Файл синхронизации скачан',
       syncExportedPasswordDescription:
         'Ваш ключ доступа не поддерживает синхронизацию без пароля, поэтому для этого файла понадобится выбранный вами пароль.',
       syncPasswordModalTitle: 'Задайте пароль синхронизации',
       syncPasswordModalDescription:
         'Этот браузер или аутентификатор не может привязать файл только к ключу доступа. Выберите пароль: на другом устройстве вы введёте его вместе с ключом.',
-      verifyHeading: 'Проверка данных QR-кода',
-      verifyDescription:
-        'Вставьте строку JSON из отсканированного QR-кода, чтобы проверить адреса кошелька.',
-      verifyPlaceholder:
-        'Вставьте сюда данные JSON (например, {"username":"...","ethereumAddress":"..."})',
-      errorLabel: 'Ошибка:',
-      parsedDataLabel: 'Разобранные данные:',
-      usernameFieldLabel: 'Имя пользователя:',
-      ethAddressLabel: 'Адрес Ethereum:',
-      index0FieldLabel: 'Индекс №0:',
-      mainTaggedLabel: 'С меткой MAIN:',
-      openbarTaggedLabel: 'С меткой OPENBAR:',
-      generatedLabel: 'Сгенерировано:',
-      linkWalletButton: 'Привязать этот кошелёк к аккаунту с ключом доступа',
-      linkExplanation:
-        'Что произойдёт при привязке: адреса кошелька будут сохранены в localStorage, что создаст постоянную связь между вашим аккаунтом с ключом доступа и этим HD-кошельком. Это можно использовать для проверки или синхронизации данных кошелька между устройствами.',
-      howQrWorksHeading: 'Как работает синхронизация кошелька через QR-код',
-      qrStep1:
-        'Шаг 1: Сгенерируйте QR-код — на основном устройстве сгенерируйте QR-код, содержащий публичные адреса вашего кошелька. Этим QR-кодом безопасно делиться, так как он содержит только публичную информацию.',
-      qrStep2:
-        'Шаг 2: Отсканируйте и проверьте — на дополнительном устройстве отсканируйте QR-код с помощью любого приложения для сканирования QR-кодов или вручную скопируйте данные JSON, отображаемые в QR-коде.',
-      qrStep3:
-        'Шаг 3: Свяжите кошельки — вставьте данные JSON в поле проверки выше и нажмите «Привязать этот кошелёк». Это создаст постоянную связь между вашим аккаунтом с ключом доступа и адресами HD-кошелька.',
-      whatGetsStored:
-        'Что сохраняется: в localStorage сохраняются только публичные адреса кошелька. Ваши приватные ключи и фраза восстановления остаются в безопасности и никогда не передаются и не сохраняются через этот механизм синхронизации.',
       platformSyncHeading: 'Синхронизация ключа доступа на платформе',
       platformSyncIntro:
         'Учётные данные вашего ключа доступа автоматически синхронизируются между устройствами в рамках одной экосистемы:',
@@ -4092,13 +4057,6 @@ export const translations: Translations = {
       fileLoadedDescription:
         'Доля хранителя загружена из файла. Нажмите «Добавить долю», чтобы добавить её.',
       failedReadGuardianFile: 'Не удалось прочитать файл доли хранителя',
-      cannotSaveTitle: 'Невозможно сохранить',
-      cannotSaveDescription: 'Некорректные данные QR-кода или пользователь не аутентифицирован',
-      walletLinkedTitle: 'Кошелёк успешно привязан!',
-      walletLinkedDescription: address =>
-        `Кошелёк ${address} привязан к вашему аккаунту с ключом доступа`,
-      errorSavingLinkTitle: 'Ошибка сохранения привязки кошелька',
-      failedSaveSyncData: 'Не удалось сохранить данные синхронизации кошелька',
       recoveryPasswordPrompt:
         'Введите пароль, который вы задали при настройке социального восстановления.\n\nЭтот пароль НЕ передавался хранителям — вы задали его при настройке.',
       recoveryUsernamePrompt: address =>
@@ -4423,37 +4381,39 @@ export const translations: Translations = {
       syncExportNote:
         'Só a sua passkey pode abrir este arquivo. Passkeys sincronizam dentro de um ecossistema (Apple ou Google): para mudar de ecossistema, use um backup com senha.',
       syncQrAlt: 'QR code do arquivo de sincronização',
+      syncImportHeading: 'Importar arquivo de sincronização',
+      syncImportDescription:
+        'Traga a sua carteira para este dispositivo com um arquivo de sincronização de outro dispositivo. A sua passkey já precisa estar sincronizada aqui (Chaves do iCloud ou Gerenciador de Senhas do Google).',
+      syncImportButton: 'Escolher arquivo de sincronização',
+      syncImportPasswordTitle: 'Digite a senha de sincronização',
+      syncImportPasswordDescription:
+        'Este arquivo é protegido por senha. Digite a senha que você escolheu ao exportá-lo.',
+      syncImportedTitle: 'Carteira sincronizada neste dispositivo',
+      syncImportErrorTitle: 'Falha na sincronização',
+      syncErrorInvalidFile: 'Este não é um arquivo de sincronização ou backup do w3pk.',
+      syncErrorCredentialMismatch:
+        'Este arquivo pertence a outra passkey. Saia da conta ou escolha a passkey que o exportou.',
+      syncErrorPublicKeyMismatch:
+        'Este arquivo não corresponde à sua passkey. Ele pode ter sido alterado: exporte um novo.',
+      syncErrorUnsupportedBackup:
+        'Este backup não consegue configurar um novo dispositivo. Restaure-o abaixo ou exporte um arquivo de sincronização no seu outro dispositivo.',
+      syncErrorPrfUnsupported:
+        'Este navegador não consegue abrir um arquivo de sincronização sem senha. Tente o Chrome ou o Safari, ou exporte um backup com senha.',
+      syncErrorNoPasskey:
+        'A sua passkey ainda não está neste dispositivo. Ative as Chaves do iCloud ou o Gerenciador de Senhas do Google, aguarde a sincronização e tente novamente.',
+      syncHowHeading: 'Como funciona a sincronização de dispositivos',
+      syncStep1:
+        'Passo 1: Exportar - No dispositivo que tem a sua carteira, exporte um arquivo de sincronização. A sua passkey o bloqueia: sem senha, e o arquivo é inútil sem a passkey.',
+      syncStep2:
+        'Passo 2: Mover o arquivo - Envie-o para o seu outro dispositivo (AirDrop, um drive na nuvem ou um cabo), ou escaneie o QR code.',
+      syncStep3:
+        'Passo 3: Importar - No outro dispositivo, abra as Configurações, escolha o arquivo e confirme com a sua passkey. Você estará conectado com a mesma carteira.',
       syncExportedTitle: 'Arquivo de sincronização baixado',
       syncExportedPasswordDescription:
         'A sua passkey não suporta sincronização sem senha, então este arquivo precisa da senha que você escolheu.',
       syncPasswordModalTitle: 'Defina uma senha de sincronização',
       syncPasswordModalDescription:
         'Este navegador ou autenticador não consegue vincular o arquivo apenas à sua passkey. Escolha uma senha: você vai digitá-la com a sua passkey no outro dispositivo.',
-      verifyHeading: 'Verificar dados do código QR',
-      verifyDescription:
-        'Cole a cadeia JSON de um código QR digitalizado para verificar os endereços da carteira.',
-      verifyPlaceholder:
-        'Cole aqui os dados JSON (por exemplo, {"username":"...","ethereumAddress":"..."})',
-      errorLabel: 'Erro:',
-      parsedDataLabel: 'Dados analisados:',
-      usernameFieldLabel: 'Nome de usuário:',
-      ethAddressLabel: 'Endereço Ethereum:',
-      index0FieldLabel: 'Índice #0:',
-      mainTaggedLabel: 'Etiqueta MAIN:',
-      openbarTaggedLabel: 'Etiqueta OPENBAR:',
-      generatedLabel: 'Gerado:',
-      linkWalletButton: 'Associar esta carteira à sua conta de chave de acesso',
-      linkExplanation:
-        'O que acontece quando associa: isto guardará os endereços da carteira no localStorage, criando uma ligação persistente entre a sua conta de chave de acesso e esta carteira HD. Pode utilizar isto para verificar ou sincronizar dados da carteira entre dispositivos.',
-      howQrWorksHeading: 'Como funciona a sincronização da carteira por código QR',
-      qrStep1:
-        'Passo 1: Gerar código QR - No seu dispositivo principal, gere um código QR contendo os endereços públicos da sua carteira. Este código QR é seguro de partilhar, pois contém apenas informação pública.',
-      qrStep2:
-        'Passo 2: Digitalizar e verificar - No seu dispositivo secundário, digitalize o código QR utilizando qualquer aplicação leitora de códigos QR, ou copie manualmente os dados JSON apresentados no código QR.',
-      qrStep3:
-        'Passo 3: Associar carteiras - Cole os dados JSON na área de verificação acima e clique em "Associar esta carteira". Isto cria uma ligação persistente entre a sua conta de chave de acesso e os endereços da carteira HD.',
-      whatGetsStored:
-        'O que é armazenado: apenas os endereços públicos da carteira são armazenados no localStorage. As suas chaves privadas e a frase de recuperação permanecem seguras e nunca são transmitidas ou armazenadas através deste mecanismo de sincronização.',
       platformSyncHeading: 'Sincronização de plataforma da chave de acesso',
       platformSyncIntro:
         'As suas credenciais de chave de acesso sincronizam automaticamente entre dispositivos dentro do mesmo ecossistema:',
@@ -4579,13 +4539,6 @@ export const translations: Translations = {
       fileLoadedDescription:
         'Partilha do guardião carregada a partir do ficheiro. Clique em "Adicionar partilha" para a adicionar.',
       failedReadGuardianFile: 'Falha ao ler o ficheiro de partilha do guardião',
-      cannotSaveTitle: 'Não é possível guardar',
-      cannotSaveDescription: 'Dados de QR inválidos ou utilizador não autenticado',
-      walletLinkedTitle: 'Carteira associada com sucesso!',
-      walletLinkedDescription: address =>
-        `Carteira ${address} associada à sua conta de chave de acesso`,
-      errorSavingLinkTitle: 'Erro ao guardar a associação da carteira',
-      failedSaveSyncData: 'Falha ao guardar os dados de sincronização da carteira',
       recoveryPasswordPrompt:
         'Introduza a senha que definiu ao configurar a recuperação social.\n\nEsta senha NÃO foi partilhada com os guardiões - foi definida por si durante a configuração.',
       recoveryUsernamePrompt: address =>
@@ -4907,36 +4860,39 @@ export const translations: Translations = {
       syncExportNote:
         'یہ فائل صرف آپ کی پاس کی کھول سکتی ہے۔ پاس کیز ایک ہی ایکو سسٹم (Apple یا Google) میں سنک ہوتی ہیں: ایکو سسٹم بدلنے کے لیے پاس ورڈ بیک اپ استعمال کریں۔',
       syncQrAlt: 'سنک فائل کا QR کوڈ',
+      syncImportHeading: 'سنک فائل امپورٹ کریں',
+      syncImportDescription:
+        'کسی دوسری ڈیوائس کی سنک فائل سے اپنا والیٹ اس ڈیوائس پر لائیں۔ آپ کی پاس کی پہلے سے یہاں سنک ہونی چاہیے (iCloud Keychain یا Google Password Manager)۔',
+      syncImportButton: 'سنک فائل منتخب کریں',
+      syncImportPasswordTitle: 'سنک پاس ورڈ درج کریں',
+      syncImportPasswordDescription:
+        'یہ فائل پاس ورڈ سے محفوظ ہے۔ ایکسپورٹ کرتے وقت منتخب کیا گیا پاس ورڈ درج کریں۔',
+      syncImportedTitle: 'والیٹ اس ڈیوائس پر سنک ہو گیا',
+      syncImportErrorTitle: 'سنک ناکام ہو گیا',
+      syncErrorInvalidFile: 'یہ w3pk سنک یا بیک اپ فائل نہیں ہے۔',
+      syncErrorCredentialMismatch:
+        'یہ فائل کسی دوسری پاس کی کی ہے۔ لاگ آؤٹ کریں، یا وہ پاس کی منتخب کریں جس سے اسے ایکسپورٹ کیا گیا تھا۔',
+      syncErrorPublicKeyMismatch:
+        'یہ فائل آپ کی پاس کی سے میل نہیں کھاتی۔ ممکن ہے اس میں تبدیلی کی گئی ہو: نئی فائل ایکسپورٹ کریں۔',
+      syncErrorUnsupportedBackup:
+        'یہ بیک اپ نئی ڈیوائس سیٹ اپ نہیں کر سکتا۔ اسے نیچے ریسٹور کریں، یا اپنی دوسری ڈیوائس پر سنک فائل ایکسپورٹ کریں۔',
+      syncErrorPrfUnsupported:
+        'یہ براؤزر بغیر پاس ورڈ کی سنک فائل نہیں کھول سکتا۔ Chrome یا Safari آزمائیں، یا پاس ورڈ بیک اپ ایکسپورٹ کریں۔',
+      syncErrorNoPasskey:
+        'آپ کی پاس کی ابھی اس ڈیوائس پر نہیں ہے۔ iCloud Keychain یا Google Password Manager آن کریں، سنک ہونے دیں، پھر دوبارہ کوشش کریں۔',
+      syncHowHeading: 'ڈیوائس سنک کیسے کام کرتا ہے',
+      syncStep1:
+        'مرحلہ 1: ایکسپورٹ - جس ڈیوائس پر آپ کا والیٹ ہے، وہاں سنک فائل ایکسپورٹ کریں۔ آپ کی پاس کی اسے لاک کرتی ہے: کوئی پاس ورڈ نہیں، اور پاس کی کے بغیر فائل بے کار ہے۔',
+      syncStep2:
+        'مرحلہ 2: فائل منتقل کریں - اسے اپنی دوسری ڈیوائس پر بھیجیں (AirDrop، کلاؤڈ ڈرائیو یا کیبل)، یا اس کا QR کوڈ اسکین کریں۔',
+      syncStep3:
+        'مرحلہ 3: امپورٹ - دوسری ڈیوائس پر سیٹنگز کھولیں، فائل منتخب کریں اور اپنی پاس کی سے تصدیق کریں۔ آپ اسی والیٹ کے ساتھ لاگ ان ہوں گے۔',
       syncExportedTitle: 'سنک فائل ڈاؤن لوڈ ہو گئی',
       syncExportedPasswordDescription:
         'آپ کی پاس کی بغیر پاس ورڈ سنک کو سپورٹ نہیں کرتی، اس لیے اس فائل کے لیے آپ کا منتخب کردہ پاس ورڈ درکار ہوگا۔',
       syncPasswordModalTitle: 'سنک پاس ورڈ سیٹ کریں',
       syncPasswordModalDescription:
         'یہ براؤزر یا آتھنٹیکیٹر فائل کو صرف آپ کی پاس کی سے لاک نہیں کر سکتا۔ ایک پاس ورڈ منتخب کریں: دوسری ڈیوائس پر آپ اسے اپنی پاس کی کے ساتھ درج کریں گے۔',
-      verifyHeading: 'QR کوڈ ڈیٹا کی تصدیق کریں',
-      verifyDescription: 'والیٹ کے پتوں کی تصدیق کے لیے اسکین شدہ QR کوڈ سے JSON سٹرنگ پیسٹ کریں۔',
-      verifyPlaceholder:
-        'JSON ڈیٹا یہاں پیسٹ کریں (مثلاً، {"username":"...","ethereumAddress":"..."})',
-      errorLabel: 'خرابی:',
-      parsedDataLabel: 'پارس شدہ ڈیٹا:',
-      usernameFieldLabel: 'صارف نام:',
-      ethAddressLabel: 'ایتھیریم پتہ:',
-      index0FieldLabel: 'انڈیکس #0:',
-      mainTaggedLabel: 'MAIN-ٹیگ شدہ:',
-      openbarTaggedLabel: 'OPENBAR-ٹیگ شدہ:',
-      generatedLabel: 'تیار شدہ:',
-      linkWalletButton: 'اس والیٹ کو اپنے پاس کی اکاؤنٹ سے منسلک کریں',
-      linkExplanation:
-        'منسلک کرنے پر کیا ہوتا ہے: یہ والیٹ کے پتے localStorage میں محفوظ کر دے گا، جس سے آپ کے پاس کی اکاؤنٹ اور اس HD والیٹ کے درمیان ایک مستقل ربط بن جائے گا۔ آپ اسے ڈیوائسز کے درمیان والیٹ ڈیٹا کی تصدیق یا مطابقت پذیری کے لیے استعمال کر سکتے ہیں۔',
-      howQrWorksHeading: 'QR کوڈ والیٹ مطابقت پذیری کیسے کام کرتی ہے',
-      qrStep1:
-        'مرحلہ 1: QR کوڈ تیار کریں - اپنے بنیادی ڈیوائس پر، اپنے والیٹ کے پبلک پتوں پر مشتمل ایک QR کوڈ تیار کریں۔ اس QR کوڈ کو شیئر کرنا محفوظ ہے کیونکہ اس میں صرف عوامی معلومات شامل ہیں۔',
-      qrStep2:
-        'مرحلہ 2: اسکین اور تصدیق - اپنے ثانوی ڈیوائس پر، کسی بھی QR اسکینر ایپ کا استعمال کرتے ہوئے QR کوڈ اسکین کریں، یا QR کوڈ میں دکھائے گئے JSON ڈیٹا کو دستی طور پر کاپی کریں۔',
-      qrStep3:
-        'مرحلہ 3: والیٹس کو منسلک کریں - JSON ڈیٹا کو اوپر دی گئی تصدیقی جگہ میں پیسٹ کریں اور "اس والیٹ کو منسلک کریں" پر کلک کریں۔ اس سے آپ کے پاس کی اکاؤنٹ اور HD والیٹ کے پتوں کے درمیان ایک مستقل کنکشن بنتا ہے۔',
-      whatGetsStored:
-        'کیا محفوظ کیا جاتا ہے: صرف عوامی والیٹ پتے localStorage میں محفوظ کیے جاتے ہیں۔ آپ کی پرائیویٹ کیز اور بحالی کا فقرہ محفوظ رہتے ہیں اور اس مطابقت پذیری کے طریقہ کار کے ذریعے کبھی منتقل یا محفوظ نہیں کیے جاتے۔',
       platformSyncHeading: 'پاس کی پلیٹ فارم مطابقت پذیری',
       platformSyncIntro:
         'آپ کی پاس کی کی تفصیلات ایک ہی ایکو سسٹم کے اندر ڈیوائسز کے درمیان خودکار طور پر مطابقت پذیر ہوتی ہیں:',
@@ -5057,13 +5013,6 @@ export const translations: Translations = {
       fileLoadedDescription:
         'گارڈین شیئر فائل سے لوڈ ہو گیا۔ اسے شامل کرنے کے لیے "شیئر شامل کریں" پر کلک کریں۔',
       failedReadGuardianFile: 'گارڈین شیئر فائل پڑھنا ناکام ہوا',
-      cannotSaveTitle: 'محفوظ نہیں کیا جا سکتا',
-      cannotSaveDescription: 'غلط QR ڈیٹا یا صارف کی توثیق نہیں ہوئی',
-      walletLinkedTitle: 'والیٹ کامیابی سے منسلک ہو گیا!',
-      walletLinkedDescription: address =>
-        `والیٹ ${address} کو آپ کے پاس کی اکاؤنٹ سے منسلک کر دیا گیا`,
-      errorSavingLinkTitle: 'والیٹ لنک محفوظ کرنے میں خرابی',
-      failedSaveSyncData: 'والیٹ مطابقت پذیری ڈیٹا محفوظ کرنا ناکام ہوا',
       recoveryPasswordPrompt:
         'وہ پاس ورڈ درج کریں جو آپ نے سماجی بحالی کنفیگر کرتے وقت سیٹ کیا تھا۔\n\nیہ پاس ورڈ گارڈینز کے ساتھ شیئر نہیں کیا گیا تھا - آپ نے اسے سیٹ اپ کے دوران سیٹ کیا تھا۔',
       recoveryUsernamePrompt: address =>

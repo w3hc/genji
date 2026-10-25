@@ -40,7 +40,6 @@ import {
   FiUsers,
   FiKey,
   FiDownload,
-  FiDatabase,
   FiHardDrive,
   FiUpload,
   FiClock,
@@ -51,6 +50,7 @@ import { useW3PK } from '@/context/W3PK'
 import { useTranslation } from '@/hooks/useTranslation'
 import Spinner from '@/components/Spinner'
 import PasswordModal from '@/components/PasswordModal'
+import SyncImport from '@/components/SyncImport'
 import { CodeBlock } from '@/components/CodeBlock'
 // AI Inspection feature (disabled) - only used to render the security report
 // import ReactMarkdown from 'react-markdown'
@@ -111,8 +111,6 @@ const SettingsPage = () => {
   const [isExportingSync, setIsExportingSync] = useState(false)
   const [syncQrCode, setSyncQrCode] = useState<string | null>(null)
   const [showSyncPasswordModal, setShowSyncPasswordModal] = useState(false)
-  const [pastedQRData, setPastedQRData] = useState<string>('')
-  const [parsedQRData, setParsedQRData] = useState<any>(null)
 
   // Persistent session duration state
   const [persistentSessionDays, setPersistentSessionDays] = useState<number>(() => {
@@ -929,6 +927,8 @@ const SettingsPage = () => {
 
           <BuildVerification />
 
+          <SyncImport />
+
           {/* Restore from Backup - Available without authentication */}
           <Box
             id="restore-backup"
@@ -1554,22 +1554,6 @@ const SettingsPage = () => {
     }
   }
 
-  const handlePasteQRData = (value: string) => {
-    setPastedQRData(value)
-
-    if (!value.trim()) {
-      setParsedQRData(null)
-      return
-    }
-
-    try {
-      const parsed = JSON.parse(value)
-      setParsedQRData(parsed)
-    } catch (error) {
-      setParsedQRData({ error: 'Invalid JSON format' })
-    }
-  }
-
   const handleAddGuardian = () => {
     if (!guardianName.trim()) {
       toaster.create({
@@ -1830,61 +1814,6 @@ const SettingsPage = () => {
       }
     }
     fileInput.click()
-  }
-
-  const handleSaveQRDataToStorage = async () => {
-    if (!parsedQRData || parsedQRData.error || !user) {
-      toaster.create({
-        title: t.settings.cannotSaveTitle,
-        description: t.settings.cannotSaveDescription,
-        type: 'error',
-        duration: 3000,
-      })
-      return
-    }
-
-    try {
-      // Create a wallet sync record
-      const syncRecord = {
-        passkeyUser: {
-          username: user.username,
-          ethereumAddress: user.ethereumAddress,
-        },
-        linkedWallet: {
-          username: parsedQRData.username,
-          ethereumAddress: parsedQRData.ethereumAddress,
-          index0Address: parsedQRData.index0Address,
-          mainAddress: parsedQRData.mainAddress,
-          openbarAddress: parsedQRData.openbarAddress,
-        },
-        linkedAt: new Date().toISOString(),
-        syncedFrom: parsedQRData.timestamp,
-      }
-
-      // Save to localStorage
-      const storageKey = `w3pk_wallet_sync_${user.ethereumAddress}`
-      localStorage.setItem(storageKey, JSON.stringify(syncRecord))
-
-      toaster.create({
-        title: t.settings.walletLinkedTitle,
-        description: t.settings.walletLinkedDescription(
-          `${parsedQRData.ethereumAddress.slice(0, 6)}...${parsedQRData.ethereumAddress.slice(-4)}`
-        ),
-        type: 'success',
-        duration: 5000,
-      })
-
-      setPastedQRData('')
-      setParsedQRData(null)
-    } catch (error) {
-      console.error('Error saving QR data:', error)
-      toaster.create({
-        title: t.settings.errorSavingLinkTitle,
-        description: (error as Error).message || t.settings.failedSaveSyncData,
-        type: 'error',
-        duration: 5000,
-      })
-    }
   }
 
   return (
@@ -2974,172 +2903,18 @@ const SettingsPage = () => {
                 </VStack>
               </Box>
 
-              {/* Paste QR Data Section */}
-              <Box bg="gray.900" p={6} borderRadius="lg" border="1px solid" borderColor="gray.700">
-                <HStack mb={4}>
-                  <Icon as={FiCloud} color={brandColors.primary} boxSize={6} />
-                  <Heading size="md">{t.settings.verifyHeading}</Heading>
-                </HStack>
-                <Text fontSize="sm" color="gray.400" mb={4}>
-                  {t.settings.verifyDescription}
-                </Text>
+              <SyncImport />
 
-                <VStack gap={4} align="stretch">
-                  <Textarea
-                    placeholder={t.settings.verifyPlaceholder}
-                    value={pastedQRData}
-                    onChange={e => handlePasteQRData(e.target.value)}
-                    minH="120px"
-                    fontFamily="monospace"
-                    fontSize="sm"
-                    bg="gray.950"
-                    borderColor="gray.700"
-                    _focus={{ borderColor: brandColors.primary }}
-                    p={3}
-                  />
-
-                  {parsedQRData && (
-                    <VStack gap={3} align="stretch">
-                      <Box
-                        p={4}
-                        bg={parsedQRData.error ? 'red.900/90' : 'gray.950'}
-                        borderRadius="md"
-                        border="1px solid"
-                        borderColor={parsedQRData.error ? 'red.700' : 'gray.800'}
-                      >
-                        {parsedQRData.error ? (
-                          <Text fontSize="sm" color="red.300">
-                            <strong>{t.settings.errorLabel}</strong> {parsedQRData.error}
-                          </Text>
-                        ) : (
-                          <VStack align="stretch" gap={2}>
-                            <Text fontSize="sm" fontWeight="bold" color="white" mb={2}>
-                              {t.settings.parsedDataLabel}
-                            </Text>
-                            {parsedQRData.username && (
-                              <HStack>
-                                <Text fontSize="xs" color="gray.400" width="140px">
-                                  {t.settings.usernameFieldLabel}
-                                </Text>
-                                <Text fontSize="xs" color="white" fontWeight="medium">
-                                  {parsedQRData.username}
-                                </Text>
-                              </HStack>
-                            )}
-                            {parsedQRData.ethereumAddress && (
-                              <HStack>
-                                <Text fontSize="xs" color="gray.400" width="140px">
-                                  {t.settings.ethAddressLabel}
-                                </Text>
-                                <Code
-                                  fontSize="xs"
-                                  bg="gray.900"
-                                  color="gray.300"
-                                  p={1}
-                                  borderRadius="sm"
-                                >
-                                  {parsedQRData.ethereumAddress}
-                                </Code>
-                              </HStack>
-                            )}
-                            {parsedQRData.index0Address && (
-                              <HStack>
-                                <Text fontSize="xs" color="gray.400" width="140px">
-                                  {t.settings.index0FieldLabel}
-                                </Text>
-                                <Code
-                                  fontSize="xs"
-                                  bg="gray.900"
-                                  color="gray.300"
-                                  p={1}
-                                  borderRadius="sm"
-                                >
-                                  {parsedQRData.index0Address}
-                                </Code>
-                              </HStack>
-                            )}
-                            {parsedQRData.mainAddress && (
-                              <HStack>
-                                <Text fontSize="xs" color="gray.400" width="140px">
-                                  {t.settings.mainTaggedLabel}
-                                </Text>
-                                <Code
-                                  fontSize="xs"
-                                  bg="gray.900"
-                                  color="gray.300"
-                                  p={1}
-                                  borderRadius="sm"
-                                >
-                                  {parsedQRData.mainAddress}
-                                </Code>
-                              </HStack>
-                            )}
-                            {parsedQRData.openbarAddress && (
-                              <HStack>
-                                <Text fontSize="xs" color="gray.400" width="140px">
-                                  {t.settings.openbarTaggedLabel}
-                                </Text>
-                                <Code
-                                  fontSize="xs"
-                                  bg="gray.900"
-                                  color="gray.300"
-                                  p={1}
-                                  borderRadius="sm"
-                                >
-                                  {parsedQRData.openbarAddress}
-                                </Code>
-                              </HStack>
-                            )}
-                            {parsedQRData.timestamp && (
-                              <HStack>
-                                <Text fontSize="xs" color="gray.400" width="140px">
-                                  {t.settings.generatedLabel}
-                                </Text>
-                                <Text fontSize="xs" color="gray.300">
-                                  {new Date(parsedQRData.timestamp).toLocaleString()}
-                                </Text>
-                              </HStack>
-                            )}
-                          </VStack>
-                        )}
-                      </Box>
-
-                      {!parsedQRData.error && (
-                        <>
-                          <Button
-                            bg={brandColors.primary}
-                            color="white"
-                            _hover={{ bg: brandColors.secondary }}
-                            onClick={handleSaveQRDataToStorage}
-                            width="full"
-                          >
-                            <Icon as={FiDatabase} mr={2} />
-                            {t.settings.linkWalletButton}
-                          </Button>
-
-                          <Box p={3} bg="blue.900/90" borderRadius="md">
-                            <Text fontSize="xs" color="gray.300">
-                              {t.settings.linkExplanation}
-                            </Text>
-                          </Box>
-                        </>
-                      )}
-                    </VStack>
-                  )}
-                </VStack>
-              </Box>
-
-              {/* How QR Code Sync Works */}
+              {/* How Device Sync Works */}
               <Box bg="gray.900" p={6} borderRadius="lg" border="1px solid" borderColor="gray.700">
                 <HStack mb={4}>
                   <Icon as={FiShield} color={brandColors.primary} boxSize={6} />
-                  <Heading size="md">{t.settings.howQrWorksHeading}</Heading>
+                  <Heading size="md">{t.settings.syncHowHeading}</Heading>
                 </HStack>
                 <VStack align="stretch" gap={3} fontSize="sm" color="gray.400">
-                  <Text>{t.settings.qrStep1}</Text>
-                  <Text>{t.settings.qrStep2}</Text>
-                  <Text>{t.settings.qrStep3}</Text>
-                  <Text>{t.settings.whatGetsStored}</Text>
+                  <Text>{t.settings.syncStep1}</Text>
+                  <Text>{t.settings.syncStep2}</Text>
+                  <Text>{t.settings.syncStep3}</Text>
                 </VStack>
               </Box>
 

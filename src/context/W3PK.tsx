@@ -156,6 +156,11 @@ interface W3pkType {
   getBackupStatus: () => Promise<BackupStatus>
   createBackup: (password: string) => Promise<Blob>
   exportForSync: (password?: string) => Promise<{ blob: Blob; filename: string; qrCode?: string }>
+  importFromSync: (syncData: string) => Promise<{ ethereumAddress: string }>
+  syncWalletWithPasskey: (
+    backupData: string,
+    password?: string
+  ) => Promise<{ mnemonic: string; ethereumAddress: string }>
   restoreFromBackup: (
     backupData: string,
     password: string
@@ -792,6 +797,29 @@ export const W3pkProvider: React.FC<W3pkProviderProps> = ({ children }) => {
     }
   }
 
+  // Both start a session on success; callers handle errors, since
+  // SyncBootstrapError reasons need their own messages
+  const importFromSync = async (syncData: string): Promise<{ ethereumAddress: string }> => {
+    try {
+      setIsLoading(true)
+      return await w3pk.importFromSync(syncData)
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  const syncWalletWithPasskey = async (
+    backupData: string,
+    password?: string
+  ): Promise<{ mnemonic: string; ethereumAddress: string }> => {
+    try {
+      setIsLoading(true)
+      return await w3pk.syncWalletWithPasskey(backupData, password)
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
   const restoreFromBackup = async (
     backupData: string,
     password: string
@@ -1118,6 +1146,8 @@ export const W3pkProvider: React.FC<W3pkProviderProps> = ({ children }) => {
         getBackupStatus,
         createBackup,
         exportForSync,
+        importFromSync,
+        syncWalletWithPasskey,
         restoreFromBackup,
         registerWithBackupFile,
         setupSocialRecovery,
