@@ -193,11 +193,16 @@ type TranslationKeys = {
 
     deviceSyncHeading: string
     deviceSyncDescription: string
-    qrHeading: string
-    qrDescription: string
-    generateQrButton: string
-    qrNote: string
     hideQrButton: string
+    syncExportHeading: string
+    syncExportDescription: string
+    syncExportButton: string
+    syncExportNote: string
+    syncQrAlt: string
+    syncExportedTitle: string
+    syncExportedPasswordDescription: string
+    syncPasswordModalTitle: string
+    syncPasswordModalDescription: string
     verifyHeading: string
     verifyDescription: string
     verifyPlaceholder: string
@@ -616,13 +621,20 @@ export const translations: Translations = {
       deviceSyncHeading: 'Device Sync',
       deviceSyncDescription:
         'Your passkey automatically syncs across devices using platform services',
-      qrHeading: 'Sync QR Code',
-      qrDescription:
-        'Generate a QR code containing your wallet addresses to easily sync or verify your account information on another device.',
-      generateQrButton: 'Generate Sync QR Code',
-      qrNote:
-        'Note: This QR code contains your public wallet addresses only. It does NOT contain your private keys or recovery phrase. Use it to verify your account on another device.',
       hideQrButton: 'Hide QR Code',
+      syncExportHeading: 'Export for Sync',
+      syncExportDescription:
+        'Download a sync file locked to your passkey. On any device where your passkey synced, import it with one passkey prompt and no password.',
+      syncExportButton: 'Export Sync File',
+      syncExportNote:
+        'Only your passkey can open this file. Passkeys sync within one ecosystem (Apple or Google): to move across ecosystems, use a password backup instead.',
+      syncQrAlt: 'Sync file QR code',
+      syncExportedTitle: 'Sync file downloaded',
+      syncExportedPasswordDescription:
+        "Your passkey doesn't support passwordless sync, so this file needs the password you chose.",
+      syncPasswordModalTitle: 'Set a Sync Password',
+      syncPasswordModalDescription:
+        "This browser or authenticator can't lock the file to your passkey alone. Choose a password: you'll enter it with your passkey on the other device.",
       verifyHeading: 'Verify QR Code Data',
       verifyDescription:
         'Paste the JSON string from a scanned QR code to verify the wallet addresses.',
@@ -1064,12 +1076,19 @@ export const translations: Translations = {
 
       deviceSyncHeading: '设备同步',
       deviceSyncDescription: '您的通行密钥会通过平台服务自动在各设备间同步',
-      qrHeading: '同步二维码',
-      qrDescription: '生成一个包含您钱包地址的二维码，以便在其他设备上轻松同步或验证您的账户信息。',
-      generateQrButton: '生成同步二维码',
-      qrNote:
-        '注意：此二维码仅包含您的公开钱包地址，不包含您的私钥或恢复助记词。可用于在其他设备上验证您的账户。',
       hideQrButton: '隐藏二维码',
+      syncExportHeading: '导出以同步',
+      syncExportDescription:
+        '下载一个绑定到您通行密钥的同步文件。在通行密钥已同步的任何设备上，只需一次通行密钥验证即可导入，无需密码。',
+      syncExportButton: '导出同步文件',
+      syncExportNote:
+        '只有您的通行密钥才能打开此文件。通行密钥仅在同一生态系统内同步（Apple 或 Google）：如需跨生态系统迁移，请改用密码备份。',
+      syncQrAlt: '同步文件二维码',
+      syncExportedTitle: '同步文件已下载',
+      syncExportedPasswordDescription: '您的通行密钥不支持无密码同步，因此此文件需要您设置的密码。',
+      syncPasswordModalTitle: '设置同步密码',
+      syncPasswordModalDescription:
+        '此浏览器或认证器无法仅用通行密钥锁定文件。请设置一个密码：在另一台设备上，您需要同时使用通行密钥和该密码。',
       verifyHeading: '验证二维码数据',
       verifyDescription: '粘贴扫描二维码得到的 JSON 字符串以验证钱包地址。',
       verifyPlaceholder: '在此粘贴 JSON 数据（例如：{"username":"...","ethereumAddress":"..."}）',
@@ -1505,13 +1524,20 @@ export const translations: Translations = {
       deviceSyncHeading: 'डिवाइस सिंक',
       deviceSyncDescription:
         'आपकी पासकी प्लेटफ़ॉर्म सेवाओं का उपयोग करके डिवाइसों में स्वचालित रूप से सिंक होती है',
-      qrHeading: 'सिंक QR कोड',
-      qrDescription:
-        'किसी अन्य डिवाइस पर अपनी खाता जानकारी को आसानी से सिंक या सत्यापित करने के लिए अपने वॉलेट पतों वाला एक QR कोड जनरेट करें।',
-      generateQrButton: 'सिंक QR कोड जनरेट करें',
-      qrNote:
-        'नोट: इस QR कोड में केवल आपके सार्वजनिक वॉलेट पते शामिल हैं। इसमें आपकी निजी कुंजियां या रिकवरी फ्रेज़ शामिल नहीं है। किसी अन्य डिवाइस पर अपने खाते को सत्यापित करने के लिए इसका उपयोग करें।',
       hideQrButton: 'QR कोड छिपाएं',
+      syncExportHeading: 'सिंक के लिए निर्यात करें',
+      syncExportDescription:
+        'अपनी पासकी से लॉक एक सिंक फ़ाइल डाउनलोड करें। जिस भी डिवाइस पर आपकी पासकी सिंक हुई है, वहाँ एक पासकी प्रॉम्प्ट से, बिना पासवर्ड के, इसे इम्पोर्ट करें।',
+      syncExportButton: 'सिंक फ़ाइल निर्यात करें',
+      syncExportNote:
+        'यह फ़ाइल केवल आपकी पासकी खोल सकती है। पासकी एक ही इकोसिस्टम (Apple या Google) में सिंक होती हैं: इकोसिस्टम बदलने के लिए, पासवर्ड बैकअप का उपयोग करें।',
+      syncQrAlt: 'सिंक फ़ाइल QR कोड',
+      syncExportedTitle: 'सिंक फ़ाइल डाउनलोड हो गई',
+      syncExportedPasswordDescription:
+        'आपकी पासकी बिना पासवर्ड सिंक का समर्थन नहीं करती, इसलिए इस फ़ाइल के लिए आपके चुने हुए पासवर्ड की ज़रूरत होगी।',
+      syncPasswordModalTitle: 'सिंक पासवर्ड सेट करें',
+      syncPasswordModalDescription:
+        'यह ब्राउज़र या ऑथेंटिकेटर फ़ाइल को केवल आपकी पासकी से लॉक नहीं कर सकता। एक पासवर्ड चुनें: दूसरे डिवाइस पर आप इसे अपनी पासकी के साथ दर्ज करेंगे।',
       verifyHeading: 'QR कोड डेटा सत्यापित करें',
       verifyDescription:
         'वॉलेट पतों को सत्यापित करने के लिए स्कैन किए गए QR कोड से JSON स्ट्रिंग पेस्ट करें।',
@@ -1978,13 +2004,20 @@ export const translations: Translations = {
       deviceSyncHeading: 'Sincronización de dispositivos',
       deviceSyncDescription:
         'Tu clave de acceso se sincroniza automáticamente entre dispositivos mediante los servicios de la plataforma',
-      qrHeading: 'Código QR de sincronización',
-      qrDescription:
-        'Genera un código QR que contenga las direcciones de tu billetera para sincronizar o verificar fácilmente la información de tu cuenta en otro dispositivo.',
-      generateQrButton: 'Generar código QR de sincronización',
-      qrNote:
-        'Nota: este código QR contiene únicamente las direcciones públicas de tu billetera. NO contiene tus claves privadas ni tu frase de recuperación. Úsalo para verificar tu cuenta en otro dispositivo.',
       hideQrButton: 'Ocultar código QR',
+      syncExportHeading: 'Exportar para sincronizar',
+      syncExportDescription:
+        'Descarga un archivo de sincronización vinculado a tu passkey. En cualquier dispositivo donde se haya sincronizado tu passkey, impórtalo con una sola solicitud de passkey y sin contraseña.',
+      syncExportButton: 'Exportar archivo de sincronización',
+      syncExportNote:
+        'Solo tu passkey puede abrir este archivo. Las passkeys se sincronizan dentro de un mismo ecosistema (Apple o Google): para cambiar de ecosistema, usa una copia de seguridad con contraseña.',
+      syncQrAlt: 'Código QR del archivo de sincronización',
+      syncExportedTitle: 'Archivo de sincronización descargado',
+      syncExportedPasswordDescription:
+        'Tu passkey no admite la sincronización sin contraseña, así que este archivo necesita la contraseña que elegiste.',
+      syncPasswordModalTitle: 'Establece una contraseña de sincronización',
+      syncPasswordModalDescription:
+        'Este navegador o autenticador no puede vincular el archivo solo a tu passkey. Elige una contraseña: la introducirás junto con tu passkey en el otro dispositivo.',
       verifyHeading: 'Verificar datos del código QR',
       verifyDescription:
         'Pega la cadena JSON de un código QR escaneado para verificar las direcciones de la billetera.',
@@ -2461,13 +2494,20 @@ export const translations: Translations = {
       deviceSyncHeading: 'Synchronisation des appareils',
       deviceSyncDescription:
         "Votre clé d'accès se synchronise automatiquement entre vos appareils grâce aux services de la plateforme",
-      qrHeading: 'QR code de synchronisation',
-      qrDescription:
-        'Générez un QR code contenant les adresses de votre portefeuille pour synchroniser ou vérifier facilement les informations de votre compte sur un autre appareil.',
-      generateQrButton: 'Générer le QR code de synchronisation',
-      qrNote:
-        'Remarque : ce QR code contient uniquement les adresses publiques de votre portefeuille. Il ne contient PAS vos clés privées ni votre phrase de récupération. Utilisez-le pour vérifier votre compte sur un autre appareil.',
       hideQrButton: 'Masquer le QR code',
+      syncExportHeading: 'Exporter pour synchroniser',
+      syncExportDescription:
+        'Téléchargez un fichier de synchronisation lié à votre passkey. Sur tout appareil où votre passkey est synchronisée, importez-le avec une seule demande de passkey, sans mot de passe.',
+      syncExportButton: 'Exporter le fichier de synchronisation',
+      syncExportNote:
+        "Seule votre passkey peut ouvrir ce fichier. Les passkeys se synchronisent au sein d'un même écosystème (Apple ou Google) : pour changer d'écosystème, utilisez plutôt une sauvegarde par mot de passe.",
+      syncQrAlt: 'QR code du fichier de synchronisation',
+      syncExportedTitle: 'Fichier de synchronisation téléchargé',
+      syncExportedPasswordDescription:
+        'Votre passkey ne prend pas en charge la synchronisation sans mot de passe : ce fichier demandera le mot de passe que vous avez choisi.',
+      syncPasswordModalTitle: 'Définir un mot de passe de synchronisation',
+      syncPasswordModalDescription:
+        "Ce navigateur ou cet authentificateur ne peut pas lier le fichier à votre seule passkey. Choisissez un mot de passe : vous le saisirez avec votre passkey sur l'autre appareil.",
       verifyHeading: 'Vérifier les données du QR code',
       verifyDescription:
         "Collez la chaîne JSON issue d'un QR code scanné pour vérifier les adresses du portefeuille.",
@@ -2939,13 +2979,20 @@ export const translations: Translations = {
       deviceSyncHeading: 'مزامنة الأجهزة',
       deviceSyncDescription:
         'تتم مزامنة مفتاح المرور الخاص بك تلقائياً عبر الأجهزة باستخدام خدمات المنصة',
-      qrHeading: 'رمز QR للمزامنة',
-      qrDescription:
-        'أنشئ رمز QR يحتوي على عناوين محفظتك لمزامنة أو التحقق من معلومات حسابك بسهولة على جهاز آخر.',
-      generateQrButton: 'إنشاء رمز QR للمزامنة',
-      qrNote:
-        'ملاحظة: يحتوي رمز QR هذا على عناوين محفظتك العامة فقط. لا يحتوي على مفاتيحك الخاصة أو عبارة الاسترداد. استخدمه للتحقق من حسابك على جهاز آخر.',
       hideQrButton: 'إخفاء رمز QR',
+      syncExportHeading: 'تصدير للمزامنة',
+      syncExportDescription:
+        'نزّل ملف مزامنة مقفلًا بمفتاح المرور الخاص بك. على أي جهاز تمت مزامنة مفتاح المرور إليه، استورده بطلب واحد لمفتاح المرور ودون كلمة مرور.',
+      syncExportButton: 'تصدير ملف المزامنة',
+      syncExportNote:
+        'لا يفتح هذا الملف إلا مفتاح المرور الخاص بك. تتم مزامنة مفاتيح المرور داخل منظومة واحدة (Apple أو Google): للانتقال بين المنظومات، استخدم نسخة احتياطية بكلمة مرور.',
+      syncQrAlt: 'رمز QR لملف المزامنة',
+      syncExportedTitle: 'تم تنزيل ملف المزامنة',
+      syncExportedPasswordDescription:
+        'لا يدعم مفتاح المرور الخاص بك المزامنة دون كلمة مرور، لذا يتطلب هذا الملف كلمة المرور التي اخترتها.',
+      syncPasswordModalTitle: 'عيّن كلمة مرور للمزامنة',
+      syncPasswordModalDescription:
+        'لا يستطيع هذا المتصفح أو المصادِق قفل الملف بمفتاح المرور وحده. اختر كلمة مرور: ستُدخلها مع مفتاح المرور على الجهاز الآخر.',
       verifyHeading: 'التحقق من بيانات رمز QR',
       verifyDescription: 'الصق سلسلة JSON من رمز QR الممسوح ضوئياً للتحقق من عناوين المحفظة.',
       verifyPlaceholder: 'الصق بيانات JSON هنا (مثال: {"username":"...","ethereumAddress":"..."})',
@@ -3395,13 +3442,20 @@ export const translations: Translations = {
       deviceSyncHeading: 'ডিভাইস সিঙ্ক',
       deviceSyncDescription:
         'প্ল্যাটফর্ম পরিষেবা ব্যবহার করে আপনার পাসকী স্বয়ংক্রিয়ভাবে ডিভাইসগুলির মধ্যে সিঙ্ক হয়',
-      qrHeading: 'সিঙ্ক QR কোড',
-      qrDescription:
-        'অন্য একটি ডিভাইসে সহজে সিঙ্ক করতে বা আপনার অ্যাকাউন্টের তথ্য যাচাই করতে আপনার ওয়ালেট ঠিকানা সম্বলিত একটি QR কোড তৈরি করুন।',
-      generateQrButton: 'সিঙ্ক QR কোড তৈরি করুন',
-      qrNote:
-        'দ্রষ্টব্য: এই QR কোডে শুধুমাত্র আপনার পাবলিক ওয়ালেট ঠিকানা রয়েছে। এতে আপনার প্রাইভেট কী বা পুনরুদ্ধার ফ্রেজ নেই। অন্য একটি ডিভাইসে আপনার অ্যাকাউন্ট যাচাই করতে এটি ব্যবহার করুন।',
       hideQrButton: 'QR কোড লুকান',
+      syncExportHeading: 'সিঙ্কের জন্য এক্সপোর্ট করুন',
+      syncExportDescription:
+        'আপনার পাসকি দিয়ে লক করা একটি সিঙ্ক ফাইল ডাউনলোড করুন। যে ডিভাইসে আপনার পাসকি সিঙ্ক হয়েছে, সেখানে একটি পাসকি প্রম্পটেই, কোনো পাসওয়ার্ড ছাড়া, এটি ইমপোর্ট করুন।',
+      syncExportButton: 'সিঙ্ক ফাইল এক্সপোর্ট করুন',
+      syncExportNote:
+        'শুধু আপনার পাসকিই এই ফাইল খুলতে পারে। পাসকি একটি ইকোসিস্টেমের (Apple বা Google) মধ্যেই সিঙ্ক হয়: ইকোসিস্টেম বদলাতে পাসওয়ার্ড ব্যাকআপ ব্যবহার করুন।',
+      syncQrAlt: 'সিঙ্ক ফাইলের QR কোড',
+      syncExportedTitle: 'সিঙ্ক ফাইল ডাউনলোড হয়েছে',
+      syncExportedPasswordDescription:
+        'আপনার পাসকি পাসওয়ার্ড ছাড়া সিঙ্ক সমর্থন করে না, তাই এই ফাইলের জন্য আপনার বেছে নেওয়া পাসওয়ার্ড লাগবে।',
+      syncPasswordModalTitle: 'সিঙ্ক পাসওয়ার্ড সেট করুন',
+      syncPasswordModalDescription:
+        'এই ব্রাউজার বা অথেনটিকেটর শুধু আপনার পাসকি দিয়ে ফাইলটি লক করতে পারে না। একটি পাসওয়ার্ড বেছে নিন: অন্য ডিভাইসে পাসকির সঙ্গে এটি দিতে হবে।',
       verifyHeading: 'QR কোড ডেটা যাচাই করুন',
       verifyDescription:
         'ওয়ালেট ঠিকানা যাচাই করতে স্ক্যান করা QR কোড থেকে JSON স্ট্রিং পেস্ট করুন।',
@@ -3875,13 +3929,20 @@ export const translations: Translations = {
       deviceSyncHeading: 'Синхронизация устройств',
       deviceSyncDescription:
         'Ваш ключ доступа автоматически синхронизируется между устройствами через сервисы платформы',
-      qrHeading: 'QR-код синхронизации',
-      qrDescription:
-        'Сгенерируйте QR-код с адресами вашего кошелька, чтобы легко синхронизировать или проверить информацию об аккаунте на другом устройстве.',
-      generateQrButton: 'Сгенерировать QR-код синхронизации',
-      qrNote:
-        'Примечание: этот QR-код содержит только публичные адреса вашего кошелька. Он НЕ содержит ваши приватные ключи или фразу восстановления. Используйте его для проверки аккаунта на другом устройстве.',
       hideQrButton: 'Скрыть QR-код',
+      syncExportHeading: 'Экспорт для синхронизации',
+      syncExportDescription:
+        'Скачайте файл синхронизации, привязанный к вашему ключу доступа. На любом устройстве, куда синхронизировался ключ, импортируйте его одним подтверждением ключа, без пароля.',
+      syncExportButton: 'Экспортировать файл синхронизации',
+      syncExportNote:
+        'Открыть этот файл может только ваш ключ доступа. Ключи синхронизируются в пределах одной экосистемы (Apple или Google): для перехода между экосистемами используйте резервную копию с паролем.',
+      syncQrAlt: 'QR-код файла синхронизации',
+      syncExportedTitle: 'Файл синхронизации скачан',
+      syncExportedPasswordDescription:
+        'Ваш ключ доступа не поддерживает синхронизацию без пароля, поэтому для этого файла понадобится выбранный вами пароль.',
+      syncPasswordModalTitle: 'Задайте пароль синхронизации',
+      syncPasswordModalDescription:
+        'Этот браузер или аутентификатор не может привязать файл только к ключу доступа. Выберите пароль: на другом устройстве вы введёте его вместе с ключом.',
       verifyHeading: 'Проверка данных QR-кода',
       verifyDescription:
         'Вставьте строку JSON из отсканированного QR-кода, чтобы проверить адреса кошелька.',
@@ -4354,13 +4415,20 @@ export const translations: Translations = {
       deviceSyncHeading: 'Sincronização de dispositivos',
       deviceSyncDescription:
         'A sua chave de acesso sincroniza automaticamente entre dispositivos utilizando serviços da plataforma',
-      qrHeading: 'Código QR de sincronização',
-      qrDescription:
-        'Gere um código QR contendo os endereços da sua carteira para sincronizar ou verificar facilmente as informações da sua conta noutro dispositivo.',
-      generateQrButton: 'Gerar código QR de sincronização',
-      qrNote:
-        'Nota: este código QR contém apenas os endereços públicos da sua carteira. NÃO contém as suas chaves privadas nem a frase de recuperação. Utilize-o para verificar a sua conta noutro dispositivo.',
       hideQrButton: 'Ocultar código QR',
+      syncExportHeading: 'Exportar para sincronizar',
+      syncExportDescription:
+        'Baixe um arquivo de sincronização vinculado à sua passkey. Em qualquer dispositivo onde sua passkey foi sincronizada, importe-o com uma única solicitação de passkey e sem senha.',
+      syncExportButton: 'Exportar arquivo de sincronização',
+      syncExportNote:
+        'Só a sua passkey pode abrir este arquivo. Passkeys sincronizam dentro de um ecossistema (Apple ou Google): para mudar de ecossistema, use um backup com senha.',
+      syncQrAlt: 'QR code do arquivo de sincronização',
+      syncExportedTitle: 'Arquivo de sincronização baixado',
+      syncExportedPasswordDescription:
+        'A sua passkey não suporta sincronização sem senha, então este arquivo precisa da senha que você escolheu.',
+      syncPasswordModalTitle: 'Defina uma senha de sincronização',
+      syncPasswordModalDescription:
+        'Este navegador ou autenticador não consegue vincular o arquivo apenas à sua passkey. Escolha uma senha: você vai digitá-la com a sua passkey no outro dispositivo.',
       verifyHeading: 'Verificar dados do código QR',
       verifyDescription:
         'Cole a cadeia JSON de um código QR digitalizado para verificar os endereços da carteira.',
@@ -4831,13 +4899,20 @@ export const translations: Translations = {
       deviceSyncHeading: 'ڈیوائس مطابقت پذیری',
       deviceSyncDescription:
         'آپ کی پاس کی پلیٹ فارم سروسز کا استعمال کرتے ہوئے خودکار طور پر ڈیوائسز کے درمیان مطابقت پذیر ہوتی ہے',
-      qrHeading: 'مطابقت پذیری QR کوڈ',
-      qrDescription:
-        'اپنے والیٹ کے پتے پر مشتمل ایک QR کوڈ تیار کریں تاکہ دوسرے ڈیوائس پر اپنے اکاؤنٹ کی معلومات کو آسانی سے مطابقت پذیر یا تصدیق کیا جا سکے۔',
-      generateQrButton: 'مطابقت پذیری QR کوڈ تیار کریں',
-      qrNote:
-        'نوٹ: اس QR کوڈ میں صرف آپ کے پبلک والیٹ پتے شامل ہیں۔ اس میں آپ کی پرائیویٹ کیز یا بحالی کا فقرہ شامل نہیں ہے۔ اسے دوسرے ڈیوائس پر اپنے اکاؤنٹ کی تصدیق کے لیے استعمال کریں۔',
       hideQrButton: 'QR کوڈ چھپائیں',
+      syncExportHeading: 'ہم آہنگی کے لیے ایکسپورٹ کریں',
+      syncExportDescription:
+        'اپنی پاس کی سے لاک ایک سنک فائل ڈاؤن لوڈ کریں۔ جس بھی ڈیوائس پر آپ کی پاس کی سنک ہوئی ہے، وہاں ایک پاس کی پرامپٹ سے، بغیر پاس ورڈ کے، اسے امپورٹ کریں۔',
+      syncExportButton: 'سنک فائل ایکسپورٹ کریں',
+      syncExportNote:
+        'یہ فائل صرف آپ کی پاس کی کھول سکتی ہے۔ پاس کیز ایک ہی ایکو سسٹم (Apple یا Google) میں سنک ہوتی ہیں: ایکو سسٹم بدلنے کے لیے پاس ورڈ بیک اپ استعمال کریں۔',
+      syncQrAlt: 'سنک فائل کا QR کوڈ',
+      syncExportedTitle: 'سنک فائل ڈاؤن لوڈ ہو گئی',
+      syncExportedPasswordDescription:
+        'آپ کی پاس کی بغیر پاس ورڈ سنک کو سپورٹ نہیں کرتی، اس لیے اس فائل کے لیے آپ کا منتخب کردہ پاس ورڈ درکار ہوگا۔',
+      syncPasswordModalTitle: 'سنک پاس ورڈ سیٹ کریں',
+      syncPasswordModalDescription:
+        'یہ براؤزر یا آتھنٹیکیٹر فائل کو صرف آپ کی پاس کی سے لاک نہیں کر سکتا۔ ایک پاس ورڈ منتخب کریں: دوسری ڈیوائس پر آپ اسے اپنی پاس کی کے ساتھ درج کریں گے۔',
       verifyHeading: 'QR کوڈ ڈیٹا کی تصدیق کریں',
       verifyDescription: 'والیٹ کے پتوں کی تصدیق کے لیے اسکین شدہ QR کوڈ سے JSON سٹرنگ پیسٹ کریں۔',
       verifyPlaceholder:

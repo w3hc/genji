@@ -24,6 +24,7 @@ import {
   Flex,
   CloseButton,
   Textarea,
+  Image,
 } from '@chakra-ui/react'
 import { Button } from '@/components/ui/button'
 import { IconButton } from '@/components/ui/icon-button'
@@ -45,6 +46,7 @@ import {
   FiClock,
   FiUserPlus,
 } from 'react-icons/fi'
+import { PrfUnsupportedError } from 'w3pk'
 import { useW3PK } from '@/context/W3PK'
 import { useTranslation } from '@/hooks/useTranslation'
 import Spinner from '@/components/Spinner'
@@ -106,8 +108,9 @@ const SettingsPage = () => {
   const [mainAddress, setMainAddress] = useState<string>('')
   const [openbarAddress, setOpenbarAddress] = useState<string>('')
   const [isLoadingAddresses, setIsLoadingAddresses] = useState(false)
-  const [qrCodeData, setQrCodeData] = useState<string>('')
-  const [showQRCode, setShowQRCode] = useState(false)
+  const [isExportingSync, setIsExportingSync] = useState(false)
+  const [syncQrCode, setSyncQrCode] = useState<string | null>(null)
+  const [showSyncPasswordModal, setShowSyncPasswordModal] = useState(false)
   const [pastedQRData, setPastedQRData] = useState<string>('')
   const [parsedQRData, setParsedQRData] = useState<any>(null)
 
@@ -194,6 +197,7 @@ const SettingsPage = () => {
     user,
     getBackupStatus,
     createBackup,
+    exportForSync,
     restoreFromBackup,
     registerWithBackupFile,
     login,
@@ -1520,20 +1524,34 @@ const SettingsPage = () => {
     setShowPasswordModal(false)
   }
 
-  const handleGenerateQRCode = () => {
-    if (!user) return
+  const handleExportForSync = async (password?: string) => {
+    setShowSyncPasswordModal(false)
+    setIsExportingSync(true)
+    try {
+      const { blob, filename, qrCode } = await exportForSync(password)
 
-    const syncData = {
-      username: user.username,
-      ethereumAddress: user.ethereumAddress,
-      index0Address,
-      mainAddress,
-      openbarAddress,
-      timestamp: new Date().toISOString(),
+      const link = document.createElement('a')
+      link.href = URL.createObjectURL(blob)
+      link.download = filename
+      document.body.appendChild(link)
+      link.click()
+      document.body.removeChild(link)
+      URL.revokeObjectURL(link.href)
+
+      setSyncQrCode(qrCode ?? null)
+      toaster.create({
+        title: t.settings.syncExportedTitle,
+        description: password ? t.settings.syncExportedPasswordDescription : undefined,
+        type: 'success',
+        duration: 5000,
+      })
+    } catch (error) {
+      if (error instanceof PrfUnsupportedError) {
+        setShowSyncPasswordModal(true)
+      }
+    } finally {
+      setIsExportingSync(false)
     }
-
-    setQrCodeData(JSON.stringify(syncData))
-    setShowQRCode(true)
   }
 
   const handlePasteQRData = (value: string) => {
@@ -2906,53 +2924,54 @@ const SettingsPage = () => {
                 </Text>
               </Box>
 
-              {/* QR Code Section */}
+              {/* Sync Export Section */}
               <Box bg="gray.900" p={6} borderRadius="lg" border="1px solid" borderColor="gray.700">
-                <HStack mb={4} justify="space-between">
-                  <HStack>
-                    <Icon as={FiKey} color={brandColors.primary} boxSize={6} />
-                    <Heading size="md">{t.settings.qrHeading}</Heading>
-                  </HStack>
+                <HStack mb={4}>
+                  <Icon as={FiKey} color={brandColors.primary} boxSize={6} />
+                  <Heading size="md">{t.settings.syncExportHeading}</Heading>
                 </HStack>
                 <Text fontSize="sm" color="gray.400" mb={4}>
-                  {t.settings.qrDescription}
+                  {t.settings.syncExportDescription}
                 </Text>
 
-                {!showQRCode ? (
+                <VStack gap={4} align="stretch">
                   <Button
                     bg={brandColors.primary}
                     color="white"
                     _hover={{ bg: brandColors.secondary }}
-                    onClick={handleGenerateQRCode}
-                    disabled={!index0Address || !mainAddress}
+                    onClick={() => handleExportForSync()}
+                    loading={isExportingSync}
                     width="full"
                   >
-                    {t.settings.generateQrButton}
+                    {t.settings.syncExportButton}
                   </Button>
-                ) : (
-                  <VStack gap={4} align="stretch">
-                    <Box
-                      display="flex"
-                      justifyContent="center"
-                      alignItems="center"
-                      p={4}
-                      bg="white"
-                      borderRadius="lg"
-                      width="fit-content"
-                      mx="auto"
-                    >
-                      <QRCodeSVG value={qrCodeData} size={256} level="H" marginSize={4} />
-                    </Box>
-                    <Box p={4} bg="yellow.900/90" borderRadius="md">
-                      <Text fontSize="xs" color="gray.300">
-                        {t.settings.qrNote}
-                      </Text>
-                    </Box>
-                    <Button variant="outline" onClick={() => setShowQRCode(false)} width="full">
-                      {t.settings.hideQrButton}
-                    </Button>
-                  </VStack>
-                )}
+
+                  {syncQrCode && (
+                    <>
+                      <Box
+                        display="flex"
+                        justifyContent="center"
+                        alignItems="center"
+                        p={4}
+                        bg="white"
+                        borderRadius="lg"
+                        width="fit-content"
+                        mx="auto"
+                      >
+                        <Image src={syncQrCode} alt={t.settings.syncQrAlt} boxSize="256px" />
+                      </Box>
+                      <Button variant="outline" onClick={() => setSyncQrCode(null)} width="full">
+                        {t.settings.hideQrButton}
+                      </Button>
+                    </>
+                  )}
+
+                  <Box p={4} bg="yellow.900/90" borderRadius="md">
+                    <Text fontSize="xs" color="gray.300">
+                      {t.settings.syncExportNote}
+                    </Text>
+                  </Box>
+                </VStack>
               </Box>
 
               {/* Paste QR Data Section */}
@@ -3341,6 +3360,14 @@ const SettingsPage = () => {
         onSubmit={handlePasswordSubmit}
         title={t.settings.createBackupModalTitle}
         description={t.settings.createBackupModalDescription}
+      />
+
+      <PasswordModal
+        isOpen={showSyncPasswordModal}
+        onClose={() => setShowSyncPasswordModal(false)}
+        onSubmit={handleExportForSync}
+        title={t.settings.syncPasswordModalTitle}
+        description={t.settings.syncPasswordModalDescription}
       />
 
       <PasswordModal

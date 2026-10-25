@@ -24,6 +24,7 @@ import {
   // inspect,
   // inspectNow,
   SocialRecoveryManager,
+  PrfUnsupportedError,
 } from 'w3pk'
 import { toaster } from '@/components/ui/toaster'
 
@@ -154,6 +155,7 @@ interface W3pkType {
   getAddress: (mode?: string, tag?: string) => Promise<string>
   getBackupStatus: () => Promise<BackupStatus>
   createBackup: (password: string) => Promise<Blob>
+  exportForSync: (password?: string) => Promise<{ blob: Blob; filename: string; qrCode?: string }>
   restoreFromBackup: (
     backupData: string,
     password: string
@@ -759,6 +761,37 @@ export const W3pkProvider: React.FC<W3pkProviderProps> = ({ children }) => {
     }
   }
 
+  /**
+   * Throws PrfUnsupportedError where the authenticator has no PRF:
+   * call again with a password to get a password sync file
+   */
+  const exportForSync = async (
+    password?: string
+  ): Promise<{ blob: Blob; filename: string; qrCode?: string }> => {
+    if (!isAuthenticated || !user) {
+      throw new Error('User not authenticated. Cannot export for sync.')
+    }
+
+    try {
+      setIsLoading(true)
+      const result = await runWithAuthRetry(() => w3pk.exportForSync(password))
+      setBackupPrompt({ open: false })
+      return result
+    } catch (error) {
+      if (!isUserCancelledError(error) && !(error instanceof PrfUnsupportedError)) {
+        toaster.create({
+          title: 'Sync Export Failed',
+          description: error instanceof Error ? error.message : 'Failed to export for sync',
+          type: 'error',
+          duration: 5000,
+        })
+      }
+      throw error
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
   const restoreFromBackup = async (
     backupData: string,
     password: string
@@ -1084,6 +1117,7 @@ export const W3pkProvider: React.FC<W3pkProviderProps> = ({ children }) => {
         getAddress,
         getBackupStatus,
         createBackup,
+        exportForSync,
         restoreFromBackup,
         registerWithBackupFile,
         setupSocialRecovery,
