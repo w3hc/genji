@@ -85,6 +85,7 @@ const SettingsPage = () => {
   const t = useTranslation()
   const [backupStatus, setBackupStatus] = useState<string | null>(null)
   const [isCheckingStatus, setIsCheckingStatus] = useState(false)
+  const [evictionRisk, setEvictionRisk] = useState(false)
   const [isCreatingBackup, setIsCreatingBackup] = useState(false)
   const [showPasswordModal, setShowPasswordModal] = useState(false)
   const [showRestorePasswordModal, setShowRestorePasswordModal] = useState(false)
@@ -433,6 +434,7 @@ const SettingsPage = () => {
             const scoreLevel = statusObject.securityScore.level || 'unknown'
             const statusString = `Security Score: ${scoreValue}/100 (Level: ${scoreLevel})`
             setBackupStatus(statusString)
+            setEvictionRisk(statusObject.evictionRisk)
           }
         } catch (error) {
           console.error('Error loading backup status:', error)
@@ -1427,6 +1429,7 @@ const SettingsPage = () => {
         const scoreLevel = statusObject.securityScore.level || 'unknown'
         const statusString = `Security Score: ${scoreValue}/100 (Level: ${scoreLevel})`
         setBackupStatus(statusString)
+        setEvictionRisk(statusObject.evictionRisk)
       } else {
         setBackupStatus('Error: Unexpected status data format.')
       }
@@ -2266,6 +2269,11 @@ const SettingsPage = () => {
                 ) : (
                   <Text color="gray.300" fontSize="lg">
                     {backupStatus || t.settings.loadingText}
+                  </Text>
+                )}
+                {evictionRisk && (
+                  <Text color="orange.300" fontSize="sm" mt={3}>
+                    {t.settings.evictionRiskWarning}
                   </Text>
                 )}
               </Box>

@@ -26,7 +26,6 @@ import {
   SocialRecoveryManager,
 } from 'w3pk'
 import { toaster } from '@/components/ui/toaster'
-import { hasEvictionRisk } from '@/utils/evictionRisk'
 
 type SecurityMode = 'PRIMARY' | 'STRICT' | 'STANDARD' | 'YOLO'
 
@@ -51,6 +50,7 @@ interface BackupStatus {
   passkeySync?: PasskeySync
   recoveryPhrase?: RecoveryPhrase
   backupExists?: boolean
+  evictionRisk: boolean
 }
 
 interface W3pkUser {
@@ -406,7 +406,7 @@ export const W3pkProvider: React.FC<W3pkProviderProps> = ({ children }) => {
 
       console.log('[W3PK] Registration successful')
 
-      if (!result.hasBackup && hasEvictionRisk(w3pk.storagePersisted)) {
+      if (!result.hasBackup && result.evictionRisk) {
         setBackupPrompt({ open: true })
       }
 

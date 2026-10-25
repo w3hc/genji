@@ -131,6 +131,7 @@ type TranslationKeys = {
     loadingText: string
     securityStatusHeading: string
     checkingStatusText: string
+    evictionRiskWarning: string
     refreshHeading: string
     refreshDescription: string
     checkingText: string
@@ -540,6 +541,8 @@ export const translations: Translations = {
       loadingText: 'Loading...',
       securityStatusHeading: 'Security Status',
       checkingStatusText: 'Checking backup status...',
+      evictionRiskWarning:
+        'This browser can wipe your wallet after 7 days without a visit. Keep a backup, or add genji to your home screen.',
       refreshHeading: 'Refresh Backup Status',
       refreshDescription: 'Reload your current security score and backup recommendations',
       checkingText: 'Checking...',
@@ -989,6 +992,8 @@ export const translations: Translations = {
       loadingText: '加载中...',
       securityStatusHeading: '安全状态',
       checkingStatusText: '正在检查备份状态...',
+      evictionRiskWarning:
+        '如果 7 天未访问，此浏览器可能会清除您的钱包。请保留备份，或将 genji 添加到主屏幕。',
       refreshHeading: '刷新备份状态',
       refreshDescription: '重新加载您当前的安全评分和备份建议',
       checkingText: '正在检查...',
@@ -1422,6 +1427,8 @@ export const translations: Translations = {
       loadingText: 'लोड हो रहा है...',
       securityStatusHeading: 'सुरक्षा स्थिति',
       checkingStatusText: 'बैकअप स्थिति की जांच हो रही है...',
+      evictionRiskWarning:
+        '7 दिनों तक न आने पर यह ब्राउज़र आपका वॉलेट मिटा सकता है। बैकअप रखें, या genji को होम स्क्रीन पर जोड़ें।',
       refreshHeading: 'बैकअप स्थिति रीफ़्रेश करें',
       refreshDescription: 'अपने वर्तमान सुरक्षा स्कोर और बैकअप सिफारिशों को फिर से लोड करें',
       checkingText: 'जांच हो रही है...',
@@ -1890,6 +1897,8 @@ export const translations: Translations = {
       loadingText: 'Cargando...',
       securityStatusHeading: 'Estado de seguridad',
       checkingStatusText: 'Comprobando el estado de la copia de seguridad...',
+      evictionRiskWarning:
+        'Este navegador puede borrar tu billetera tras 7 días sin visitas. Guarda una copia de seguridad o añade genji a tu pantalla de inicio.',
       refreshHeading: 'Actualizar estado de la copia de seguridad',
       refreshDescription:
         'Vuelve a cargar tu puntuación de seguridad actual y las recomendaciones de copia de seguridad',
@@ -2371,6 +2380,8 @@ export const translations: Translations = {
       loadingText: 'Chargement...',
       securityStatusHeading: 'État de la sécurité',
       checkingStatusText: "Vérification de l'état de la sauvegarde...",
+      evictionRiskWarning:
+        "Ce navigateur peut effacer votre portefeuille après 7 jours sans visite. Gardez une sauvegarde, ou ajoutez genji à votre écran d'accueil.",
       refreshHeading: "Actualiser l'état de la sauvegarde",
       refreshDescription:
         'Recharger votre score de sécurité actuel et les recommandations de sauvegarde',
@@ -2852,6 +2863,8 @@ export const translations: Translations = {
       loadingText: 'جارٍ التحميل...',
       securityStatusHeading: 'حالة الأمان',
       checkingStatusText: 'جارٍ التحقق من حالة النسخ الاحتياطي...',
+      evictionRiskWarning:
+        'قد يمسح هذا المتصفح محفظتك بعد 7 أيام دون زيارة. احتفظ بنسخة احتياطية، أو أضف genji إلى شاشتك الرئيسية.',
       refreshHeading: 'تحديث حالة النسخ الاحتياطي',
       refreshDescription: 'إعادة تحميل درجة أمانك الحالية وتوصيات النسخ الاحتياطي',
       checkingText: 'جارٍ التحقق...',
@@ -3303,6 +3316,8 @@ export const translations: Translations = {
       loadingText: 'লোড হচ্ছে...',
       securityStatusHeading: 'নিরাপত্তা অবস্থা',
       checkingStatusText: 'ব্যাকআপ অবস্থা পরীক্ষা করা হচ্ছে...',
+      evictionRiskWarning:
+        '৭ দিন না এলে এই ব্রাউজার আপনার ওয়ালেট মুছে ফেলতে পারে। একটি ব্যাকআপ রাখুন, অথবা genji হোম স্ক্রিনে যোগ করুন।',
       refreshHeading: 'ব্যাকআপ অবস্থা রিফ্রেশ করুন',
       refreshDescription: 'আপনার বর্তমান নিরাপত্তা স্কোর এবং ব্যাকআপ সুপারিশগুলি পুনরায় লোড করুন',
       checkingText: 'পরীক্ষা করা হচ্ছে...',
@@ -3780,6 +3795,8 @@ export const translations: Translations = {
       loadingText: 'Загрузка...',
       securityStatusHeading: 'Статус безопасности',
       checkingStatusText: 'Проверка статуса резервной копии...',
+      evictionRiskWarning:
+        'Этот браузер может стереть ваш кошелёк, если вы не заходите 7 дней. Сохраните резервную копию или добавьте genji на главный экран.',
       refreshHeading: 'Обновить статус резервной копии',
       refreshDescription:
         'Обновите текущую оценку безопасности и рекомендации по резервному копированию',
@@ -4256,6 +4273,8 @@ export const translations: Translations = {
       loadingText: 'A carregar...',
       securityStatusHeading: 'Estado de segurança',
       checkingStatusText: 'A verificar o estado da cópia de segurança...',
+      evictionRiskWarning:
+        'Este navegador pode apagar a sua carteira após 7 dias sem visitas. Mantenha um backup ou adicione o genji à tela inicial.',
       refreshHeading: 'Atualizar estado da cópia de segurança',
       refreshDescription:
         'Recarregue a sua pontuação de segurança atual e as recomendações de cópia de segurança',
@@ -4734,6 +4753,8 @@ export const translations: Translations = {
       loadingText: 'لوڈ ہو رہا ہے...',
       securityStatusHeading: 'سیکیورٹی کی صورتحال',
       checkingStatusText: 'بیک اپ کی صورتحال چیک ہو رہی ہے...',
+      evictionRiskWarning:
+        '7 دن تک نہ آنے پر یہ براؤزر آپ کا والیٹ مٹا سکتا ہے۔ بیک اپ رکھیں، یا genji کو ہوم اسکرین پر شامل کریں۔',
       refreshHeading: 'بیک اپ کی صورتحال تازہ کریں',
       refreshDescription: 'اپنا موجودہ سیکیورٹی سکور اور بیک اپ تجاویز دوبارہ لوڈ کریں',
       checkingText: 'چیک ہو رہا ہے...',

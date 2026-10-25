@@ -221,3 +221,12 @@ export async function isPlatformAuthenticatorAvailable(): Promise<boolean> {
     return false
   }
 }
+
+export function isIOS(): boolean {
+  if (typeof navigator === 'undefined') return false
+  // iPadOS reports itself as macOS, but has touch points
+  return (
+    /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+    (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)
+  )
+}
