@@ -24,9 +24,12 @@ import {
   // inspect,
   // inspectNow,
   SocialRecoveryManager,
+  PrfUnsupportedError,
+  SyncRequiredError,
+  WalletMissingError,
 } from 'w3pk'
+import { useRouter } from 'next/navigation'
 import { toaster } from '@/components/ui/toaster'
-import { hasEvictionRisk } from '@/utils/evictionRisk'
 
 type SecurityMode = 'PRIMARY' | 'STRICT' | 'STANDARD' | 'YOLO'
 
@@ -51,6 +54,7 @@ interface BackupStatus {
   passkeySync?: PasskeySync
   recoveryPhrase?: RecoveryPhrase
   backupExists?: boolean
+  evictionRisk: boolean
 }
 
 interface W3pkUser {
@@ -154,6 +158,12 @@ interface W3pkType {
   getAddress: (mode?: string, tag?: string) => Promise<string>
   getBackupStatus: () => Promise<BackupStatus>
   createBackup: (password: string) => Promise<Blob>
+  exportForSync: (password?: string) => Promise<{ blob: Blob; filename: string; qrCode?: string }>
+  importFromSync: (syncData: string) => Promise<{ ethereumAddress: string }>
+  syncWalletWithPasskey: (
+    backupData: string,
+    password?: string
+  ) => Promise<{ mnemonic: string; ethereumAddress: string }>
   restoreFromBackup: (
     backupData: string,
     password: string
@@ -272,6 +282,7 @@ function hasStoredPersistentSession(): boolean {
 }
 
 export const W3pkProvider: React.FC<W3pkProviderProps> = ({ children }) => {
+  const router = useRouter()
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [user, setUser] = useState<W3pkUser | null>(null)
   const [isLoading, setIsLoading] = useState(false)
@@ -406,7 +417,7 @@ export const W3pkProvider: React.FC<W3pkProviderProps> = ({ children }) => {
 
       console.log('[W3PK] Registration successful')
 
-      if (!result.hasBackup && hasEvictionRisk(w3pk.storagePersisted)) {
+      if (!result.hasBackup && result.evictionRisk) {
         setBackupPrompt({ open: true })
       }
 
@@ -456,6 +467,22 @@ export const W3pkProvider: React.FC<W3pkProviderProps> = ({ children }) => {
       })
     } catch (error) {
       console.error('[W3PK] Login failed:', error)
+
+      // The passkey works, but this device has no wallet for it: send the
+      // user to sync it from another device, or restore a backup
+      if (error instanceof SyncRequiredError || error instanceof WalletMissingError) {
+        toaster.create({
+          title: 'Wallet Not on This Device',
+          description:
+            error instanceof SyncRequiredError
+              ? 'Your passkey synced here, but your wallet did not. Import a sync file from your other device, or restore a backup.'
+              : 'This browser cleared your wallet. Import a sync file from another device, or restore a backup.',
+          type: 'warning',
+          duration: 8000,
+        })
+        router.push('/settings#sync-import')
+        throw error
+      }
 
       // Silence cancellations, "no passkey on this device" (the Header handles
       // it by offering registration), and duplicate concurrent login attempts —
@@ -754,6 +781,60 @@ export const W3pkProvider: React.FC<W3pkProviderProps> = ({ children }) => {
         })
       }
       throw error
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  /**
+   * Throws PrfUnsupportedError where the authenticator has no PRF:
+   * call again with a password to get a password sync file
+   */
+  const exportForSync = async (
+    password?: string
+  ): Promise<{ blob: Blob; filename: string; qrCode?: string }> => {
+    if (!isAuthenticated || !user) {
+      throw new Error('User not authenticated. Cannot export for sync.')
+    }
+
+    try {
+      setIsLoading(true)
+      const result = await runWithAuthRetry(() => w3pk.exportForSync(password))
+      setBackupPrompt({ open: false })
+      return result
+    } catch (error) {
+      if (!isUserCancelledError(error) && !(error instanceof PrfUnsupportedError)) {
+        toaster.create({
+          title: 'Sync Export Failed',
+          description: error instanceof Error ? error.message : 'Failed to export for sync',
+          type: 'error',
+          duration: 5000,
+        })
+      }
+      throw error
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  // Both start a session on success; callers handle errors, since
+  // SyncBootstrapError reasons need their own messages
+  const importFromSync = async (syncData: string): Promise<{ ethereumAddress: string }> => {
+    try {
+      setIsLoading(true)
+      return await w3pk.importFromSync(syncData)
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  const syncWalletWithPasskey = async (
+    backupData: string,
+    password?: string
+  ): Promise<{ mnemonic: string; ethereumAddress: string }> => {
+    try {
+      setIsLoading(true)
+      return await w3pk.syncWalletWithPasskey(backupData, password)
     } finally {
       setIsLoading(false)
     }
@@ -1084,6 +1165,9 @@ export const W3pkProvider: React.FC<W3pkProviderProps> = ({ children }) => {
         getAddress,
         getBackupStatus,
         createBackup,
+        exportForSync,
+        importFromSync,
+        syncWalletWithPasskey,
         restoreFromBackup,
         registerWithBackupFile,
         setupSocialRecovery,

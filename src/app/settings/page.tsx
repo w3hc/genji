@@ -24,6 +24,7 @@ import {
   Flex,
   CloseButton,
   Textarea,
+  Image,
 } from '@chakra-ui/react'
 import { Button } from '@/components/ui/button'
 import { IconButton } from '@/components/ui/icon-button'
@@ -39,16 +40,17 @@ import {
   FiUsers,
   FiKey,
   FiDownload,
-  FiDatabase,
   FiHardDrive,
   FiUpload,
   FiClock,
   FiUserPlus,
 } from 'react-icons/fi'
-import { useW3PK } from '@/context/W3PK'
+import { AuthenticationError, PrfUnsupportedError, SyncBootstrapError } from 'w3pk'
+import { useW3PK, isUserCancelledError } from '@/context/W3PK'
 import { useTranslation } from '@/hooks/useTranslation'
 import Spinner from '@/components/Spinner'
 import PasswordModal from '@/components/PasswordModal'
+import SyncImport from '@/components/SyncImport'
 import { CodeBlock } from '@/components/CodeBlock'
 // AI Inspection feature (disabled) - only used to render the security report
 // import ReactMarkdown from 'react-markdown'
@@ -85,6 +87,7 @@ const SettingsPage = () => {
   const t = useTranslation()
   const [backupStatus, setBackupStatus] = useState<string | null>(null)
   const [isCheckingStatus, setIsCheckingStatus] = useState(false)
+  const [evictionRisk, setEvictionRisk] = useState(false)
   const [isCreatingBackup, setIsCreatingBackup] = useState(false)
   const [showPasswordModal, setShowPasswordModal] = useState(false)
   const [showRestorePasswordModal, setShowRestorePasswordModal] = useState(false)
@@ -105,10 +108,9 @@ const SettingsPage = () => {
   const [mainAddress, setMainAddress] = useState<string>('')
   const [openbarAddress, setOpenbarAddress] = useState<string>('')
   const [isLoadingAddresses, setIsLoadingAddresses] = useState(false)
-  const [qrCodeData, setQrCodeData] = useState<string>('')
-  const [showQRCode, setShowQRCode] = useState(false)
-  const [pastedQRData, setPastedQRData] = useState<string>('')
-  const [parsedQRData, setParsedQRData] = useState<any>(null)
+  const [isExportingSync, setIsExportingSync] = useState(false)
+  const [syncQrCode, setSyncQrCode] = useState<string | null>(null)
+  const [showSyncPasswordModal, setShowSyncPasswordModal] = useState(false)
 
   // Persistent session duration state
   const [persistentSessionDays, setPersistentSessionDays] = useState<number>(() => {
@@ -193,6 +195,8 @@ const SettingsPage = () => {
     user,
     getBackupStatus,
     createBackup,
+    exportForSync,
+    syncWalletWithPasskey,
     restoreFromBackup,
     registerWithBackupFile,
     login,
@@ -433,6 +437,7 @@ const SettingsPage = () => {
             const scoreLevel = statusObject.securityScore.level || 'unknown'
             const statusString = `Security Score: ${scoreValue}/100 (Level: ${scoreLevel})`
             setBackupStatus(statusString)
+            setEvictionRisk(statusObject.evictionRisk)
           }
         } catch (error) {
           console.error('Error loading backup status:', error)
@@ -596,8 +601,37 @@ const SettingsPage = () => {
         }
       } catch (e) {}
 
-      // If NOT authenticated, prompt for username to register with backup file
       if (!isAuthenticated) {
+        // Restore into a passkey that already synced to this device; when
+        // there is none, or the backup can't name it, register a new one
+        try {
+          const result = await syncWalletWithPasskey(backupToRestore, password)
+          toaster.create({
+            title: t.settings.walletRestoredTitle,
+            description: t.settings.walletRestoredDescription(
+              `${result.ethereumAddress.slice(0, 6)}...${result.ethereumAddress.slice(-4)}`
+            ),
+            type: 'success',
+            duration: 5000,
+          })
+          setSelectedBackupFile(null)
+          return
+        } catch (error) {
+          if (
+            !(error instanceof SyncBootstrapError) &&
+            !(error instanceof AuthenticationError) &&
+            !isUserCancelledError(error)
+          ) {
+            toaster.create({
+              title: t.settings.syncImportErrorTitle,
+              description: (error as Error).message || t.settings.unexpectedErrorDescription,
+              type: 'error',
+              duration: 5000,
+            })
+            return
+          }
+        }
+
         setNeedsUsernameForRestore(true)
         setIsRestoring(false)
 
@@ -922,6 +956,8 @@ const SettingsPage = () => {
           )}
 
           <BuildVerification />
+
+          <SyncImport />
 
           {/* Restore from Backup - Available without authentication */}
           <Box
@@ -1427,6 +1463,7 @@ const SettingsPage = () => {
         const scoreLevel = statusObject.securityScore.level || 'unknown'
         const statusString = `Security Score: ${scoreValue}/100 (Level: ${scoreLevel})`
         setBackupStatus(statusString)
+        setEvictionRisk(statusObject.evictionRisk)
       } else {
         setBackupStatus('Error: Unexpected status data format.')
       }
@@ -1517,35 +1554,33 @@ const SettingsPage = () => {
     setShowPasswordModal(false)
   }
 
-  const handleGenerateQRCode = () => {
-    if (!user) return
-
-    const syncData = {
-      username: user.username,
-      ethereumAddress: user.ethereumAddress,
-      index0Address,
-      mainAddress,
-      openbarAddress,
-      timestamp: new Date().toISOString(),
-    }
-
-    setQrCodeData(JSON.stringify(syncData))
-    setShowQRCode(true)
-  }
-
-  const handlePasteQRData = (value: string) => {
-    setPastedQRData(value)
-
-    if (!value.trim()) {
-      setParsedQRData(null)
-      return
-    }
-
+  const handleExportForSync = async (password?: string) => {
+    setShowSyncPasswordModal(false)
+    setIsExportingSync(true)
     try {
-      const parsed = JSON.parse(value)
-      setParsedQRData(parsed)
+      const { blob, filename, qrCode } = await exportForSync(password)
+
+      const link = document.createElement('a')
+      link.href = URL.createObjectURL(blob)
+      link.download = filename
+      document.body.appendChild(link)
+      link.click()
+      document.body.removeChild(link)
+      URL.revokeObjectURL(link.href)
+
+      setSyncQrCode(qrCode ?? null)
+      toaster.create({
+        title: t.settings.syncExportedTitle,
+        description: password ? t.settings.syncExportedPasswordDescription : undefined,
+        type: 'success',
+        duration: 5000,
+      })
     } catch (error) {
-      setParsedQRData({ error: 'Invalid JSON format' })
+      if (error instanceof PrfUnsupportedError) {
+        setShowSyncPasswordModal(true)
+      }
+    } finally {
+      setIsExportingSync(false)
     }
   }
 
@@ -1809,61 +1844,6 @@ const SettingsPage = () => {
       }
     }
     fileInput.click()
-  }
-
-  const handleSaveQRDataToStorage = async () => {
-    if (!parsedQRData || parsedQRData.error || !user) {
-      toaster.create({
-        title: t.settings.cannotSaveTitle,
-        description: t.settings.cannotSaveDescription,
-        type: 'error',
-        duration: 3000,
-      })
-      return
-    }
-
-    try {
-      // Create a wallet sync record
-      const syncRecord = {
-        passkeyUser: {
-          username: user.username,
-          ethereumAddress: user.ethereumAddress,
-        },
-        linkedWallet: {
-          username: parsedQRData.username,
-          ethereumAddress: parsedQRData.ethereumAddress,
-          index0Address: parsedQRData.index0Address,
-          mainAddress: parsedQRData.mainAddress,
-          openbarAddress: parsedQRData.openbarAddress,
-        },
-        linkedAt: new Date().toISOString(),
-        syncedFrom: parsedQRData.timestamp,
-      }
-
-      // Save to localStorage
-      const storageKey = `w3pk_wallet_sync_${user.ethereumAddress}`
-      localStorage.setItem(storageKey, JSON.stringify(syncRecord))
-
-      toaster.create({
-        title: t.settings.walletLinkedTitle,
-        description: t.settings.walletLinkedDescription(
-          `${parsedQRData.ethereumAddress.slice(0, 6)}...${parsedQRData.ethereumAddress.slice(-4)}`
-        ),
-        type: 'success',
-        duration: 5000,
-      })
-
-      setPastedQRData('')
-      setParsedQRData(null)
-    } catch (error) {
-      console.error('Error saving QR data:', error)
-      toaster.create({
-        title: t.settings.errorSavingLinkTitle,
-        description: (error as Error).message || t.settings.failedSaveSyncData,
-        type: 'error',
-        duration: 5000,
-      })
-    }
   }
 
   return (
@@ -2266,6 +2246,11 @@ const SettingsPage = () => {
                 ) : (
                   <Text color="gray.300" fontSize="lg">
                     {backupStatus || t.settings.loadingText}
+                  </Text>
+                )}
+                {evictionRisk && (
+                  <Text color="orange.300" fontSize="sm" mt={3}>
+                    {t.settings.evictionRiskWarning}
                   </Text>
                 )}
               </Box>
@@ -2898,221 +2883,68 @@ const SettingsPage = () => {
                 </Text>
               </Box>
 
-              {/* QR Code Section */}
+              {/* Sync Export Section */}
               <Box bg="gray.900" p={6} borderRadius="lg" border="1px solid" borderColor="gray.700">
-                <HStack mb={4} justify="space-between">
-                  <HStack>
-                    <Icon as={FiKey} color={brandColors.primary} boxSize={6} />
-                    <Heading size="md">{t.settings.qrHeading}</Heading>
-                  </HStack>
+                <HStack mb={4}>
+                  <Icon as={FiKey} color={brandColors.primary} boxSize={6} />
+                  <Heading size="md">{t.settings.syncExportHeading}</Heading>
                 </HStack>
                 <Text fontSize="sm" color="gray.400" mb={4}>
-                  {t.settings.qrDescription}
+                  {t.settings.syncExportDescription}
                 </Text>
 
-                {!showQRCode ? (
+                <VStack gap={4} align="stretch">
                   <Button
                     bg={brandColors.primary}
                     color="white"
                     _hover={{ bg: brandColors.secondary }}
-                    onClick={handleGenerateQRCode}
-                    disabled={!index0Address || !mainAddress}
+                    onClick={() => handleExportForSync()}
+                    loading={isExportingSync}
                     width="full"
                   >
-                    {t.settings.generateQrButton}
+                    {t.settings.syncExportButton}
                   </Button>
-                ) : (
-                  <VStack gap={4} align="stretch">
-                    <Box
-                      display="flex"
-                      justifyContent="center"
-                      alignItems="center"
-                      p={4}
-                      bg="white"
-                      borderRadius="lg"
-                      width="fit-content"
-                      mx="auto"
-                    >
-                      <QRCodeSVG value={qrCodeData} size={256} level="H" marginSize={4} />
-                    </Box>
-                    <Box p={4} bg="yellow.900/90" borderRadius="md">
-                      <Text fontSize="xs" color="gray.300">
-                        {t.settings.qrNote}
-                      </Text>
-                    </Box>
-                    <Button variant="outline" onClick={() => setShowQRCode(false)} width="full">
-                      {t.settings.hideQrButton}
-                    </Button>
-                  </VStack>
-                )}
-              </Box>
 
-              {/* Paste QR Data Section */}
-              <Box bg="gray.900" p={6} borderRadius="lg" border="1px solid" borderColor="gray.700">
-                <HStack mb={4}>
-                  <Icon as={FiCloud} color={brandColors.primary} boxSize={6} />
-                  <Heading size="md">{t.settings.verifyHeading}</Heading>
-                </HStack>
-                <Text fontSize="sm" color="gray.400" mb={4}>
-                  {t.settings.verifyDescription}
-                </Text>
-
-                <VStack gap={4} align="stretch">
-                  <Textarea
-                    placeholder={t.settings.verifyPlaceholder}
-                    value={pastedQRData}
-                    onChange={e => handlePasteQRData(e.target.value)}
-                    minH="120px"
-                    fontFamily="monospace"
-                    fontSize="sm"
-                    bg="gray.950"
-                    borderColor="gray.700"
-                    _focus={{ borderColor: brandColors.primary }}
-                    p={3}
-                  />
-
-                  {parsedQRData && (
-                    <VStack gap={3} align="stretch">
+                  {syncQrCode && (
+                    <>
                       <Box
+                        display="flex"
+                        justifyContent="center"
+                        alignItems="center"
                         p={4}
-                        bg={parsedQRData.error ? 'red.900/90' : 'gray.950'}
-                        borderRadius="md"
-                        border="1px solid"
-                        borderColor={parsedQRData.error ? 'red.700' : 'gray.800'}
+                        bg="white"
+                        borderRadius="lg"
+                        width="fit-content"
+                        mx="auto"
                       >
-                        {parsedQRData.error ? (
-                          <Text fontSize="sm" color="red.300">
-                            <strong>{t.settings.errorLabel}</strong> {parsedQRData.error}
-                          </Text>
-                        ) : (
-                          <VStack align="stretch" gap={2}>
-                            <Text fontSize="sm" fontWeight="bold" color="white" mb={2}>
-                              {t.settings.parsedDataLabel}
-                            </Text>
-                            {parsedQRData.username && (
-                              <HStack>
-                                <Text fontSize="xs" color="gray.400" width="140px">
-                                  {t.settings.usernameFieldLabel}
-                                </Text>
-                                <Text fontSize="xs" color="white" fontWeight="medium">
-                                  {parsedQRData.username}
-                                </Text>
-                              </HStack>
-                            )}
-                            {parsedQRData.ethereumAddress && (
-                              <HStack>
-                                <Text fontSize="xs" color="gray.400" width="140px">
-                                  {t.settings.ethAddressLabel}
-                                </Text>
-                                <Code
-                                  fontSize="xs"
-                                  bg="gray.900"
-                                  color="gray.300"
-                                  p={1}
-                                  borderRadius="sm"
-                                >
-                                  {parsedQRData.ethereumAddress}
-                                </Code>
-                              </HStack>
-                            )}
-                            {parsedQRData.index0Address && (
-                              <HStack>
-                                <Text fontSize="xs" color="gray.400" width="140px">
-                                  {t.settings.index0FieldLabel}
-                                </Text>
-                                <Code
-                                  fontSize="xs"
-                                  bg="gray.900"
-                                  color="gray.300"
-                                  p={1}
-                                  borderRadius="sm"
-                                >
-                                  {parsedQRData.index0Address}
-                                </Code>
-                              </HStack>
-                            )}
-                            {parsedQRData.mainAddress && (
-                              <HStack>
-                                <Text fontSize="xs" color="gray.400" width="140px">
-                                  {t.settings.mainTaggedLabel}
-                                </Text>
-                                <Code
-                                  fontSize="xs"
-                                  bg="gray.900"
-                                  color="gray.300"
-                                  p={1}
-                                  borderRadius="sm"
-                                >
-                                  {parsedQRData.mainAddress}
-                                </Code>
-                              </HStack>
-                            )}
-                            {parsedQRData.openbarAddress && (
-                              <HStack>
-                                <Text fontSize="xs" color="gray.400" width="140px">
-                                  {t.settings.openbarTaggedLabel}
-                                </Text>
-                                <Code
-                                  fontSize="xs"
-                                  bg="gray.900"
-                                  color="gray.300"
-                                  p={1}
-                                  borderRadius="sm"
-                                >
-                                  {parsedQRData.openbarAddress}
-                                </Code>
-                              </HStack>
-                            )}
-                            {parsedQRData.timestamp && (
-                              <HStack>
-                                <Text fontSize="xs" color="gray.400" width="140px">
-                                  {t.settings.generatedLabel}
-                                </Text>
-                                <Text fontSize="xs" color="gray.300">
-                                  {new Date(parsedQRData.timestamp).toLocaleString()}
-                                </Text>
-                              </HStack>
-                            )}
-                          </VStack>
-                        )}
+                        <Image src={syncQrCode} alt={t.settings.syncQrAlt} boxSize="256px" />
                       </Box>
-
-                      {!parsedQRData.error && (
-                        <>
-                          <Button
-                            bg={brandColors.primary}
-                            color="white"
-                            _hover={{ bg: brandColors.secondary }}
-                            onClick={handleSaveQRDataToStorage}
-                            width="full"
-                          >
-                            <Icon as={FiDatabase} mr={2} />
-                            {t.settings.linkWalletButton}
-                          </Button>
-
-                          <Box p={3} bg="blue.900/90" borderRadius="md">
-                            <Text fontSize="xs" color="gray.300">
-                              {t.settings.linkExplanation}
-                            </Text>
-                          </Box>
-                        </>
-                      )}
-                    </VStack>
+                      <Button variant="outline" onClick={() => setSyncQrCode(null)} width="full">
+                        {t.settings.hideQrButton}
+                      </Button>
+                    </>
                   )}
+
+                  <Box p={4} bg="yellow.900/90" borderRadius="md">
+                    <Text fontSize="xs" color="gray.300">
+                      {t.settings.syncExportNote}
+                    </Text>
+                  </Box>
                 </VStack>
               </Box>
 
-              {/* How QR Code Sync Works */}
+              <SyncImport />
+
+              {/* How Device Sync Works */}
               <Box bg="gray.900" p={6} borderRadius="lg" border="1px solid" borderColor="gray.700">
                 <HStack mb={4}>
                   <Icon as={FiShield} color={brandColors.primary} boxSize={6} />
-                  <Heading size="md">{t.settings.howQrWorksHeading}</Heading>
+                  <Heading size="md">{t.settings.syncHowHeading}</Heading>
                 </HStack>
                 <VStack align="stretch" gap={3} fontSize="sm" color="gray.400">
-                  <Text>{t.settings.qrStep1}</Text>
-                  <Text>{t.settings.qrStep2}</Text>
-                  <Text>{t.settings.qrStep3}</Text>
-                  <Text>{t.settings.whatGetsStored}</Text>
+                  <Text>{t.settings.syncStep1}</Text>
+                  <Text>{t.settings.syncStep2}</Text>
+                  <Text>{t.settings.syncStep3}</Text>
                 </VStack>
               </Box>
 
@@ -3333,6 +3165,14 @@ const SettingsPage = () => {
         onSubmit={handlePasswordSubmit}
         title={t.settings.createBackupModalTitle}
         description={t.settings.createBackupModalDescription}
+      />
+
+      <PasswordModal
+        isOpen={showSyncPasswordModal}
+        onClose={() => setShowSyncPasswordModal(false)}
+        onSubmit={handleExportForSync}
+        title={t.settings.syncPasswordModalTitle}
+        description={t.settings.syncPasswordModalDescription}
       />
 
       <PasswordModal
