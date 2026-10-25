@@ -12,7 +12,7 @@
 
 - **Framework**: Next.js 16.0.3 (App Router, React 19.2.0)
 - **UI Library**: Chakra UI 3.30.0 with Emotion styling
-- **Authentication**: w3pk SDK 0.7.7 (Web3 Passkey authentication)
+- **Authentication**: w3pk SDK 0.10.4 (Web3 Passkey authentication)
 - **Blockchain**: Ethers.js 6.15.0
 - **Language**: TypeScript 5.9.3 (strict mode)
 - **Internationalization**: 10 languages with browser auto-detection
@@ -41,6 +41,7 @@
    - Restoration from ZIP/JSON files
    - Security scoring and recovery recommendations
    - Backup step after registration ([BackupStep.tsx](../src/components/BackupStep.tsx)), blocking, on Safari only
+   - Passwordless device sync ([SyncImport.tsx](../src/components/SyncImport.tsx)): a sync file from `exportForSync()` is locked to the passkey through WebAuthn PRF and imports with one prompt on any device where the passkey synced, with a password fallback where PRF is missing
    - Three-layer recovery architecture:
      1. Passkey auto-sync (iCloud Keychain, Google Password Manager, etc.)
      2. Encrypted backup files (user-generated)
@@ -54,7 +55,7 @@
 ### Key Pages
 
 - **Home** ([app/page.tsx](../src/app/page.tsx)): Wallet display, address derivation demo, message signing
-- **Settings** ([app/settings/page.tsx](../src/app/settings/page.tsx)): Account management, backups, storage inspection, sync info
+- **Settings** ([app/settings/page.tsx](../src/app/settings/page.tsx)): Account management, backups, storage inspection, device sync
 - **About** ([app/about/page.tsx](../src/app/about/page.tsx)): w3pk features, email subscription
 
 ### Directory Structure
@@ -71,6 +72,7 @@ src/
    �� Header.tsx          # Navigation + auth UI
    �� BackupStep.tsx      # Backup step after registration
    �� PasswordModal.tsx   # Password input for backup/restore
+   �� SyncImport.tsx      # Import a sync file on another device
 �� context/
    �� W3PK.tsx            # Core authentication & wallet logic
    �� LanguageContext.tsx # i18n state management
@@ -79,8 +81,7 @@ src/
    �� useTranslation.ts   # Translation hook
 �� utils/
    �� i18n.ts             # Language detection
-   �� browserDetection.ts # WebAuthn capability check
-   �� evictionRisk.ts     # Safari storage-wipe risk check
+   �� browserDetection.ts # WebAuthn capability check, iOS detection
    �� storageInspection.ts # localStorage inspection tools
 �� theme/
    �� index.ts            # Brand colors (Purple #8c1c84, Blue #45a2f8)
@@ -98,7 +99,7 @@ src/
 **Encrypted Wallet Mnemonic**: Stored in `localStorage` using AES-GCM encryption, with persistent sessions and backup records (w3pk ≥ 0.10.3 no longer uses IndexedDB)
 
 - **Risk**: Cleared when users clear cookies/site data, and by Safari after 7 days without a visit (unless the app runs from the Home Screen)
-- **Mitigation**: A backup step opens after registration when no backup exists on Safari, where the browser can wipe it, and is blocking until the user backs up or accepts the risk
+- **Mitigation**: A backup step opens after registration when no backup exists and w3pk reports `evictionRisk` (Safari in a tab, storage not persisted), and is blocking until the user backs up or accepts the risk. Settings → Security Status shows the same warning
 - **Future**: Consider browser extension for persistent storage
 
 ### Security
@@ -310,7 +311,6 @@ function getUsername(): string { ... }
 **Planned**:
 
 - Social recovery UI (Shamir Secret Sharing)
-- Device sync visualization
 - QR code backup display
 - Browser extension version
 - Cloud-encrypted backup option
