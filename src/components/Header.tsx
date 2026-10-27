@@ -28,7 +28,7 @@ import { useState, useEffect } from 'react'
 import { FaGithub } from 'react-icons/fa'
 import { toaster } from '@/components/ui/toaster'
 import { brandColors } from '@/theme'
-import { hasIOSEvictionRisk } from '@/utils/browserDetection'
+import { hasIOSEvictionRisk, isPlatformAuthenticatorAvailable } from '@/utils/browserDetection'
 
 export default function Header() {
   const { isAuthenticated, login, register, logout, hasLocalCredentials } = useW3PK()
@@ -38,6 +38,7 @@ export default function Header() {
   const [isRegistering, setIsRegistering] = useState(false)
   const [isUsernameInvalid, setIsUsernameInvalid] = useState(false)
   const [showHomeScreenChoice, setShowHomeScreenChoice] = useState(false)
+  const [hasPlatformAuthenticator, setHasPlatformAuthenticator] = useState(true)
 
   const [scrollPosition, setScrollPosition] = useState(0)
 
@@ -70,6 +71,10 @@ export default function Header() {
 
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
+  useEffect(() => {
+    isPlatformAuthenticatorAvailable().then(setHasPlatformAuthenticator)
   }, [])
 
   const validateUsername = (input: string): boolean => {
@@ -320,6 +325,11 @@ export default function Header() {
                     </ChakraLink>
                     .
                   </Text>
+                  {!hasPlatformAuthenticator && (
+                    <Text fontSize="sm" color="gray.300" alignSelf="flex-start">
+                      {t.header.noPlatformAuthenticatorHint}
+                    </Text>
+                  )}
                   <Field invalid={isUsernameInvalid} label={t.header.usernameLabel}>
                     <Input
                       id="username-input"

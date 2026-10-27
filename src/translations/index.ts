@@ -305,6 +305,7 @@ type TranslationKeys = {
   header: {
     registerTitle: string
     walletInfoText: string
+    noPlatformAuthenticatorHint: string
     usernameLabel: string
     usernamePlaceholder: string
     usernameError: string
@@ -754,6 +755,8 @@ export const translations: Translations = {
       registerTitle: 'Register New Account',
       walletInfoText:
         'An Ethereum wallet will be created and securely stored on your device, protected by your biometric or PIN thanks to',
+      noPlatformAuthenticatorHint:
+        'No built-in authenticator found: use your phone or a security key.',
       usernameLabel: 'Username',
       usernamePlaceholder: 'Enter your username',
       usernameError:
@@ -1184,6 +1187,7 @@ export const translations: Translations = {
       registerTitle: '注册新账户',
       walletInfoText:
         '系统将为您创建一个以太坊钱包，并安全地存储在您的设备上，通过生物识别或PIN码保护，这要归功于',
+      noPlatformAuthenticatorHint: '未找到内置验证器：请使用您的手机或安全密钥。',
       usernameLabel: '用户名',
       usernamePlaceholder: '请输入您的用户名',
       usernameError:
@@ -1639,6 +1643,8 @@ export const translations: Translations = {
       registerTitle: 'नया खाता पंजीकृत करें',
       walletInfoText:
         'एक एथेरियम वॉलेट बनाया जाएगा और आपके डिवाइस पर सुरक्षित रूप से संग्रहीत किया जाएगा, जो आपके बायोमेट्रिक या पिन द्वारा सुरक्षित होगा, धन्यवाद',
+      noPlatformAuthenticatorHint:
+        'कोई अंतर्निहित ऑथेंटिकेटर नहीं मिला: अपने फ़ोन या सुरक्षा कुंजी का उपयोग करें।',
       usernameLabel: 'उपयोगकर्ता नाम',
       usernamePlaceholder: 'अपना उपयोगकर्ता नाम दर्ज करें',
       usernameError:
@@ -2110,6 +2116,8 @@ export const translations: Translations = {
       registerTitle: 'Registrar nueva cuenta',
       walletInfoText:
         'Se creará una billetera de Ethereum y se almacenará de forma segura en tu dispositivo, protegida por tu biometría o PIN gracias a',
+      noPlatformAuthenticatorHint:
+        'No se encontró ningún autenticador integrado: usa tu teléfono o una llave de seguridad.',
       usernameLabel: 'Nombre de usuario',
       usernamePlaceholder: 'Introduce tu nombre de usuario',
       usernameError:
@@ -2590,6 +2598,8 @@ export const translations: Translations = {
       registerTitle: 'Créer un nouveau compte',
       walletInfoText:
         'Un portefeuille Ethereum sera créé et stocké en toute sécurité sur votre appareil, protégé par votre biométrie ou votre code PIN grâce à',
+      noPlatformAuthenticatorHint:
+        'Aucun authentificateur intégré trouvé : utilisez votre téléphone ou une clé de sécurité.',
       usernameLabel: "Nom d'utilisateur",
       usernamePlaceholder: "Entrez votre nom d'utilisateur",
       usernameError:
@@ -3047,6 +3057,8 @@ export const translations: Translations = {
       registerTitle: 'تسجيل حساب جديد',
       walletInfoText:
         'سيتم إنشاء محفظة إيثريوم وتخزينها بأمان على جهازك، محمية ببصمتك البيومترية أو رمز PIN بفضل',
+      noPlatformAuthenticatorHint:
+        'لم يتم العثور على أداة مصادقة مدمجة: استخدم هاتفك أو مفتاح أمان.',
       usernameLabel: 'اسم المستخدم',
       usernamePlaceholder: 'أدخل اسم المستخدم الخاص بك',
       usernameError:
@@ -3513,6 +3525,8 @@ export const translations: Translations = {
       registerTitle: 'নতুন অ্যাকাউন্ট নিবন্ধন করুন',
       walletInfoText:
         'একটি ইথেরিয়াম ওয়ালেট তৈরি করা হবে এবং আপনার ডিভাইসে নিরাপদে সংরক্ষিত হবে, যা আপনার বায়োমেট্রিক বা পিন দ্বারা সুরক্ষিত, ধন্যবাদ',
+      noPlatformAuthenticatorHint:
+        'কোনো বিল্ট-ইন অথেন্টিকেটর পাওয়া যায়নি: আপনার ফোন বা একটি সিকিউরিটি কী ব্যবহার করুন।',
       usernameLabel: 'ব্যবহারকারীর নাম',
       usernamePlaceholder: 'আপনার ব্যবহারকারীর নাম লিখুন',
       usernameError:
@@ -3986,6 +4000,8 @@ export const translations: Translations = {
       registerTitle: 'Регистрация нового аккаунта',
       walletInfoText:
         'Будет создан Ethereum-кошелёк, надёжно хранящийся на вашем устройстве и защищённый биометрией или PIN-кодом благодаря',
+      noPlatformAuthenticatorHint:
+        'Встроенный аутентификатор не найден: используйте телефон или ключ безопасности.',
       usernameLabel: 'Имя пользователя',
       usernamePlaceholder: 'Введите имя пользователя',
       usernameError:
@@ -4461,6 +4477,8 @@ export const translations: Translations = {
       registerTitle: 'Registrar nova conta',
       walletInfoText:
         'Uma carteira Ethereum será criada e armazenada com segurança no seu dispositivo, protegida por sua biometria ou PIN graças ao',
+      noPlatformAuthenticatorHint:
+        'Nenhum autenticador integrado encontrado: use o seu telemóvel ou uma chave de segurança.',
       usernameLabel: 'Nome de usuário',
       usernamePlaceholder: 'Digite seu nome de usuário',
       usernameError:
@@ -4928,6 +4946,8 @@ export const translations: Translations = {
       registerTitle: 'نیا اکاؤنٹ رجسٹر کریں',
       walletInfoText:
         'ایک ایتھیریم والیٹ بنایا جائے گا اور آپ کے ڈیوائس پر محفوظ طریقے سے محفوظ کیا جائے گا، جو آپ کے بائیومیٹرک یا پن کے ذریعے محفوظ ہوگا، شکریہ',
+      noPlatformAuthenticatorHint:
+        'کوئی بلٹ اِن تصدیق کنندہ نہیں ملا: اپنا فون یا سیکیورٹی کی استعمال کریں۔',
       usernameLabel: 'صارف نام',
       usernamePlaceholder: 'اپنا صارف نام درج کریں',
       usernameError:
