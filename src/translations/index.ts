@@ -187,6 +187,9 @@ type TranslationKeys = {
     syncExportButton: string
     syncExportNote: string
     syncQrAlt: string
+    syncLinkReady: string
+    syncLinkButton: string
+    syncQrHint: string
     syncImportHeading: string
     syncImportDescription: string
     syncImportButton: string
@@ -603,6 +606,11 @@ export const translations: Translations = {
       syncExportNote:
         'Only your passkey can open this file. Passkeys sync within one ecosystem (Apple or Google): to move across ecosystems, use a password backup instead.',
       syncQrAlt: 'Sync file QR code',
+      syncLinkReady:
+        'This link carries a sync file. Tap below and confirm with your passkey to bring the wallet to this device.',
+      syncLinkButton: 'Sync This Wallet',
+      syncQrHint:
+        'Scan with the camera on your other device: genji opens and syncs your wallet after one passkey prompt.',
       syncImportHeading: 'Import Sync File',
       syncImportDescription:
         'Bring your wallet to this device with a sync file from another device. Your passkey must already be synced here (iCloud Keychain or Google Password Manager).',
@@ -1051,6 +1059,9 @@ export const translations: Translations = {
       syncExportNote:
         '只有您的通行密钥才能打开此文件。通行密钥仅在同一生态系统内同步（Apple 或 Google）：如需跨生态系统迁移，请改用密码备份。',
       syncQrAlt: '同步文件二维码',
+      syncLinkReady: '此链接包含一个同步文件。点击下方按钮并用通行密钥确认，即可将钱包导入此设备。',
+      syncLinkButton: '同步此钱包',
+      syncQrHint: '用另一台设备的相机扫描：genji 将打开，并在一次通行密钥验证后同步您的钱包。',
       syncImportHeading: '导入同步文件',
       syncImportDescription:
         '使用来自另一台设备的同步文件，将您的钱包导入此设备。您的通行密钥必须已同步到此设备（iCloud 钥匙串或 Google 密码管理器）。',
@@ -1486,6 +1497,11 @@ export const translations: Translations = {
       syncExportNote:
         'यह फ़ाइल केवल आपकी पासकी खोल सकती है। पासकी एक ही इकोसिस्टम (Apple या Google) में सिंक होती हैं: इकोसिस्टम बदलने के लिए, पासवर्ड बैकअप का उपयोग करें।',
       syncQrAlt: 'सिंक फ़ाइल QR कोड',
+      syncLinkReady:
+        'इस लिंक में एक सिंक फ़ाइल है। नीचे टैप करें और अपनी पासकी से पुष्टि करें, ताकि वॉलेट इस डिवाइस पर आ जाए।',
+      syncLinkButton: 'यह वॉलेट सिंक करें',
+      syncQrHint:
+        'अपने दूसरे डिवाइस के कैमरे से स्कैन करें: genji खुलेगा और एक पासकी प्रॉम्प्ट के बाद आपका वॉलेट सिंक कर देगा।',
       syncImportHeading: 'सिंक फ़ाइल इम्पोर्ट करें',
       syncImportDescription:
         'किसी दूसरे डिवाइस की सिंक फ़ाइल से अपना वॉलेट इस डिवाइस पर लाएँ। आपकी पासकी यहाँ पहले से सिंक होनी चाहिए (iCloud Keychain या Google Password Manager)।',
@@ -1955,6 +1971,11 @@ export const translations: Translations = {
       syncExportNote:
         'Solo tu passkey puede abrir este archivo. Las passkeys se sincronizan dentro de un mismo ecosistema (Apple o Google): para cambiar de ecosistema, usa una copia de seguridad con contraseña.',
       syncQrAlt: 'Código QR del archivo de sincronización',
+      syncLinkReady:
+        'Este enlace contiene un archivo de sincronización. Toca abajo y confirma con tu passkey para traer la billetera a este dispositivo.',
+      syncLinkButton: 'Sincronizar esta billetera',
+      syncQrHint:
+        'Escanéalo con la cámara de tu otro dispositivo: genji se abre y sincroniza tu billetera tras una solicitud de passkey.',
       syncImportHeading: 'Importar archivo de sincronización',
       syncImportDescription:
         'Trae tu billetera a este dispositivo con un archivo de sincronización de otro dispositivo. Tu passkey ya debe estar sincronizada aquí (Llavero de iCloud o Gestor de contraseñas de Google).',
@@ -2434,6 +2455,11 @@ export const translations: Translations = {
       syncExportNote:
         "Seule votre passkey peut ouvrir ce fichier. Les passkeys se synchronisent au sein d'un même écosystème (Apple ou Google) : pour changer d'écosystème, utilisez plutôt une sauvegarde par mot de passe.",
       syncQrAlt: 'QR code du fichier de synchronisation',
+      syncLinkReady:
+        'Ce lien contient un fichier de synchronisation. Touchez ci-dessous et confirmez avec votre passkey pour récupérer le portefeuille sur cet appareil.',
+      syncLinkButton: 'Synchroniser ce portefeuille',
+      syncQrHint:
+        "Scannez avec l'appareil photo de votre autre appareil : genji s'ouvre et synchronise votre portefeuille après une demande de passkey.",
       syncImportHeading: 'Importer un fichier de synchronisation',
       syncImportDescription:
         "Récupérez votre portefeuille sur cet appareil avec un fichier de synchronisation venant d'un autre appareil. Votre passkey doit déjà être synchronisée ici (Trousseau iCloud ou Gestionnaire de mots de passe de Google).",
@@ -2908,6 +2934,11 @@ export const translations: Translations = {
       syncExportNote:
         'لا يفتح هذا الملف إلا مفتاح المرور الخاص بك. تتم مزامنة مفاتيح المرور داخل منظومة واحدة (Apple أو Google): للانتقال بين المنظومات، استخدم نسخة احتياطية بكلمة مرور.',
       syncQrAlt: 'رمز QR لملف المزامنة',
+      syncLinkReady:
+        'يحمل هذا الرابط ملف مزامنة. اضغط أدناه وأكّد بمفتاح المرور لنقل المحفظة إلى هذا الجهاز.',
+      syncLinkButton: 'مزامنة هذه المحفظة',
+      syncQrHint:
+        'امسحه بكاميرا جهازك الآخر: سيفتح genji ويزامن محفظتك بعد طلب واحد لمفتاح المرور.',
       syncImportHeading: 'استيراد ملف المزامنة',
       syncImportDescription:
         'انقل محفظتك إلى هذا الجهاز باستخدام ملف مزامنة من جهاز آخر. يجب أن يكون مفتاح المرور قد تمت مزامنته هنا مسبقًا (سلسلة مفاتيح iCloud أو مدير كلمات مرور Google).',
@@ -3363,6 +3394,11 @@ export const translations: Translations = {
       syncExportNote:
         'শুধু আপনার পাসকিই এই ফাইল খুলতে পারে। পাসকি একটি ইকোসিস্টেমের (Apple বা Google) মধ্যেই সিঙ্ক হয়: ইকোসিস্টেম বদলাতে পাসওয়ার্ড ব্যাকআপ ব্যবহার করুন।',
       syncQrAlt: 'সিঙ্ক ফাইলের QR কোড',
+      syncLinkReady:
+        'এই লিংকে একটি সিঙ্ক ফাইল আছে। নিচে ট্যাপ করুন এবং আপনার পাসকি দিয়ে নিশ্চিত করুন, ওয়ালেট এই ডিভাইসে চলে আসবে।',
+      syncLinkButton: 'এই ওয়ালেট সিঙ্ক করুন',
+      syncQrHint:
+        'আপনার অন্য ডিভাইসের ক্যামেরা দিয়ে স্ক্যান করুন: genji খুলবে এবং একটি পাসকি প্রম্পটের পর আপনার ওয়ালেট সিঙ্ক করবে।',
       syncImportHeading: 'সিঙ্ক ফাইল ইমপোর্ট করুন',
       syncImportDescription:
         'অন্য ডিভাইসের একটি সিঙ্ক ফাইল দিয়ে আপনার ওয়ালেট এই ডিভাইসে আনুন। আপনার পাসকি আগে থেকেই এখানে সিঙ্ক থাকতে হবে (iCloud Keychain বা Google Password Manager)।',
@@ -3839,6 +3875,11 @@ export const translations: Translations = {
       syncExportNote:
         'Открыть этот файл может только ваш ключ доступа. Ключи синхронизируются в пределах одной экосистемы (Apple или Google): для перехода между экосистемами используйте резервную копию с паролем.',
       syncQrAlt: 'QR-код файла синхронизации',
+      syncLinkReady:
+        'Эта ссылка содержит файл синхронизации. Нажмите ниже и подтвердите ключом доступа, чтобы перенести кошелёк на это устройство.',
+      syncLinkButton: 'Синхронизировать кошелёк',
+      syncQrHint:
+        'Отсканируйте камерой другого устройства: genji откроется и синхронизирует кошелёк после одного подтверждения ключа доступа.',
       syncImportHeading: 'Импорт файла синхронизации',
       syncImportDescription:
         'Перенесите кошелёк на это устройство с помощью файла синхронизации с другого устройства. Ваш ключ доступа уже должен быть синхронизирован сюда (Связка ключей iCloud или Google Password Manager).',
@@ -4315,6 +4356,11 @@ export const translations: Translations = {
       syncExportNote:
         'Só a sua passkey pode abrir este arquivo. Passkeys sincronizam dentro de um ecossistema (Apple ou Google): para mudar de ecossistema, use um backup com senha.',
       syncQrAlt: 'QR code do arquivo de sincronização',
+      syncLinkReady:
+        'Este link traz um arquivo de sincronização. Toque abaixo e confirme com a sua passkey para trazer a carteira para este dispositivo.',
+      syncLinkButton: 'Sincronizar esta carteira',
+      syncQrHint:
+        'Escaneie com a câmera do seu outro dispositivo: o genji abre e sincroniza a sua carteira após uma solicitação de passkey.',
       syncImportHeading: 'Importar arquivo de sincronização',
       syncImportDescription:
         'Traga a sua carteira para este dispositivo com um arquivo de sincronização de outro dispositivo. A sua passkey já precisa estar sincronizada aqui (Chaves do iCloud ou Gerenciador de Senhas do Google).',
@@ -4789,6 +4835,11 @@ export const translations: Translations = {
       syncExportNote:
         'یہ فائل صرف آپ کی پاس کی کھول سکتی ہے۔ پاس کیز ایک ہی ایکو سسٹم (Apple یا Google) میں سنک ہوتی ہیں: ایکو سسٹم بدلنے کے لیے پاس ورڈ بیک اپ استعمال کریں۔',
       syncQrAlt: 'سنک فائل کا QR کوڈ',
+      syncLinkReady:
+        'اس لنک میں ایک سنک فائل ہے۔ نیچے ٹیپ کریں اور اپنی پاس کی سے تصدیق کریں تاکہ والیٹ اس ڈیوائس پر آ جائے۔',
+      syncLinkButton: 'یہ والیٹ سنک کریں',
+      syncQrHint:
+        'اپنی دوسری ڈیوائس کے کیمرے سے اسکین کریں: genji کھلے گا اور ایک پاس کی پرامپٹ کے بعد آپ کا والیٹ سنک کر دے گا۔',
       syncImportHeading: 'سنک فائل امپورٹ کریں',
       syncImportDescription:
         'کسی دوسری ڈیوائس کی سنک فائل سے اپنا والیٹ اس ڈیوائس پر لائیں۔ آپ کی پاس کی پہلے سے یہاں سنک ہونی چاہیے (iCloud Keychain یا Google Password Manager)۔',
