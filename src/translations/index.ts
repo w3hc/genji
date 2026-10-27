@@ -536,7 +536,7 @@ export const translations: Translations = {
       aboutBackupPara1:
         "Your wallet's core secret (the mnemonic phrase) is generated and encrypted entirely on your device. The backup process retrieves this encrypted data from your browser's local storage using your password, then packages it into a secure file for you to download.",
       aboutBackupPara2:
-        'The encryption key for your wallet is derived using a WebAuthn signature, which requires your biometric authentication (fingerprint, face scan) or device PIN. This means even if someone gains access to the encrypted data stored in your browser, they cannot decrypt it without your physical device and authentication.',
+        'The encryption key for your wallet is derived using a WebAuthn signature from your passkey, which lives on your authenticator: this device, your phone or a security key. This means even if someone gains access to the encrypted data stored in your browser, they cannot decrypt it without your authenticator.',
       aboutBackupPara3:
         'Your backup file is encrypted using AES-256-GCM with a key derived from the password you provide. Store this file securely and remember your password.',
       aboutBackupWarning:
@@ -985,7 +985,7 @@ export const translations: Translations = {
       aboutBackupPara1:
         '您钱包的核心密钥（助记词）完全在您的设备上生成并加密。备份过程会使用您的密码从浏览器的本地存储中检索这些加密数据，然后将其打包成一个安全文件供您下载。',
       aboutBackupPara2:
-        '您钱包的加密密钥是通过 WebAuthn 签名派生的，这需要您进行生物识别验证（指纹、面部扫描）或设备PIN验证。这意味着即使有人获取了存储在浏览器中的加密数据，如果没有您的实体设备和身份验证，也无法解密。',
+        '您钱包的加密密钥是通过您的通行密钥生成的 WebAuthn 签名派生的，该通行密钥保存在您的验证器上：本设备、您的手机或安全密钥。这意味着即使有人获取了存储在浏览器中的加密数据，如果没有您的验证器，也无法解密。',
       aboutBackupPara3:
         '您的备份文件使用 AES-256-GCM 加密，密钥由您提供的密码派生而来。请妥善保管此文件并记住您的密码。',
       aboutBackupWarning:
@@ -1413,7 +1413,7 @@ export const translations: Translations = {
       aboutBackupPara1:
         'आपके वॉलेट का मूल सीक्रेट (म्नेमोनिक फ्रेज़) पूरी तरह से आपके डिवाइस पर जनरेट और एन्क्रिप्ट किया जाता है। बैकअप प्रक्रिया आपके पासवर्ड का उपयोग करके आपके ब्राउज़र के लोकल स्टोरेज से इस एन्क्रिप्टेड डेटा को प्राप्त करती है, फिर इसे डाउनलोड करने के लिए एक सुरक्षित फ़ाइल में पैकेज करती है।',
       aboutBackupPara2:
-        'आपके वॉलेट के लिए एन्क्रिप्शन कुंजी एक WebAuthn हस्ताक्षर का उपयोग करके प्राप्त की जाती है, जिसके लिए आपके बायोमेट्रिक प्रमाणीकरण (फिंगरप्रिंट, फेस स्कैन) या डिवाइस पिन की आवश्यकता होती है। इसका मतलब है कि भले ही कोई आपके ब्राउज़र में संग्रहीत एन्क्रिप्टेड डेटा तक पहुंच प्राप्त कर ले, वे आपके भौतिक डिवाइस और प्रमाणीकरण के बिना इसे डिक्रिप्ट नहीं कर सकते।',
+        'आपके वॉलेट के लिए एन्क्रिप्शन कुंजी आपकी पासकी से बने एक WebAuthn हस्ताक्षर का उपयोग करके प्राप्त की जाती है, जो आपके ऑथेंटिकेटर पर रहती है: यह डिवाइस, आपका फ़ोन या एक सुरक्षा कुंजी। इसका मतलब है कि भले ही कोई आपके ब्राउज़र में संग्रहीत एन्क्रिप्टेड डेटा तक पहुंच प्राप्त कर ले, वे आपके ऑथेंटिकेटर के बिना इसे डिक्रिप्ट नहीं कर सकते।',
       aboutBackupPara3:
         'आपकी बैकअप फ़ाइल आपके द्वारा दिए गए पासवर्ड से प्राप्त एक कुंजी के साथ AES-256-GCM का उपयोग करके एन्क्रिप्ट की जाती है। इस फ़ाइल को सुरक्षित रूप से संग्रहीत करें और अपना पासवर्ड याद रखें।',
       aboutBackupWarning:
@@ -1880,7 +1880,7 @@ export const translations: Translations = {
       aboutBackupPara1:
         'El secreto principal de tu billetera (la frase mnemotécnica) se genera y se cifra por completo en tu dispositivo. El proceso de copia de seguridad recupera estos datos cifrados del almacenamiento local de tu navegador usando tu contraseña, y luego los empaqueta en un archivo seguro para que lo descargues.',
       aboutBackupPara2:
-        'La clave de cifrado de tu billetera se deriva mediante una firma WebAuthn, que requiere tu autenticación biométrica (huella dactilar, escaneo facial) o el PIN del dispositivo. Esto significa que, aunque alguien acceda a los datos cifrados almacenados en tu navegador, no podrá descifrarlos sin tu dispositivo físico y tu autenticación.',
+        'La clave de cifrado de tu billetera se deriva mediante una firma WebAuthn de tu passkey, que reside en tu autenticador: este dispositivo, tu teléfono o una llave de seguridad. Esto significa que, aunque alguien acceda a los datos cifrados almacenados en tu navegador, no podrá descifrarlos sin tu autenticador.',
       aboutBackupPara3:
         'Tu archivo de copia de seguridad se cifra con AES-256-GCM utilizando una clave derivada de la contraseña que proporciones. Guarda este archivo de forma segura y recuerda tu contraseña.',
       aboutBackupWarning:
@@ -2357,7 +2357,7 @@ export const translations: Translations = {
       aboutBackupPara1:
         "Le secret principal de votre portefeuille (la phrase mnémonique) est généré et chiffré entièrement sur votre appareil. Le processus de sauvegarde récupère ces données chiffrées depuis le stockage local de votre navigateur à l'aide de votre mot de passe, puis les regroupe dans un fichier sécurisé à télécharger.",
       aboutBackupPara2:
-        "La clé de chiffrement de votre portefeuille est dérivée à partir d'une signature WebAuthn, qui nécessite votre authentification biométrique (empreinte digitale, reconnaissance faciale) ou le code PIN de l'appareil. Cela signifie que même si quelqu'un accède aux données chiffrées stockées dans votre navigateur, il ne pourra pas les déchiffrer sans votre appareil physique et votre authentification.",
+        "La clé de chiffrement de votre portefeuille est dérivée d'une signature WebAuthn de votre clé d'accès, qui réside sur votre authentificateur : cet appareil, votre téléphone ou une clé de sécurité. Cela signifie que même si quelqu'un accède aux données chiffrées stockées dans votre navigateur, il ne pourra pas les déchiffrer sans votre authentificateur.",
       aboutBackupPara3:
         "Votre fichier de sauvegarde est chiffré avec AES-256-GCM à l'aide d'une clé dérivée du mot de passe que vous fournissez. Conservez ce fichier en lieu sûr et n'oubliez pas votre mot de passe.",
       aboutBackupWarning:
@@ -2831,7 +2831,7 @@ export const translations: Translations = {
       aboutBackupPara1:
         'يتم إنشاء السر الأساسي لمحفظتك (العبارة التذكيرية) وتشفيره بالكامل على جهازك. تسترجع عملية النسخ الاحتياطي هذه البيانات المشفّرة من التخزين المحلي لمتصفحك باستخدام كلمة مرورك، ثم تحزمها في ملف آمن لتنزيله.',
       aboutBackupPara2:
-        'يتم اشتقاق مفتاح تشفير محفظتك باستخدام توقيع WebAuthn، الذي يتطلب مصادقتك البيومترية (بصمة الإصبع، مسح الوجه) أو رمز PIN الخاص بالجهاز. هذا يعني أنه حتى لو تمكن شخص ما من الوصول إلى البيانات المشفّرة المخزنة في متصفحك، فلن يتمكن من فك تشفيرها دون جهازك الفعلي ومصادقتك.',
+        'يتم اشتقاق مفتاح تشفير محفظتك باستخدام توقيع WebAuthn من مفتاح المرور الخاص بك، الموجود على أداة المصادقة لديك: هذا الجهاز أو هاتفك أو مفتاح أمان. هذا يعني أنه حتى لو تمكن شخص ما من الوصول إلى البيانات المشفّرة المخزنة في متصفحك، فلن يتمكن من فك تشفيرها دون أداة المصادقة الخاصة بك.',
       aboutBackupPara3:
         'يتم تشفير ملف النسخة الاحتياطية باستخدام AES-256-GCM بمفتاح مشتق من كلمة المرور التي تقدمها. احتفظ بهذا الملف بأمان وتذكر كلمة مرورك.',
       aboutBackupWarning:
@@ -3282,7 +3282,7 @@ export const translations: Translations = {
       aboutBackupPara1:
         'আপনার ওয়ালেটের মূল সিক্রেট (নিমোনিক ফ্রেজ) সম্পূর্ণভাবে আপনার ডিভাইসে তৈরি এবং এনক্রিপ্ট করা হয়। ব্যাকআপ প্রক্রিয়াটি আপনার পাসওয়ার্ড ব্যবহার করে আপনার ব্রাউজারের লোকাল স্টোরেজ থেকে এই এনক্রিপ্ট করা ডেটা পুনরুদ্ধার করে, তারপর এটি একটি নিরাপদ ফাইলে প্যাকেজ করে যা আপনি ডাউনলোড করতে পারেন।',
       aboutBackupPara2:
-        'আপনার ওয়ালেটের এনক্রিপশন কী একটি WebAuthn স্বাক্ষর ব্যবহার করে তৈরি করা হয়, যার জন্য আপনার বায়োমেট্রিক প্রমাণীকরণ (আঙুলের ছাপ, ফেস স্ক্যান) অথবা ডিভাইস পিন প্রয়োজন। এর অর্থ হলো, কেউ যদি আপনার ব্রাউজারে সংরক্ষিত এনক্রিপ্ট করা ডেটাতে অ্যাক্সেস পেয়েও যায়, আপনার শারীরিক ডিভাইস এবং প্রমাণীকরণ ছাড়া তারা এটি ডিক্রিপ্ট করতে পারবে না।',
+        'আপনার ওয়ালেটের এনক্রিপশন কী আপনার পাসকি থেকে তৈরি একটি WebAuthn স্বাক্ষর ব্যবহার করে তৈরি করা হয়, যা আপনার অথেন্টিকেটরে থাকে: এই ডিভাইস, আপনার ফোন অথবা একটি সিকিউরিটি কী। এর অর্থ হলো, কেউ যদি আপনার ব্রাউজারে সংরক্ষিত এনক্রিপ্ট করা ডেটাতে অ্যাক্সেস পেয়েও যায়, আপনার অথেন্টিকেটর ছাড়া তারা এটি ডিক্রিপ্ট করতে পারবে না।',
       aboutBackupPara3:
         'আপনার ব্যাকআপ ফাইলটি AES-256-GCM ব্যবহার করে এনক্রিপ্ট করা হয়, যার কী আপনার দেওয়া পাসওয়ার্ড থেকে তৈরি হয়। এই ফাইলটি নিরাপদে সংরক্ষণ করুন এবং আপনার পাসওয়ার্ড মনে রাখুন।',
       aboutBackupWarning:
@@ -3755,7 +3755,7 @@ export const translations: Translations = {
       aboutBackupPara1:
         'Основной секрет вашего кошелька (мнемоническая фраза) полностью генерируется и шифруется на вашем устройстве. Процесс резервного копирования извлекает эти зашифрованные данные из локального хранилища браузера с помощью вашего пароля, а затем упаковывает их в защищённый файл для скачивания.',
       aboutBackupPara2:
-        'Ключ шифрования вашего кошелька формируется на основе подписи WebAuthn, для создания которой требуется биометрическая аутентификация (отпечаток пальца, сканирование лица) или PIN-код устройства. Это означает, что даже если кто-то получит доступ к зашифрованным данным, хранящимся в вашем браузере, расшифровать их без вашего физического устройства и аутентификации будет невозможно.',
+        'Ключ шифрования вашего кошелька формируется на основе подписи WebAuthn вашего ключа доступа, который хранится в вашем аутентификаторе: на этом устройстве, вашем телефоне или ключе безопасности. Это означает, что даже если кто-то получит доступ к зашифрованным данным, хранящимся в вашем браузере, расшифровать их без вашего аутентификатора будет невозможно.',
       aboutBackupPara3:
         'Ваш файл резервной копии зашифрован с использованием AES-256-GCM с ключом, полученным из указанного вами пароля. Храните этот файл в надёжном месте и не забывайте пароль.',
       aboutBackupWarning:
@@ -4230,7 +4230,7 @@ export const translations: Translations = {
       aboutBackupPara1:
         'O segredo principal da sua carteira (a frase mnemónica) é gerado e encriptado inteiramente no seu dispositivo. O processo de cópia de segurança recupera estes dados encriptados do armazenamento local do seu navegador utilizando a sua senha, e depois empacota-os num ficheiro seguro para transferir.',
       aboutBackupPara2:
-        'A chave de encriptação da sua carteira é derivada a partir de uma assinatura WebAuthn, que requer a sua autenticação biométrica (impressão digital, leitura facial) ou o PIN do dispositivo. Isto significa que, mesmo que alguém obtenha acesso aos dados encriptados armazenados no seu navegador, não os conseguirá desencriptar sem o seu dispositivo físico e autenticação.',
+        'A chave de encriptação da sua carteira é derivada a partir de uma assinatura WebAuthn da sua chave de acesso, que reside no seu autenticador: este dispositivo, o seu telemóvel ou uma chave de segurança. Isto significa que, mesmo que alguém obtenha acesso aos dados encriptados armazenados no seu navegador, não os conseguirá desencriptar sem o seu autenticador.',
       aboutBackupPara3:
         'O seu ficheiro de cópia de segurança é encriptado utilizando AES-256-GCM com uma chave derivada da senha que fornecer. Guarde este ficheiro em segurança e memorize a sua senha.',
       aboutBackupWarning:
@@ -4702,7 +4702,7 @@ export const translations: Translations = {
       aboutBackupPara1:
         'آپ کے والیٹ کا بنیادی سیکرٹ (mnemonic فقرہ) مکمل طور پر آپ کے ڈیوائس پر تیار اور خفیہ کیا جاتا ہے۔ بیک اپ کا عمل آپ کے پاس ورڈ کے استعمال سے یہ خفیہ کردہ ڈیٹا آپ کے براؤزر کے لوکل اسٹوریج سے حاصل کرتا ہے، پھر اسے ڈاؤن لوڈ کے لیے ایک محفوظ فائل میں پیک کرتا ہے۔',
       aboutBackupPara2:
-        'آپ کے والیٹ کی خفیہ کاری کی کلید ایک WebAuthn دستخط کے ذریعے حاصل کی جاتی ہے، جس کے لیے آپ کی بائیومیٹرک توثیق (فنگر پرنٹ، فیس اسکین) یا ڈیوائس پن درکار ہوتا ہے۔ اس کا مطلب یہ ہے کہ اگر کوئی آپ کے براؤزر میں محفوظ خفیہ کردہ ڈیٹا تک رسائی حاصل کر بھی لے، تو وہ آپ کے حقیقی ڈیوائس اور توثیق کے بغیر اسے ڈی کرپٹ نہیں کر سکتا۔',
+        'آپ کے والیٹ کی خفیہ کاری کی کلید آپ کی پاس کی سے بنے ایک WebAuthn دستخط کے ذریعے حاصل کی جاتی ہے، جو آپ کے تصدیق کنندہ پر موجود ہوتی ہے: یہ ڈیوائس، آپ کا فون یا ایک سیکیورٹی کی۔ اس کا مطلب یہ ہے کہ اگر کوئی آپ کے براؤزر میں محفوظ خفیہ کردہ ڈیٹا تک رسائی حاصل کر بھی لے، تو وہ آپ کے تصدیق کنندہ کے بغیر اسے ڈی کرپٹ نہیں کر سکتا۔',
       aboutBackupPara3:
         'آپ کی بیک اپ فائل AES-256-GCM کا استعمال کرتے ہوئے اس کلید سے خفیہ کی جاتی ہے جو آپ کے فراہم کردہ پاس ورڈ سے حاصل کی جاتی ہے۔ اس فائل کو محفوظ طریقے سے رکھیں اور اپنا پاس ورڈ یاد رکھیں۔',
       aboutBackupWarning:
