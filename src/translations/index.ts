@@ -322,12 +322,24 @@ type TranslationKeys = {
     description: string
     safariWarning: string
     homeScreenHint: string
+    iosWarning: string
     downloadButton: string
     passwordModalTitle: string
     passwordModalDescription: string
     skipButton: string
     backupCreatedTitle: string
     backupFailedTitle: string
+  }
+  homeScreen: {
+    title: string
+    description: string
+    addButton: string
+    backupButton: string
+    stepsTitle: string
+    step1: string
+    step2: string
+    step3: string
+    backButton: string
   }
   passwordModal: {
     passwordLabel: string
@@ -763,6 +775,8 @@ export const translations: Translations = {
       safariWarning:
         "Safari deletes this site's data after 7 days without a visit. Without a backup, your wallet would be lost.",
       homeScreenHint: 'Add this app to your Home Screen: Safari then keeps its data.',
+      iosWarning:
+        "On iPhone and iPad, every browser deletes this site's data after 7 days without a visit",
       downloadButton: 'Download a backup file',
       passwordModalTitle: 'Protect your backup',
       passwordModalDescription:
@@ -770,6 +784,18 @@ export const translations: Translations = {
       skipButton: 'I understand the risk',
       backupCreatedTitle: 'Backup downloaded',
       backupFailedTitle: 'Backup failed',
+    },
+    homeScreen: {
+      title: 'Keep your wallet on this device',
+      description:
+        'An app added to your Home Screen keeps its data. In the browser, a backup file is the only way to get your wallet back.',
+      addButton: 'Add to Home Screen',
+      backupButton: 'Back up',
+      stepsTitle: 'Add to Home Screen',
+      step1: 'Tap the Share button.',
+      step2: 'Tap "Add to Home Screen".',
+      step3: 'Open the app from the new icon and create your wallet there.',
+      backButton: 'Back',
     },
     passwordModal: {
       passwordLabel: 'Password',
@@ -1178,12 +1204,24 @@ export const translations: Translations = {
       description: '您的钱包仅存储在此浏览器中。如果其数据被清除，备份文件是找回钱包的唯一方式。',
       safariWarning: 'Safari 会在 7 天未访问后删除此网站的数据。没有备份，您的钱包将会丢失。',
       homeScreenHint: '将此应用添加到主屏幕：Safari 将会保留其数据。',
+      iosWarning: '在 iPhone 和 iPad 上，所有浏览器都会在 7 天未访问后删除此网站的数据',
       downloadButton: '下载备份文件',
       passwordModalTitle: '保护您的备份',
       passwordModalDescription: '请选择一个强密码。从此文件恢复钱包时需要用到它。',
       skipButton: '我了解风险',
       backupCreatedTitle: '备份已下载',
       backupFailedTitle: '备份失败',
+    },
+    homeScreen: {
+      title: '在此设备上保留您的钱包',
+      description: '添加到主屏幕的应用会保留其数据。在浏览器中，备份文件是找回钱包的唯一方式。',
+      addButton: '添加到主屏幕',
+      backupButton: '备份',
+      stepsTitle: '添加到主屏幕',
+      step1: '点按"分享"按钮。',
+      step2: '点按"添加到主屏幕"。',
+      step3: '从新图标打开应用，并在其中创建您的钱包。',
+      backButton: '返回',
     },
     passwordModal: {
       passwordLabel: '密码',
@@ -1624,6 +1662,7 @@ export const translations: Translations = {
       safariWarning:
         'Safari 7 दिनों तक साइट पर न आने पर इसका डेटा हटा देता है। बैकअप के बिना आपका वॉलेट खो जाएगा।',
       homeScreenHint: 'इस ऐप को अपनी होम स्क्रीन पर जोड़ें: तब Safari इसका डेटा सुरक्षित रखता है।',
+      iosWarning: 'iPhone और iPad पर, हर ब्राउज़र 7 दिन तक न आने पर इस साइट का डेटा हटा देता है',
       downloadButton: 'बैकअप फ़ाइल डाउनलोड करें',
       passwordModalTitle: 'अपने बैकअप को सुरक्षित करें',
       passwordModalDescription:
@@ -1631,6 +1670,18 @@ export const translations: Translations = {
       skipButton: 'मैं जोखिम समझता/समझती हूँ',
       backupCreatedTitle: 'बैकअप डाउनलोड हो गया',
       backupFailedTitle: 'बैकअप विफल रहा',
+    },
+    homeScreen: {
+      title: 'अपना वॉलेट इस डिवाइस पर रखें',
+      description:
+        'होम स्क्रीन पर जोड़ा गया ऐप अपना डेटा रखता है। ब्राउज़र में, बैकअप फ़ाइल ही आपका वॉलेट वापस पाने का एकमात्र तरीका है।',
+      addButton: 'होम स्क्रीन पर जोड़ें',
+      backupButton: 'बैकअप लें',
+      stepsTitle: 'होम स्क्रीन पर जोड़ें',
+      step1: 'शेयर बटन पर टैप करें।',
+      step2: '"होम स्क्रीन पर जोड़ें" पर टैप करें।',
+      step3: 'नए आइकन से ऐप खोलें और वहीं अपना वॉलेट बनाएं।',
+      backButton: 'वापस',
     },
     passwordModal: {
       passwordLabel: 'पासवर्ड',
@@ -2084,6 +2135,8 @@ export const translations: Translations = {
       safariWarning:
         'Safari borra los datos de este sitio tras 7 días sin visitarlo. Sin una copia de seguridad, perderías tu billetera.',
       homeScreenHint: 'Añade esta app a tu pantalla de inicio: así Safari conserva sus datos.',
+      iosWarning:
+        'En iPhone y iPad, todos los navegadores borran los datos de este sitio tras 7 días sin visitarlo',
       downloadButton: 'Descargar un archivo de copia de seguridad',
       passwordModalTitle: 'Protege tu copia de seguridad',
       passwordModalDescription:
@@ -2091,6 +2144,18 @@ export const translations: Translations = {
       skipButton: 'Entiendo el riesgo',
       backupCreatedTitle: 'Copia de seguridad descargada',
       backupFailedTitle: 'Error en la copia de seguridad',
+    },
+    homeScreen: {
+      title: 'Conserva tu monedero en este dispositivo',
+      description:
+        'Una app añadida a tu pantalla de inicio conserva sus datos. En el navegador, un archivo de copia de seguridad es la única forma de recuperar tu monedero.',
+      addButton: 'Añadir a pantalla de inicio',
+      backupButton: 'Hacer copia de seguridad',
+      stepsTitle: 'Añadir a pantalla de inicio',
+      step1: 'Toca el botón Compartir.',
+      step2: 'Toca "Añadir a pantalla de inicio".',
+      step3: 'Abre la app desde el nuevo icono y crea tu monedero allí.',
+      backButton: 'Volver',
     },
     passwordModal: {
       passwordLabel: 'Contraseña',
@@ -2552,6 +2617,8 @@ export const translations: Translations = {
         'Safari supprime les données de ce site après 7 jours sans visite. Sans sauvegarde, votre portefeuille serait perdu.',
       homeScreenHint:
         "Ajoutez cette app à votre écran d'accueil : Safari conserve alors ses données.",
+      iosWarning:
+        'Sur iPhone et iPad, tous les navigateurs suppriment les données de ce site après 7 jours sans visite',
       downloadButton: 'Télécharger un fichier de sauvegarde',
       passwordModalTitle: 'Protégez votre sauvegarde',
       passwordModalDescription:
@@ -2559,6 +2626,18 @@ export const translations: Translations = {
       skipButton: 'Je comprends le risque',
       backupCreatedTitle: 'Sauvegarde téléchargée',
       backupFailedTitle: 'Échec de la sauvegarde',
+    },
+    homeScreen: {
+      title: 'Gardez votre portefeuille sur cet appareil',
+      description:
+        "Une app ajoutée à l'écran d'accueil garde ses données. Dans le navigateur, un fichier de sauvegarde est le seul moyen de récupérer votre portefeuille.",
+      addButton: "Sur l'écran d'accueil",
+      backupButton: 'Sauvegarder',
+      stepsTitle: "Ajouter à l'écran d'accueil",
+      step1: 'Touchez le bouton Partager.',
+      step2: "Touchez « Sur l'écran d'accueil ».",
+      step3: "Ouvrez l'app depuis la nouvelle icône et créez-y votre portefeuille.",
+      backButton: 'Retour',
     },
     passwordModal: {
       passwordLabel: 'Mot de passe',
@@ -2995,12 +3074,25 @@ export const translations: Translations = {
       safariWarning:
         'يحذف Safari بيانات هذا الموقع بعد 7 أيام دون زيارة. بدون نسخة احتياطية ستفقد محفظتك.',
       homeScreenHint: 'أضف هذا التطبيق إلى شاشتك الرئيسية: عندها يحتفظ Safari ببياناته.',
+      iosWarning: 'على iPhone وiPad، تحذف كل المتصفحات بيانات هذا الموقع بعد 7 أيام دون زيارة',
       downloadButton: 'تنزيل ملف النسخة الاحتياطية',
       passwordModalTitle: 'احمِ نسختك الاحتياطية',
       passwordModalDescription: 'اختر كلمة مرور قوية. ستحتاجها لاستعادة محفظتك من هذا الملف.',
       skipButton: 'أفهم المخاطرة',
       backupCreatedTitle: 'تم تنزيل النسخة الاحتياطية',
       backupFailedTitle: 'فشل النسخ الاحتياطي',
+    },
+    homeScreen: {
+      title: 'احتفظ بمحفظتك على هذا الجهاز',
+      description:
+        'يحتفظ التطبيق المضاف إلى شاشتك الرئيسية ببياناته. في المتصفح، ملف النسخ الاحتياطي هو الطريقة الوحيدة لاستعادة محفظتك.',
+      addButton: 'إضافة إلى الشاشة الرئيسية',
+      backupButton: 'نسخ احتياطي',
+      stepsTitle: 'إضافة إلى الشاشة الرئيسية',
+      step1: 'اضغط على زر المشاركة.',
+      step2: 'اضغط على "إضافة إلى الشاشة الرئيسية".',
+      step3: 'افتح التطبيق من الأيقونة الجديدة وأنشئ محفظتك هناك.',
+      backButton: 'رجوع',
     },
     passwordModal: {
       passwordLabel: 'كلمة المرور',
@@ -3450,6 +3542,7 @@ export const translations: Translations = {
       safariWarning:
         'Safari ৭ দিন সাইটে না এলে এর ডেটা মুছে ফেলে। ব্যাকআপ ছাড়া আপনার ওয়ালেট হারিয়ে যাবে।',
       homeScreenHint: 'এই অ্যাপটি আপনার হোম স্ক্রিনে যোগ করুন: তখন Safari এর ডেটা রেখে দেয়।',
+      iosWarning: 'iPhone এবং iPad-এ, প্রতিটি ব্রাউজার ৭ দিন না দেখলে এই সাইটের ডেটা মুছে ফেলে',
       downloadButton: 'ব্যাকআপ ফাইল ডাউনলোড করুন',
       passwordModalTitle: 'আপনার ব্যাকআপ সুরক্ষিত করুন',
       passwordModalDescription:
@@ -3457,6 +3550,18 @@ export const translations: Translations = {
       skipButton: 'আমি ঝুঁকি বুঝি',
       backupCreatedTitle: 'ব্যাকআপ ডাউনলোড হয়েছে',
       backupFailedTitle: 'ব্যাকআপ ব্যর্থ হয়েছে',
+    },
+    homeScreen: {
+      title: 'আপনার ওয়ালেট এই ডিভাইসে রাখুন',
+      description:
+        'হোম স্ক্রিনে যোগ করা অ্যাপ তার ডেটা রেখে দেয়। ব্রাউজারে, ব্যাকআপ ফাইলই আপনার ওয়ালেট ফিরে পাওয়ার একমাত্র উপায়।',
+      addButton: 'হোম স্ক্রিনে যোগ করুন',
+      backupButton: 'ব্যাকআপ নিন',
+      stepsTitle: 'হোম স্ক্রিনে যোগ করুন',
+      step1: 'শেয়ার বোতামে ট্যাপ করুন।',
+      step2: '"হোম স্ক্রিনে যোগ করুন"-এ ট্যাপ করুন।',
+      step3: 'নতুন আইকন থেকে অ্যাপটি খুলুন এবং সেখানে আপনার ওয়ালেট তৈরি করুন।',
+      backButton: 'ফিরে যান',
     },
     passwordModal: {
       passwordLabel: 'পাসওয়ার্ড',
@@ -3911,6 +4016,8 @@ export const translations: Translations = {
       safariWarning:
         'Safari удаляет данные этого сайта, если его не открывали 7 дней. Без резервной копии кошелёк будет потерян.',
       homeScreenHint: 'Добавьте это приложение на экран «Домой»: тогда Safari сохранит его данные.',
+      iosWarning:
+        'На iPhone и iPad все браузеры удаляют данные этого сайта, если его не посещать 7 дней',
       downloadButton: 'Скачать резервный файл',
       passwordModalTitle: 'Защитите резервную копию',
       passwordModalDescription:
@@ -3918,6 +4025,18 @@ export const translations: Translations = {
       skipButton: 'Я понимаю риск',
       backupCreatedTitle: 'Резервная копия скачана',
       backupFailedTitle: 'Не удалось создать резервную копию',
+    },
+    homeScreen: {
+      title: 'Сохраните кошелёк на этом устройстве',
+      description:
+        'Приложение на экране «Домой» сохраняет свои данные. В браузере вернуть кошелёк можно только из файла резервной копии.',
+      addButton: 'На экран «Домой»',
+      backupButton: 'Резервная копия',
+      stepsTitle: 'Добавить на экран «Домой»',
+      step1: 'Нажмите кнопку «Поделиться».',
+      step2: 'Нажмите «На экран „Домой“».',
+      step3: 'Откройте приложение с нового значка и создайте кошелёк там.',
+      backButton: 'Назад',
     },
     passwordModal: {
       passwordLabel: 'Пароль',
@@ -4373,6 +4492,8 @@ export const translations: Translations = {
       safariWarning:
         'O Safari apaga os dados deste site após 7 dias sem visita. Sem uma cópia de segurança, perderia a sua carteira.',
       homeScreenHint: 'Adicione esta app ao ecrã principal: assim o Safari mantém os dados.',
+      iosWarning:
+        'No iPhone e iPad, todos os navegadores apagam os dados deste site após 7 dias sem visita',
       downloadButton: 'Transferir um ficheiro de cópia de segurança',
       passwordModalTitle: 'Proteja a sua cópia de segurança',
       passwordModalDescription:
@@ -4380,6 +4501,18 @@ export const translations: Translations = {
       skipButton: 'Compreendo o risco',
       backupCreatedTitle: 'Cópia de segurança transferida',
       backupFailedTitle: 'Falha na cópia de segurança',
+    },
+    homeScreen: {
+      title: 'Mantenha a sua carteira neste dispositivo',
+      description:
+        'Uma app adicionada ao ecrã principal mantém os seus dados. No navegador, um ficheiro de cópia de segurança é a única forma de recuperar a sua carteira.',
+      addButton: 'Adicionar ao ecrã principal',
+      backupButton: 'Fazer cópia de segurança',
+      stepsTitle: 'Adicionar ao ecrã principal',
+      step1: 'Toque no botão Partilhar.',
+      step2: 'Toque em "Adicionar ao ecrã principal".',
+      step3: 'Abra a app a partir do novo ícone e crie lá a sua carteira.',
+      backButton: 'Voltar',
     },
     passwordModal: {
       passwordLabel: 'Senha',
@@ -4828,6 +4961,7 @@ export const translations: Translations = {
         'Safari سات دن تک سائٹ پر نہ آنے پر اس کا ڈیٹا حذف کر دیتا ہے۔ بیک اپ کے بغیر آپ کا والیٹ ضائع ہو جائے گا۔',
       homeScreenHint:
         'اس ایپ کو اپنی ہوم اسکرین پر شامل کریں: پھر Safari اس کا ڈیٹا برقرار رکھتا ہے۔',
+      iosWarning: 'iPhone اور iPad پر، ہر براؤزر 7 دن تک نہ آنے پر اس سائٹ کا ڈیٹا حذف کر دیتا ہے',
       downloadButton: 'بیک اپ فائل ڈاؤن لوڈ کریں',
       passwordModalTitle: 'اپنے بیک اپ کو محفوظ کریں',
       passwordModalDescription:
@@ -4835,6 +4969,18 @@ export const translations: Translations = {
       skipButton: 'میں خطرہ سمجھتا/سمجھتی ہوں',
       backupCreatedTitle: 'بیک اپ ڈاؤن لوڈ ہو گیا',
       backupFailedTitle: 'بیک اپ ناکام ہو گیا',
+    },
+    homeScreen: {
+      title: 'اپنا والیٹ اس ڈیوائس پر رکھیں',
+      description:
+        'ہوم اسکرین پر شامل کی گئی ایپ اپنا ڈیٹا رکھتی ہے۔ براؤزر میں، بیک اپ فائل ہی آپ کا والیٹ واپس پانے کا واحد طریقہ ہے۔',
+      addButton: 'ہوم اسکرین پر شامل کریں',
+      backupButton: 'بیک اپ لیں',
+      stepsTitle: 'ہوم اسکرین پر شامل کریں',
+      step1: 'شیئر بٹن پر ٹیپ کریں۔',
+      step2: '"ہوم اسکرین پر شامل کریں" پر ٹیپ کریں۔',
+      step3: 'نئے آئیکن سے ایپ کھولیں اور وہیں اپنا والیٹ بنائیں۔',
+      backButton: 'واپس',
     },
     passwordModal: {
       passwordLabel: 'پاس ورڈ',
