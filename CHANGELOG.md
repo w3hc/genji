@@ -16,12 +16,16 @@
 
 - `/api/subscribe` writes to the shared `leads` table (`first_name`, `email`, `topic`) through `pg`, with topic `genji`, and ignores duplicates on `(email, topic)`
 - The About page subscription form has an optional first-name field
+- Updated dependencies: `next` / `eslint-config-next` 16.4.3, `react` / `react-dom` 19.3.1, `w3pk` 0.10.5, `tsup` 9.0.0; `typescript` stays on 6 and `eslint` on 9, which `eslint-plugin-jsx-a11y` still requires
 
 ### Removed
 
 - `@neondatabase/serverless`
 - The Sync tab's address QR code and "Link This Wallet" flow, which only saved public addresses to localStorage (`w3pk_wallet_sync_*`) and moved no wallet, with their translations
 - `src/utils/evictionRisk.ts`, replaced by w3pk's `evictionRisk`; `isIOS()` moved to `src/utils/browserDetection.ts`
+- The disabled AI security inspection: its commented-out code on the Settings and About pages, in `BuildVerification.tsx` and in the W3PK context, and its translations
+- `react-markdown`, `remark-gfm` and `rehype-highlight`, only used by the security report
+- w3pk's optional `circomlibjs` dependency, through a pnpm override (`"circomlibjs": "-"`); genji doesn't use w3pk's ZK features, so projects that do must remove the override
 
 ### Fixed
 
@@ -29,6 +33,8 @@
 
 ### Security
 
+- `next` 16.4.3 fixes two critical and one high advisory affecting `next` 16.0.0 to 16.4.0
+- Dropping `circomlibjs` removes `ethers@5` and `elliptic@6.6.1`, which has an advisory with no patched version
 - CI builds on Node.js 24 instead of end-of-life Node.js 20, and `package.json` requires Node.js `>=24.22.1` through `engines`, which fixes the [October 2026 Node.js security releases](https://nodejs.org/en/blog/vulnerability/october-2026-security-releases) (including CVE-2026-111497, a Brotli decoder out-of-bounds write that allows remote code execution, and the TLS certificate hostname bypasses)
 
 ## 3.2.0 - 2026-10-14
