@@ -21,12 +21,14 @@ import Link from 'next/link'
 import { HiMenu } from 'react-icons/hi'
 import LanguageSelector from './LanguageSelector'
 import Spinner from './Spinner'
+import HomeScreenChoice from './HomeScreenChoice'
 import { useTranslation } from '@/hooks/useTranslation'
 import { useW3PK, isNoPasskeyError } from '@/context/W3PK'
 import { useState, useEffect } from 'react'
 import { FaGithub } from 'react-icons/fa'
 import { toaster } from '@/components/ui/toaster'
 import { brandColors } from '@/theme'
+import { hasIOSEvictionRisk } from '@/utils/browserDetection'
 
 export default function Header() {
   const { isAuthenticated, login, register, logout, hasLocalCredentials } = useW3PK()
@@ -35,6 +37,7 @@ export default function Header() {
   const [username, setUsername] = useState('')
   const [isRegistering, setIsRegistering] = useState(false)
   const [isUsernameInvalid, setIsUsernameInvalid] = useState(false)
+  const [showHomeScreenChoice, setShowHomeScreenChoice] = useState(false)
 
   const [scrollPosition, setScrollPosition] = useState(0)
 
@@ -87,6 +90,15 @@ export default function Header() {
     return formatValid
   }
 
+  // On iOS, offer the Home Screen before a wallet is created in the browser
+  const openRegistration = async () => {
+    if (await hasIOSEvictionRisk()) {
+      setShowHomeScreenChoice(true)
+      return
+    }
+    onOpen()
+  }
+
   const handleLogin = async () => {
     /**
      * Login Workflow:
@@ -100,7 +112,7 @@ export default function Header() {
      */
     try {
       if (!(await hasLocalCredentials())) {
-        onOpen()
+        await openRegistration()
         return
       }
       await login()
@@ -112,7 +124,7 @@ export default function Header() {
           type: 'info',
           duration: 4000,
         })
-        onOpen()
+        await openRegistration()
       }
       // Other errors (user cancelled, timeout, etc.) are already handled
       // by the login() function in the W3PK context
@@ -360,6 +372,15 @@ export default function Header() {
           </Dialog.Positioner>
         </Portal>
       </Dialog.Root>
+
+      <HomeScreenChoice
+        isOpen={showHomeScreenChoice}
+        onClose={() => setShowHomeScreenChoice(false)}
+        onBackup={() => {
+          setShowHomeScreenChoice(false)
+          onOpen()
+        }}
+      />
     </>
   )
 }

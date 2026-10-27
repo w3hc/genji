@@ -7,12 +7,14 @@
 - Passwordless device sync with w3pk 0.10.4: Settings → Sync exports a sync file (and its QR code) locked to the passkey through WebAuthn PRF, and `SyncImport.tsx` imports it on any device where the passkey synced, with one prompt, no password and no prior login. Where the authenticator has no PRF support (Firefox), export asks for a password and import restores it through `syncWalletWithPasskey()`. Each `SyncBootstrapError` reason gets its own message. The import card is on the Settings page when logged out and in the Sync tab when logged in
 - Settings → Security Status warns when `getBackupStatus()` reports `evictionRisk`
 - `SyncImport.tsx` is chassis in `.genji-sync.json`
+- On iPhone and iPad in a browser tab, with storage not persisted, opening registration first offers a choice (`HomeScreenChoice.tsx`): Add to Home Screen shows the install steps and creates no wallet in the browser; Back up goes on to registration and the backup step. `isStandalone()` and `hasIOSEvictionRisk()` in `src/utils/browserDetection.ts` run this check before registration, since w3pk's `evictionRisk` is only known after it
 
 ### Changed
 
 - A login that throws `SyncRequiredError` (passkey synced, wallet didn't) or `WalletMissingError` (wallet wiped) now explains why and opens `/settings#sync-import` instead of showing "Authentication Failed"; the registration dialog's "I already registered on another device" link points there too
 - Restoring a backup while logged out first restores into a passkey already synced to the device through `syncWalletWithPasskey()`, and only asks for a username and creates a new passkey when there is none
 - The backup step after registration uses w3pk's `register().evictionRisk` instead of genji's own Safari check
+- On iOS, the backup step warns that every browser on iPhone and iPad deletes the site's data after 7 days without a visit, instead of blaming Safari; Safari on macOS keeps the current warning
 
 - `/api/subscribe` writes to the shared `leads` table (`first_name`, `email`, `topic`) through `pg`, with topic `genji`, and ignores duplicates on `(email, topic)`
 - The About page subscription form has an optional first-name field
@@ -23,6 +25,7 @@
 - `@neondatabase/serverless`
 - The Sync tab's address QR code and "Link This Wallet" flow, which only saved public addresses to localStorage (`w3pk_wallet_sync_*`) and moved no wallet, with their translations
 - `src/utils/evictionRisk.ts`, replaced by w3pk's `evictionRisk`; `isIOS()` moved to `src/utils/browserDetection.ts`
+- The backup step's Home Screen hint (`backup.homeScreenHint`), replaced by the choice before registration
 - The disabled AI security inspection: its commented-out code on the Settings and About pages, in `BuildVerification.tsx` and in the W3PK context, and its translations
 - `react-markdown`, `remark-gfm` and `rehype-highlight`, only used by the security report
 - w3pk's optional `circomlibjs` dependency, through a pnpm override (`"circomlibjs": "-"`); genji doesn't use w3pk's ZK features, so projects that do must remove the override

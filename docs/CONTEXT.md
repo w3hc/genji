@@ -41,6 +41,7 @@
    - Restoration from ZIP/JSON files
    - Security scoring and recovery recommendations
    - Backup step after registration ([BackupStep.tsx](../src/components/BackupStep.tsx)), blocking, on Safari only
+   - Home Screen or backup choice before registration on iPhone and iPad ([HomeScreenChoice.tsx](../src/components/HomeScreenChoice.tsx)), in a browser tab with storage not persisted
    - Passwordless device sync ([SyncImport.tsx](../src/components/SyncImport.tsx)): a sync file from `exportForSync()` is locked to the passkey through WebAuthn PRF and imports with one prompt on any device where the passkey synced, with a password fallback where PRF is missing
    - Three-layer recovery architecture:
      1. Passkey auto-sync (iCloud Keychain, Google Password Manager, etc.)
@@ -71,6 +72,7 @@ src/
    �� ui/                 # Chakra UI component wrappers
    �� Header.tsx          # Navigation + auth UI
    �� BackupStep.tsx      # Backup step after registration
+   �� HomeScreenChoice.tsx # Home Screen or backup choice on iOS
    �� PasswordModal.tsx   # Password input for backup/restore
    �� SyncImport.tsx      # Import a sync file on another device
 �� context/
@@ -98,8 +100,8 @@ src/
 
 **Encrypted Wallet Mnemonic**: Stored in `localStorage` using AES-GCM encryption, with persistent sessions and backup records (w3pk ≥ 0.10.3 no longer uses IndexedDB)
 
-- **Risk**: Cleared when users clear cookies/site data, and by Safari after 7 days without a visit (unless the app runs from the Home Screen)
-- **Mitigation**: A backup step opens after registration when no backup exists and w3pk reports `evictionRisk` (Safari in a tab, storage not persisted), and is blocking until the user backs up or accepts the risk. Settings → Security Status shows the same warning
+- **Risk**: Cleared when users clear cookies/site data, by Safari after 7 days without a visit, and on iPhone and iPad by every browser, all of which use Safari's engine (unless the app runs from the Home Screen, which has its own storage)
+- **Mitigation**: A backup step opens after registration when no backup exists and w3pk reports `evictionRisk` (Safari in a tab, storage not persisted), and is blocking until the user backs up or accepts the risk. Settings → Security Status shows the same warning. On iPhone and iPad, opening registration first offers to add the app to the Home Screen and create the wallet there, or to go on in the browser and back up
 - **Future**: Consider browser extension for persistent storage
 
 ### Security
