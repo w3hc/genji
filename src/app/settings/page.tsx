@@ -48,7 +48,7 @@ import { useTranslation } from '@/hooks/useTranslation'
 import Spinner from '@/components/Spinner'
 import PasswordModal from '@/components/PasswordModal'
 import SyncImport from '@/components/SyncImport'
-import { buildSyncLink, fitsInQrCode } from '@/utils/syncLink'
+import { buildSyncLink, fitsInQrCode, takePendingSyncLink } from '@/utils/syncLink'
 import { CodeBlock } from '@/components/CodeBlock'
 import { detectBrowser, isWebAuthnAvailable } from '@/utils/browserDetection'
 import { brandColors } from '@/theme'
@@ -80,6 +80,7 @@ interface StoredAccount {
 
 const SettingsPage = () => {
   const t = useTranslation()
+  const [initialTab] = useState(() => (takePendingSyncLink() ? 'sync' : 'accounts'))
   const [backupStatus, setBackupStatus] = useState<string | null>(null)
   const [isCheckingStatus, setIsCheckingStatus] = useState(false)
   const [evictionRisk, setEvictionRisk] = useState(false)
@@ -1633,7 +1634,7 @@ const SettingsPage = () => {
           </Text>
         </Box>
 
-        <TabsRoot colorPalette="gray" variant="plain" size="md" defaultValue="accounts">
+        <TabsRoot colorPalette="gray" variant="plain" size="md" defaultValue={initialTab}>
           <TabsList
             bg="transparent"
             p={0}

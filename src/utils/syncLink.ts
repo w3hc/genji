@@ -20,6 +20,36 @@ export function fitsInQrCode(link: string): boolean {
   return link.length <= QR_MAX_BYTES
 }
 
+let pendingSyncData: string | null | undefined
+const listeners = new Set<() => void>()
+
+/**
+ * Reads the sync file from the page's `#sync=` fragment once, and removes
+ * it from the address bar so it doesn't stay in the browser history. Later
+ * calls return the same file until clearPendingSyncLink(), since the
+ * component that shows it can remount when the session restores.
+ */
+export function takePendingSyncLink(): string | null {
+  if (typeof window === 'undefined') return null
+  if (pendingSyncData === undefined) {
+    pendingSyncData = readSyncLink(window.location.hash)
+    if (pendingSyncData) {
+      window.history.replaceState(null, '', window.location.pathname + window.location.search)
+    }
+  }
+  return pendingSyncData
+}
+
+export function clearPendingSyncLink(): void {
+  pendingSyncData = null
+  listeners.forEach(listener => listener())
+}
+
+export function subscribePendingSyncLink(listener: () => void): () => void {
+  listeners.add(listener)
+  return () => listeners.delete(listener)
+}
+
 /**
  * Returns the sync file from a `#sync=` fragment, or null when the
  * fragment is absent or isn't a JSON sync file

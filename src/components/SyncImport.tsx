@@ -1,7 +1,7 @@
 'use client'
 
-import { useState } from 'react'
-import { Box, Heading, HStack, Icon, Text } from '@chakra-ui/react'
+import { useState, useSyncExternalStore } from 'react'
+import { Box, Heading, HStack, Icon, Text, VStack } from '@chakra-ui/react'
 import { FiDownload } from 'react-icons/fi'
 import { AuthenticationError, PrfUnsupportedError, SyncBootstrapError } from 'w3pk'
 import { Button } from '@/components/ui/button'
@@ -10,6 +10,11 @@ import PasswordModal from '@/components/PasswordModal'
 import { useW3PK, isUserCancelledError } from '@/context/W3PK'
 import { useTranslation } from '@/hooks/useTranslation'
 import { brandColors } from '@/theme'
+import {
+  clearPendingSyncLink,
+  subscribePendingSyncLink,
+  takePendingSyncLink,
+} from '@/utils/syncLink'
 
 type Translations = ReturnType<typeof useTranslation>
 
@@ -34,11 +39,17 @@ export default function SyncImport() {
   const { importFromSync, syncWalletWithPasskey } = useW3PK()
   const [isImporting, setIsImporting] = useState(false)
   const [passwordFile, setPasswordFile] = useState<string | null>(null)
+  const linkSyncData = useSyncExternalStore(
+    subscribePendingSyncLink,
+    takePendingSyncLink,
+    () => null
+  )
 
   const runImport = async (operation: () => Promise<{ ethereumAddress: string }>) => {
     setIsImporting(true)
     try {
       const { ethereumAddress } = await operation()
+      clearPendingSyncLink()
       toaster.create({
         title: t.settings.syncImportedTitle,
         description: `${ethereumAddress.slice(0, 6)}...${ethereumAddress.slice(-4)}`,
@@ -112,6 +123,27 @@ export default function SyncImport() {
       <Text fontSize="sm" color="gray.400" mb={4}>
         {t.settings.syncImportDescription}
       </Text>
+      {linkSyncData && (
+        <VStack align="stretch" gap={3} mb={4} p={4} bg="blue.900/90" borderRadius="md">
+          <Text fontSize="sm" color="gray.200">
+            {t.settings.syncLinkReady}
+          </Text>
+          {/* Safari only allows the passkey prompt after a tap */}
+          <Button
+            bg={brandColors.primary}
+            color="white"
+            _hover={{ bg: brandColors.secondary }}
+            onClick={() => runImport(() => importFromSync(linkSyncData))}
+            loading={isImporting}
+            width="full"
+          >
+            {t.settings.syncLinkButton}
+          </Button>
+          <Button variant="ghost" size="sm" onClick={clearPendingSyncLink} disabled={isImporting}>
+            {t.common.cancel}
+          </Button>
+        </VStack>
+      )}
       <Button
         bg={brandColors.primary}
         color="white"
