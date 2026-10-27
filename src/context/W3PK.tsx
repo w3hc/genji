@@ -20,9 +20,6 @@ import {
   createWeb3Passkey,
   getCurrentBuildHash,
   verifyBuildHash,
-  // AI Inspection feature (disabled)
-  // inspect,
-  // inspectNow,
   SocialRecoveryManager,
   PrfUnsupportedError,
   SyncRequiredError,
@@ -346,9 +343,6 @@ export const W3pkProvider: React.FC<W3pkProviderProps> = ({ children }) => {
         ...w3pk,
         getCurrentBuildHash,
         verifyBuildHash,
-        // AI Inspection feature (disabled)
-        // inspect,
-        // inspectNow,
       }
     }
   }, [w3pk])

@@ -441,15 +441,6 @@ export default function About() {
           >
             {t.about.feature16}
           </List.Item>
-          {/* AI Inspection feature (disabled)
-          <List.Item
-            cursor="pointer"
-            transition="color 0.2s"
-            _hover={{ color: brandColors.accent }}
-          >
-            {t.about.feature17}
-          </List.Item>
-          */}
         </List.Root>
       </Box>
     </VStack>

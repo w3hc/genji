@@ -87,18 +87,6 @@ type TranslationKeys = {
     inspectingText: string
     inspectLocalStorageButton: string
 
-    inspectSecurityDescriptionSmall: string
-    inspectSecurityButton: string
-    consoleCommandLabel: string
-    clearReportButton: string
-    filesAnalyzedLabel: string
-    inspectionHeadingBig: string
-    inspectSecurityDescriptionBig: string
-    inspectNowButton: string
-    consoleHintText: string
-    securityReportHeading: string
-    appUrlLabel: string
-
     localStorageResultsHeading: string
     itemsCount: (n: number) => string
     encryptedBadge: string
@@ -282,10 +270,6 @@ type TranslationKeys = {
     usernameRequiredRestoreDescription: string
     walletRestoredRegisteredTitle: string
     walletRestoredRegisteredDescription: (address: string) => string
-    securityReportGeneratedTitle: string
-    securityReportGeneratedDescription: string
-    inspectionFailedTitle: string
-    inspectionFailedDescription: string
     backupStatusRetrievedTitle: string
     errorRetrievingStatusTitle: string
     unexpectedErrorDescription: string
@@ -398,7 +382,6 @@ type TranslationKeys = {
     feature14: string
     feature15: string
     feature16: string
-    feature17: string
     invalidEmailTitle: string
     invalidEmailDescription: string
     subscribeSuccessTitle: string
@@ -488,20 +471,6 @@ export const translations: Translations = {
       debugStorageDescription: 'Inspect browser storage and activity logs',
       inspectingText: 'Inspecting...',
       inspectLocalStorageButton: 'Inspect LocalStorage',
-
-      inspectSecurityDescriptionSmall:
-        'Analyze this application for transaction and signing methods.',
-      inspectSecurityButton: 'Inspect Security',
-      consoleCommandLabel: 'Console command:',
-      clearReportButton: 'Clear Report',
-      filesAnalyzedLabel: 'Files Analyzed:',
-      inspectionHeadingBig: 'Security Inspection',
-      inspectSecurityDescriptionBig:
-        'Generate a comprehensive security report of this app. The report will analyze all transaction and signing methods.',
-      inspectNowButton: 'Inspect now',
-      consoleHintText: 'You can also run await w3pk.inspectNow() in the browser console',
-      securityReportHeading: 'Security Report',
-      appUrlLabel: 'App URL:',
 
       localStorageResultsHeading: 'LocalStorage Results',
       itemsCount: n => `${n} items`,
@@ -732,11 +701,6 @@ export const translations: Translations = {
       walletRestoredRegisteredTitle: 'Wallet Restored & Registered!',
       walletRestoredRegisteredDescription: address =>
         `Successfully restored and registered wallet: ${address}`,
-      securityReportGeneratedTitle: 'Security Report Generated',
-      securityReportGeneratedDescription: 'View the detailed analysis below',
-      inspectionFailedTitle: 'Inspection Failed',
-      inspectionFailedDescription:
-        "Host app inspection did not work. It's probably due to Anthropic request rate limit reached.",
       backupStatusRetrievedTitle: 'Backup Status Retrieved.',
       errorRetrievingStatusTitle: 'Error retrieving status.',
       unexpectedErrorDescription: 'An unexpected error occurred.',
@@ -862,7 +826,6 @@ export const translations: Translations = {
       feature14: 'EIP-7951 PRIMARY mode (P-256 passkey signing)',
       feature15: 'Build verification (IPFS CID hashing + DAO-maintained onchain registry)',
       feature16: 'Three-layer backup & recovery (passkey sync, encrypted backups, social recovery)',
-      feature17: 'AI-powered host app inspection',
       invalidEmailTitle: 'Invalid email',
       invalidEmailDescription: 'Please enter a valid email address',
       subscribeSuccessTitle: 'Success!',
@@ -945,19 +908,6 @@ export const translations: Translations = {
       debugStorageDescription: '检查浏览器存储和活动日志',
       inspectingText: '正在检查...',
       inspectLocalStorageButton: '检查 LocalStorage',
-
-      inspectSecurityDescriptionSmall: '分析此应用程序的交易和签名方法。',
-      inspectSecurityButton: '检查安全性',
-      consoleCommandLabel: '控制台命令：',
-      clearReportButton: '清除报告',
-      filesAnalyzedLabel: '已分析文件：',
-      inspectionHeadingBig: '安全检查',
-      inspectSecurityDescriptionBig:
-        '生成此应用程序的全面安全报告。该报告将分析所有交易和签名方法。',
-      inspectNowButton: '立即检查',
-      consoleHintText: '您也可以在浏览器控制台中运行 await w3pk.inspectNow()',
-      securityReportHeading: '安全报告',
-      appUrlLabel: '应用网址：',
 
       localStorageResultsHeading: 'LocalStorage 结果',
       itemsCount: n => `${n} 项`,
@@ -1171,11 +1121,6 @@ export const translations: Translations = {
       usernameRequiredRestoreDescription: '请输入用户名以注册恢复的钱包。',
       walletRestoredRegisteredTitle: '钱包已恢复并注册！',
       walletRestoredRegisteredDescription: address => `已成功恢复并注册钱包：${address}`,
-      securityReportGeneratedTitle: '安全报告已生成',
-      securityReportGeneratedDescription: '请在下方查看详细分析',
-      inspectionFailedTitle: '检查失败',
-      inspectionFailedDescription:
-        '宿主应用检查未成功。这可能是由于达到了 Anthropic 请求速率限制。',
       backupStatusRetrievedTitle: '已获取备份状态。',
       errorRetrievingStatusTitle: '获取状态出错。',
       unexpectedErrorDescription: '发生了意外错误。',
@@ -1295,7 +1240,6 @@ export const translations: Translations = {
       feature14: 'EIP-7951 PRIMARY 模式（P-256 通行密钥签名）',
       feature15: '构建验证（IPFS CID 哈希 + DAO 维护的链上注册表）',
       feature16: '三层备份与恢复机制（通行密钥同步、加密备份、社交恢复）',
-      feature17: 'AI 驱动的宿主应用检查',
       invalidEmailTitle: '邮箱无效',
       invalidEmailDescription: '请输入有效的电子邮箱地址',
       subscribeSuccessTitle: '成功！',
@@ -1380,20 +1324,6 @@ export const translations: Translations = {
       debugStorageDescription: 'ब्राउज़र स्टोरेज और गतिविधि लॉग का निरीक्षण करें',
       inspectingText: 'निरीक्षण हो रहा है...',
       inspectLocalStorageButton: 'LocalStorage का निरीक्षण करें',
-
-      inspectSecurityDescriptionSmall:
-        'लेनदेन और हस्ताक्षर विधियों के लिए इस एप्लिकेशन का विश्लेषण करें।',
-      inspectSecurityButton: 'सुरक्षा का निरीक्षण करें',
-      consoleCommandLabel: 'कंसोल कमांड:',
-      clearReportButton: 'रिपोर्ट साफ़ करें',
-      filesAnalyzedLabel: 'विश्लेषित फ़ाइलें:',
-      inspectionHeadingBig: 'सुरक्षा निरीक्षण',
-      inspectSecurityDescriptionBig:
-        'इस ऐप की एक व्यापक सुरक्षा रिपोर्ट बनाएं। रिपोर्ट सभी लेनदेन और हस्ताक्षर विधियों का विश्लेषण करेगी।',
-      inspectNowButton: 'अभी निरीक्षण करें',
-      consoleHintText: 'आप ब्राउज़र कंसोल में await w3pk.inspectNow() भी चला सकते हैं',
-      securityReportHeading: 'सुरक्षा रिपोर्ट',
-      appUrlLabel: 'ऐप URL:',
 
       localStorageResultsHeading: 'LocalStorage परिणाम',
       itemsCount: n => `${n} आइटम`,
@@ -1629,11 +1559,6 @@ export const translations: Translations = {
       walletRestoredRegisteredTitle: 'वॉलेट पुनर्स्थापित और पंजीकृत हुआ!',
       walletRestoredRegisteredDescription: address =>
         `वॉलेट सफलतापूर्वक पुनर्स्थापित और पंजीकृत किया गया: ${address}`,
-      securityReportGeneratedTitle: 'सुरक्षा रिपोर्ट जनरेट हुई',
-      securityReportGeneratedDescription: 'नीचे विस्तृत विश्लेषण देखें',
-      inspectionFailedTitle: 'निरीक्षण विफल',
-      inspectionFailedDescription:
-        'होस्ट ऐप निरीक्षण काम नहीं आया। यह संभवतः Anthropic अनुरोध दर सीमा तक पहुंचने के कारण है।',
       backupStatusRetrievedTitle: 'बैकअप स्थिति प्राप्त हुई।',
       errorRetrievingStatusTitle: 'स्थिति प्राप्त करने में त्रुटि।',
       unexpectedErrorDescription: 'एक अप्रत्याशित त्रुटि हुई।',
@@ -1764,7 +1689,6 @@ export const translations: Translations = {
       feature14: 'EIP-7951 PRIMARY मोड (P-256 पासकी हस्ताक्षर)',
       feature15: 'बिल्ड सत्यापन (IPFS CID हैशिंग + DAO-अनुरक्षित ऑनचेन रजिस्ट्री)',
       feature16: 'तीन-परत बैकअप और रिकवरी (पासकी सिंक, एन्क्रिप्टेड बैकअप, सामाजिक रिकवरी)',
-      feature17: 'AI-संचालित होस्ट ऐप निरीक्षण',
       invalidEmailTitle: 'अमान्य ईमेल',
       invalidEmailDescription: 'कृपया एक मान्य ईमेल पता दर्ज करें',
       subscribeSuccessTitle: 'सफलता!',
@@ -1851,21 +1775,6 @@ export const translations: Translations = {
         'Inspecciona el almacenamiento del navegador y los registros de actividad',
       inspectingText: 'Inspeccionando...',
       inspectLocalStorageButton: 'Inspeccionar LocalStorage',
-
-      inspectSecurityDescriptionSmall:
-        'Analiza esta aplicación en busca de métodos de transacción y firma.',
-      inspectSecurityButton: 'Inspeccionar seguridad',
-      consoleCommandLabel: 'Comando de consola:',
-      clearReportButton: 'Borrar informe',
-      filesAnalyzedLabel: 'Archivos analizados:',
-      inspectionHeadingBig: 'Inspección de seguridad',
-      inspectSecurityDescriptionBig:
-        'Genera un informe de seguridad completo de esta aplicación. El informe analizará todos los métodos de transacción y firma.',
-      inspectNowButton: 'Inspeccionar ahora',
-      consoleHintText:
-        'También puedes ejecutar await w3pk.inspectNow() en la consola del navegador',
-      securityReportHeading: 'Informe de seguridad',
-      appUrlLabel: 'URL de la app:',
 
       localStorageResultsHeading: 'Resultados de LocalStorage',
       itemsCount: n => `${n} elementos`,
@@ -2109,11 +2018,6 @@ export const translations: Translations = {
       walletRestoredRegisteredTitle: '¡Billetera restaurada y registrada!',
       walletRestoredRegisteredDescription: address =>
         `Billetera restaurada y registrada correctamente: ${address}`,
-      securityReportGeneratedTitle: 'Informe de seguridad generado',
-      securityReportGeneratedDescription: 'Consulta el análisis detallado a continuación',
-      inspectionFailedTitle: 'Error de inspección',
-      inspectionFailedDescription:
-        'La inspección de la aplicación anfitriona no funcionó. Probablemente se deba a que se alcanzó el límite de solicitudes de Anthropic.',
       backupStatusRetrievedTitle: 'Estado de la copia de seguridad obtenido.',
       errorRetrievingStatusTitle: 'Error al obtener el estado.',
       unexpectedErrorDescription: 'Ocurrió un error inesperado.',
@@ -2250,7 +2154,6 @@ export const translations: Translations = {
         'Verificación de compilación (hash CID de IPFS + registro onchain mantenido por una DAO)',
       feature16:
         'Copia de seguridad y recuperación de tres capas (sincronización de clave de acceso, copias de seguridad cifradas, recuperación social)',
-      feature17: 'Inspección de la aplicación anfitriona impulsada por IA',
       invalidEmailTitle: 'Correo electrónico no válido',
       invalidEmailDescription: 'Introduce una dirección de correo electrónico válida',
       subscribeSuccessTitle: '¡Éxito!',
@@ -2336,21 +2239,6 @@ export const translations: Translations = {
       debugStorageDescription: "Inspecter le stockage du navigateur et les journaux d'activité",
       inspectingText: 'Inspection en cours...',
       inspectLocalStorageButton: 'Inspecter LocalStorage',
-
-      inspectSecurityDescriptionSmall:
-        'Analyser cette application pour ses méthodes de transaction et de signature.',
-      inspectSecurityButton: 'Inspecter la sécurité',
-      consoleCommandLabel: 'Commande console :',
-      clearReportButton: 'Effacer le rapport',
-      filesAnalyzedLabel: 'Fichiers analysés :',
-      inspectionHeadingBig: 'Inspection de sécurité',
-      inspectSecurityDescriptionBig:
-        'Générer un rapport de sécurité complet pour cette application. Le rapport analysera toutes les méthodes de transaction et de signature.',
-      inspectNowButton: 'Inspecter maintenant',
-      consoleHintText:
-        'Vous pouvez également exécuter await w3pk.inspectNow() dans la console du navigateur',
-      securityReportHeading: 'Rapport de sécurité',
-      appUrlLabel: "URL de l'application :",
 
       localStorageResultsHeading: 'Résultats LocalStorage',
       itemsCount: n => `${n} éléments`,
@@ -2596,11 +2484,6 @@ export const translations: Translations = {
       walletRestoredRegisteredTitle: 'Portefeuille restauré et inscrit !',
       walletRestoredRegisteredDescription: address =>
         `Portefeuille restauré et inscrit avec succès : ${address}`,
-      securityReportGeneratedTitle: 'Rapport de sécurité généré',
-      securityReportGeneratedDescription: "Consultez l'analyse détaillée ci-dessous",
-      inspectionFailedTitle: "Échec de l'inspection",
-      inspectionFailedDescription:
-        "L'inspection de l'application hôte n'a pas fonctionné. C'est probablement dû à la limite de requêtes Anthropic atteinte.",
       backupStatusRetrievedTitle: 'État de la sauvegarde récupéré.',
       errorRetrievingStatusTitle: "Erreur lors de la récupération de l'état.",
       unexpectedErrorDescription: "Une erreur inattendue s'est produite.",
@@ -2739,7 +2622,6 @@ export const translations: Translations = {
       feature15: 'Vérification de build (hachage CID IPFS + registre onchain maintenu par une DAO)',
       feature16:
         "Sauvegarde et récupération à trois niveaux (synchronisation des clés d'accès, sauvegardes chiffrées, récupération sociale)",
-      feature17: "Inspection de l'application hôte assistée par IA",
       invalidEmailTitle: 'E-mail invalide',
       invalidEmailDescription: 'Veuillez entrer une adresse e-mail valide',
       subscribeSuccessTitle: 'Succès !',
@@ -2823,19 +2705,6 @@ export const translations: Translations = {
       debugStorageDescription: 'فحص تخزين المتصفح وسجلات النشاط',
       inspectingText: 'جارٍ الفحص...',
       inspectLocalStorageButton: 'فحص LocalStorage',
-
-      inspectSecurityDescriptionSmall: 'تحليل هذا التطبيق لطرق المعاملات والتوقيع.',
-      inspectSecurityButton: 'فحص الأمان',
-      consoleCommandLabel: 'أمر وحدة التحكم:',
-      clearReportButton: 'مسح التقرير',
-      filesAnalyzedLabel: 'الملفات التي تم تحليلها:',
-      inspectionHeadingBig: 'فحص الأمان',
-      inspectSecurityDescriptionBig:
-        'إنشاء تقرير أمني شامل لهذا التطبيق. سيحلل التقرير جميع طرق المعاملات والتوقيع.',
-      inspectNowButton: 'افحص الآن',
-      consoleHintText: 'يمكنك أيضاً تشغيل await w3pk.inspectNow() في وحدة تحكم المتصفح',
-      securityReportHeading: 'تقرير الأمان',
-      appUrlLabel: 'رابط التطبيق:',
 
       localStorageResultsHeading: 'نتائج LocalStorage',
       itemsCount: n => `${n} عنصر`,
@@ -3065,11 +2934,6 @@ export const translations: Translations = {
       walletRestoredRegisteredTitle: 'تمت استعادة المحفظة وتسجيلها!',
       walletRestoredRegisteredDescription: address =>
         `تمت استعادة المحفظة وتسجيلها بنجاح: ${address}`,
-      securityReportGeneratedTitle: 'تم إنشاء تقرير الأمان',
-      securityReportGeneratedDescription: 'اطلع على التحليل التفصيلي أدناه',
-      inspectionFailedTitle: 'فشل الفحص',
-      inspectionFailedDescription:
-        'لم يعمل فحص التطبيق المضيف. ربما يكون ذلك بسبب الوصول إلى حد معدل الطلبات لدى Anthropic.',
       backupStatusRetrievedTitle: 'تم استرجاع حالة النسخ الاحتياطي.',
       errorRetrievingStatusTitle: 'خطأ في استرجاع الحالة.',
       unexpectedErrorDescription: 'حدث خطأ غير متوقع.',
@@ -3194,7 +3058,6 @@ export const translations: Translations = {
       feature15: 'التحقق من البناء (تجزئة IPFS CID + سجل على السلسلة يديره DAO)',
       feature16:
         'نسخ احتياطي واسترداد ثلاثي الطبقات (مزامنة مفتاح المرور، نسخ احتياطية مشفّرة، استرداد اجتماعي)',
-      feature17: 'فحص التطبيق المضيف مدعوم بالذكاء الاصطناعي',
       invalidEmailTitle: 'بريد إلكتروني غير صالح',
       invalidEmailDescription: 'يرجى إدخال عنوان بريد إلكتروني صالح',
       subscribeSuccessTitle: 'تم بنجاح!',
@@ -3280,20 +3143,6 @@ export const translations: Translations = {
       debugStorageDescription: 'ব্রাউজার স্টোরেজ এবং কার্যকলাপ লগ পরিদর্শন করুন',
       inspectingText: 'পরিদর্শন করা হচ্ছে...',
       inspectLocalStorageButton: 'LocalStorage পরিদর্শন করুন',
-
-      inspectSecurityDescriptionSmall:
-        'লেনদেন এবং স্বাক্ষর পদ্ধতির জন্য এই অ্যাপ্লিকেশনটি বিশ্লেষণ করুন।',
-      inspectSecurityButton: 'নিরাপত্তা পরিদর্শন করুন',
-      consoleCommandLabel: 'কনসোল কমান্ড:',
-      clearReportButton: 'রিপোর্ট মুছুন',
-      filesAnalyzedLabel: 'বিশ্লেষণ করা ফাইল:',
-      inspectionHeadingBig: 'নিরাপত্তা পরিদর্শন',
-      inspectSecurityDescriptionBig:
-        'এই অ্যাপের একটি বিস্তৃত নিরাপত্তা রিপোর্ট তৈরি করুন। রিপোর্টটি সমস্ত লেনদেন এবং স্বাক্ষর পদ্ধতি বিশ্লেষণ করবে।',
-      inspectNowButton: 'এখনই পরিদর্শন করুন',
-      consoleHintText: 'আপনি ব্রাউজার কনসোলে await w3pk.inspectNow() চালাতেও পারেন',
-      securityReportHeading: 'নিরাপত্তা রিপোর্ট',
-      appUrlLabel: 'অ্যাপ URL:',
 
       localStorageResultsHeading: 'LocalStorage ফলাফল',
       itemsCount: n => `${n}টি আইটেম`,
@@ -3534,11 +3383,6 @@ export const translations: Translations = {
       walletRestoredRegisteredTitle: 'ওয়ালেট পুনরুদ্ধার ও নিবন্ধিত হয়েছে!',
       walletRestoredRegisteredDescription: address =>
         `সফলভাবে পুনরুদ্ধার এবং নিবন্ধিত করা হয়েছে ওয়ালেট: ${address}`,
-      securityReportGeneratedTitle: 'নিরাপত্তা রিপোর্ট তৈরি হয়েছে',
-      securityReportGeneratedDescription: 'নিচে বিস্তারিত বিশ্লেষণ দেখুন',
-      inspectionFailedTitle: 'পরিদর্শন ব্যর্থ হয়েছে',
-      inspectionFailedDescription:
-        'হোস্ট অ্যাপ পরিদর্শন কাজ করেনি। এটি সম্ভবত Anthropic-এর রিকোয়েস্ট রেট সীমা অতিক্রম হওয়ার কারণে।',
       backupStatusRetrievedTitle: 'ব্যাকআপ অবস্থা পুনরুদ্ধার করা হয়েছে।',
       errorRetrievingStatusTitle: 'অবস্থা পুনরুদ্ধার করতে ত্রুটি।',
       unexpectedErrorDescription: 'একটি অপ্রত্যাশিত ত্রুটি ঘটেছে।',
@@ -3674,7 +3518,6 @@ export const translations: Translations = {
       feature15: 'বিল্ড যাচাইকরণ (IPFS CID হ্যাশিং + DAO-পরিচালিত অনচেইন রেজিস্ট্রি)',
       feature16:
         'তিন-স্তরের ব্যাকআপ ও পুনরুদ্ধার (পাসকী সিঙ্ক, এনক্রিপ্ট করা ব্যাকআপ, সামাজিক পুনরুদ্ধার)',
-      feature17: 'AI-চালিত হোস্ট অ্যাপ পরিদর্শন',
       invalidEmailTitle: 'অবৈধ ইমেইল',
       invalidEmailDescription: 'অনুগ্রহ করে একটি বৈধ ইমেইল ঠিকানা লিখুন',
       subscribeSuccessTitle: 'সফল হয়েছে!',
@@ -3760,20 +3603,6 @@ export const translations: Translations = {
       debugStorageDescription: 'Проверка хранилища браузера и журналов активности',
       inspectingText: 'Проверка...',
       inspectLocalStorageButton: 'Проверить LocalStorage',
-
-      inspectSecurityDescriptionSmall:
-        'Анализ этого приложения на предмет методов транзакций и подписи.',
-      inspectSecurityButton: 'Проверить безопасность',
-      consoleCommandLabel: 'Команда консоли:',
-      clearReportButton: 'Очистить отчёт',
-      filesAnalyzedLabel: 'Проанализировано файлов:',
-      inspectionHeadingBig: 'Проверка безопасности',
-      inspectSecurityDescriptionBig:
-        'Сформируйте подробный отчёт о безопасности этого приложения. Отчёт проанализирует все методы транзакций и подписи.',
-      inspectNowButton: 'Проверить сейчас',
-      consoleHintText: 'Вы также можете выполнить await w3pk.inspectNow() в консоли браузера',
-      securityReportHeading: 'Отчёт о безопасности',
-      appUrlLabel: 'URL приложения:',
 
       localStorageResultsHeading: 'Результаты LocalStorage',
       itemsCount: n => `${n} ${ruPlural(n, 'элемент', 'элемента', 'элементов')}`,
@@ -4015,11 +3844,6 @@ export const translations: Translations = {
       walletRestoredRegisteredTitle: 'Кошелёк восстановлен и зарегистрирован!',
       walletRestoredRegisteredDescription: address =>
         `Кошелёк успешно восстановлен и зарегистрирован: ${address}`,
-      securityReportGeneratedTitle: 'Отчёт о безопасности сформирован',
-      securityReportGeneratedDescription: 'Просмотрите подробный анализ ниже',
-      inspectionFailedTitle: 'Ошибка проверки',
-      inspectionFailedDescription:
-        'Проверка хост-приложения не удалась. Вероятно, это связано с превышением лимита запросов Anthropic.',
       backupStatusRetrievedTitle: 'Статус резервной копии получен.',
       errorRetrievingStatusTitle: 'Ошибка получения статуса.',
       unexpectedErrorDescription: 'Произошла непредвиденная ошибка.',
@@ -4154,7 +3978,6 @@ export const translations: Translations = {
       feature15: 'Проверка сборки (хеширование IPFS CID + ончейн-реестр, поддерживаемый DAO)',
       feature16:
         'Трёхуровневое резервное копирование и восстановление (синхронизация ключа доступа, зашифрованные резервные копии, социальное восстановление)',
-      feature17: 'Проверка хост-приложения на основе ИИ',
       invalidEmailTitle: 'Неверный email',
       invalidEmailDescription: 'Пожалуйста, введите корректный адрес электронной почты',
       subscribeSuccessTitle: 'Успешно!',
@@ -4240,20 +4063,6 @@ export const translations: Translations = {
       debugStorageDescription: 'Inspecione o armazenamento do navegador e os registos de atividade',
       inspectingText: 'A inspecionar...',
       inspectLocalStorageButton: 'Inspecionar LocalStorage',
-
-      inspectSecurityDescriptionSmall:
-        'Analise esta aplicação quanto a métodos de transação e assinatura.',
-      inspectSecurityButton: 'Inspecionar segurança',
-      consoleCommandLabel: 'Comando da consola:',
-      clearReportButton: 'Limpar relatório',
-      filesAnalyzedLabel: 'Ficheiros analisados:',
-      inspectionHeadingBig: 'Inspeção de segurança',
-      inspectSecurityDescriptionBig:
-        'Gere um relatório de segurança abrangente desta aplicação. O relatório irá analisar todos os métodos de transação e assinatura.',
-      inspectNowButton: 'Inspecionar agora',
-      consoleHintText: 'Também pode executar await w3pk.inspectNow() na consola do navegador',
-      securityReportHeading: 'Relatório de segurança',
-      appUrlLabel: 'URL da aplicação:',
 
       localStorageResultsHeading: 'Resultados do LocalStorage',
       itemsCount: n => `${n} itens`,
@@ -4497,11 +4306,6 @@ export const translations: Translations = {
       walletRestoredRegisteredTitle: 'Carteira restaurada e registada!',
       walletRestoredRegisteredDescription: address =>
         `Carteira restaurada e registada com sucesso: ${address}`,
-      securityReportGeneratedTitle: 'Relatório de segurança gerado',
-      securityReportGeneratedDescription: 'Veja a análise detalhada abaixo',
-      inspectionFailedTitle: 'Falha na inspeção',
-      inspectionFailedDescription:
-        'A inspeção da aplicação anfitriã não funcionou. Provavelmente devido ao limite de pedidos da Anthropic ter sido atingido.',
       backupStatusRetrievedTitle: 'Estado da cópia de segurança obtido.',
       errorRetrievingStatusTitle: 'Erro ao obter o estado.',
       unexpectedErrorDescription: 'Ocorreu um erro inesperado.',
@@ -4638,7 +4442,6 @@ export const translations: Translations = {
         'Verificação de compilação (hashing de CID IPFS + registo onchain mantido por DAO)',
       feature16:
         'Cópia de segurança e recuperação de três camadas (sincronização de chave de acesso, cópias de segurança encriptadas, recuperação social)',
-      feature17: 'Inspeção da aplicação anfitriã alimentada por IA',
       invalidEmailTitle: 'Email inválido',
       invalidEmailDescription: 'Por favor, introduza um endereço de email válido',
       subscribeSuccessTitle: 'Sucesso!',
@@ -4723,20 +4526,6 @@ export const translations: Translations = {
       debugStorageDescription: 'براؤزر اسٹوریج اور سرگرمی لاگز کا معائنہ کریں',
       inspectingText: 'معائنہ ہو رہا ہے...',
       inspectLocalStorageButton: 'LocalStorage کا معائنہ کریں',
-
-      inspectSecurityDescriptionSmall:
-        'ٹرانزیکشن اور دستخطی طریقوں کے لیے اس ایپلیکیشن کا تجزیہ کریں۔',
-      inspectSecurityButton: 'سیکیورٹی کا معائنہ کریں',
-      consoleCommandLabel: 'کنسول کمانڈ:',
-      clearReportButton: 'رپورٹ صاف کریں',
-      filesAnalyzedLabel: 'تجزیہ شدہ فائلیں:',
-      inspectionHeadingBig: 'سیکیورٹی معائنہ',
-      inspectSecurityDescriptionBig:
-        'اس ایپ کی ایک جامع سیکیورٹی رپورٹ تیار کریں۔ رپورٹ تمام ٹرانزیکشن اور دستخطی طریقوں کا تجزیہ کرے گی۔',
-      inspectNowButton: 'ابھی معائنہ کریں',
-      consoleHintText: 'آپ براؤزر کنسول میں await w3pk.inspectNow() بھی چلا سکتے ہیں',
-      securityReportHeading: 'سیکیورٹی رپورٹ',
-      appUrlLabel: 'ایپ URL:',
 
       localStorageResultsHeading: 'LocalStorage نتائج',
       itemsCount: n => `${n} اشیاء`,
@@ -4972,11 +4761,6 @@ export const translations: Translations = {
       walletRestoredRegisteredTitle: 'والیٹ بحال اور رجسٹر ہو گیا!',
       walletRestoredRegisteredDescription: address =>
         `والیٹ کامیابی سے بحال اور رجسٹر ہو گیا: ${address}`,
-      securityReportGeneratedTitle: 'سیکیورٹی رپورٹ تیار ہو گئی',
-      securityReportGeneratedDescription: 'ذیل میں تفصیلی تجزیہ دیکھیں',
-      inspectionFailedTitle: 'معائنہ ناکام ہوا',
-      inspectionFailedDescription:
-        'ہوسٹ ایپ کا معائنہ کام نہیں کیا۔ اس کی وجہ غالباً Anthropic کی درخواست کی شرح کی حد تک پہنچنا ہے۔',
       backupStatusRetrievedTitle: 'بیک اپ کی صورتحال حاصل ہو گئی۔',
       errorRetrievingStatusTitle: 'صورتحال حاصل کرنے میں خرابی۔',
       unexpectedErrorDescription: 'ایک غیر متوقع خرابی پیش آگئی۔',
@@ -5109,7 +4893,6 @@ export const translations: Translations = {
       feature15: 'بلڈ تصدیق (IPFS CID ہیشنگ + DAO کی زیر انتظام آن چین رجسٹری)',
       feature16:
         'تین تہوں والا بیک اپ اور بحالی (پاس کی مطابقت پذیری، خفیہ کردہ بیک اپس، سماجی بحالی)',
-      feature17: 'AI سے چلنے والا ہوسٹ ایپ معائنہ',
       invalidEmailTitle: 'غلط ای میل',
       invalidEmailDescription: 'براہ کرم ایک درست ای میل ایڈریس درج کریں',
       subscribeSuccessTitle: 'کامیابی!',
