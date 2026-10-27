@@ -497,16 +497,16 @@ export const translations: Translations = {
 
       sessionHeading: 'Keep my session alive',
       sessionDescription:
-        'Set how long your session should stay active without a passkey prompt. When it expires, your next visit asks for your biometric/PIN once and starts a fresh session — so this is also how often you re-authenticate. This setting applies to STANDARD and YOLO modes only. STRICT and PRIMARY modes always require fresh authentication and do not use persistent sessions.',
+        'Set how long your session should stay active without a passkey prompt. When it expires, your next visit asks for your passkey once and starts a fresh session — so this is also how often you re-authenticate. This setting applies to STANDARD and YOLO modes only. STRICT and PRIMARY modes always require fresh authentication and do not use persistent sessions.',
       noStoredSessionText:
-        "No stored session on this device. Your authenticator doesn't appear to support the WebAuthn PRF extension, which w3pk requires to keep sessions alive securely. Your session will stay in memory only: it ends when you close the tab, and each visit will ask for your biometric/PIN. Everything else works normally.",
+        "No stored session on this device. Your authenticator doesn't appear to support the WebAuthn PRF extension, which w3pk requires to keep sessions alive securely. Your session will stay in memory only: it ends when you close the tab, and each visit will ask for your passkey. Everything else works normally.",
       sessionDurationLabel: 'Session Duration',
       dayLabel: n => `${n} day${n > 1 ? 's' : ''}`,
       oneDayLabel: '1 day',
       thirtyDaysLabel: '30 days',
       sessionHowItWorksTitle: 'How it works:',
       sessionHowItWorksText:
-        "Each time you log in with your biometric/PIN, your authenticator releases a hardware-backed secret (WebAuthn PRF extension) that encrypts your session on this device — nothing stored on disk can recreate that key. The countdown starts fresh at each real login: with a 7-day duration, logging in today keeps you signed in until 7 days from today, when you'll be prompted once and the session is re-encrypted under a fresh key.",
+        "Each time you log in with your passkey, your authenticator releases a hardware-backed secret (WebAuthn PRF extension) that encrypts your session on this device — nothing stored on disk can recreate that key. The countdown starts fresh at each real login: with a 7-day duration, logging in today keeps you signed in until 7 days from today, when you'll be prompted once and the session is re-encrypted under a fresh key.",
 
       walletBackupHeading: 'Wallet Backup',
       walletBackupDescription:
@@ -947,16 +947,16 @@ export const translations: Translations = {
 
       sessionHeading: '保持我的会话有效',
       sessionDescription:
-        '设置您的会话在不弹出通行密钥提示的情况下保持有效的时长。会话过期后，您下次访问时将被要求进行一次生物识别/PIN验证，并开始一个新的会话——这也决定了您重新进行身份验证的频率。此设置仅适用于 STANDARD 和 YOLO 模式。STRICT 和 PRIMARY 模式始终需要重新进行身份验证，不使用持久化会话。',
+        '设置您的会话在不弹出通行密钥提示的情况下保持有效的时长。会话过期后，您下次访问时将被要求验证一次通行密钥，并开始一个新的会话——这也决定了您重新进行身份验证的频率。此设置仅适用于 STANDARD 和 YOLO 模式。STRICT 和 PRIMARY 模式始终需要重新进行身份验证，不使用持久化会话。',
       noStoredSessionText:
-        '此设备上没有存储的会话。您的身份验证器似乎不支持 WebAuthn PRF 扩展，而 w3pk 需要该扩展来安全地保持会话有效。您的会话将仅保存在内存中：关闭标签页后即结束，每次访问都会要求进行生物识别/PIN验证。其他功能均正常运作。',
+        '此设备上没有存储的会话。您的身份验证器似乎不支持 WebAuthn PRF 扩展，而 w3pk 需要该扩展来安全地保持会话有效。您的会话将仅保存在内存中：关闭标签页后即结束，每次访问都会要求验证通行密钥。其他功能均正常运作。',
       sessionDurationLabel: '会话时长',
       dayLabel: n => `${n} 天`,
       oneDayLabel: '1 天',
       thirtyDaysLabel: '30 天',
       sessionHowItWorksTitle: '工作原理：',
       sessionHowItWorksText:
-        '每次使用生物识别/PIN登录时，您的身份验证器都会释放一个由硬件保护的密钥（WebAuthn PRF 扩展），用于加密您在此设备上的会话——磁盘上存储的任何数据都无法重新生成该密钥。每次真正登录都会重新开始倒计时：例如设置为7天时长，今天登录后您将保持登录状态直到7天后，届时系统会提示您验证一次，并在新密钥下重新加密会话。',
+        '每次使用通行密钥登录时，您的身份验证器都会释放一个由硬件保护的密钥（WebAuthn PRF 扩展），用于加密您在此设备上的会话——磁盘上存储的任何数据都无法重新生成该密钥。每次真正登录都会重新开始倒计时：例如设置为7天时长，今天登录后您将保持登录状态直到7天后，届时系统会提示您验证一次，并在新密钥下重新加密会话。',
 
       walletBackupHeading: '钱包备份',
       walletBackupDescription: '创建钱包的加密备份，确保您永远不会失去访问权限',
@@ -1374,16 +1374,16 @@ export const translations: Translations = {
 
       sessionHeading: 'मेरा सत्र सक्रिय रखें',
       sessionDescription:
-        'तय करें कि पासकी प्रॉम्प्ट के बिना आपका सत्र कितनी देर तक सक्रिय रहना चाहिए। जब यह समाप्त हो जाता है, तो आपकी अगली विज़िट एक बार आपके बायोमेट्रिक/पिन के लिए पूछती है और एक नया सत्र शुरू करती है — इसलिए यह भी बताता है कि आप कितनी बार पुनः प्रमाणीकरण करते हैं। यह सेटिंग केवल STANDARD और YOLO मोड पर लागू होती है। STRICT और PRIMARY मोड हमेशा नए प्रमाणीकरण की आवश्यकता रखते हैं और स्थायी सत्रों का उपयोग नहीं करते।',
+        'तय करें कि पासकी प्रॉम्प्ट के बिना आपका सत्र कितनी देर तक सक्रिय रहना चाहिए। जब यह समाप्त हो जाता है, तो आपकी अगली विज़िट एक बार आपकी पासकी के लिए पूछती है और एक नया सत्र शुरू करती है — इसलिए यह भी बताता है कि आप कितनी बार पुनः प्रमाणीकरण करते हैं। यह सेटिंग केवल STANDARD और YOLO मोड पर लागू होती है। STRICT और PRIMARY मोड हमेशा नए प्रमाणीकरण की आवश्यकता रखते हैं और स्थायी सत्रों का उपयोग नहीं करते।',
       noStoredSessionText:
-        'इस डिवाइस पर कोई संग्रहीत सत्र नहीं है। ऐसा लगता है कि आपका ऑथेंटिकेटर WebAuthn PRF एक्सटेंशन का समर्थन नहीं करता, जिसकी w3pk को सत्रों को सुरक्षित रूप से सक्रिय रखने के लिए आवश्यकता होती है। आपका सत्र केवल मेमोरी में रहेगा: जब आप टैब बंद करते हैं तो यह समाप्त हो जाता है, और हर विज़िट पर आपसे आपका बायोमेट्रिक/पिन पूछा जाएगा। बाकी सब कुछ सामान्य रूप से काम करता है।',
+        'इस डिवाइस पर कोई संग्रहीत सत्र नहीं है। ऐसा लगता है कि आपका ऑथेंटिकेटर WebAuthn PRF एक्सटेंशन का समर्थन नहीं करता, जिसकी w3pk को सत्रों को सुरक्षित रूप से सक्रिय रखने के लिए आवश्यकता होती है। आपका सत्र केवल मेमोरी में रहेगा: जब आप टैब बंद करते हैं तो यह समाप्त हो जाता है, और हर विज़िट पर आपसे आपकी पासकी पूछा जाएगा। बाकी सब कुछ सामान्य रूप से काम करता है।',
       sessionDurationLabel: 'सत्र अवधि',
       dayLabel: n => `${n} दिन`,
       oneDayLabel: '1 दिन',
       thirtyDaysLabel: '30 दिन',
       sessionHowItWorksTitle: 'यह कैसे काम करता है:',
       sessionHowItWorksText:
-        'हर बार जब आप अपने बायोमेट्रिक/पिन से लॉगिन करते हैं, तो आपका ऑथेंटिकेटर एक हार्डवेयर-समर्थित सीक्रेट (WebAuthn PRF एक्सटेंशन) जारी करता है जो इस डिवाइस पर आपके सत्र को एन्क्रिप्ट करता है — डिस्क पर संग्रहीत कुछ भी उस कुंजी को फिर से नहीं बना सकता। हर वास्तविक लॉगिन पर काउंटडाउन नए सिरे से शुरू होता है: 7 दिन की अवधि के साथ, आज लॉगिन करने पर आप आज से 7 दिन बाद तक साइन इन रहेंगे, जब आपसे एक बार पूछा जाएगा और सत्र को एक नई कुंजी के तहत फिर से एन्क्रिप्ट किया जाएगा।',
+        'हर बार जब आप अपनी पासकी से लॉगिन करते हैं, तो आपका ऑथेंटिकेटर एक हार्डवेयर-समर्थित सीक्रेट (WebAuthn PRF एक्सटेंशन) जारी करता है जो इस डिवाइस पर आपके सत्र को एन्क्रिप्ट करता है — डिस्क पर संग्रहीत कुछ भी उस कुंजी को फिर से नहीं बना सकता। हर वास्तविक लॉगिन पर काउंटडाउन नए सिरे से शुरू होता है: 7 दिन की अवधि के साथ, आज लॉगिन करने पर आप आज से 7 दिन बाद तक साइन इन रहेंगे, जब आपसे एक बार पूछा जाएगा और सत्र को एक नई कुंजी के तहत फिर से एन्क्रिप्ट किया जाएगा।',
 
       walletBackupHeading: 'वॉलेट बैकअप',
       walletBackupDescription:
@@ -1837,16 +1837,16 @@ export const translations: Translations = {
 
       sessionHeading: 'Mantener mi sesión activa',
       sessionDescription:
-        'Establece cuánto tiempo debe permanecer activa tu sesión sin que se solicite la clave de acceso. Cuando caduque, tu próxima visita te pedirá tu biometría/PIN una vez y comenzará una sesión nueva; por lo tanto, esto también determina con qué frecuencia vuelves a autenticarte. Esta opción se aplica solo a los modos STANDARD y YOLO. Los modos STRICT y PRIMARY siempre requieren una autenticación nueva y no usan sesiones persistentes.',
+        'Establece cuánto tiempo debe permanecer activa tu sesión sin que se solicite la clave de acceso. Cuando caduque, tu próxima visita te pedirá tu clave de acceso una vez y comenzará una sesión nueva; por lo tanto, esto también determina con qué frecuencia vuelves a autenticarte. Esta opción se aplica solo a los modos STANDARD y YOLO. Los modos STRICT y PRIMARY siempre requieren una autenticación nueva y no usan sesiones persistentes.',
       noStoredSessionText:
-        'No hay ninguna sesión almacenada en este dispositivo. Parece que tu autenticador no admite la extensión PRF de WebAuthn, que w3pk necesita para mantener las sesiones activas de forma segura. Tu sesión permanecerá solo en memoria: terminará al cerrar la pestaña, y cada visita te pedirá tu biometría/PIN. Todo lo demás funciona con normalidad.',
+        'No hay ninguna sesión almacenada en este dispositivo. Parece que tu autenticador no admite la extensión PRF de WebAuthn, que w3pk necesita para mantener las sesiones activas de forma segura. Tu sesión permanecerá solo en memoria: terminará al cerrar la pestaña, y cada visita te pedirá tu clave de acceso. Todo lo demás funciona con normalidad.',
       sessionDurationLabel: 'Duración de la sesión',
       dayLabel: n => `${n} día${n > 1 ? 's' : ''}`,
       oneDayLabel: '1 día',
       thirtyDaysLabel: '30 días',
       sessionHowItWorksTitle: 'Cómo funciona:',
       sessionHowItWorksText:
-        'Cada vez que inicias sesión con tu biometría/PIN, tu autenticador libera un secreto respaldado por hardware (extensión PRF de WebAuthn) que cifra tu sesión en este dispositivo; nada almacenado en disco puede recrear esa clave. La cuenta regresiva se reinicia en cada inicio de sesión real: con una duración de 7 días, iniciar sesión hoy te mantiene conectado hasta dentro de 7 días, momento en el que se te pedirá una vez y la sesión se volverá a cifrar con una clave nueva.',
+        'Cada vez que inicias sesión con tu clave de acceso, tu autenticador libera un secreto respaldado por hardware (extensión PRF de WebAuthn) que cifra tu sesión en este dispositivo; nada almacenado en disco puede recrear esa clave. La cuenta regresiva se reinicia en cada inicio de sesión real: con una duración de 7 días, iniciar sesión hoy te mantiene conectado hasta dentro de 7 días, momento en el que se te pedirá una vez y la sesión se volverá a cifrar con una clave nueva.',
 
       walletBackupHeading: 'Copia de seguridad de la billetera',
       walletBackupDescription:
@@ -2314,16 +2314,16 @@ export const translations: Translations = {
 
       sessionHeading: 'Garder ma session active',
       sessionDescription:
-        "Définissez la durée pendant laquelle votre session doit rester active sans demande de clé d'accès. Une fois expirée, votre prochaine visite vous demandera une fois votre biométrie/code PIN et démarrera une nouvelle session — c'est donc aussi la fréquence à laquelle vous vous réauthentifiez. Ce paramètre s'applique uniquement aux modes STANDARD et YOLO. Les modes STRICT et PRIMARY exigent toujours une authentification à chaque fois et n'utilisent pas de sessions persistantes.",
+        "Définissez la durée pendant laquelle votre session doit rester active sans demande de clé d'accès. Une fois expirée, votre prochaine visite vous demandera une fois votre clé d'accès et démarrera une nouvelle session — c'est donc aussi la fréquence à laquelle vous vous réauthentifiez. Ce paramètre s'applique uniquement aux modes STANDARD et YOLO. Les modes STRICT et PRIMARY exigent toujours une authentification à chaque fois et n'utilisent pas de sessions persistantes.",
       noStoredSessionText:
-        "Aucune session stockée sur cet appareil. Votre authentificateur ne semble pas prendre en charge l'extension WebAuthn PRF, requise par w3pk pour maintenir les sessions actives de manière sécurisée. Votre session restera uniquement en mémoire : elle se termine à la fermeture de l'onglet, et chaque visite vous demandera votre biométrie/code PIN. Tout le reste fonctionne normalement.",
+        "Aucune session stockée sur cet appareil. Votre authentificateur ne semble pas prendre en charge l'extension WebAuthn PRF, requise par w3pk pour maintenir les sessions actives de manière sécurisée. Votre session restera uniquement en mémoire : elle se termine à la fermeture de l'onglet, et chaque visite vous demandera votre clé d'accès. Tout le reste fonctionne normalement.",
       sessionDurationLabel: 'Durée de la session',
       dayLabel: n => `${n} jour${n > 1 ? 's' : ''}`,
       oneDayLabel: '1 jour',
       thirtyDaysLabel: '30 jours',
       sessionHowItWorksTitle: 'Comment ça marche :',
       sessionHowItWorksText:
-        "Chaque fois que vous vous connectez avec votre biométrie/code PIN, votre authentificateur libère un secret matériel (extension WebAuthn PRF) qui chiffre votre session sur cet appareil — rien de ce qui est stocké sur le disque ne peut recréer cette clé. Le compte à rebours redémarre à chaque connexion réelle : avec une durée de 7 jours, vous connecter aujourd'hui vous maintient connecté jusqu'à 7 jours à partir d'aujourd'hui, moment où il vous sera demandé une fois de vous authentifier et où la session sera rechiffrée avec une nouvelle clé.",
+        "Chaque fois que vous vous connectez avec votre clé d'accès, votre authentificateur libère un secret matériel (extension WebAuthn PRF) qui chiffre votre session sur cet appareil — rien de ce qui est stocké sur le disque ne peut recréer cette clé. Le compte à rebours redémarre à chaque connexion réelle : avec une durée de 7 jours, vous connecter aujourd'hui vous maintient connecté jusqu'à 7 jours à partir d'aujourd'hui, moment où il vous sera demandé une fois de vous authentifier et où la session sera rechiffrée avec une nouvelle clé.",
 
       walletBackupHeading: 'Sauvegarde du portefeuille',
       walletBackupDescription:
@@ -2792,16 +2792,16 @@ export const translations: Translations = {
 
       sessionHeading: 'إبقاء جلستي نشطة',
       sessionDescription:
-        'حدد المدة التي تظل خلالها جلستك نشطة دون طلب مفتاح المرور. عند انتهائها، ستطلب زيارتك التالية بصمتك البيومترية/رمز PIN مرة واحدة وتبدأ جلسة جديدة — وهذا يحدد أيضاً وتيرة إعادة المصادقة. ينطبق هذا الإعداد فقط على وضعي STANDARD وYOLO. تتطلب وضعا STRICT وPRIMARY دائماً مصادقة جديدة ولا يستخدمان جلسات دائمة.',
+        'حدد المدة التي تظل خلالها جلستك نشطة دون طلب مفتاح المرور. عند انتهائها، ستطلب زيارتك التالية مفتاح المرور الخاص بك مرة واحدة وتبدأ جلسة جديدة — وهذا يحدد أيضاً وتيرة إعادة المصادقة. ينطبق هذا الإعداد فقط على وضعي STANDARD وYOLO. تتطلب وضعا STRICT وPRIMARY دائماً مصادقة جديدة ولا يستخدمان جلسات دائمة.',
       noStoredSessionText:
-        'لا توجد جلسة مخزنة على هذا الجهاز. يبدو أن جهاز المصادقة الخاص بك لا يدعم امتداد WebAuthn PRF، الذي يحتاجه w3pk للحفاظ على الجلسات نشطة بأمان. ستبقى جلستك في الذاكرة فقط: تنتهي عند إغلاق التبويب، وستطلب كل زيارة بصمتك البيومترية/رمز PIN. كل شيء آخر يعمل بشكل طبيعي.',
+        'لا توجد جلسة مخزنة على هذا الجهاز. يبدو أن جهاز المصادقة الخاص بك لا يدعم امتداد WebAuthn PRF، الذي يحتاجه w3pk للحفاظ على الجلسات نشطة بأمان. ستبقى جلستك في الذاكرة فقط: تنتهي عند إغلاق التبويب، وستطلب كل زيارة مفتاح المرور الخاص بك. كل شيء آخر يعمل بشكل طبيعي.',
       sessionDurationLabel: 'مدة الجلسة',
       dayLabel: n => `${n} يوم`,
       oneDayLabel: 'يوم واحد',
       thirtyDaysLabel: '30 يوماً',
       sessionHowItWorksTitle: 'كيف يعمل:',
       sessionHowItWorksText:
-        'في كل مرة تسجل فيها الدخول ببصمتك البيومترية/رمز PIN، يصدر جهاز المصادقة الخاص بك سراً مدعوماً بالأجهزة (امتداد WebAuthn PRF) يقوم بتشفير جلستك على هذا الجهاز — ولا يمكن لأي شيء مخزن على القرص إعادة إنشاء هذا المفتاح. يبدأ العد التنازلي من جديد عند كل تسجيل دخول فعلي: مع مدة 7 أيام، يبقيك تسجيل الدخول اليوم متصلاً حتى مرور 7 أيام من اليوم، حيث سيُطلب منك ذلك مرة واحدة ويُعاد تشفير الجلسة بمفتاح جديد.',
+        'في كل مرة تسجل فيها الدخول بمفتاح المرور الخاص بك، يصدر جهاز المصادقة الخاص بك سراً مدعوماً بالأجهزة (امتداد WebAuthn PRF) يقوم بتشفير جلستك على هذا الجهاز — ولا يمكن لأي شيء مخزن على القرص إعادة إنشاء هذا المفتاح. يبدأ العد التنازلي من جديد عند كل تسجيل دخول فعلي: مع مدة 7 أيام، يبقيك تسجيل الدخول اليوم متصلاً حتى مرور 7 أيام من اليوم، حيث سيُطلب منك ذلك مرة واحدة ويُعاد تشفير الجلسة بمفتاح جديد.',
 
       walletBackupHeading: 'النسخ الاحتياطي للمحفظة',
       walletBackupDescription:
@@ -3242,16 +3242,16 @@ export const translations: Translations = {
 
       sessionHeading: 'আমার সেশন সচল রাখুন',
       sessionDescription:
-        'পাসকী প্রম্পট ছাড়া আপনার সেশন কতক্ষণ সক্রিয় থাকবে তা নির্ধারণ করুন। মেয়াদ শেষ হলে, আপনার পরবর্তী ভিজিটে একবার আপনার বায়োমেট্রিক/পিন চাওয়া হবে এবং একটি নতুন সেশন শুরু হবে — অর্থাৎ এটি নির্ধারণ করে আপনি কতবার পুনরায় প্রমাণীকরণ করবেন। এই সেটিংটি শুধুমাত্র STANDARD এবং YOLO মোডে প্রযোজ্য। STRICT এবং PRIMARY মোডে সর্বদা নতুন প্রমাণীকরণ প্রয়োজন এবং সেগুলি স্থায়ী সেশন ব্যবহার করে না।',
+        'পাসকী প্রম্পট ছাড়া আপনার সেশন কতক্ষণ সক্রিয় থাকবে তা নির্ধারণ করুন। মেয়াদ শেষ হলে, আপনার পরবর্তী ভিজিটে একবার আপনার পাসকী চাওয়া হবে এবং একটি নতুন সেশন শুরু হবে — অর্থাৎ এটি নির্ধারণ করে আপনি কতবার পুনরায় প্রমাণীকরণ করবেন। এই সেটিংটি শুধুমাত্র STANDARD এবং YOLO মোডে প্রযোজ্য। STRICT এবং PRIMARY মোডে সর্বদা নতুন প্রমাণীকরণ প্রয়োজন এবং সেগুলি স্থায়ী সেশন ব্যবহার করে না।',
       noStoredSessionText:
-        'এই ডিভাইসে কোনো সংরক্ষিত সেশন নেই। আপনার প্রমাণীকারী WebAuthn PRF এক্সটেনশন সমর্থন করে বলে মনে হচ্ছে না, যা সেশন নিরাপদে সচল রাখার জন্য w3pk-এর প্রয়োজন। আপনার সেশন শুধুমাত্র মেমরিতে থাকবে: ট্যাব বন্ধ করলে এটি শেষ হয়ে যাবে, এবং প্রতিটি ভিজিটে আপনার বায়োমেট্রিক/পিন চাওয়া হবে। বাকি সবকিছু স্বাভাবিকভাবে কাজ করবে।',
+        'এই ডিভাইসে কোনো সংরক্ষিত সেশন নেই। আপনার প্রমাণীকারী WebAuthn PRF এক্সটেনশন সমর্থন করে বলে মনে হচ্ছে না, যা সেশন নিরাপদে সচল রাখার জন্য w3pk-এর প্রয়োজন। আপনার সেশন শুধুমাত্র মেমরিতে থাকবে: ট্যাব বন্ধ করলে এটি শেষ হয়ে যাবে, এবং প্রতিটি ভিজিটে আপনার পাসকী চাওয়া হবে। বাকি সবকিছু স্বাভাবিকভাবে কাজ করবে।',
       sessionDurationLabel: 'সেশনের মেয়াদ',
       dayLabel: n => `${n} দিন`,
       oneDayLabel: '১ দিন',
       thirtyDaysLabel: '৩০ দিন',
       sessionHowItWorksTitle: 'এটি যেভাবে কাজ করে:',
       sessionHowItWorksText:
-        'প্রতিবার আপনি আপনার বায়োমেট্রিক/পিন দিয়ে লগইন করলে, আপনার প্রমাণীকারী একটি হার্ডওয়্যার-সমর্থিত সিক্রেট (WebAuthn PRF এক্সটেনশন) প্রকাশ করে যা এই ডিভাইসে আপনার সেশন এনক্রিপ্ট করে — ডিস্কে সংরক্ষিত কোনো কিছু দিয়ে সেই কী পুনরায় তৈরি করা যায় না। প্রতিটি প্রকৃত লগইনে কাউন্টডাউন নতুন করে শুরু হয়: ৭ দিনের মেয়াদ সহ, আজ লগইন করলে আপনি আজ থেকে ৭ দিন পর্যন্ত সাইন-ইন অবস্থায় থাকবেন, তখন আপনাকে একবার প্রম্পট করা হবে এবং সেশনটি একটি নতুন কী দিয়ে পুনরায় এনক্রিপ্ট করা হবে।',
+        'প্রতিবার আপনি আপনার পাসকী দিয়ে লগইন করলে, আপনার প্রমাণীকারী একটি হার্ডওয়্যার-সমর্থিত সিক্রেট (WebAuthn PRF এক্সটেনশন) প্রকাশ করে যা এই ডিভাইসে আপনার সেশন এনক্রিপ্ট করে — ডিস্কে সংরক্ষিত কোনো কিছু দিয়ে সেই কী পুনরায় তৈরি করা যায় না। প্রতিটি প্রকৃত লগইনে কাউন্টডাউন নতুন করে শুরু হয়: ৭ দিনের মেয়াদ সহ, আজ লগইন করলে আপনি আজ থেকে ৭ দিন পর্যন্ত সাইন-ইন অবস্থায় থাকবেন, তখন আপনাকে একবার প্রম্পট করা হবে এবং সেশনটি একটি নতুন কী দিয়ে পুনরায় এনক্রিপ্ট করা হবে।',
 
       walletBackupHeading: 'ওয়ালেট ব্যাকআপ',
       walletBackupDescription:
@@ -3714,16 +3714,16 @@ export const translations: Translations = {
 
       sessionHeading: 'Поддерживать сессию активной',
       sessionDescription:
-        'Укажите, как долго ваша сессия должна оставаться активной без запроса ключа доступа. По истечении этого срока при следующем посещении один раз запрашивается биометрия/PIN-код и начинается новая сессия — то есть это значение также определяет, как часто вы будете проходить повторную аутентификацию. Эта настройка применяется только к режимам STANDARD и YOLO. Режимы STRICT и PRIMARY всегда требуют новой аутентификации и не используют постоянные сессии.',
+        'Укажите, как долго ваша сессия должна оставаться активной без запроса ключа доступа. По истечении этого срока при следующем посещении один раз запрашивается ключ доступа и начинается новая сессия — то есть это значение также определяет, как часто вы будете проходить повторную аутентификацию. Эта настройка применяется только к режимам STANDARD и YOLO. Режимы STRICT и PRIMARY всегда требуют новой аутентификации и не используют постоянные сессии.',
       noStoredSessionText:
-        'На этом устройстве нет сохранённой сессии. Похоже, ваш аутентификатор не поддерживает расширение WebAuthn PRF, которое требуется w3pk для безопасного поддержания сессий. Ваша сессия будет храниться только в памяти: она завершается при закрытии вкладки, и при каждом посещении будет запрашиваться биометрия/PIN-код. Всё остальное работает в обычном режиме.',
+        'На этом устройстве нет сохранённой сессии. Похоже, ваш аутентификатор не поддерживает расширение WebAuthn PRF, которое требуется w3pk для безопасного поддержания сессий. Ваша сессия будет храниться только в памяти: она завершается при закрытии вкладки, и при каждом посещении будет запрашиваться ключ доступа. Всё остальное работает в обычном режиме.',
       sessionDurationLabel: 'Длительность сессии',
       dayLabel: n => `${n} ${ruPlural(n, 'день', 'дня', 'дней')}`,
       oneDayLabel: '1 день',
       thirtyDaysLabel: '30 дней',
       sessionHowItWorksTitle: 'Как это работает:',
       sessionHowItWorksText:
-        'Каждый раз, когда вы входите с помощью биометрии/PIN-кода, ваш аутентификатор выдаёт аппаратно защищённый секрет (расширение WebAuthn PRF), который шифрует вашу сессию на этом устройстве — ничто из сохранённого на диске не позволяет воссоздать этот ключ. Отсчёт начинается заново при каждом реальном входе: при длительности сессии 7 дней вход сегодня сохранит вас в системе на 7 дней, после чего система один раз запросит подтверждение, и сессия будет заново зашифрована новым ключом.',
+        'Каждый раз, когда вы входите с помощью ключа доступа, ваш аутентификатор выдаёт аппаратно защищённый секрет (расширение WebAuthn PRF), который шифрует вашу сессию на этом устройстве — ничто из сохранённого на диске не позволяет воссоздать этот ключ. Отсчёт начинается заново при каждом реальном входе: при длительности сессии 7 дней вход сегодня сохранит вас в системе на 7 дней, после чего система один раз запросит подтверждение, и сессия будет заново зашифрована новым ключом.',
 
       walletBackupHeading: 'Резервное копирование кошелька',
       walletBackupDescription:
@@ -4187,16 +4187,16 @@ export const translations: Translations = {
 
       sessionHeading: 'Manter a minha sessão ativa',
       sessionDescription:
-        'Defina durante quanto tempo a sua sessão deve permanecer ativa sem pedir a chave de acesso. Quando expirar, a sua próxima visita pedirá a sua biometria/PIN uma vez e iniciará uma nova sessão — por isso, isto também determina a frequência com que volta a autenticar-se. Esta configuração aplica-se apenas aos modos STANDARD e YOLO. Os modos STRICT e PRIMARY exigem sempre uma nova autenticação e não utilizam sessões persistentes.',
+        'Defina durante quanto tempo a sua sessão deve permanecer ativa sem pedir a chave de acesso. Quando expirar, a sua próxima visita pedirá a sua chave de acesso uma vez e iniciará uma nova sessão — por isso, isto também determina a frequência com que volta a autenticar-se. Esta configuração aplica-se apenas aos modos STANDARD e YOLO. Os modos STRICT e PRIMARY exigem sempre uma nova autenticação e não utilizam sessões persistentes.',
       noStoredSessionText:
-        'Nenhuma sessão armazenada neste dispositivo. O seu autenticador não parece suportar a extensão WebAuthn PRF, que o w3pk requer para manter as sessões ativas com segurança. A sua sessão permanecerá apenas em memória: termina quando fechar o separador, e cada visita pedirá a sua biometria/PIN. Tudo o resto funciona normalmente.',
+        'Nenhuma sessão armazenada neste dispositivo. O seu autenticador não parece suportar a extensão WebAuthn PRF, que o w3pk requer para manter as sessões ativas com segurança. A sua sessão permanecerá apenas em memória: termina quando fechar o separador, e cada visita pedirá a sua chave de acesso. Tudo o resto funciona normalmente.',
       sessionDurationLabel: 'Duração da sessão',
       dayLabel: n => `${n} dia${n > 1 ? 's' : ''}`,
       oneDayLabel: '1 dia',
       thirtyDaysLabel: '30 dias',
       sessionHowItWorksTitle: 'Como funciona:',
       sessionHowItWorksText:
-        'Sempre que inicia sessão com a sua biometria/PIN, o seu autenticador liberta um segredo protegido por hardware (extensão WebAuthn PRF) que encripta a sua sessão neste dispositivo — nada armazenado em disco consegue recriar essa chave. A contagem decrescente recomeça a cada início de sessão real: com uma duração de 7 dias, iniciar sessão hoje mantém-no autenticado até 7 dias a partir de hoje, altura em que lhe será pedido uma vez e a sessão será reencriptada com uma nova chave.',
+        'Sempre que inicia sessão com a sua chave de acesso, o seu autenticador liberta um segredo protegido por hardware (extensão WebAuthn PRF) que encripta a sua sessão neste dispositivo — nada armazenado em disco consegue recriar essa chave. A contagem decrescente recomeça a cada início de sessão real: com uma duração de 7 dias, iniciar sessão hoje mantém-no autenticado até 7 dias a partir de hoje, altura em que lhe será pedido uma vez e a sessão será reencriptada com uma nova chave.',
 
       walletBackupHeading: 'Cópia de segurança da carteira',
       walletBackupDescription:
@@ -4663,16 +4663,16 @@ export const translations: Translations = {
 
       sessionHeading: 'میرا سیشن فعال رکھیں',
       sessionDescription:
-        'مقرر کریں کہ آپ کا سیشن بغیر پاس کی پرامپٹ کے کتنی دیر فعال رہے۔ جب یہ ختم ہو جائے، تو آپ کا اگلا وزٹ ایک بار آپ کا بائیومیٹرک/پن مانگے گا اور ایک نیا سیشن شروع کرے گا — یعنی یہ بھی طے کرتا ہے کہ آپ کتنی بار دوبارہ توثیق کرتے ہیں۔ یہ ترتیب صرف STANDARD اور YOLO موڈز پر لاگو ہوتی ہے۔ STRICT اور PRIMARY موڈز ہمیشہ نئی توثیق کا تقاضا کرتے ہیں اور مستقل سیشنز استعمال نہیں کرتے۔',
+        'مقرر کریں کہ آپ کا سیشن بغیر پاس کی پرامپٹ کے کتنی دیر فعال رہے۔ جب یہ ختم ہو جائے، تو آپ کا اگلا وزٹ ایک بار آپ کی پاس کی مانگے گا اور ایک نیا سیشن شروع کرے گا — یعنی یہ بھی طے کرتا ہے کہ آپ کتنی بار دوبارہ توثیق کرتے ہیں۔ یہ ترتیب صرف STANDARD اور YOLO موڈز پر لاگو ہوتی ہے۔ STRICT اور PRIMARY موڈز ہمیشہ نئی توثیق کا تقاضا کرتے ہیں اور مستقل سیشنز استعمال نہیں کرتے۔',
       noStoredSessionText:
-        'اس ڈیوائس پر کوئی محفوظ شدہ سیشن نہیں ہے۔ ایسا لگتا ہے کہ آپ کا آتھینٹیکیٹر WebAuthn PRF ایکسٹینشن کو سپورٹ نہیں کرتا، جو w3pk کو سیشنز کو محفوظ طریقے سے فعال رکھنے کے لیے درکار ہے۔ آپ کا سیشن صرف میموری میں رہے گا: یہ ٹیب بند کرنے پر ختم ہو جاتا ہے، اور ہر وزٹ پر آپ کا بائیومیٹرک/پن مانگا جائے گا۔ باقی سب کچھ معمول کے مطابق کام کرتا ہے۔',
+        'اس ڈیوائس پر کوئی محفوظ شدہ سیشن نہیں ہے۔ ایسا لگتا ہے کہ آپ کا آتھینٹیکیٹر WebAuthn PRF ایکسٹینشن کو سپورٹ نہیں کرتا، جو w3pk کو سیشنز کو محفوظ طریقے سے فعال رکھنے کے لیے درکار ہے۔ آپ کا سیشن صرف میموری میں رہے گا: یہ ٹیب بند کرنے پر ختم ہو جاتا ہے، اور ہر وزٹ پر آپ کی پاس کی مانگی جائے گی۔ باقی سب کچھ معمول کے مطابق کام کرتا ہے۔',
       sessionDurationLabel: 'سیشن کا دورانیہ',
       dayLabel: n => `${n} دن`,
       oneDayLabel: '1 دن',
       thirtyDaysLabel: '30 دن',
       sessionHowItWorksTitle: 'یہ کیسے کام کرتا ہے:',
       sessionHowItWorksText:
-        'ہر بار جب آپ اپنے بائیومیٹرک/پن سے لاگ ان کرتے ہیں، آپ کا آتھینٹیکیٹر ایک ہارڈویئر بیسڈ سیکرٹ (WebAuthn PRF ایکسٹینشن) جاری کرتا ہے جو اس ڈیوائس پر آپ کے سیشن کو خفیہ کرتا ہے — ڈسک پر محفوظ کوئی بھی چیز اس کلید کو دوبارہ نہیں بنا سکتی۔ ہر حقیقی لاگ ان پر کاؤنٹ ڈاؤن نئے سرے سے شروع ہوتا ہے: 7 دن کے دورانیے کے ساتھ، آج لاگ ان کرنے سے آپ آج سے 7 دن تک سائن ان رہیں گے، جس کے بعد آپ سے ایک بار پرامپٹ کیا جائے گا اور سیشن کو ایک نئی کلید کے تحت دوبارہ خفیہ کیا جائے گا۔',
+        'ہر بار جب آپ اپنی پاس کی سے لاگ ان کرتے ہیں، آپ کا آتھینٹیکیٹر ایک ہارڈویئر بیسڈ سیکرٹ (WebAuthn PRF ایکسٹینشن) جاری کرتا ہے جو اس ڈیوائس پر آپ کے سیشن کو خفیہ کرتا ہے — ڈسک پر محفوظ کوئی بھی چیز اس کلید کو دوبارہ نہیں بنا سکتی۔ ہر حقیقی لاگ ان پر کاؤنٹ ڈاؤن نئے سرے سے شروع ہوتا ہے: 7 دن کے دورانیے کے ساتھ، آج لاگ ان کرنے سے آپ آج سے 7 دن تک سائن ان رہیں گے، جس کے بعد آپ سے ایک بار پرامپٹ کیا جائے گا اور سیشن کو ایک نئی کلید کے تحت دوبارہ خفیہ کیا جائے گا۔',
 
       walletBackupHeading: 'والیٹ بیک اپ',
       walletBackupDescription:
