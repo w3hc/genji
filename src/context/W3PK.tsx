@@ -322,6 +322,7 @@ export const W3pkProvider: React.FC<W3pkProviderProps> = ({ children }) => {
       createWeb3Passkey({
         stealthAddresses: {},
         onAuthStateChanged: handleAuthStateChanged,
+        userVerification: 'preferred', // Security keys and password managers log in in one click
         sessionDuration: 24, // 24 hours session duration
         persistentSession: {
           enabled: true,
