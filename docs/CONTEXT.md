@@ -42,7 +42,7 @@
    - Security scoring and recovery recommendations
    - Backup step after registration ([BackupStep.tsx](../src/components/BackupStep.tsx)), blocking, on Safari only
    - Home Screen or backup choice before registration on iPhone and iPad ([HomeScreenChoice.tsx](../src/components/HomeScreenChoice.tsx)), in a browser tab with storage not persisted
-   - Passwordless device sync ([SyncImport.tsx](../src/components/SyncImport.tsx)): a sync file from `exportForSync()` is locked to the passkey through WebAuthn PRF and imports with one prompt on any device where the passkey synced, with a password fallback where PRF is missing
+   - Passwordless device sync ([SyncImport.tsx](../src/components/SyncImport.tsx)): a sync file from `exportForSync()` is locked to the passkey through WebAuthn PRF and imports with one prompt on any device where the passkey synced, with a password fallback where PRF is missing. Its QR code is a sync link ([syncLink.ts](../src/utils/syncLink.ts)) that carries the file after `#sync=`, so scanning it opens Settings ready to sync
    - Three-layer recovery architecture:
      1. Passkey auto-sync (iCloud Keychain, Google Password Manager, etc.)
      2. Encrypted backup files (user-generated)
@@ -85,6 +85,7 @@ src/
    �� i18n.ts             # Language detection
    �� browserDetection.ts # WebAuthn capability check, iOS detection
    �� storageInspection.ts # localStorage inspection tools
+   �� syncLink.ts         # Sync link encoding for the QR code
 �� theme/
    �� index.ts            # Brand colors (Purple #8c1c84, Blue #45a2f8)
    �� system.ts           # Chakra theme config
