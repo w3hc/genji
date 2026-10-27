@@ -59,7 +59,8 @@
       "source-map-js@1": ">=1.2.2 <2",
       "sharp@<0.35.5": ">=0.35.5",
       "baseline-browser-mapping@2": ">=2.11.0 <3",
-      "esbuild@>=0.27.3 <0.28.1": ">=0.28.1"
+      "esbuild@>=0.27.3 <0.28.1": ">=0.28.1",
+      "circomlibjs": "-"
     },
     "onlyBuiltDependencies": [
       "blake-hash",
