@@ -321,7 +321,6 @@ type TranslationKeys = {
     title: string
     description: string
     safariWarning: string
-    homeScreenHint: string
     iosWarning: string
     downloadButton: string
     passwordModalTitle: string
@@ -774,7 +773,6 @@ export const translations: Translations = {
         'Your wallet is stored only in this browser. If its data is wiped, a backup file is the only way to get your wallet back.',
       safariWarning:
         "Safari deletes this site's data after 7 days without a visit. Without a backup, your wallet would be lost.",
-      homeScreenHint: 'Add this app to your Home Screen: Safari then keeps its data.',
       iosWarning:
         "On iPhone and iPad, every browser deletes this site's data after 7 days without a visit",
       downloadButton: 'Download a backup file',
@@ -1203,7 +1201,6 @@ export const translations: Translations = {
       title: '备份您的钱包',
       description: '您的钱包仅存储在此浏览器中。如果其数据被清除，备份文件是找回钱包的唯一方式。',
       safariWarning: 'Safari 会在 7 天未访问后删除此网站的数据。没有备份，您的钱包将会丢失。',
-      homeScreenHint: '将此应用添加到主屏幕：Safari 将会保留其数据。',
       iosWarning: '在 iPhone 和 iPad 上，所有浏览器都会在 7 天未访问后删除此网站的数据',
       downloadButton: '下载备份文件',
       passwordModalTitle: '保护您的备份',
@@ -1661,7 +1658,6 @@ export const translations: Translations = {
         'आपका वॉलेट केवल इसी ब्राउज़र में संग्रहीत है। यदि इसका डेटा मिट जाता है, तो बैकअप फ़ाइल ही आपका वॉलेट वापस पाने का एकमात्र तरीका है।',
       safariWarning:
         'Safari 7 दिनों तक साइट पर न आने पर इसका डेटा हटा देता है। बैकअप के बिना आपका वॉलेट खो जाएगा।',
-      homeScreenHint: 'इस ऐप को अपनी होम स्क्रीन पर जोड़ें: तब Safari इसका डेटा सुरक्षित रखता है।',
       iosWarning: 'iPhone और iPad पर, हर ब्राउज़र 7 दिन तक न आने पर इस साइट का डेटा हटा देता है',
       downloadButton: 'बैकअप फ़ाइल डाउनलोड करें',
       passwordModalTitle: 'अपने बैकअप को सुरक्षित करें',
@@ -2134,7 +2130,6 @@ export const translations: Translations = {
         'Tu billetera solo está guardada en este navegador. Si sus datos se borran, un archivo de copia de seguridad es la única forma de recuperarla.',
       safariWarning:
         'Safari borra los datos de este sitio tras 7 días sin visitarlo. Sin una copia de seguridad, perderías tu billetera.',
-      homeScreenHint: 'Añade esta app a tu pantalla de inicio: así Safari conserva sus datos.',
       iosWarning:
         'En iPhone y iPad, todos los navegadores borran los datos de este sitio tras 7 días sin visitarlo',
       downloadButton: 'Descargar un archivo de copia de seguridad',
@@ -2615,8 +2610,6 @@ export const translations: Translations = {
         'Votre portefeuille est stocké uniquement dans ce navigateur. Si ses données sont effacées, un fichier de sauvegarde est le seul moyen de le récupérer.',
       safariWarning:
         'Safari supprime les données de ce site après 7 jours sans visite. Sans sauvegarde, votre portefeuille serait perdu.',
-      homeScreenHint:
-        "Ajoutez cette app à votre écran d'accueil : Safari conserve alors ses données.",
       iosWarning:
         'Sur iPhone et iPad, tous les navigateurs suppriment les données de ce site après 7 jours sans visite',
       downloadButton: 'Télécharger un fichier de sauvegarde',
@@ -3073,7 +3066,6 @@ export const translations: Translations = {
         'محفظتك مخزّنة في هذا المتصفح فقط. إذا مُسحت بياناته، فملف النسخة الاحتياطية هو الطريقة الوحيدة لاستعادة محفظتك.',
       safariWarning:
         'يحذف Safari بيانات هذا الموقع بعد 7 أيام دون زيارة. بدون نسخة احتياطية ستفقد محفظتك.',
-      homeScreenHint: 'أضف هذا التطبيق إلى شاشتك الرئيسية: عندها يحتفظ Safari ببياناته.',
       iosWarning: 'على iPhone وiPad، تحذف كل المتصفحات بيانات هذا الموقع بعد 7 أيام دون زيارة',
       downloadButton: 'تنزيل ملف النسخة الاحتياطية',
       passwordModalTitle: 'احمِ نسختك الاحتياطية',
@@ -3541,7 +3533,6 @@ export const translations: Translations = {
         'আপনার ওয়ালেট শুধুমাত্র এই ব্রাউজারে সংরক্ষিত। এর ডেটা মুছে গেলে, ব্যাকআপ ফাইলই ওয়ালেট ফিরে পাওয়ার একমাত্র উপায়।',
       safariWarning:
         'Safari ৭ দিন সাইটে না এলে এর ডেটা মুছে ফেলে। ব্যাকআপ ছাড়া আপনার ওয়ালেট হারিয়ে যাবে।',
-      homeScreenHint: 'এই অ্যাপটি আপনার হোম স্ক্রিনে যোগ করুন: তখন Safari এর ডেটা রেখে দেয়।',
       iosWarning: 'iPhone এবং iPad-এ, প্রতিটি ব্রাউজার ৭ দিন না দেখলে এই সাইটের ডেটা মুছে ফেলে',
       downloadButton: 'ব্যাকআপ ফাইল ডাউনলোড করুন',
       passwordModalTitle: 'আপনার ব্যাকআপ সুরক্ষিত করুন',
@@ -4015,7 +4006,6 @@ export const translations: Translations = {
         'Ваш кошелёк хранится только в этом браузере. Если его данные будут удалены, резервный файл — единственный способ вернуть кошелёк.',
       safariWarning:
         'Safari удаляет данные этого сайта, если его не открывали 7 дней. Без резервной копии кошелёк будет потерян.',
-      homeScreenHint: 'Добавьте это приложение на экран «Домой»: тогда Safari сохранит его данные.',
       iosWarning:
         'На iPhone и iPad все браузеры удаляют данные этого сайта, если его не посещать 7 дней',
       downloadButton: 'Скачать резервный файл',
@@ -4491,7 +4481,6 @@ export const translations: Translations = {
         'A sua carteira está guardada apenas neste navegador. Se os dados forem apagados, um ficheiro de cópia de segurança é a única forma de a recuperar.',
       safariWarning:
         'O Safari apaga os dados deste site após 7 dias sem visita. Sem uma cópia de segurança, perderia a sua carteira.',
-      homeScreenHint: 'Adicione esta app ao ecrã principal: assim o Safari mantém os dados.',
       iosWarning:
         'No iPhone e iPad, todos os navegadores apagam os dados deste site após 7 dias sem visita',
       downloadButton: 'Transferir um ficheiro de cópia de segurança',
@@ -4959,8 +4948,6 @@ export const translations: Translations = {
         'آپ کا والیٹ صرف اسی براؤزر میں محفوظ ہے۔ اگر اس کا ڈیٹا مٹ جائے تو بیک اپ فائل ہی والیٹ واپس پانے کا واحد طریقہ ہے۔',
       safariWarning:
         'Safari سات دن تک سائٹ پر نہ آنے پر اس کا ڈیٹا حذف کر دیتا ہے۔ بیک اپ کے بغیر آپ کا والیٹ ضائع ہو جائے گا۔',
-      homeScreenHint:
-        'اس ایپ کو اپنی ہوم اسکرین پر شامل کریں: پھر Safari اس کا ڈیٹا برقرار رکھتا ہے۔',
       iosWarning: 'iPhone اور iPad پر، ہر براؤزر 7 دن تک نہ آنے پر اس سائٹ کا ڈیٹا حذف کر دیتا ہے',
       downloadButton: 'بیک اپ فائل ڈاؤن لوڈ کریں',
       passwordModalTitle: 'اپنے بیک اپ کو محفوظ کریں',
