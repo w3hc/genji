@@ -8,6 +8,7 @@
 - Settings → Security Status warns when `getBackupStatus()` reports `evictionRisk`
 - `SyncImport.tsx` is chassis in `.genji-sync.json`
 - On iPhone and iPad in a browser tab, with storage not persisted, opening registration first offers a choice (`HomeScreenChoice.tsx`): Add to Home Screen shows the install steps and creates no wallet in the browser; Back up goes on to registration and the backup step. `isStandalone()` and `hasIOSEvictionRisk()` in `src/utils/browserDetection.ts` run this check before registration, since w3pk's `evictionRisk` is only known after it
+- The registration dialog says "No built-in authenticator found: use your phone or a security key" when `isPlatformAuthenticatorAvailable()` returns false
 
 ### Changed
 
@@ -15,6 +16,8 @@
 - Restoring a backup while logged out first restores into a passkey already synced to the device through `syncWalletWithPasskey()`, and only asks for a username and creates a new passkey when there is none
 - The backup step after registration uses w3pk's `register().evictionRisk` instead of genji's own Safari check
 - On iOS, the backup step warns that every browser on iPhone and iPad deletes the site's data after 7 days without a visit, instead of blaming Safari; Safari on macOS keeps the current warning
+- Genji passes `userVerification: 'preferred'` to `createWeb3Passkey`: a security key or an unlocked password manager logs in with one click, and a computer with no built-in authenticator registers through a phone or a security key
+- The security paragraph and the session texts no longer promise a biometric check; they ask for your passkey
 
 - `/api/subscribe` writes to the shared `leads` table (`first_name`, `email`, `topic`) through `pg`, with topic `genji`, and ignores duplicates on `(email, topic)`
 - The About page subscription form has an optional first-name field
