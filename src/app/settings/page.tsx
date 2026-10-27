@@ -22,7 +22,6 @@ import {
   Flex,
   CloseButton,
   Textarea,
-  Image,
 } from '@chakra-ui/react'
 import { Button } from '@/components/ui/button'
 import { IconButton } from '@/components/ui/icon-button'
@@ -49,6 +48,7 @@ import { useTranslation } from '@/hooks/useTranslation'
 import Spinner from '@/components/Spinner'
 import PasswordModal from '@/components/PasswordModal'
 import SyncImport from '@/components/SyncImport'
+import { buildSyncLink, fitsInQrCode } from '@/utils/syncLink'
 import { CodeBlock } from '@/components/CodeBlock'
 import { detectBrowser, isWebAuthnAvailable } from '@/utils/browserDetection'
 import { brandColors } from '@/theme'
@@ -104,7 +104,7 @@ const SettingsPage = () => {
   const [openbarAddress, setOpenbarAddress] = useState<string>('')
   const [isLoadingAddresses, setIsLoadingAddresses] = useState(false)
   const [isExportingSync, setIsExportingSync] = useState(false)
-  const [syncQrCode, setSyncQrCode] = useState<string | null>(null)
+  const [syncLink, setSyncLink] = useState<string | null>(null)
   const [showSyncPasswordModal, setShowSyncPasswordModal] = useState(false)
 
   // Persistent session duration state
@@ -1327,7 +1327,7 @@ const SettingsPage = () => {
     setShowSyncPasswordModal(false)
     setIsExportingSync(true)
     try {
-      const { blob, filename, qrCode } = await exportForSync(password)
+      const { blob, filename } = await exportForSync(password)
 
       const link = document.createElement('a')
       link.href = URL.createObjectURL(blob)
@@ -1337,7 +1337,13 @@ const SettingsPage = () => {
       document.body.removeChild(link)
       URL.revokeObjectURL(link.href)
 
-      setSyncQrCode(qrCode ?? null)
+      // A password file is easy to brute-force from a photo of its QR code
+      if (password) {
+        setSyncLink(null)
+      } else {
+        const link = buildSyncLink(await blob.text(), window.location.origin)
+        setSyncLink(fitsInQrCode(link) ? link : null)
+      }
       toaster.create({
         title: t.settings.syncExportedTitle,
         description: password ? t.settings.syncExportedPasswordDescription : undefined,
@@ -2674,7 +2680,7 @@ const SettingsPage = () => {
                     {t.settings.syncExportButton}
                   </Button>
 
-                  {syncQrCode && (
+                  {syncLink && (
                     <>
                       <Box
                         display="flex"
@@ -2686,9 +2692,18 @@ const SettingsPage = () => {
                         width="fit-content"
                         mx="auto"
                       >
-                        <Image src={syncQrCode} alt={t.settings.syncQrAlt} boxSize="256px" />
+                        <QRCodeSVG
+                          value={syncLink}
+                          size={320}
+                          level="L"
+                          marginSize={4}
+                          title={t.settings.syncQrAlt}
+                        />
                       </Box>
-                      <Button variant="outline" onClick={() => setSyncQrCode(null)} width="full">
+                      <Text fontSize="sm" color="gray.400" textAlign="center">
+                        {t.settings.syncQrHint}
+                      </Text>
+                      <Button variant="outline" onClick={() => setSyncLink(null)} width="full">
                         {t.settings.hideQrButton}
                       </Button>
                     </>
