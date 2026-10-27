@@ -1,8 +1,6 @@
 'use client'
 
 import { useState, useEffect, useCallback, useRef } from 'react'
-// AI Inspection feature (disabled)
-// import { inspect } from 'w3pk'
 import {
   Box,
   Heading,
@@ -52,9 +50,6 @@ import Spinner from '@/components/Spinner'
 import PasswordModal from '@/components/PasswordModal'
 import SyncImport from '@/components/SyncImport'
 import { CodeBlock } from '@/components/CodeBlock'
-// AI Inspection feature (disabled) - only used to render the security report
-// import ReactMarkdown from 'react-markdown'
-// import remarkGfm from 'remark-gfm'
 import { detectBrowser, isWebAuthnAvailable } from '@/utils/browserDetection'
 import { brandColors } from '@/theme'
 import { BuildVerification } from '@/components/BuildVerification'
@@ -181,14 +176,6 @@ const SettingsPage = () => {
   const [registerUsername, setRegisterUsername] = useState('')
   const [isRegistering, setIsRegistering] = useState(false)
   const [isRegisterUsernameInvalid, setIsRegisterUsernameInvalid] = useState(false)
-
-  // AI Inspection feature (disabled)
-  // const [isInspecting, setIsInspecting] = useState(false)
-  // const [securityReport, setSecurityReport] = useState<{
-  //   report: string
-  //   analyzedFiles: string[]
-  //   appUrl: string
-  // } | null>(null)
 
   const {
     isAuthenticated,
@@ -717,76 +704,6 @@ const SettingsPage = () => {
     setSelectedBackupFile(null)
   }
 
-  // AI Inspection feature (disabled)
-  // const handleInspect = async () => {
-  //   setIsInspecting(true)
-  //   console.log('🔍 W3PK Security Inspection Starting...')
-
-  //   try {
-  //     const result = await inspect({
-  //       focusMode: 'transactions',
-  //     })
-
-  //     console.log('✅ Security report generated')
-  //     console.log(`Analyzed ${result.analyzedFiles.length} files from ${result.appUrl}`)
-
-  //     // Store report and display on page
-  //     setSecurityReport(result)
-
-  //     // Also log to console
-  //     try {
-  //       const parsed = JSON.parse(result.report)
-  //       console.log('📋 SECURITY REPORT')
-  //       console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n')
-  //       console.log(parsed.output || result.report)
-  //       console.log('\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━')
-  //     } catch {
-  //       console.log('📋 SECURITY REPORT')
-  //       console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n')
-  //       console.log(result.report)
-  //       console.log('\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━')
-  //     }
-
-  //     toaster.create({
-  //       title: t.settings.securityReportGeneratedTitle,
-  //       description: t.settings.securityReportGeneratedDescription,
-  //       type: 'success',
-  //       duration: 5000,
-  //     })
-  //   } catch (error: any) {
-  //     console.error('❌ Inspection failed:', error)
-  //     toaster.create({
-  //       title: t.settings.inspectionFailedTitle,
-  //       description: t.settings.inspectionFailedDescription,
-  //       type: 'error',
-  //       duration: 8000,
-  //     })
-  //   } finally {
-  //     setIsInspecting(false)
-  //   }
-  // }
-
-  // // Expose inspect to window for console access
-  // useEffect(() => {
-  //   if (typeof window !== 'undefined') {
-  //     ;(window as any).w3pk = {
-  //       ...(window as any).w3pk,
-  //       inspect: async () => {
-  //         console.log('🔍 W3PK Security Inspection Starting...')
-  //         const result = await inspect({ focusMode: 'transactions' })
-  //         console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━')
-  //         console.log('📋 SECURITY REPORT')
-  //         console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n')
-  //         console.log(result.report)
-  //         console.log('\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━')
-  //         console.log(`✅ Analyzed ${result.analyzedFiles.length} files`)
-  //         console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━')
-  //         return result
-  //       },
-  //     }
-  //   }
-  // }, [])
-
   if (!isAuthenticated || !getBackupStatus || !createBackup) {
     const browserInfo = detectBrowser()
     const webAuthnAvailable = isWebAuthnAvailable()
@@ -1039,154 +956,6 @@ const SettingsPage = () => {
               </Button>
             </SimpleGrid>
           </Box>
-
-          {/* AI Inspection feature (disabled)
-          <Box bg="gray.900" p={6} borderRadius="lg" border="2px solid" borderColor="purple.500">
-            {!securityReport ? (
-              <>
-                <Text fontSize="sm" color="gray.400" mb={4}>
-                  {t.settings.inspectSecurityDescriptionSmall}
-                </Text>
-                <Button
-                  bg="purple.500"
-                  color="white"
-                  _hover={{ bg: 'purple.600' }}
-                  onClick={handleInspect}
-                  disabled={isInspecting}
-                  size="sm"
-                  width="full"
-                >
-                  {isInspecting ? (
-                    <HStack>
-                      <Spinner size="sm" />
-                      <Text>{t.settings.inspectingText}</Text>
-                    </HStack>
-                  ) : (
-                    <HStack>
-                      <Icon as={FiShield} />
-                      <Text>{t.settings.inspectSecurityButton}</Text>
-                    </HStack>
-                  )}
-                </Button>
-                <Text fontSize="xs" color="gray.500" mt={3}>
-                  {t.settings.consoleCommandLabel}{' '}
-                  <Code colorPalette="purple" fontSize="xs">
-                    await w3pk.inspect()
-                  </Code>
-                </Text>
-              </>
-            ) : (
-              <VStack align="stretch" gap={4}>
-                <HStack justify="space-between">
-                  <Text fontSize="sm" color="gray.400">
-                    <strong>{t.settings.filesAnalyzedLabel}</strong>{' '}
-                    {securityReport.analyzedFiles.length}
-                  </Text>
-                  <Button
-                    size="xs"
-                    variant="ghost"
-                    colorPalette="purple"
-                    onClick={() => setSecurityReport(null)}
-                  >
-                    {t.settings.clearReportButton}
-                  </Button>
-                </HStack>
-
-                <Box
-                  bg="gray.950"
-                  p={4}
-                  borderRadius="md"
-                  border="1px solid"
-                  borderColor="gray.700"
-                  maxH="600px"
-                  overflowY="auto"
-                >
-                  <ReactMarkdown
-                    remarkPlugins={[remarkGfm]}
-                    components={{
-                      h1: ({ children }: any) => (
-                        <Text fontSize="2xl" fontWeight="bold" mb={3} color="white">
-                          {children}
-                        </Text>
-                      ),
-                      h2: ({ children }: any) => (
-                        <Text fontSize="xl" fontWeight="bold" mt={4} mb={2} color="blue.300">
-                          {children}
-                        </Text>
-                      ),
-                      h3: ({ children }: any) => (
-                        <Text fontSize="lg" fontWeight="semibold" mt={3} mb={2} color="purple.300">
-                          {children}
-                        </Text>
-                      ),
-                      h4: ({ children }: any) => (
-                        <Text fontSize="md" fontWeight="semibold" mt={2} mb={1} color="purple.200">
-                          {children}
-                        </Text>
-                      ),
-                      p: ({ children }: any) => (
-                        <Box mb={2} color="gray.300" lineHeight="tall" fontSize="sm">
-                          {children}
-                        </Box>
-                      ),
-                      pre: ({ children }: any) => (
-                        <Box
-                          as="pre"
-                          bg="black"
-                          p={3}
-                          borderRadius="md"
-                          overflowX="auto"
-                          mb={3}
-                          fontSize="xs"
-                        >
-                          {children}
-                        </Box>
-                      ),
-                      code: ({ inline, children }: any) => {
-                        if (inline) {
-                          return (
-                            <Code colorPalette="purple" fontSize="xs" px={1}>
-                              {children}
-                            </Code>
-                          )
-                        }
-                        return (
-                          <Text as="code" color="green.300" fontFamily="mono" display="block">
-                            {children}
-                          </Text>
-                        )
-                      },
-                      ul: ({ children }: any) => (
-                        <Box as="ul" pl={5} mb={2} color="gray.300" fontSize="sm">
-                          {children}
-                        </Box>
-                      ),
-                      li: ({ children }: any) => (
-                        <Text as="li" mb={1} color="gray.300" fontSize="sm">
-                          {children}
-                        </Text>
-                      ),
-                      strong: ({ children }: any) => (
-                        <Text as="strong" fontWeight="bold" color="blue.200">
-                          {children}
-                        </Text>
-                      ),
-                    }}
-                  >
-                    {(() => {
-                      try {
-                        const parsed = JSON.parse(securityReport.report)
-                        return parsed.output || securityReport.report
-                      } catch {
-                        return securityReport.report
-                      }
-                    })()}
-                  </ReactMarkdown>
-                </Box>
-              </VStack>
-            )}
-          </Box>
-          */}
 
           {localStorageData.length > 0 && (
             <Box bg="gray.900" p={6} borderRadius="lg" border="1px solid" borderColor="purple.600">
@@ -3016,147 +2785,6 @@ const SettingsPage = () => {
             </VStack>
           </TabsContent>
         </TabsRoot>
-
-        {/* AI Inspection feature (disabled)
-        <Box
-          mt={12}
-          bg="gray.900"
-          p={8}
-          borderRadius="lg"
-          border="2px solid"
-          borderColor="purple.500"
-        >
-          {!securityReport ? (
-            <Box textAlign="center">
-              <HStack justify="center" mb={4}>
-                <Icon as={FiShield} color="purple.400" boxSize={8} />
-                <Heading size="lg">{t.settings.inspectionHeadingBig}</Heading>
-              </HStack>
-              <Text color="gray.400" mb={6} maxW="2xl" mx="auto">
-                {t.settings.inspectSecurityDescriptionBig}
-              </Text>
-              <Button
-                bg="purple.500"
-                color="white"
-                _hover={{ bg: 'purple.600' }}
-                onClick={handleInspect}
-                disabled={isInspecting}
-                size="lg"
-                px={8}
-              >
-                {isInspecting ? (
-                  <HStack>
-                    <Spinner size="sm" />
-                    <Text>{t.settings.inspectingText}</Text>
-                  </HStack>
-                ) : (
-                  <HStack>
-                    <Icon as={FiShield} />
-                    <Text>{t.settings.inspectNowButton}</Text>
-                  </HStack>
-                )}
-              </Button>
-              <Text fontSize="sm" color="gray.500" mt={4}>
-                {t.settings.consoleHintText}
-              </Text>
-            </Box>
-          ) : (
-            <VStack align="stretch" gap={4}>
-              <HStack justify="space-between">
-                <HStack>
-                  <Icon as={FiShield} color="purple.400" boxSize={6} />
-                  <Heading size="lg">{t.settings.securityReportHeading}</Heading>
-                </HStack>
-                <Button
-                  size="sm"
-                  variant="ghost"
-                  colorPalette="purple"
-                  onClick={() => setSecurityReport(null)}
-                >
-                  {t.settings.clearReportButton}
-                </Button>
-              </HStack>
-
-              <Text fontSize="sm" color="gray.400">
-                <strong>{t.settings.filesAnalyzedLabel}</strong>{' '}
-                {securityReport.analyzedFiles.length} | <strong>{t.settings.appUrlLabel}</strong>{' '}
-                {securityReport.appUrl}
-              </Text>
-
-              <Box
-                bg="gray.950"
-                p={6}
-                borderRadius="md"
-                border="1px solid"
-                borderColor="gray.700"
-                maxH="600px"
-                overflowY="auto"
-              >
-                <ReactMarkdown
-                  remarkPlugins={[remarkGfm]}
-                  components={{
-                    h1: ({ children }: any) => (
-                      <Text fontSize="2xl" fontWeight="bold" mb={3} color="white">
-                        {children}
-                      </Text>
-                    ),
-                    h2: ({ children }: any) => (
-                      <Text fontSize="xl" fontWeight="bold" mt={4} mb={2} color="blue.300">
-                        {children}
-                      </Text>
-                    ),
-                    h3: ({ children }: any) => (
-                      <Text fontSize="lg" fontWeight="semibold" mt={3} mb={2} color="purple.300">
-                        {children}
-                      </Text>
-                    ),
-                    h4: ({ children }: any) => (
-                      <Text fontSize="md" fontWeight="semibold" mt={2} mb={1} color="purple.200">
-                        {children}
-                      </Text>
-                    ),
-                    p: ({ children }: any) => (
-                      <Text fontSize="sm" mb={2} color="gray.300">
-                        {children}
-                      </Text>
-                    ),
-                    ul: ({ children }: any) => (
-                      <Box as="ul" pl={4} mb={2}>
-                        {children}
-                      </Box>
-                    ),
-                    li: ({ children }: any) => (
-                      <Text as="li" fontSize="sm" mb={1} color="gray.300">
-                        {children}
-                      </Text>
-                    ),
-                    strong: ({ children }: any) => (
-                      <Text as="strong" fontWeight="bold" color="white">
-                        {children}
-                      </Text>
-                    ),
-                    code: ({ children }: any) => (
-                      <Code colorPalette="purple" fontSize="xs">
-                        {children}
-                      </Code>
-                    ),
-                    hr: () => <Box as="hr" my={3} borderColor="gray.700" />,
-                  }}
-                >
-                  {(() => {
-                    try {
-                      const parsed = JSON.parse(securityReport.report)
-                      return parsed.output || securityReport.report
-                    } catch {
-                      return securityReport.report
-                    }
-                  })()}
-                </ReactMarkdown>
-              </Box>
-            </VStack>
-          )}
-        </Box>
-        */}
       </VStack>
 
       <PasswordModal

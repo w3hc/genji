@@ -10,9 +10,9 @@
 
 ## Tech Stack
 
-- **Framework**: Next.js 16.0.3 (App Router, React 19.2.0)
+- **Framework**: Next.js 16.4.3 (App Router, React 19.3.1)
 - **UI Library**: Chakra UI 3.30.0 with Emotion styling
-- **Authentication**: w3pk SDK 0.10.4 (Web3 Passkey authentication)
+- **Authentication**: w3pk SDK 0.10.5 (Web3 Passkey authentication)
 - **Blockchain**: Ethers.js 6.15.0
 - **Language**: TypeScript 5.9.3 (strict mode)
 - **Internationalization**: 10 languages with browser auto-detection

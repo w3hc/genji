@@ -84,12 +84,6 @@ export const BuildVerification = () => {
         console.log('')
         console.log('  await window.w3pk.getCurrentBuildHash()')
         console.log('')
-        // AI Inspection feature (disabled)
-        // console.log('Security inspection:')
-        // console.log('')
-        // console.log('  await window.w3pk.inspectNow()')
-        // console.log('  await window.w3pk.inspect()')
-        // console.log('')
         console.log('Full SDK available at window.w3pk')
         console.log('═'.repeat(50))
       } catch (err) {
