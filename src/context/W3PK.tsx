@@ -55,9 +55,7 @@ interface BackupStatus {
 }
 
 interface W3pkUser {
-  id: string
   username: string
-  displayName: string
   ethereumAddress: string
   credentialId: string
 }
@@ -160,11 +158,8 @@ interface W3pkType {
   syncWalletWithPasskey: (
     backupData: string,
     password?: string
-  ) => Promise<{ mnemonic: string; ethereumAddress: string }>
-  restoreFromBackup: (
-    backupData: string,
-    password: string
-  ) => Promise<{ mnemonic: string; ethereumAddress: string }>
+  ) => Promise<{ ethereumAddress: string }>
+  restoreFromBackup: (backupData: string, password: string) => Promise<{ ethereumAddress: string }>
   registerWithBackupFile: (
     backupData: string,
     password: string,
@@ -295,9 +290,7 @@ export const W3pkProvider: React.FC<W3pkProviderProps> = ({ children }) => {
     if (isAuth && w3pkUser && typeof w3pkUser === 'object') {
       const userObj = w3pkUser as Record<string, string>
       const userData: W3pkUser = {
-        id: userObj.id,
         username: userObj.username,
-        displayName: userObj.displayName,
         ethereumAddress: userObj.ethereumAddress,
         credentialId: userObj.credentialId,
       }
@@ -448,7 +441,7 @@ export const W3pkProvider: React.FC<W3pkProviderProps> = ({ children }) => {
 
       const result = await w3pk.login()
       const hasWallet = w3pk.isAuthenticated
-      const displayName = result.displayName || result.username || 'Anon'
+      const displayName = result.username || 'Anon'
 
       console.log('[W3PK] Login successful:', { hasWallet, displayName })
 
@@ -763,7 +756,7 @@ export const W3pkProvider: React.FC<W3pkProviderProps> = ({ children }) => {
 
     try {
       setIsLoading(true)
-      const result = await runWithAuthRetry(() => w3pk.createBackupFile('password', password))
+      const result = await runWithAuthRetry(() => w3pk.createBackupFile(password))
       setBackupPrompt({ open: false })
       return result.blob
     } catch (error) {
@@ -826,7 +819,7 @@ export const W3pkProvider: React.FC<W3pkProviderProps> = ({ children }) => {
   const syncWalletWithPasskey = async (
     backupData: string,
     password?: string
-  ): Promise<{ mnemonic: string; ethereumAddress: string }> => {
+  ): Promise<{ ethereumAddress: string }> => {
     try {
       setIsLoading(true)
       return await w3pk.syncWalletWithPasskey(backupData, password)
@@ -838,7 +831,7 @@ export const W3pkProvider: React.FC<W3pkProviderProps> = ({ children }) => {
   const restoreFromBackup = async (
     backupData: string,
     password: string
-  ): Promise<{ mnemonic: string; ethereumAddress: string }> => {
+  ): Promise<{ ethereumAddress: string }> => {
     try {
       setIsLoading(true)
 
@@ -937,7 +930,7 @@ export const W3pkProvider: React.FC<W3pkProviderProps> = ({ children }) => {
       }
 
       // Create password-encrypted backup file
-      const backupBlob = await w3pk.createBackupFile('password', backupPassword)
+      const backupBlob = await w3pk.createBackupFile(backupPassword)
       const backupJson = await backupBlob.blob.text()
 
       // Use w3pk's SocialRecoveryManager to split the backup file

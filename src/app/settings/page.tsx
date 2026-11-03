@@ -74,8 +74,6 @@ import {
 interface StoredAccount {
   username: string
   ethereumAddress: string
-  id: string
-  displayName?: string
 }
 
 const SettingsPage = () => {
@@ -361,8 +359,6 @@ const SettingsPage = () => {
         storedAccounts.push({
           username: user.username,
           ethereumAddress: user.ethereumAddress,
-          id: user.id,
-          displayName: user.displayName,
         })
       }
 
@@ -471,8 +467,7 @@ const SettingsPage = () => {
             if (value) {
               if (
                 value.includes(accountToDelete.ethereumAddress) ||
-                value.includes(accountToDelete.username) ||
-                value.includes(accountToDelete.id)
+                value.includes(accountToDelete.username)
               ) {
                 keysToRemove.push(key)
               }
@@ -1807,7 +1802,7 @@ const SettingsPage = () => {
                       <Box flex={1} minW={0}>
                         <HStack mb={3}>
                           <Text fontSize="lg" fontWeight="bold" color="white">
-                            {account.displayName || account.username}
+                            {account.username}
                           </Text>
                           {user?.ethereumAddress === account.ethereumAddress && (
                             <Badge colorPalette="purple">{t.settings.currentBadge}</Badge>
@@ -1956,7 +1951,7 @@ const SettingsPage = () => {
                       {t.settings.loggedInAsLabel}
                     </Text>
                     <Text fontSize="sm" fontWeight="bold" color="white">
-                      {user?.displayName || user?.username}
+                      {user?.username}
                     </Text>
                   </HStack>
 
