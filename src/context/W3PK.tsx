@@ -24,6 +24,7 @@ import {
   PrfUnsupportedError,
   SyncRequiredError,
   WalletMissingError,
+  WeakPasswordError,
 } from 'w3pk'
 import type { GuardianShare } from 'w3pk'
 import { useRouter } from 'next/navigation'
@@ -945,10 +946,14 @@ export const W3pkProvider: React.FC<W3pkProviderProps> = ({ children }) => {
       return guardianShares
     } catch (error) {
       const errorMessage =
-        error instanceof Error ? error.message : 'Failed to setup social recovery'
+        error instanceof WeakPasswordError
+          ? error.feedback.join(' ')
+          : error instanceof Error
+            ? error.message
+            : 'Failed to setup social recovery'
 
       toaster.create({
-        title: 'Setup Failed',
+        title: error instanceof WeakPasswordError ? 'Weak Password' : 'Setup Failed',
         description: errorMessage,
         type: 'error',
         duration: 5000,
