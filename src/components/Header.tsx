@@ -252,7 +252,7 @@ export default function Header() {
                 <>
                   {/* <Box>
                     <Text fontSize="sm" color="gray.300">
-                      {user?.displayName || user?.username}
+                      {user?.username}
                     </Text>
                   </Box> */}
                   <Button

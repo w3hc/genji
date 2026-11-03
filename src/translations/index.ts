@@ -173,8 +173,7 @@ type TranslationKeys = {
     activeHeading: string
     activeDescription: (threshold: number, count: number) => string
     generateInviteButton: string
-    removeConfigQuestion: string
-    removeConfigButton: string
+    sharesNotStoredNotice: string
     invitationHeading: string
     downloadInviteButton: string
     sendInviteText: (name: string) => string
@@ -357,10 +356,8 @@ type TranslationKeys = {
     strongPassword: string
     mustInclude: string
     reqMinLength: string
-    reqUpperCase: string
-    reqLowerCase: string
-    reqNumber: string
-    reqSpecialChar: string
+    reqNoRepeat: string
+    reqNotCommon: string
     satisfied: string
     required: string
     submit: string
@@ -588,9 +585,8 @@ export const translations: Translations = {
       activeDescription: (threshold, count) =>
         `Your wallet is protected with ${threshold}-of-${count} guardian recovery`,
       generateInviteButton: 'Generate Invite',
-      removeConfigQuestion:
-        'All guardians have their shares? You can now remove the guardian configuration from local storage. The shares are safely stored with your guardians and can be used for recovery anytime.',
-      removeConfigButton: 'Clear Guardian Config from Local Storage',
+      sharesNotStoredNotice:
+        "Download each guardian's invitation now: the shares are not stored on this device, and leaving this page discards them. To change guardians, set up social recovery again.",
       invitationHeading: 'Guardian Invitation',
       downloadInviteButton: 'Download Invitation',
       sendInviteText: name => `Send this invitation to ${name} via a secure channel`,
@@ -812,17 +808,15 @@ export const translations: Translations = {
       passwordRequiredTitle: 'Password Required.',
       passwordRequiredDescription: 'Please enter your password.',
       weakPasswordTitle: 'Weak Password.',
-      weakPasswordDescription: 'Please use a stronger password that meets all requirements.',
+      weakPasswordDescription: 'Please use a password that meets all requirements.',
       submissionErrorTitle: 'Submission Error.',
       submissionErrorDefaultDescription: 'An unexpected error occurred.',
       requirementsNotMet: 'Password does not meet all requirements',
       strongPassword: 'Strong password!',
-      mustInclude: 'Password must include:',
-      reqMinLength: 'At least 12 characters',
-      reqUpperCase: 'One uppercase letter',
-      reqLowerCase: 'One lowercase letter',
-      reqNumber: 'One number',
-      reqSpecialChar: 'One special character',
+      mustInclude: 'Password must be:',
+      reqMinLength: 'At least 15 characters: a passphrase works',
+      reqNoRepeat: 'Not one character repeated',
+      reqNotCommon: 'Not a common password',
       satisfied: ' (satisfied)',
       required: ' (required)',
       submit: 'Submit',
@@ -1042,9 +1036,8 @@ export const translations: Translations = {
       activeDescription: (threshold, count) =>
         `您的钱包受到 ${count} 中取 ${threshold} 监护人恢复机制的保护`,
       generateInviteButton: '生成邀请',
-      removeConfigQuestion:
-        '所有监护人都已获得各自的份额？您现在可以从本地存储中移除监护人配置。份额已安全保存在您的监护人处，可随时用于恢复。',
-      removeConfigButton: '从本地存储清除监护人配置',
+      sharesNotStoredNotice:
+        '请立即下载每位监护人的邀请：份额不会存储在此设备上，离开此页面后将被丢弃。如需更换监护人，请重新设置社交恢复。',
       invitationHeading: '监护人邀请',
       downloadInviteButton: '下载邀请',
       sendInviteText: name => `通过安全渠道将此邀请发送给 ${name}`,
@@ -1246,12 +1239,10 @@ export const translations: Translations = {
       submissionErrorDefaultDescription: '发生意外错误。',
       requirementsNotMet: '密码不满足所有要求',
       strongPassword: '密码强度足够！',
-      mustInclude: '密码必须包含：',
-      reqMinLength: '至少12个字符',
-      reqUpperCase: '一个大写字母',
-      reqLowerCase: '一个小写字母',
-      reqNumber: '一个数字',
-      reqSpecialChar: '一个特殊字符',
+      mustInclude: '密码必须：',
+      reqMinLength: '至少 15 个字符：可以使用短语',
+      reqNoRepeat: '不是同一个字符的重复',
+      reqNotCommon: '不是常见密码',
       satisfied: '（已满足）',
       required: '（必需）',
       submit: '提交',
@@ -1479,9 +1470,8 @@ export const translations: Translations = {
       activeDescription: (threshold, count) =>
         `आपका वॉलेट ${count} में से ${threshold} अभिभावक रिकवरी से सुरक्षित है`,
       generateInviteButton: 'आमंत्रण जनरेट करें',
-      removeConfigQuestion:
-        'क्या सभी अभिभावकों के पास अपने शेयर हैं? अब आप लोकल स्टोरेज से अभिभावक कॉन्फ़िगरेशन हटा सकते हैं। शेयर आपके अभिभावकों के पास सुरक्षित रूप से संग्रहीत हैं और कभी भी रिकवरी के लिए उपयोग किए जा सकते हैं।',
-      removeConfigButton: 'लोकल स्टोरेज से अभिभावक कॉन्फ़िगरेशन साफ़ करें',
+      sharesNotStoredNotice:
+        'हर अभिभावक का आमंत्रण अभी डाउनलोड करें: शेयर इस डिवाइस पर संग्रहीत नहीं होते, और यह पेज छोड़ने पर हटा दिए जाते हैं। अभिभावक बदलने के लिए, सोशल रिकवरी फिर से सेट करें।',
       invitationHeading: 'अभिभावक आमंत्रण',
       downloadInviteButton: 'आमंत्रण डाउनलोड करें',
       sendInviteText: name => `यह आमंत्रण ${name} को एक सुरक्षित चैनल के माध्यम से भेजें`,
@@ -1713,12 +1703,10 @@ export const translations: Translations = {
       submissionErrorDefaultDescription: 'एक अप्रत्याशित त्रुटि हुई।',
       requirementsNotMet: 'पासवर्ड सभी आवश्यकताओं को पूरा नहीं करता',
       strongPassword: 'मजबूत पासवर्ड!',
-      mustInclude: 'पासवर्ड में शामिल होना चाहिए:',
-      reqMinLength: 'कम से कम 12 अक्षर',
-      reqUpperCase: 'एक बड़ा अक्षर',
-      reqLowerCase: 'एक छोटा अक्षर',
-      reqNumber: 'एक संख्या',
-      reqSpecialChar: 'एक विशेष वर्ण',
+      mustInclude: 'पासवर्ड ऐसा होना चाहिए:',
+      reqMinLength: 'कम से कम 15 अक्षर: एक पासफ़्रेज़ भी चलेगा',
+      reqNoRepeat: 'एक ही अक्षर का दोहराव नहीं',
+      reqNotCommon: 'कोई आम पासवर्ड नहीं',
       satisfied: ' (पूर्ण)',
       required: ' (आवश्यक)',
       submit: 'जमा करें',
@@ -1953,9 +1941,8 @@ export const translations: Translations = {
       activeDescription: (threshold, count) =>
         `Tu billetera está protegida con una recuperación de ${threshold}-de-${count} guardianes`,
       generateInviteButton: 'Generar invitación',
-      removeConfigQuestion:
-        '¿Todos los guardianes tienen sus partes? Ahora puedes eliminar la configuración de guardianes del almacenamiento local. Las partes están guardadas de forma segura con tus guardianes y pueden usarse para la recuperación en cualquier momento.',
-      removeConfigButton: 'Borrar configuración de guardianes del almacenamiento local',
+      sharesNotStoredNotice:
+        'Descarga ahora la invitación de cada guardián: las partes no se guardan en este dispositivo y se descartan al salir de esta página. Para cambiar de guardianes, vuelve a configurar la recuperación social.',
       invitationHeading: 'Invitación de guardián',
       downloadInviteButton: 'Descargar invitación',
       sendInviteText: name => `Envía esta invitación a ${name} a través de un canal seguro`,
@@ -2193,12 +2180,10 @@ export const translations: Translations = {
       submissionErrorDefaultDescription: 'Ocurrió un error inesperado.',
       requirementsNotMet: 'La contraseña no cumple con todos los requisitos',
       strongPassword: '¡Contraseña segura!',
-      mustInclude: 'La contraseña debe incluir:',
-      reqMinLength: 'Al menos 12 caracteres',
-      reqUpperCase: 'Una letra mayúscula',
-      reqLowerCase: 'Una letra minúscula',
-      reqNumber: 'Un número',
-      reqSpecialChar: 'Un carácter especial',
+      mustInclude: 'La contraseña debe ser:',
+      reqMinLength: 'Al menos 15 caracteres: una frase sirve',
+      reqNoRepeat: 'No un solo carácter repetido',
+      reqNotCommon: 'No una contraseña común',
       satisfied: ' (cumplido)',
       required: ' (requerido)',
       submit: 'Enviar',
@@ -2437,9 +2422,8 @@ export const translations: Translations = {
       activeDescription: (threshold, count) =>
         `Votre portefeuille est protégé par une récupération à ${threshold} gardiens sur ${count}`,
       generateInviteButton: 'Générer une invitation',
-      removeConfigQuestion:
-        'Tous les gardiens ont-ils leur part ? Vous pouvez désormais supprimer la configuration des gardiens du stockage local. Les parts sont conservées en sécurité chez vos gardiens et peuvent être utilisées à tout moment pour la récupération.',
-      removeConfigButton: 'Effacer la configuration des gardiens du stockage local',
+      sharesNotStoredNotice:
+        "Téléchargez maintenant l'invitation de chaque gardien : les parts ne sont pas stockées sur cet appareil et sont perdues en quittant cette page. Pour changer de gardiens, configurez à nouveau la récupération sociale.",
       invitationHeading: 'Invitation du gardien',
       downloadInviteButton: "Télécharger l'invitation",
       sendInviteText: name => `Envoyez cette invitation à ${name} via un canal sécurisé`,
@@ -2680,12 +2664,10 @@ export const translations: Translations = {
       submissionErrorDefaultDescription: "Une erreur inattendue s'est produite.",
       requirementsNotMet: 'Le mot de passe ne répond pas à toutes les exigences',
       strongPassword: 'Mot de passe robuste !',
-      mustInclude: 'Le mot de passe doit inclure :',
-      reqMinLength: 'Au moins 12 caractères',
-      reqUpperCase: 'Une lettre majuscule',
-      reqLowerCase: 'Une lettre minuscule',
-      reqNumber: 'Un chiffre',
-      reqSpecialChar: 'Un caractère spécial',
+      mustInclude: 'Le mot de passe doit être :',
+      reqMinLength: 'Au moins 15 caractères : une phrase de passe convient',
+      reqNoRepeat: 'Pas un seul caractère répété',
+      reqNotCommon: 'Pas un mot de passe courant',
       satisfied: ' (satisfait)',
       required: ' (requis)',
       submit: 'Soumettre',
@@ -2916,9 +2898,8 @@ export const translations: Translations = {
       activeDescription: (threshold, count) =>
         `محفظتك محمية باسترداد ${threshold} من ${count} أوصياء`,
       generateInviteButton: 'إنشاء دعوة',
-      removeConfigQuestion:
-        'هل حصل جميع الأوصياء على حصصهم؟ يمكنك الآن إزالة إعدادات الأوصياء من التخزين المحلي. الحصص مخزنة بأمان لدى أوصيائك ويمكن استخدامها للاسترداد في أي وقت.',
-      removeConfigButton: 'مسح إعدادات الأوصياء من التخزين المحلي',
+      sharesNotStoredNotice:
+        'نزّل دعوة كل وصي الآن: لا تُخزَّن الحصص على هذا الجهاز، وتُحذف عند مغادرة هذه الصفحة. لتغيير الأوصياء، أعد إعداد الاسترداد الاجتماعي.',
       invitationHeading: 'دعوة الوصي',
       downloadInviteButton: 'تنزيل الدعوة',
       sendInviteText: name => `أرسل هذه الدعوة إلى ${name} عبر قناة آمنة`,
@@ -3140,12 +3121,10 @@ export const translations: Translations = {
       submissionErrorDefaultDescription: 'حدث خطأ غير متوقع.',
       requirementsNotMet: 'كلمة المرور لا تستوفي جميع المتطلبات',
       strongPassword: 'كلمة مرور قوية!',
-      mustInclude: 'يجب أن تتضمن كلمة المرور:',
-      reqMinLength: '12 حرفًا على الأقل',
-      reqUpperCase: 'حرف كبير واحد',
-      reqLowerCase: 'حرف صغير واحد',
-      reqNumber: 'رقم واحد',
-      reqSpecialChar: 'رمز خاص واحد',
+      mustInclude: 'يجب أن تكون كلمة المرور:',
+      reqMinLength: '15 حرفًا على الأقل: تصلح عبارة مرور',
+      reqNoRepeat: 'ليست حرفًا واحدًا مكررًا',
+      reqNotCommon: 'ليست كلمة مرور شائعة',
       satisfied: ' (مستوفى)',
       required: ' (مطلوب)',
       submit: 'إرسال',
@@ -3376,9 +3355,8 @@ export const translations: Translations = {
       activeDescription: (threshold, count) =>
         `আপনার ওয়ালেট ${count}-এর মধ্যে-${threshold} অভিভাবক পুনরুদ্ধার দ্বারা সুরক্ষিত`,
       generateInviteButton: 'আমন্ত্রণ তৈরি করুন',
-      removeConfigQuestion:
-        'সব অভিভাবকের কাছে তাদের শেয়ার আছে? আপনি এখন লোকাল স্টোরেজ থেকে অভিভাবক কনফিগারেশন সরিয়ে ফেলতে পারেন। শেয়ারগুলি আপনার অভিভাবকদের কাছে নিরাপদে সংরক্ষিত আছে এবং যেকোনো সময় পুনরুদ্ধারের জন্য ব্যবহার করা যেতে পারে।',
-      removeConfigButton: 'লোকাল স্টোরেজ থেকে অভিভাবক কনফিগারেশন মুছুন',
+      sharesNotStoredNotice:
+        'এখনই প্রতিটি অভিভাবকের আমন্ত্রণ ডাউনলোড করুন: শেয়ারগুলি এই ডিভাইসে সংরক্ষিত হয় না, এবং এই পৃষ্ঠা ছেড়ে গেলে মুছে যায়। অভিভাবক পরিবর্তন করতে, সোশ্যাল রিকভারি আবার সেট আপ করুন।',
       invitationHeading: 'অভিভাবক আমন্ত্রণ',
       downloadInviteButton: 'আমন্ত্রণ ডাউনলোড করুন',
       sendInviteText: name => `একটি নিরাপদ চ্যানেলের মাধ্যমে ${name}-কে এই আমন্ত্রণ পাঠান`,
@@ -3616,12 +3594,10 @@ export const translations: Translations = {
       submissionErrorDefaultDescription: 'একটি অপ্রত্যাশিত ত্রুটি ঘটেছে।',
       requirementsNotMet: 'পাসওয়ার্ড সমস্ত প্রয়োজনীয়তা পূরণ করে না',
       strongPassword: 'শক্তিশালী পাসওয়ার্ড!',
-      mustInclude: 'পাসওয়ার্ডে অবশ্যই থাকতে হবে:',
-      reqMinLength: 'কমপক্ষে ১২টি অক্ষর',
-      reqUpperCase: 'একটি বড় হাতের অক্ষর',
-      reqLowerCase: 'একটি ছোট হাতের অক্ষর',
-      reqNumber: 'একটি সংখ্যা',
-      reqSpecialChar: 'একটি বিশেষ অক্ষর',
+      mustInclude: 'পাসওয়ার্ড হতে হবে:',
+      reqMinLength: 'কমপক্ষে ১৫টি অক্ষর: একটি পাসফ্রেজও চলবে',
+      reqNoRepeat: 'একই অক্ষরের পুনরাবৃত্তি নয়',
+      reqNotCommon: 'সাধারণ কোনো পাসওয়ার্ড নয়',
       satisfied: ' (পূরণ হয়েছে)',
       required: ' (প্রয়োজন)',
       submit: 'জমা দিন',
@@ -3856,9 +3832,8 @@ export const translations: Translations = {
       activeDescription: (threshold, count) =>
         `Ваш кошелёк защищён восстановлением по схеме ${threshold} из ${count} хранителей`,
       generateInviteButton: 'Сгенерировать приглашение',
-      removeConfigQuestion:
-        'Все хранители получили свои доли? Теперь вы можете удалить конфигурацию хранителей из локального хранилища. Доли надёжно хранятся у ваших хранителей и могут быть использованы для восстановления в любое время.',
-      removeConfigButton: 'Очистить конфигурацию хранителей из локального хранилища',
+      sharesNotStoredNotice:
+        'Скачайте приглашение для каждого хранителя сейчас: доли не хранятся на этом устройстве и будут удалены, когда вы покинете страницу. Чтобы сменить хранителей, настройте социальное восстановление заново.',
       invitationHeading: 'Приглашение хранителя',
       downloadInviteButton: 'Скачать приглашение',
       sendInviteText: name =>
@@ -4097,12 +4072,10 @@ export const translations: Translations = {
       submissionErrorDefaultDescription: 'Произошла непредвиденная ошибка.',
       requirementsNotMet: 'Пароль не соответствует всем требованиям',
       strongPassword: 'Надёжный пароль!',
-      mustInclude: 'Пароль должен содержать:',
-      reqMinLength: 'Не менее 12 символов',
-      reqUpperCase: 'Одну заглавную букву',
-      reqLowerCase: 'Одну строчную букву',
-      reqNumber: 'Одну цифру',
-      reqSpecialChar: 'Один специальный символ',
+      mustInclude: 'Пароль должен быть:',
+      reqMinLength: 'Не короче 15 символов: подойдёт фраза',
+      reqNoRepeat: 'Не одним повторяющимся символом',
+      reqNotCommon: 'Не распространённым паролем',
       satisfied: ' (выполнено)',
       required: ' (требуется)',
       submit: 'Отправить',
@@ -4338,9 +4311,8 @@ export const translations: Translations = {
       activeDescription: (threshold, count) =>
         `A sua carteira está protegida com recuperação de ${threshold}-de-${count} guardiões`,
       generateInviteButton: 'Gerar convite',
-      removeConfigQuestion:
-        'Todos os guardiões têm as suas partilhas? Agora pode remover a configuração dos guardiões do armazenamento local. As partilhas estão guardadas em segurança com os seus guardiões e podem ser utilizadas para recuperação a qualquer momento.',
-      removeConfigButton: 'Limpar configuração dos guardiões do armazenamento local',
+      sharesNotStoredNotice:
+        'Transfira agora o convite de cada guardião: as partilhas não são guardadas neste dispositivo e são descartadas ao sair desta página. Para mudar de guardiões, configure novamente a recuperação social.',
       invitationHeading: 'Convite do guardião',
       downloadInviteButton: 'Transferir convite',
       sendInviteText: name => `Envie este convite para ${name} através de um canal seguro`,
@@ -4579,12 +4551,10 @@ export const translations: Translations = {
       submissionErrorDefaultDescription: 'Ocorreu um erro inesperado.',
       requirementsNotMet: 'A senha não atende a todos os requisitos',
       strongPassword: 'Senha forte!',
-      mustInclude: 'A senha deve incluir:',
-      reqMinLength: 'Pelo menos 12 caracteres',
-      reqUpperCase: 'Uma letra maiúscula',
-      reqLowerCase: 'Uma letra minúscula',
-      reqNumber: 'Um número',
-      reqSpecialChar: 'Um caractere especial',
+      mustInclude: 'A palavra-passe deve ser:',
+      reqMinLength: 'Pelo menos 15 caracteres: uma frase serve',
+      reqNoRepeat: 'Não um único carácter repetido',
+      reqNotCommon: 'Não uma palavra-passe comum',
       satisfied: ' (satisfeito)',
       required: ' (obrigatório)',
       submit: 'Enviar',
@@ -4817,9 +4787,8 @@ export const translations: Translations = {
       activeDescription: (threshold, count) =>
         `آپ کا والیٹ ${threshold}-از-${count} گارڈین بحالی سے محفوظ ہے`,
       generateInviteButton: 'دعوت نامہ تیار کریں',
-      removeConfigQuestion:
-        'کیا تمام گارڈینز کے پاس اپنے شیئرز موجود ہیں؟ اب آپ گارڈین کنفیگریشن کو لوکل اسٹوریج سے ہٹا سکتے ہیں۔ شیئرز آپ کے گارڈینز کے پاس محفوظ طریقے سے رکھے گئے ہیں اور کسی بھی وقت بحالی کے لیے استعمال کیے جا سکتے ہیں۔',
-      removeConfigButton: 'گارڈین کنفیگریشن کو لوکل اسٹوریج سے صاف کریں',
+      sharesNotStoredNotice:
+        'ہر سرپرست کا دعوت نامہ ابھی ڈاؤن لوڈ کریں: شیئرز اس ڈیوائس پر محفوظ نہیں ہوتے، اور یہ صفحہ چھوڑنے پر ختم ہو جاتے ہیں۔ سرپرست بدلنے کے لیے، سوشل ریکوری دوبارہ سیٹ اپ کریں۔',
       invitationHeading: 'گارڈین دعوت نامہ',
       downloadInviteButton: 'دعوت نامہ ڈاؤن لوڈ کریں',
       sendInviteText: name => `یہ دعوت نامہ ${name} کو ایک محفوظ ذریعے سے بھیجیں`,
@@ -5052,12 +5021,10 @@ export const translations: Translations = {
       submissionErrorDefaultDescription: 'ایک غیر متوقع خرابی پیش آگئی۔',
       requirementsNotMet: 'پاس ورڈ تمام تقاضے پورے نہیں کرتا',
       strongPassword: 'مضبوط پاس ورڈ!',
-      mustInclude: 'پاس ورڈ میں شامل ہونا چاہیے:',
-      reqMinLength: 'کم از کم 12 حروف',
-      reqUpperCase: 'ایک بڑا حرف',
-      reqLowerCase: 'ایک چھوٹا حرف',
-      reqNumber: 'ایک عدد',
-      reqSpecialChar: 'ایک خاص کریکٹر',
+      mustInclude: 'پاس ورڈ ایسا ہونا چاہیے:',
+      reqMinLength: 'کم از کم 15 حروف: ایک پاس فریز بھی چلے گا',
+      reqNoRepeat: 'ایک ہی حرف کی تکرار نہیں',
+      reqNotCommon: 'کوئی عام پاس ورڈ نہیں',
       satisfied: ' (پورا ہوگیا)',
       required: ' (درکار ہے)',
       submit: 'جمع کروائیں',

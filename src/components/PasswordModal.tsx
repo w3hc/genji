@@ -91,12 +91,10 @@ const PasswordModal: React.FC<PasswordModalProps> = ({
     }
   }
 
-  // Password strength requirements
-  const hasMinLength = password.length >= 12
-  const hasUpperCase = /[A-Z]/.test(password)
-  const hasLowerCase = /[a-z]/.test(password)
-  const hasNumber = /[0-9]/.test(password)
-  const hasSpecialChar = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password)
+  // w3pk's rules (NIST SP 800-63B): length in code points, no composition rules
+  const chars = [...password.normalize('NFC')]
+  const hasMinLength = chars.length >= 15 && chars.length <= 256
+  const hasNoRepeat = new Set(chars).size > 1
 
   return (
     <Dialog.Root
@@ -151,33 +149,19 @@ const PasswordModal: React.FC<PasswordModalProps> = ({
                 </Flex>
 
                 <Flex align="center" gap={2}>
-                  {hasUpperCase ? <MdCheckCircle color="green" /> : <MdWarning color="gray" />}
-                  {t.passwordModal.reqUpperCase}
+                  {hasNoRepeat ? <MdCheckCircle color="green" /> : <MdWarning color="gray" />}
+                  {t.passwordModal.reqNoRepeat}
+                  <span className="sr-only">
+                    {hasNoRepeat ? t.passwordModal.satisfied : t.passwordModal.required}
+                  </span>
                 </Flex>
-                <span className="sr-only">
-                  {hasUpperCase ? t.passwordModal.satisfied : t.passwordModal.required}
-                </span>
                 <Flex align="center" gap={2}>
-                  {hasLowerCase ? <MdCheckCircle color="green" /> : <MdWarning color="gray" />}
-                  {t.passwordModal.reqLowerCase}
+                  {isPasswordStrong ? <MdCheckCircle color="green" /> : <MdWarning color="gray" />}
+                  {t.passwordModal.reqNotCommon}
+                  <span className="sr-only">
+                    {isPasswordStrong ? t.passwordModal.satisfied : t.passwordModal.required}
+                  </span>
                 </Flex>
-                <span className="sr-only">
-                  {hasLowerCase ? t.passwordModal.satisfied : t.passwordModal.required}
-                </span>
-                <Flex align="center" gap={2}>
-                  {hasNumber ? <MdCheckCircle color="green" /> : <MdWarning color="gray" />}
-                  {t.passwordModal.reqNumber}
-                </Flex>
-                <span className="sr-only">
-                  {hasNumber ? t.passwordModal.satisfied : t.passwordModal.required}
-                </span>
-                <Flex align="center" gap={2}>
-                  {hasSpecialChar ? <MdCheckCircle color="green" /> : <MdWarning color="gray" />}
-                  {t.passwordModal.reqSpecialChar}
-                </Flex>
-                <span className="sr-only">
-                  {hasSpecialChar ? t.passwordModal.satisfied : t.passwordModal.required}
-                </span>
               </Box>
             </Dialog.Body>
 
