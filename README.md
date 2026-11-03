@@ -9,7 +9,7 @@ Next.js Web3 starter with passkey auth and [WCAG 2.1 AA](https://www.levelaccess
 
 Includes:
 
-- **[w3pk](https://w3pk.w3hc.org/)** `v0.10.5`
+- **[w3pk](https://w3pk.w3hc.org/)** `v0.11.1`
 - [Next.js](https://nextjs.org/) `v16.4.3`
 - [Ethers](https://docs.ethers.org/) `v6.17.0`
 - [Chakra UI](https://chakra-ui.com/) `v3.37.0`

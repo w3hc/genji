@@ -1,5 +1,22 @@
 # Changelog
 
+## Unreleased
+
+### Changed
+
+- Updated `w3pk` to 0.11.1, a security release: the wallet on the device is encrypted under a key from the passkey's PRF output, cloned authenticators are rejected, and assertions and registrations are checked against the request that asked for them. Wallets stored by w3pk 0.10.x can't be read: login throws `SyncRequiredError`, which opens `/settings#sync-import`, and users restore from a backup or a sync file. Where the authenticator has no PRF, the wallet is kept in memory for the session only
+- Social recovery uses w3pk's `setupSocialRecovery()`, `generateGuardianInvite()` and `recoverFromGuardians()`. Guardian shares are no longer stored on the device: Settings lists them after setup so each invitation can be downloaded, and leaving the page discards them. Recovery asks for the password first, restores the wallet, and registers a new passkey when logged out
+- A restore that would replace the device's wallet with another address (`AddressChangeError`) asks for confirmation before going on, for backup files, sync files, `syncWalletWithPasskey()` and guardian recovery
+- The password checklist follows w3pk's rules: 15 to 256 characters, any characters and spaces, not one character repeated, not a common password. A weak social recovery password shows w3pk's feedback
+- The security score is shown out of 70
+- Backup files are created with `createBackupFile(password)`; the user's name comes from `username`, since w3pk dropped `displayName` and `id`
+- `.genji-sync.json`: the translations merge drops the keys genji removed, and the Header parity note reads the name from `user.username`
+
+### Removed
+
+- The `w3pk_social_recovery` localStorage key, which held every guardian share together on the device: it is deleted on load
+- The "Clear Guardian Config from Local Storage" button and its translations, and the `origin` option of `deriveWallet()`, `signMessage()` and `sendTransaction()`, which w3pk removed
+
 ## 3.3.0 - 2026-10-27
 
 ### Added

@@ -12,7 +12,7 @@
 
 - **Framework**: Next.js 16.4.3 (App Router, React 19.3.1)
 - **UI Library**: Chakra UI 3.30.0 with Emotion styling
-- **Authentication**: w3pk SDK 0.10.5 (Web3 Passkey authentication)
+- **Authentication**: w3pk SDK 0.11.1 (Web3 Passkey authentication)
 - **Blockchain**: Ethers.js 6.15.0
 - **Language**: TypeScript 5.9.3 (strict mode)
 - **Internationalization**: 10 languages with browser auto-detection
@@ -37,16 +37,17 @@
    - Message signing capabilities
 
 3. **Backup & Recovery** ([settings/page.tsx](../src/app/settings/page.tsx))
-   - Password-protected ZIP backups with AES-256-GCM encryption
+   - Password-protected backup files (Argon2id and AES-256-GCM), with w3pk's password rules: 15 characters or more, passphrases welcome, no common passwords
    - Restoration from ZIP/JSON files
-   - Security scoring and recovery recommendations
+   - Security scoring (out of 70) and recovery recommendations
+   - A restore that would replace the device's wallet with another address asks for confirmation first (`AddressChangeError`)
    - Backup step after registration ([BackupStep.tsx](../src/components/BackupStep.tsx)), blocking, on Safari only
    - Home Screen or backup choice before registration on iPhone and iPad ([HomeScreenChoice.tsx](../src/components/HomeScreenChoice.tsx)), in a browser tab with storage not persisted
    - Passwordless device sync ([SyncImport.tsx](../src/components/SyncImport.tsx)): a sync file from `exportForSync()` is locked to the passkey through WebAuthn PRF and imports with one prompt on any device where the passkey synced, with a password fallback where PRF is missing. Its QR code is a sync link ([syncLink.ts](../src/utils/syncLink.ts)) that carries the file after `#sync=`, so scanning it opens Settings ready to sync
    - Three-layer recovery architecture:
      1. Passkey auto-sync (iCloud Keychain, Google Password Manager, etc.)
      2. Encrypted backup files (user-generated)
-     3. Social recovery via Shamir Secret Sharing (planned)
+     3. Social recovery: `setupSocialRecovery()` splits a password backup among guardians with Shamir Secret Sharing. The shares are never stored on the device, so each guardian's invitation is downloaded at setup
 
 4. **Internationalization** ([translations/index.ts](../src/translations/index.ts))
    - Supported: English, Mandarin, Hindi, Spanish, French, Arabic, Bengali, Russian, Portuguese, Urdu
@@ -99,7 +100,7 @@ src/
 
 **Passkeys**: Stored in browser's Secure Enclave (hardware-backed, survives data clearing)
 
-**Encrypted Wallet Mnemonic**: Stored in `localStorage` using AES-GCM encryption, with persistent sessions and backup records (w3pk ≥ 0.10.3 no longer uses IndexedDB)
+**Encrypted Wallet Mnemonic**: Stored in `localStorage` using AES-GCM under a key from the passkey's PRF output (w3pk ≥ 0.11.1), with persistent sessions and backup records. Where the authenticator has no PRF, the wallet stays in memory for the session and comes back from a backup on the next visit
 
 - **Risk**: Cleared when users clear cookies/site data, by Safari after 7 days without a visit, and on iPhone and iPad by every browser, all of which use Safari's engine (unless the app runs from the Home Screen, which has its own storage)
 - **Mitigation**: A backup step opens after registration when no backup exists and w3pk reports `evictionRisk` (Safari in a tab, storage not persisted), and is blocking until the user backs up or accepts the risk. Settings → Security Status shows the same warning. On iPhone and iPad, opening registration first offers to add the app to the Home Screen and create the wallet there, or to go on in the browser and back up
@@ -313,7 +314,6 @@ function getUsername(): string { ... }
 
 **Planned**:
 
-- Social recovery UI (Shamir Secret Sharing)
 - QR code backup display
 - Browser extension version
 - Cloud-encrypted backup option
