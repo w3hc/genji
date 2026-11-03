@@ -20,6 +20,7 @@ import {
   createWeb3Passkey,
   getCurrentBuildHash,
   verifyBuildHash,
+  AddressChangeError,
   PrfUnsupportedError,
   SyncRequiredError,
   WalletMissingError,
@@ -208,6 +209,20 @@ export function isUserCancelledError(error: unknown): boolean {
     )
   }
   return false
+}
+
+// A restore that would replace the device's wallet with another address
+// throws AddressChangeError; ask before running it again with the change allowed
+async function withAddressChangeConfirm<T>(
+  restore: (options: { allowAddressChange?: boolean }) => Promise<T>
+): Promise<T> {
+  try {
+    return await restore({})
+  } catch (error) {
+    if (!(error instanceof AddressChangeError)) throw error
+    if (!window.confirm(`${error.message}\n\nReplace ${error.currentAddress}?`)) throw error
+    return restore({ allowAddressChange: true })
+  }
 }
 
 export function isRequestPendingError(error: unknown): boolean {
@@ -791,7 +806,7 @@ export const W3pkProvider: React.FC<W3pkProviderProps> = ({ children }) => {
   const importFromSync = async (syncData: string): Promise<{ ethereumAddress: string }> => {
     try {
       setIsLoading(true)
-      return await w3pk.importFromSync(syncData)
+      return await withAddressChangeConfirm(options => w3pk.importFromSync(syncData, options))
     } finally {
       setIsLoading(false)
     }
@@ -803,7 +818,9 @@ export const W3pkProvider: React.FC<W3pkProviderProps> = ({ children }) => {
   ): Promise<{ ethereumAddress: string }> => {
     try {
       setIsLoading(true)
-      return await w3pk.syncWalletWithPasskey(backupData, password)
+      return await withAddressChangeConfirm(options =>
+        w3pk.syncWalletWithPasskey(backupData, password, options)
+      )
     } finally {
       setIsLoading(false)
     }
@@ -816,7 +833,9 @@ export const W3pkProvider: React.FC<W3pkProviderProps> = ({ children }) => {
     try {
       setIsLoading(true)
 
-      const result = await w3pk.restoreFromBackupFile(backupData, password)
+      const result = await withAddressChangeConfirm(options =>
+        w3pk.restoreFromBackupFile(backupData, password, options)
+      )
 
       toaster.create({
         title: 'Backup Restored Successfully!',
@@ -981,7 +1000,9 @@ export const W3pkProvider: React.FC<W3pkProviderProps> = ({ children }) => {
   ): Promise<{ ethereumAddress: string }> => {
     try {
       setIsLoading(true)
-      return await w3pk.recoverFromGuardians(shares, password)
+      return await withAddressChangeConfirm(options =>
+        w3pk.recoverFromGuardians(shares, password, options)
+      )
     } catch (error) {
       const errorMessage =
         error instanceof Error ? error.message : 'Failed to recover from guardians'
