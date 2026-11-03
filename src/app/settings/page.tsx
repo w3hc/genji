@@ -43,6 +43,7 @@ import {
   FiUserPlus,
 } from 'react-icons/fi'
 import { AuthenticationError, PrfUnsupportedError, SyncBootstrapError } from 'w3pk'
+import type { GuardianShare } from 'w3pk'
 import { useW3PK, isUserCancelledError } from '@/context/W3PK'
 import { useTranslation } from '@/hooks/useTranslation'
 import Spinner from '@/components/Spinner'
@@ -156,9 +157,15 @@ const SettingsPage = () => {
   const [guardianEmail, setGuardianEmail] = useState<string>('')
   const [guardiansList, setGuardiansList] = useState<Array<{ name: string; email?: string }>>([])
   const [threshold, setThreshold] = useState<number>(3)
-  const [socialRecoveryConfig, setSocialRecoveryConfig] = useState<any>(null)
-  const [selectedGuardianForInvite, setSelectedGuardianForInvite] = useState<any>(null)
-  const [guardianInvite, setGuardianInvite] = useState<any>(null)
+  const [guardianShares, setGuardianShares] = useState<GuardianShare[]>([])
+  const [selectedGuardianForInvite, setSelectedGuardianForInvite] = useState<GuardianShare | null>(
+    null
+  )
+  const [guardianInvite, setGuardianInvite] = useState<{
+    shareJson: string
+    shareDocument: string
+    filename: string
+  } | null>(null)
 
   // Recovery state
   const [recoveryShares, setRecoveryShares] = useState<string[]>([])
@@ -190,10 +197,8 @@ const SettingsPage = () => {
     register,
     deriveWallet,
     setupSocialRecovery,
-    getSocialRecoveryConfig,
     generateGuardianInvite,
     recoverFromGuardians,
-    clearSocialRecoveryConfig,
     setPersistentSessionDuration,
     hasPersistentSession,
   } = useW3PK()
@@ -440,13 +445,6 @@ const SettingsPage = () => {
     loadAddressesAndStatus()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAuthenticated, user])
-
-  useEffect(() => {
-    if (!isAuthenticated || !getSocialRecoveryConfig) return
-    const config = getSocialRecoveryConfig()
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setSocialRecoveryConfig(config)
-  }, [isAuthenticated, getSocialRecoveryConfig])
 
   const handleDeleteAccount = (account: StoredAccount) => {
     setAccountToDelete(account)
@@ -1400,9 +1398,7 @@ const SettingsPage = () => {
     }
 
     try {
-      const guardians = await setupSocialRecovery(guardiansList, threshold)
-      const config = getSocialRecoveryConfig()
-      setSocialRecoveryConfig(config)
+      setGuardianShares(await setupSocialRecovery(guardiansList, threshold))
 
       toaster.create({
         title: t.settings.socialRecoveryConfiguredTitle,
@@ -1418,10 +1414,10 @@ const SettingsPage = () => {
     }
   }
 
-  const handleGenerateInvite = async (guardian: any) => {
+  const handleGenerateInvite = async (share: GuardianShare) => {
     try {
-      const invite = await generateGuardianInvite(guardian)
-      setSelectedGuardianForInvite(guardian)
+      const invite = await generateGuardianInvite(share)
+      setSelectedGuardianForInvite(share)
       setGuardianInvite(invite)
     } catch (error) {
       console.error('Error generating guardian invite:', error)
@@ -1431,20 +1427,15 @@ const SettingsPage = () => {
   const handleDownloadInvite = () => {
     if (!guardianInvite) return
 
-    const blob = new Blob([guardianInvite.explainer + '\n\n' + guardianInvite.shareCode], {
+    const blob = new Blob([guardianInvite.shareDocument + '\n\n' + guardianInvite.shareJson], {
       type: 'text/plain',
     })
     const link = document.createElement('a')
     link.href = URL.createObjectURL(blob)
-    link.download = `guardian-invite-${selectedGuardianForInvite?.name || 'guardian'}.txt`
+    link.download = guardianInvite.filename.replace(/\.json$/, '.txt')
     document.body.appendChild(link)
     link.click()
     document.body.removeChild(link)
-  }
-
-  const handleClearSocialRecovery = () => {
-    clearSocialRecoveryConfig()
-    setSocialRecoveryConfig(null)
   }
 
   const handleAddRecoveryShare = () => {
@@ -1461,15 +1452,13 @@ const SettingsPage = () => {
     try {
       // Validate JSON format
       const parsed = JSON.parse(currentShareInput)
-      if (!parsed.share || !parsed.guardianId) {
+      if (parsed.type !== 'w3pk-guardian-share' || !parsed.shareData) {
         throw new Error('Invalid share format')
       }
 
-      // Check for duplicates
-      const isDuplicate = recoveryShares.some(share => {
-        const existingParsed = JSON.parse(share)
-        return existingParsed.guardianId === parsed.guardianId
-      })
+      const isDuplicate = recoveryShares.some(
+        share => JSON.parse(share).shareIndex === parsed.shareIndex
+      )
 
       if (isDuplicate) {
         toaster.create({
@@ -1519,10 +1508,6 @@ const SettingsPage = () => {
 
     setIsRecovering(true)
     try {
-      // Step 1: Recover the encrypted backup file from guardian shares
-      const { backupFileJson, ethereumAddress } = await recoverFromGuardians(recoveryShares)
-
-      // Step 2: Prompt for password to decrypt the backup file
       const password = window.prompt(t.settings.recoveryPasswordPrompt)
 
       if (!password) {
@@ -1536,32 +1521,30 @@ const SettingsPage = () => {
         return
       }
 
-      // Step 3: Prompt for username for the new passkey registration
-      const username = window.prompt(
-        t.settings.recoveryUsernamePrompt(
-          `${ethereumAddress.slice(0, 6)}...${ethereumAddress.slice(-4)}`
-        )
-      )
+      const { ethereumAddress } = await recoverFromGuardians(recoveryShares, password)
+      const shortAddress = `${ethereumAddress.slice(0, 6)}...${ethereumAddress.slice(-4)}`
 
-      if (!username) {
-        toaster.create({
-          title: t.header.usernameRequiredTitle,
-          description: t.settings.usernameRequiredRecoveryDescription,
-          type: 'error',
-          duration: 3000,
-        })
-        setIsRecovering(false)
-        return
+      // Logged out, the wallet is in memory until a new passkey secures it
+      if (!isAuthenticated) {
+        const username = window.prompt(t.settings.recoveryUsernamePrompt(shortAddress))
+
+        if (!username) {
+          toaster.create({
+            title: t.header.usernameRequiredTitle,
+            description: t.settings.usernameRequiredRecoveryDescription,
+            type: 'error',
+            duration: 3000,
+          })
+          setIsRecovering(false)
+          return
+        }
+
+        await register(username.trim())
       }
-
-      // Step 4: Register with the recovered backup file
-      const result = await registerWithBackupFile(backupFileJson, password, username)
 
       toaster.create({
         title: t.settings.walletRecoveredTitle,
-        description: t.settings.walletRecoveredDescription(
-          `${result.address.slice(0, 6)}...${result.address.slice(-4)}`
-        ),
+        description: t.settings.walletRecoveredDescription(shortAddress),
         type: 'success',
         duration: 8000,
       })
@@ -1572,7 +1555,7 @@ const SettingsPage = () => {
       setShowRecoverySection(false)
     } catch (error) {
       console.error('Recovery error:', error)
-      // Error toast already shown in recoverFromGuardians or registerWithBackupFile
+      // Error toast already shown in recoverFromGuardians or register
     } finally {
       setIsRecovering(false)
     }
@@ -2149,7 +2132,7 @@ const SettingsPage = () => {
               </Box>
 
               <SimpleGrid columns={{ base: 1 }} gap={6}>
-                {!socialRecoveryConfig ? (
+                {guardianShares.length === 0 ? (
                   <>
                     {/* Setup Social Recovery */}
                     <Box
@@ -2511,16 +2494,16 @@ const SettingsPage = () => {
                       </HStack>
                       <Text fontSize="sm" color="gray.400" mb={4}>
                         {t.settings.activeDescription(
-                          socialRecoveryConfig.threshold,
-                          socialRecoveryConfig.totalGuardians
+                          guardianShares[0].threshold,
+                          guardianShares.length
                         )}
                       </Text>
 
                       {/* Guardians List */}
                       <VStack align="stretch" gap={3} mb={4}>
-                        {socialRecoveryConfig.guardians.map((guardian: any, index: number) => (
+                        {guardianShares.map(share => (
                           <Box
-                            key={guardian.id}
+                            key={share.guardianId}
                             p={4}
                             bg="gray.950"
                             borderRadius="md"
@@ -2528,33 +2511,12 @@ const SettingsPage = () => {
                             borderColor="gray.800"
                           >
                             <HStack justify="space-between" mb={2}>
-                              <Box>
-                                <HStack>
-                                  <Text fontSize="sm" fontWeight="bold">
-                                    {guardian.name}
-                                  </Text>
-                                  <Badge
-                                    colorPalette={
-                                      guardian.status === 'active'
-                                        ? 'green'
-                                        : guardian.status === 'pending'
-                                          ? 'yellow'
-                                          : 'gray'
-                                    }
-                                    fontSize="xs"
-                                  >
-                                    {guardian.status}
-                                  </Badge>
-                                </HStack>
-                                {guardian.email && (
-                                  <Text fontSize="xs" color="gray.400">
-                                    {guardian.email}
-                                  </Text>
-                                )}
-                              </Box>
+                              <Text fontSize="sm" fontWeight="bold">
+                                {share.guardianName}
+                              </Text>
                               <Button
                                 size="xs"
-                                onClick={() => handleGenerateInvite(guardian)}
+                                onClick={() => handleGenerateInvite(share)}
                                 colorPalette="purple"
                                 px={4}
                                 flexShrink={0}
@@ -2566,22 +2528,10 @@ const SettingsPage = () => {
                         ))}
                       </VStack>
 
-                      {/* Clear Local Storage Button */}
                       <Box p={4} bg="blue.900/90" borderRadius="lg">
-                        <VStack gap={3} align="stretch">
-                          <Text fontSize="sm" color="gray.300">
-                            {t.settings.removeConfigQuestion}
-                          </Text>
-                          <Button
-                            onClick={handleClearSocialRecovery}
-                            colorPalette="red"
-                            variant="outline"
-                            width="full"
-                            size="sm"
-                          >
-                            {t.settings.removeConfigButton}
-                          </Button>
-                        </VStack>
+                        <Text fontSize="sm" color="gray.300">
+                          {t.settings.sharesNotStoredNotice}
+                        </Text>
                       </Box>
                     </Box>
 
@@ -2612,7 +2562,7 @@ const SettingsPage = () => {
                           mb={4}
                         >
                           <QRCodeSVG
-                            value={guardianInvite.shareCode}
+                            value={guardianInvite.shareJson}
                             size={256}
                             level="H"
                             marginSize={4}
@@ -2632,7 +2582,9 @@ const SettingsPage = () => {
                             {t.settings.downloadInviteButton}
                           </Button>
                           <Text fontSize="xs" color="gray.400" textAlign="center">
-                            {t.settings.sendInviteText(selectedGuardianForInvite?.name)}
+                            {t.settings.sendInviteText(
+                              selectedGuardianForInvite?.guardianName ?? ''
+                            )}
                           </Text>
                         </VStack>
                       </Box>

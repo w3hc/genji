@@ -20,11 +20,11 @@ import {
   createWeb3Passkey,
   getCurrentBuildHash,
   verifyBuildHash,
-  SocialRecoveryManager,
   PrfUnsupportedError,
   SyncRequiredError,
   WalletMissingError,
 } from 'w3pk'
+import type { GuardianShare } from 'w3pk'
 import { useRouter } from 'next/navigation'
 import { toaster } from '@/components/ui/toaster'
 
@@ -66,29 +66,10 @@ interface DerivedWallet {
   publicKey?: string
 }
 
-interface Guardian {
-  id: string
-  name: string
-  email?: string
-  phone?: string
-  shareEncrypted: string
-  status: 'pending' | 'active' | 'revoked'
-  addedAt: string
-  lastVerified?: string
-}
-
 interface GuardianInvite {
-  guardianId: string
-  shareCode: string
-  explainer: string
-}
-
-interface SocialRecoveryConfig {
-  threshold: number
-  totalGuardians: number
-  guardians: Guardian[]
-  createdAt: string
-  ethereumAddress: string
+  shareJson: string
+  shareDocument: string
+  filename: string
 }
 
 interface StealthAddressResult {
@@ -166,16 +147,12 @@ interface W3pkType {
     username: string
   ) => Promise<{ address: string; username: string }>
   setupSocialRecovery: (
-    guardians: { name: string; email?: string; phone?: string }[],
+    guardians: { name: string; email?: string }[],
     threshold: number,
     password?: string
-  ) => Promise<Guardian[]>
-  getSocialRecoveryConfig: () => SocialRecoveryConfig | null
-  generateGuardianInvite: (guardian: Guardian) => Promise<GuardianInvite>
-  recoverFromGuardians: (
-    shareData: string[]
-  ) => Promise<{ backupFileJson: string; ethereumAddress: string }>
-  clearSocialRecoveryConfig: () => void
+  ) => Promise<GuardianShare[]>
+  generateGuardianInvite: (share: GuardianShare) => Promise<GuardianInvite>
+  recoverFromGuardians: (shares: string[], password: string) => Promise<{ ethereumAddress: string }>
   getStealthKeys: () => Promise<any>
   generateStealthAddressFor: (recipientMetaAddress: string) => Promise<StealthAddressResult>
   /** Update the "Remember Me" window; applies at the next real (prompted) login */
@@ -284,6 +261,10 @@ export const W3pkProvider: React.FC<W3pkProviderProps> = ({ children }) => {
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsMounted(true)
+    // Left by w3pk < 0.11: it held every guardian share together on the device
+    try {
+      localStorage.removeItem('w3pk_social_recovery')
+    } catch {}
   }, [])
 
   const handleAuthStateChanged = useCallback((isAuth: boolean, w3pkUser?: unknown) => {
@@ -899,14 +880,14 @@ export const W3pkProvider: React.FC<W3pkProviderProps> = ({ children }) => {
     }
   }
 
-  // Social recovery now uses the w3pk library's SocialRecoveryManager
-  // which splits backup files instead of mnemonics for better security
+  // Guardian shares are never stored on the device: setup returns them
+  // once, and the guardians keep them
 
   const setupSocialRecovery = async (
-    guardians: { name: string; email?: string; phone?: string }[],
+    guardians: { name: string; email?: string }[],
     threshold: number,
     password?: string
-  ): Promise<Guardian[]> => {
+  ): Promise<GuardianShare[]> => {
     if (!isAuthenticated || !user) {
       throw new Error('User not authenticated. Cannot setup social recovery.')
     }
@@ -929,16 +910,10 @@ export const W3pkProvider: React.FC<W3pkProviderProps> = ({ children }) => {
         throw new Error('Password is required for social recovery setup')
       }
 
-      // Create password-encrypted backup file
-      const backupBlob = await w3pk.createBackupFile(backupPassword)
-      const backupJson = await backupBlob.blob.text()
-
-      // Use w3pk's SocialRecoveryManager to split the backup file
-      const guardianObjects = await new SocialRecoveryManager().setupSocialRecovery(
-        backupJson,
-        user.ethereumAddress,
+      const { guardianShares } = await w3pk.setupSocialRecovery(
         guardians,
-        threshold
+        threshold,
+        backupPassword
       )
 
       toaster.create({
@@ -948,7 +923,7 @@ export const W3pkProvider: React.FC<W3pkProviderProps> = ({ children }) => {
         duration: 5000,
       })
 
-      return guardianObjects
+      return guardianShares
     } catch (error) {
       const errorMessage =
         error instanceof Error ? error.message : 'Failed to setup social recovery'
@@ -965,28 +940,24 @@ export const W3pkProvider: React.FC<W3pkProviderProps> = ({ children }) => {
     }
   }
 
-  const getSocialRecoveryConfig = (): SocialRecoveryConfig | null => {
-    try {
-      return new SocialRecoveryManager().getSocialRecoveryConfig()
-    } catch {
-      return null
-    }
-  }
-
-  const generateGuardianInvite = async (guardian: Guardian): Promise<GuardianInvite> => {
+  const generateGuardianInvite = async (share: GuardianShare): Promise<GuardianInvite> => {
     try {
       setIsLoading(true)
 
-      const invite = await new SocialRecoveryManager().generateGuardianInvite(guardian)
+      const invite = await w3pk.generateGuardianInvite(share)
 
       toaster.create({
         title: 'Guardian Invitation Generated',
-        description: `Invitation ready for ${guardian.name}`,
+        description: `Invitation ready for ${share.guardianName}`,
         type: 'success',
         duration: 3000,
       })
 
-      return invite
+      return {
+        shareJson: await invite.downloadBlob.text(),
+        shareDocument: invite.shareDocument,
+        filename: invite.filename,
+      }
     } catch (error) {
       const errorMessage =
         error instanceof Error ? error.message : 'Failed to generate guardian invite'
@@ -1003,26 +974,14 @@ export const W3pkProvider: React.FC<W3pkProviderProps> = ({ children }) => {
     }
   }
 
+  // Logged out, the recovered wallet stays in memory until register()
   const recoverFromGuardians = async (
-    shareData: string[]
-  ): Promise<{ backupFileJson: string; ethereumAddress: string }> => {
+    shares: string[],
+    password: string
+  ): Promise<{ ethereumAddress: string }> => {
     try {
       setIsLoading(true)
-
-      const { backupFileJson, ethereumAddress } =
-        await new SocialRecoveryManager().recoverFromGuardians(shareData)
-
-      toaster.create({
-        title: 'Backup File Recovered!',
-        description: `Successfully recovered encrypted backup file for ${ethereumAddress.slice(0, 6)}...${ethereumAddress.slice(-4)}. You can now restore your wallet with the password you set during setup.`,
-        type: 'success',
-        duration: 8000,
-      })
-
-      return {
-        backupFileJson,
-        ethereumAddress,
-      }
+      return await w3pk.recoverFromGuardians(shares, password)
     } catch (error) {
       const errorMessage =
         error instanceof Error ? error.message : 'Failed to recover from guardians'
@@ -1036,32 +995,6 @@ export const W3pkProvider: React.FC<W3pkProviderProps> = ({ children }) => {
       throw error
     } finally {
       setIsLoading(false)
-    }
-  }
-
-  const clearSocialRecoveryConfig = (): void => {
-    try {
-      // Clear from localStorage (both old and new format)
-      if (typeof window !== 'undefined' && window.localStorage) {
-        localStorage.removeItem('w3pk_social_recovery')
-
-        toaster.create({
-          title: 'Social Recovery Config Cleared',
-          description: 'Guardian shares removed from local storage',
-          type: 'success',
-          duration: 3000,
-        })
-      }
-    } catch (error) {
-      const errorMessage =
-        error instanceof Error ? error.message : 'Failed to clear social recovery config'
-
-      toaster.create({
-        title: 'Clear Failed',
-        description: errorMessage,
-        type: 'error',
-        duration: 3000,
-      })
     }
   }
 
@@ -1159,10 +1092,8 @@ export const W3pkProvider: React.FC<W3pkProviderProps> = ({ children }) => {
         restoreFromBackup,
         registerWithBackupFile,
         setupSocialRecovery,
-        getSocialRecoveryConfig,
         generateGuardianInvite,
         recoverFromGuardians,
-        clearSocialRecoveryConfig,
         getStealthKeys,
         generateStealthAddressFor,
         setPersistentSessionDuration,

@@ -173,8 +173,7 @@ type TranslationKeys = {
     activeHeading: string
     activeDescription: (threshold: number, count: number) => string
     generateInviteButton: string
-    removeConfigQuestion: string
-    removeConfigButton: string
+    sharesNotStoredNotice: string
     invitationHeading: string
     downloadInviteButton: string
     sendInviteText: (name: string) => string
@@ -588,9 +587,8 @@ export const translations: Translations = {
       activeDescription: (threshold, count) =>
         `Your wallet is protected with ${threshold}-of-${count} guardian recovery`,
       generateInviteButton: 'Generate Invite',
-      removeConfigQuestion:
-        'All guardians have their shares? You can now remove the guardian configuration from local storage. The shares are safely stored with your guardians and can be used for recovery anytime.',
-      removeConfigButton: 'Clear Guardian Config from Local Storage',
+      sharesNotStoredNotice:
+        "Download each guardian's invitation now: the shares are not stored on this device, and leaving this page discards them. To change guardians, set up social recovery again.",
       invitationHeading: 'Guardian Invitation',
       downloadInviteButton: 'Download Invitation',
       sendInviteText: name => `Send this invitation to ${name} via a secure channel`,
@@ -1042,9 +1040,8 @@ export const translations: Translations = {
       activeDescription: (threshold, count) =>
         `您的钱包受到 ${count} 中取 ${threshold} 监护人恢复机制的保护`,
       generateInviteButton: '生成邀请',
-      removeConfigQuestion:
-        '所有监护人都已获得各自的份额？您现在可以从本地存储中移除监护人配置。份额已安全保存在您的监护人处，可随时用于恢复。',
-      removeConfigButton: '从本地存储清除监护人配置',
+      sharesNotStoredNotice:
+        '请立即下载每位监护人的邀请：份额不会存储在此设备上，离开此页面后将被丢弃。如需更换监护人，请重新设置社交恢复。',
       invitationHeading: '监护人邀请',
       downloadInviteButton: '下载邀请',
       sendInviteText: name => `通过安全渠道将此邀请发送给 ${name}`,
@@ -1479,9 +1476,8 @@ export const translations: Translations = {
       activeDescription: (threshold, count) =>
         `आपका वॉलेट ${count} में से ${threshold} अभिभावक रिकवरी से सुरक्षित है`,
       generateInviteButton: 'आमंत्रण जनरेट करें',
-      removeConfigQuestion:
-        'क्या सभी अभिभावकों के पास अपने शेयर हैं? अब आप लोकल स्टोरेज से अभिभावक कॉन्फ़िगरेशन हटा सकते हैं। शेयर आपके अभिभावकों के पास सुरक्षित रूप से संग्रहीत हैं और कभी भी रिकवरी के लिए उपयोग किए जा सकते हैं।',
-      removeConfigButton: 'लोकल स्टोरेज से अभिभावक कॉन्फ़िगरेशन साफ़ करें',
+      sharesNotStoredNotice:
+        'हर अभिभावक का आमंत्रण अभी डाउनलोड करें: शेयर इस डिवाइस पर संग्रहीत नहीं होते, और यह पेज छोड़ने पर हटा दिए जाते हैं। अभिभावक बदलने के लिए, सोशल रिकवरी फिर से सेट करें।',
       invitationHeading: 'अभिभावक आमंत्रण',
       downloadInviteButton: 'आमंत्रण डाउनलोड करें',
       sendInviteText: name => `यह आमंत्रण ${name} को एक सुरक्षित चैनल के माध्यम से भेजें`,
@@ -1953,9 +1949,8 @@ export const translations: Translations = {
       activeDescription: (threshold, count) =>
         `Tu billetera está protegida con una recuperación de ${threshold}-de-${count} guardianes`,
       generateInviteButton: 'Generar invitación',
-      removeConfigQuestion:
-        '¿Todos los guardianes tienen sus partes? Ahora puedes eliminar la configuración de guardianes del almacenamiento local. Las partes están guardadas de forma segura con tus guardianes y pueden usarse para la recuperación en cualquier momento.',
-      removeConfigButton: 'Borrar configuración de guardianes del almacenamiento local',
+      sharesNotStoredNotice:
+        'Descarga ahora la invitación de cada guardián: las partes no se guardan en este dispositivo y se descartan al salir de esta página. Para cambiar de guardianes, vuelve a configurar la recuperación social.',
       invitationHeading: 'Invitación de guardián',
       downloadInviteButton: 'Descargar invitación',
       sendInviteText: name => `Envía esta invitación a ${name} a través de un canal seguro`,
@@ -2437,9 +2432,8 @@ export const translations: Translations = {
       activeDescription: (threshold, count) =>
         `Votre portefeuille est protégé par une récupération à ${threshold} gardiens sur ${count}`,
       generateInviteButton: 'Générer une invitation',
-      removeConfigQuestion:
-        'Tous les gardiens ont-ils leur part ? Vous pouvez désormais supprimer la configuration des gardiens du stockage local. Les parts sont conservées en sécurité chez vos gardiens et peuvent être utilisées à tout moment pour la récupération.',
-      removeConfigButton: 'Effacer la configuration des gardiens du stockage local',
+      sharesNotStoredNotice:
+        "Téléchargez maintenant l'invitation de chaque gardien : les parts ne sont pas stockées sur cet appareil et sont perdues en quittant cette page. Pour changer de gardiens, configurez à nouveau la récupération sociale.",
       invitationHeading: 'Invitation du gardien',
       downloadInviteButton: "Télécharger l'invitation",
       sendInviteText: name => `Envoyez cette invitation à ${name} via un canal sécurisé`,
@@ -2916,9 +2910,8 @@ export const translations: Translations = {
       activeDescription: (threshold, count) =>
         `محفظتك محمية باسترداد ${threshold} من ${count} أوصياء`,
       generateInviteButton: 'إنشاء دعوة',
-      removeConfigQuestion:
-        'هل حصل جميع الأوصياء على حصصهم؟ يمكنك الآن إزالة إعدادات الأوصياء من التخزين المحلي. الحصص مخزنة بأمان لدى أوصيائك ويمكن استخدامها للاسترداد في أي وقت.',
-      removeConfigButton: 'مسح إعدادات الأوصياء من التخزين المحلي',
+      sharesNotStoredNotice:
+        'نزّل دعوة كل وصي الآن: لا تُخزَّن الحصص على هذا الجهاز، وتُحذف عند مغادرة هذه الصفحة. لتغيير الأوصياء، أعد إعداد الاسترداد الاجتماعي.',
       invitationHeading: 'دعوة الوصي',
       downloadInviteButton: 'تنزيل الدعوة',
       sendInviteText: name => `أرسل هذه الدعوة إلى ${name} عبر قناة آمنة`,
@@ -3376,9 +3369,8 @@ export const translations: Translations = {
       activeDescription: (threshold, count) =>
         `আপনার ওয়ালেট ${count}-এর মধ্যে-${threshold} অভিভাবক পুনরুদ্ধার দ্বারা সুরক্ষিত`,
       generateInviteButton: 'আমন্ত্রণ তৈরি করুন',
-      removeConfigQuestion:
-        'সব অভিভাবকের কাছে তাদের শেয়ার আছে? আপনি এখন লোকাল স্টোরেজ থেকে অভিভাবক কনফিগারেশন সরিয়ে ফেলতে পারেন। শেয়ারগুলি আপনার অভিভাবকদের কাছে নিরাপদে সংরক্ষিত আছে এবং যেকোনো সময় পুনরুদ্ধারের জন্য ব্যবহার করা যেতে পারে।',
-      removeConfigButton: 'লোকাল স্টোরেজ থেকে অভিভাবক কনফিগারেশন মুছুন',
+      sharesNotStoredNotice:
+        'এখনই প্রতিটি অভিভাবকের আমন্ত্রণ ডাউনলোড করুন: শেয়ারগুলি এই ডিভাইসে সংরক্ষিত হয় না, এবং এই পৃষ্ঠা ছেড়ে গেলে মুছে যায়। অভিভাবক পরিবর্তন করতে, সোশ্যাল রিকভারি আবার সেট আপ করুন।',
       invitationHeading: 'অভিভাবক আমন্ত্রণ',
       downloadInviteButton: 'আমন্ত্রণ ডাউনলোড করুন',
       sendInviteText: name => `একটি নিরাপদ চ্যানেলের মাধ্যমে ${name}-কে এই আমন্ত্রণ পাঠান`,
@@ -3856,9 +3848,8 @@ export const translations: Translations = {
       activeDescription: (threshold, count) =>
         `Ваш кошелёк защищён восстановлением по схеме ${threshold} из ${count} хранителей`,
       generateInviteButton: 'Сгенерировать приглашение',
-      removeConfigQuestion:
-        'Все хранители получили свои доли? Теперь вы можете удалить конфигурацию хранителей из локального хранилища. Доли надёжно хранятся у ваших хранителей и могут быть использованы для восстановления в любое время.',
-      removeConfigButton: 'Очистить конфигурацию хранителей из локального хранилища',
+      sharesNotStoredNotice:
+        'Скачайте приглашение для каждого хранителя сейчас: доли не хранятся на этом устройстве и будут удалены, когда вы покинете страницу. Чтобы сменить хранителей, настройте социальное восстановление заново.',
       invitationHeading: 'Приглашение хранителя',
       downloadInviteButton: 'Скачать приглашение',
       sendInviteText: name =>
@@ -4338,9 +4329,8 @@ export const translations: Translations = {
       activeDescription: (threshold, count) =>
         `A sua carteira está protegida com recuperação de ${threshold}-de-${count} guardiões`,
       generateInviteButton: 'Gerar convite',
-      removeConfigQuestion:
-        'Todos os guardiões têm as suas partilhas? Agora pode remover a configuração dos guardiões do armazenamento local. As partilhas estão guardadas em segurança com os seus guardiões e podem ser utilizadas para recuperação a qualquer momento.',
-      removeConfigButton: 'Limpar configuração dos guardiões do armazenamento local',
+      sharesNotStoredNotice:
+        'Transfira agora o convite de cada guardião: as partilhas não são guardadas neste dispositivo e são descartadas ao sair desta página. Para mudar de guardiões, configure novamente a recuperação social.',
       invitationHeading: 'Convite do guardião',
       downloadInviteButton: 'Transferir convite',
       sendInviteText: name => `Envie este convite para ${name} através de um canal seguro`,
@@ -4817,9 +4807,8 @@ export const translations: Translations = {
       activeDescription: (threshold, count) =>
         `آپ کا والیٹ ${threshold}-از-${count} گارڈین بحالی سے محفوظ ہے`,
       generateInviteButton: 'دعوت نامہ تیار کریں',
-      removeConfigQuestion:
-        'کیا تمام گارڈینز کے پاس اپنے شیئرز موجود ہیں؟ اب آپ گارڈین کنفیگریشن کو لوکل اسٹوریج سے ہٹا سکتے ہیں۔ شیئرز آپ کے گارڈینز کے پاس محفوظ طریقے سے رکھے گئے ہیں اور کسی بھی وقت بحالی کے لیے استعمال کیے جا سکتے ہیں۔',
-      removeConfigButton: 'گارڈین کنفیگریشن کو لوکل اسٹوریج سے صاف کریں',
+      sharesNotStoredNotice:
+        'ہر سرپرست کا دعوت نامہ ابھی ڈاؤن لوڈ کریں: شیئرز اس ڈیوائس پر محفوظ نہیں ہوتے، اور یہ صفحہ چھوڑنے پر ختم ہو جاتے ہیں۔ سرپرست بدلنے کے لیے، سوشل ریکوری دوبارہ سیٹ اپ کریں۔',
       invitationHeading: 'گارڈین دعوت نامہ',
       downloadInviteButton: 'دعوت نامہ ڈاؤن لوڈ کریں',
       sendInviteText: name => `یہ دعوت نامہ ${name} کو ایک محفوظ ذریعے سے بھیجیں`,
