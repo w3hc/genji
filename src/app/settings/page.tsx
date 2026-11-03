@@ -424,7 +424,7 @@ const SettingsPage = () => {
           ) {
             const scoreValue = statusObject.securityScore.total
             const scoreLevel = statusObject.securityScore.level || 'unknown'
-            const statusString = `Security Score: ${scoreValue}/100 (Level: ${scoreLevel})`
+            const statusString = `Security Score: ${scoreValue}/70 (Level: ${scoreLevel})`
             setBackupStatus(statusString)
             setEvictionRisk(statusObject.evictionRisk)
           }
@@ -1224,7 +1224,7 @@ const SettingsPage = () => {
       ) {
         const scoreValue = statusObject.securityScore.total
         const scoreLevel = statusObject.securityScore.level || 'unknown'
-        const statusString = `Security Score: ${scoreValue}/100 (Level: ${scoreLevel})`
+        const statusString = `Security Score: ${scoreValue}/70 (Level: ${scoreLevel})`
         setBackupStatus(statusString)
         setEvictionRisk(statusObject.evictionRisk)
       } else {

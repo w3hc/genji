@@ -95,7 +95,6 @@ type SignMessageOptions = {
   mode?: SecurityMode
   tag?: string
   requireAuth?: boolean
-  origin?: string
   signingMethod?: 'EIP191' | 'SIWE' | 'EIP712' | 'rawHash'
   eip712Domain?: object
   eip712Types?: object
@@ -106,7 +105,6 @@ type TxOptions = {
   mode?: SecurityMode
   tag?: string
   requireAuth?: boolean
-  origin?: string
   rpcUrl?: string
 }
 
@@ -131,7 +129,7 @@ interface W3pkType {
   deriveWallet: (
     mode?: string,
     tag?: string,
-    options?: { requireAuth?: boolean; origin?: string }
+    options?: { requireAuth?: boolean }
   ) => Promise<DerivedWallet>
   getAddress: (mode?: string, tag?: string) => Promise<string>
   getBackupStatus: () => Promise<BackupStatus>
@@ -658,11 +656,7 @@ export const W3pkProvider: React.FC<W3pkProviderProps> = ({ children }) => {
   }
 
   const deriveWallet = useCallback(
-    (
-      mode?: string,
-      tag?: string,
-      options?: { requireAuth?: boolean; origin?: string }
-    ): Promise<DerivedWallet> =>
+    (mode?: string, tag?: string, options?: { requireAuth?: boolean }): Promise<DerivedWallet> =>
       callWithAuthRetry(() => w3pk.deriveWallet(mode as any, tag as any, options), {
         retryOn: 'Failed to derive wallet',
         authPrompt: 'Please authenticate to derive addresses',
