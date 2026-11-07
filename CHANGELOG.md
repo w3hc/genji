@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+### Changed
+
+- Updated `w3pk` to 0.12.1: the 0.11.2 security fixes, the `PRIMARY` P-256 smart account from 0.12.0, and the EIP-1193 read methods and send fixes from 0.12.1. Since 0.11.2, `sendTransaction()` only sends through an endpoint the app sets (`rpcUrls` in the config or `rpcUrl` per call), and the About page's feature list now says so
+
 ## 3.3.1 - 2026-11-03
 
 ### Changed
