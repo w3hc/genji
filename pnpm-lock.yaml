@@ -61,8 +61,8 @@ importers:
         specifier: ^2.0.2
         version: 2.0.2
       w3pk:
-        specifier: ^0.12.1
-        version: 0.12.1(ethers@6.17.0)
+        specifier: ^0.12.2
+        version: 0.12.2(ethers@6.17.0)
     devDependencies:
       '@eslint/eslintrc':
         specifier: ^3.3.7
@@ -3267,8 +3267,8 @@ packages:
   varint@6.0.0:
     resolution: {integrity: sha512-cXEIW6cfr15lFv563k4GuVuW/fiwjknytD37jIOLSdSWuOI6WnO/oKwmP2FQTU2l01LP8/M5TSAJpzUaGe3uWg==}
 
-  w3pk@0.12.1:
-    resolution: {integrity: sha512-o/1Up7M6LvlS1WQJfBfFLRlg4Jzmg972Evji6D0sQ1rHc16u35S1Ru9nWCXqt4xKuvyCzdJMkR478wzr8fsouA==}
+  w3pk@0.12.2:
+    resolution: {integrity: sha512-WYufGn3OXBxDv2mYuw118ywZq7IbwN6O6HSZuDv40zOFVnZ6yqhf0bJ2xywZwyxZtpnfR/6CpYwV77N0Np1WLg==}
     peerDependencies:
       ethers: ^6.0.0
 
@@ -7283,7 +7283,7 @@ snapshots:
   varint@6.0.0:
     optional: true
 
-  w3pk@0.12.1(ethers@6.17.0):
+  w3pk@0.12.2(ethers@6.17.0):
     dependencies:
       '@noble/curves': 2.4.0
       '@noble/hashes': 2.4.0
