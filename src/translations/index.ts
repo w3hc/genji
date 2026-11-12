@@ -58,11 +58,14 @@ type TranslationKeys = {
     available: string
     notAvailable: string
     fullySupported: string
-    knownIssues: string
     notSupported: string
-    browserNotSupportedTitle: string
+    tierHybridOnly: string
+    tierSecurityKeyOnly: string
+    platformAuthenticatorLabel: string
+    hybridTransportLabel: string
+    prfLabel: string
+    capabilityUnknown: string
     knownIssuesTitle: string
-    recommendationTitle: string
     webauthnNotAvailableTitle: string
     webauthnNotAvailableText: string
     browserChrome: string
@@ -308,6 +311,10 @@ type TranslationKeys = {
     registerTitle: string
     walletInfoText: string
     noPlatformAuthenticatorHint: string
+    phoneKeyHint: string
+    securityKeyOnlyHint: string
+    webauthnUnsupportedHint: string
+    prfUnsupportedWarning: string
     usernameLabel: string
     usernamePlaceholder: string
     usernameError: string
@@ -465,11 +472,14 @@ export const translations: Translations = {
       available: 'Available',
       notAvailable: 'Not Available',
       fullySupported: 'Fully Supported',
-      knownIssues: 'Known Issues',
       notSupported: 'Not Supported',
-      browserNotSupportedTitle: 'Browser Not Supported',
+      tierHybridOnly: 'Phone as a key only',
+      tierSecurityKeyOnly: 'Security key only',
+      platformAuthenticatorLabel: 'Built-in authenticator:',
+      hybridTransportLabel: 'Phone as a key:',
+      prfLabel: 'PRF extension:',
+      capabilityUnknown: 'Unknown',
       knownIssuesTitle: 'Known Issues Detected',
-      recommendationTitle: 'Recommendation',
       webauthnNotAvailableTitle: 'WebAuthn Not Available',
       webauthnNotAvailableText:
         'Your browser does not support WebAuthn, which is required for w3pk authentication. Please update your browser or use a supported browser:',
@@ -774,6 +784,13 @@ export const translations: Translations = {
         'An Ethereum wallet will be created and securely stored on your device, protected by your biometric or PIN thanks to',
       noPlatformAuthenticatorHint:
         'No built-in authenticator found: use your phone or a security key.',
+      phoneKeyHint: 'Your phone will act as your key: scan the QR code (Bluetooth required).',
+      securityKeyOnlyHint:
+        'Only a FIDO2 security key works in this browser. To use this device or your phone instead, open this page in Chrome or Chromium.',
+      webauthnUnsupportedHint:
+        "This browser doesn't support passkeys, so no wallet can be created here. Open this page in Chrome, Safari, Firefox or Edge.",
+      prfUnsupportedWarning:
+        "This browser doesn't support the PRF extension that encrypts your wallet: creating a wallet will likely fail here.",
       usernameLabel: 'Username',
       usernamePlaceholder: 'Enter your username',
       usernameError:
@@ -936,11 +953,14 @@ export const translations: Translations = {
       available: '可用',
       notAvailable: '不可用',
       fullySupported: '完全支持',
-      knownIssues: '已知问题',
       notSupported: '不支持',
-      browserNotSupportedTitle: '浏览器不受支持',
+      tierHybridOnly: '仅限手机作为密钥',
+      tierSecurityKeyOnly: '仅限安全密钥',
+      platformAuthenticatorLabel: '内置验证器：',
+      hybridTransportLabel: '手机作为密钥：',
+      prfLabel: 'PRF 扩展：',
+      capabilityUnknown: '未知',
       knownIssuesTitle: '检测到已知问题',
-      recommendationTitle: '建议',
       webauthnNotAvailableTitle: 'WebAuthn 不可用',
       webauthnNotAvailableText:
         '您的浏览器不支持 WebAuthn，而 w3pk 身份验证需要该功能。请更新您的浏览器或使用受支持的浏览器：',
@@ -1221,6 +1241,12 @@ export const translations: Translations = {
       walletInfoText:
         '系统将为您创建一个以太坊钱包，并安全地存储在您的设备上，通过生物识别或PIN码保护，这要归功于',
       noPlatformAuthenticatorHint: '未找到内置验证器：请使用您的手机或安全密钥。',
+      phoneKeyHint: '您的手机将作为密钥：请扫描二维码（需要蓝牙）。',
+      securityKeyOnlyHint:
+        '此浏览器仅支持 FIDO2 安全密钥。如需使用本设备或手机，请在 Chrome 或 Chromium 中打开此页面。',
+      webauthnUnsupportedHint:
+        '此浏览器不支持通行密钥，因此无法在此创建钱包。请在 Chrome、Safari、Firefox 或 Edge 中打开此页面。',
+      prfUnsupportedWarning: '此浏览器不支持用于加密钱包的 PRF 扩展：在此创建钱包很可能会失败。',
       usernameLabel: '用户名',
       usernamePlaceholder: '请输入您的用户名',
       usernameError:
@@ -1376,11 +1402,14 @@ export const translations: Translations = {
       available: 'उपलब्ध',
       notAvailable: 'उपलब्ध नहीं',
       fullySupported: 'पूर्ण रूप से समर्थित',
-      knownIssues: 'ज्ञात समस्याएं',
       notSupported: 'समर्थित नहीं',
-      browserNotSupportedTitle: 'ब्राउज़र समर्थित नहीं है',
+      tierHybridOnly: 'केवल फ़ोन कुंजी के रूप में',
+      tierSecurityKeyOnly: 'केवल सुरक्षा कुंजी',
+      platformAuthenticatorLabel: 'अंतर्निहित ऑथेंटिकेटर:',
+      hybridTransportLabel: 'फ़ोन कुंजी के रूप में:',
+      prfLabel: 'PRF एक्सटेंशन:',
+      capabilityUnknown: 'अज्ञात',
       knownIssuesTitle: 'ज्ञात समस्याएं मिलीं',
-      recommendationTitle: 'सिफारिश',
       webauthnNotAvailableTitle: 'WebAuthn उपलब्ध नहीं है',
       webauthnNotAvailableText:
         'आपका ब्राउज़र WebAuthn का समर्थन नहीं करता, जो w3pk प्रमाणीकरण के लिए आवश्यक है। कृपया अपना ब्राउज़र अपडेट करें या किसी समर्थित ब्राउज़र का उपयोग करें:',
@@ -1694,6 +1723,13 @@ export const translations: Translations = {
         'एक एथेरियम वॉलेट बनाया जाएगा और आपके डिवाइस पर सुरक्षित रूप से संग्रहीत किया जाएगा, जो आपके बायोमेट्रिक या पिन द्वारा सुरक्षित होगा, धन्यवाद',
       noPlatformAuthenticatorHint:
         'कोई अंतर्निहित ऑथेंटिकेटर नहीं मिला: अपने फ़ोन या सुरक्षा कुंजी का उपयोग करें।',
+      phoneKeyHint: 'आपका फ़ोन आपकी कुंजी का काम करेगा: QR कोड स्कैन करें (ब्लूटूथ आवश्यक)।',
+      securityKeyOnlyHint:
+        'इस ब्राउज़र में केवल FIDO2 सुरक्षा कुंजी काम करती है। इस डिवाइस या अपने फ़ोन का उपयोग करने के लिए, यह पेज Chrome या Chromium में खोलें।',
+      webauthnUnsupportedHint:
+        'यह ब्राउज़र पासकी का समर्थन नहीं करता, इसलिए यहाँ वॉलेट नहीं बनाया जा सकता। यह पेज Chrome, Safari, Firefox या Edge में खोलें।',
+      prfUnsupportedWarning:
+        'यह ब्राउज़र आपके वॉलेट को एन्क्रिप्ट करने वाले PRF एक्सटेंशन का समर्थन नहीं करता: यहाँ वॉलेट बनाना संभवतः विफल होगा।',
       usernameLabel: 'उपयोगकर्ता नाम',
       usernamePlaceholder: 'अपना उपयोगकर्ता नाम दर्ज करें',
       usernameError:
@@ -1856,11 +1892,14 @@ export const translations: Translations = {
       available: 'Disponible',
       notAvailable: 'No disponible',
       fullySupported: 'Totalmente compatible',
-      knownIssues: 'Problemas conocidos',
       notSupported: 'No compatible',
-      browserNotSupportedTitle: 'Navegador no compatible',
+      tierHybridOnly: 'Solo el teléfono como llave',
+      tierSecurityKeyOnly: 'Solo llave de seguridad',
+      platformAuthenticatorLabel: 'Autenticador integrado:',
+      hybridTransportLabel: 'Teléfono como llave:',
+      prfLabel: 'Extensión PRF:',
+      capabilityUnknown: 'Desconocido',
       knownIssuesTitle: 'Problemas conocidos detectados',
-      recommendationTitle: 'Recomendación',
       webauthnNotAvailableTitle: 'WebAuthn no disponible',
       webauthnNotAvailableText:
         'Tu navegador no admite WebAuthn, que es necesario para la autenticación de w3pk. Actualiza tu navegador o usa uno compatible:',
@@ -2184,6 +2223,13 @@ export const translations: Translations = {
         'Se creará una billetera de Ethereum y se almacenará de forma segura en tu dispositivo, protegida por tu biometría o PIN gracias a',
       noPlatformAuthenticatorHint:
         'No se encontró ningún autenticador integrado: usa tu teléfono o una llave de seguridad.',
+      phoneKeyHint: 'Tu teléfono servirá como llave: escanea el código QR (se necesita Bluetooth).',
+      securityKeyOnlyHint:
+        'En este navegador solo funciona una llave de seguridad FIDO2. Para usar este dispositivo o tu teléfono, abre esta página en Chrome o Chromium.',
+      webauthnUnsupportedHint:
+        'Este navegador no admite llaves de acceso, así que no se puede crear una billetera aquí. Abre esta página en Chrome, Safari, Firefox o Edge.',
+      prfUnsupportedWarning:
+        'Este navegador no admite la extensión PRF que cifra tu billetera: es probable que crear una billetera falle aquí.',
       usernameLabel: 'Nombre de usuario',
       usernamePlaceholder: 'Introduce tu nombre de usuario',
       usernameError:
@@ -2353,11 +2399,14 @@ export const translations: Translations = {
       available: 'Disponible',
       notAvailable: 'Non disponible',
       fullySupported: 'Entièrement pris en charge',
-      knownIssues: 'Problèmes connus',
       notSupported: 'Non pris en charge',
-      browserNotSupportedTitle: 'Navigateur non pris en charge',
+      tierHybridOnly: 'Téléphone comme clé uniquement',
+      tierSecurityKeyOnly: 'Clé de sécurité uniquement',
+      platformAuthenticatorLabel: 'Authentificateur intégré :',
+      hybridTransportLabel: 'Téléphone comme clé :',
+      prfLabel: 'Extension PRF :',
+      capabilityUnknown: 'Inconnu',
       knownIssuesTitle: 'Problèmes connus détectés',
-      recommendationTitle: 'Recommandation',
       webauthnNotAvailableTitle: 'WebAuthn non disponible',
       webauthnNotAvailableText:
         "Votre navigateur ne prend pas en charge WebAuthn, requis pour l'authentification w3pk. Veuillez mettre à jour votre navigateur ou en utiliser un compatible :",
@@ -2683,6 +2732,13 @@ export const translations: Translations = {
         'Un portefeuille Ethereum sera créé et stocké en toute sécurité sur votre appareil, protégé par votre biométrie ou votre code PIN grâce à',
       noPlatformAuthenticatorHint:
         'Aucun authentificateur intégré trouvé : utilisez votre téléphone ou une clé de sécurité.',
+      phoneKeyHint: 'Votre téléphone servira de clé : scannez le code QR (Bluetooth requis).',
+      securityKeyOnlyHint:
+        'Seule une clé de sécurité FIDO2 fonctionne dans ce navigateur. Pour utiliser cet appareil ou votre téléphone, ouvrez cette page dans Chrome ou Chromium.',
+      webauthnUnsupportedHint:
+        "Ce navigateur ne prend pas en charge les clés d'accès : aucun portefeuille ne peut être créé ici. Ouvrez cette page dans Chrome, Safari, Firefox ou Edge.",
+      prfUnsupportedWarning:
+        "Ce navigateur ne prend pas en charge l'extension PRF qui chiffre votre portefeuille : la création d'un portefeuille échouera probablement ici.",
       usernameLabel: "Nom d'utilisateur",
       usernamePlaceholder: "Entrez votre nom d'utilisateur",
       usernameError:
@@ -2852,11 +2908,14 @@ export const translations: Translations = {
       available: 'متاح',
       notAvailable: 'غير متاح',
       fullySupported: 'مدعوم بالكامل',
-      knownIssues: 'مشاكل معروفة',
       notSupported: 'غير مدعوم',
-      browserNotSupportedTitle: 'المتصفح غير مدعوم',
+      tierHybridOnly: 'الهاتف كمفتاح فقط',
+      tierSecurityKeyOnly: 'مفتاح الأمان فقط',
+      platformAuthenticatorLabel: 'أداة المصادقة المدمجة:',
+      hybridTransportLabel: 'الهاتف كمفتاح:',
+      prfLabel: 'امتداد PRF:',
+      capabilityUnknown: 'غير معروف',
       knownIssuesTitle: 'تم اكتشاف مشاكل معروفة',
-      recommendationTitle: 'التوصية',
       webauthnNotAvailableTitle: 'WebAuthn غير متاح',
       webauthnNotAvailableText:
         'متصفحك لا يدعم WebAuthn، وهو مطلوب لمصادقة w3pk. يرجى تحديث متصفحك أو استخدام متصفح مدعوم:',
@@ -3159,6 +3218,13 @@ export const translations: Translations = {
         'سيتم إنشاء محفظة إيثريوم وتخزينها بأمان على جهازك، محمية ببصمتك البيومترية أو رمز PIN بفضل',
       noPlatformAuthenticatorHint:
         'لم يتم العثور على أداة مصادقة مدمجة: استخدم هاتفك أو مفتاح أمان.',
+      phoneKeyHint: 'سيعمل هاتفك كمفتاح: امسح رمز QR (يتطلب البلوتوث).',
+      securityKeyOnlyHint:
+        'لا يعمل في هذا المتصفح سوى مفتاح أمان FIDO2. لاستخدام هذا الجهاز أو هاتفك، افتح هذه الصفحة في Chrome أو Chromium.',
+      webauthnUnsupportedHint:
+        'لا يدعم هذا المتصفح مفاتيح المرور، لذا لا يمكن إنشاء محفظة هنا. افتح هذه الصفحة في Chrome أو Safari أو Firefox أو Edge.',
+      prfUnsupportedWarning:
+        'لا يدعم هذا المتصفح امتداد PRF الذي يشفّر محفظتك: من المرجح أن يفشل إنشاء محفظة هنا.',
       usernameLabel: 'اسم المستخدم',
       usernamePlaceholder: 'أدخل اسم المستخدم الخاص بك',
       usernameError:
@@ -3319,11 +3385,14 @@ export const translations: Translations = {
       available: 'উপলব্ধ',
       notAvailable: 'উপলব্ধ নয়',
       fullySupported: 'সম্পূর্ণরূপে সমর্থিত',
-      knownIssues: 'পরিচিত সমস্যা',
       notSupported: 'সমর্থিত নয়',
-      browserNotSupportedTitle: 'ব্রাউজার সমর্থিত নয়',
+      tierHybridOnly: 'শুধু ফোন কী হিসেবে',
+      tierSecurityKeyOnly: 'শুধু সিকিউরিটি কী',
+      platformAuthenticatorLabel: 'বিল্ট-ইন অথেন্টিকেটর:',
+      hybridTransportLabel: 'ফোন কী হিসেবে:',
+      prfLabel: 'PRF এক্সটেনশন:',
+      capabilityUnknown: 'অজানা',
       knownIssuesTitle: 'পরিচিত সমস্যা সনাক্ত হয়েছে',
-      recommendationTitle: 'সুপারিশ',
       webauthnNotAvailableTitle: 'WebAuthn উপলব্ধ নয়',
       webauthnNotAvailableText:
         'আপনার ব্রাউজার WebAuthn সমর্থন করে না, যা w3pk প্রমাণীকরণের জন্য প্রয়োজনীয়। অনুগ্রহ করে আপনার ব্রাউজার আপডেট করুন অথবা একটি সমর্থিত ব্রাউজার ব্যবহার করুন:',
@@ -3644,6 +3713,13 @@ export const translations: Translations = {
         'একটি ইথেরিয়াম ওয়ালেট তৈরি করা হবে এবং আপনার ডিভাইসে নিরাপদে সংরক্ষিত হবে, যা আপনার বায়োমেট্রিক বা পিন দ্বারা সুরক্ষিত, ধন্যবাদ',
       noPlatformAuthenticatorHint:
         'কোনো বিল্ট-ইন অথেন্টিকেটর পাওয়া যায়নি: আপনার ফোন বা একটি সিকিউরিটি কী ব্যবহার করুন।',
+      phoneKeyHint: 'আপনার ফোন আপনার কী হিসেবে কাজ করবে: QR কোড স্ক্যান করুন (ব্লুটুথ প্রয়োজন)।',
+      securityKeyOnlyHint:
+        'এই ব্রাউজারে শুধু একটি FIDO2 সিকিউরিটি কী কাজ করে। এই ডিভাইস বা আপনার ফোন ব্যবহার করতে, এই পেজটি Chrome বা Chromium-এ খুলুন।',
+      webauthnUnsupportedHint:
+        'এই ব্রাউজার পাসকি সমর্থন করে না, তাই এখানে কোনো ওয়ালেট তৈরি করা যাবে না। এই পেজটি Chrome, Safari, Firefox বা Edge-এ খুলুন।',
+      prfUnsupportedWarning:
+        'এই ব্রাউজার আপনার ওয়ালেট এনক্রিপ্ট করার PRF এক্সটেনশন সমর্থন করে না: এখানে ওয়ালেট তৈরি সম্ভবত ব্যর্থ হবে।',
       usernameLabel: 'ব্যবহারকারীর নাম',
       usernamePlaceholder: 'আপনার ব্যবহারকারীর নাম লিখুন',
       usernameError:
@@ -3810,11 +3886,14 @@ export const translations: Translations = {
       available: 'Доступно',
       notAvailable: 'Недоступно',
       fullySupported: 'Полностью поддерживается',
-      knownIssues: 'Известные проблемы',
       notSupported: 'Не поддерживается',
-      browserNotSupportedTitle: 'Браузер не поддерживается',
+      tierHybridOnly: 'Только телефон как ключ',
+      tierSecurityKeyOnly: 'Только ключ безопасности',
+      platformAuthenticatorLabel: 'Встроенный аутентификатор:',
+      hybridTransportLabel: 'Телефон как ключ:',
+      prfLabel: 'Расширение PRF:',
+      capabilityUnknown: 'Неизвестно',
       knownIssuesTitle: 'Обнаружены известные проблемы',
-      recommendationTitle: 'Рекомендация',
       webauthnNotAvailableTitle: 'WebAuthn недоступен',
       webauthnNotAvailableText:
         'Ваш браузер не поддерживает WebAuthn, который необходим для аутентификации w3pk. Пожалуйста, обновите браузер или используйте один из поддерживаемых браузеров:',
@@ -4136,6 +4215,13 @@ export const translations: Translations = {
         'Будет создан Ethereum-кошелёк, надёжно хранящийся на вашем устройстве и защищённый биометрией или PIN-кодом благодаря',
       noPlatformAuthenticatorHint:
         'Встроенный аутентификатор не найден: используйте телефон или ключ безопасности.',
+      phoneKeyHint: 'Ваш телефон станет ключом: отсканируйте QR-код (нужен Bluetooth).',
+      securityKeyOnlyHint:
+        'В этом браузере работает только ключ безопасности FIDO2. Чтобы использовать это устройство или телефон, откройте страницу в Chrome или Chromium.',
+      webauthnUnsupportedHint:
+        'Этот браузер не поддерживает ключи доступа, поэтому создать кошелёк здесь нельзя. Откройте страницу в Chrome, Safari, Firefox или Edge.',
+      prfUnsupportedWarning:
+        'Этот браузер не поддерживает расширение PRF, которым шифруется кошелёк: создать кошелёк здесь, скорее всего, не получится.',
       usernameLabel: 'Имя пользователя',
       usernamePlaceholder: 'Введите имя пользователя',
       usernameError:
@@ -4302,11 +4388,14 @@ export const translations: Translations = {
       available: 'Disponível',
       notAvailable: 'Não disponível',
       fullySupported: 'Totalmente suportado',
-      knownIssues: 'Problemas conhecidos',
       notSupported: 'Não suportado',
-      browserNotSupportedTitle: 'Navegador não suportado',
+      tierHybridOnly: 'Apenas o telefone como chave',
+      tierSecurityKeyOnly: 'Apenas chave de segurança',
+      platformAuthenticatorLabel: 'Autenticador integrado:',
+      hybridTransportLabel: 'Telefone como chave:',
+      prfLabel: 'Extensão PRF:',
+      capabilityUnknown: 'Desconhecido',
       knownIssuesTitle: 'Problemas conhecidos detetados',
-      recommendationTitle: 'Recomendação',
       webauthnNotAvailableTitle: 'WebAuthn não disponível',
       webauthnNotAvailableText:
         'O seu navegador não suporta WebAuthn, que é necessário para a autenticação w3pk. Por favor, atualize o seu navegador ou utilize um navegador suportado:',
@@ -4630,6 +4719,13 @@ export const translations: Translations = {
         'Uma carteira Ethereum será criada e armazenada com segurança no seu dispositivo, protegida por sua biometria ou PIN graças ao',
       noPlatformAuthenticatorHint:
         'Nenhum autenticador integrado encontrado: use o seu telemóvel ou uma chave de segurança.',
+      phoneKeyHint: 'O seu telefone servirá como chave: leia o código QR (requer Bluetooth).',
+      securityKeyOnlyHint:
+        'Neste navegador, só funciona uma chave de segurança FIDO2. Para usar este dispositivo ou o seu telefone, abra esta página no Chrome ou Chromium.',
+      webauthnUnsupportedHint:
+        'Este navegador não suporta chaves de acesso, por isso não é possível criar uma carteira aqui. Abra esta página no Chrome, Safari, Firefox ou Edge.',
+      prfUnsupportedWarning:
+        'Este navegador não suporta a extensão PRF que criptografa a sua carteira: criar uma carteira aqui provavelmente falhará.',
       usernameLabel: 'Nome de usuário',
       usernamePlaceholder: 'Digite seu nome de usuário',
       usernameError:
@@ -4798,11 +4894,14 @@ export const translations: Translations = {
       available: 'دستیاب',
       notAvailable: 'دستیاب نہیں',
       fullySupported: 'مکمل طور پر معاون',
-      knownIssues: 'معلوم مسائل',
       notSupported: 'معاون نہیں',
-      browserNotSupportedTitle: 'براؤزر معاون نہیں ہے',
+      tierHybridOnly: 'صرف فون بطور کلید',
+      tierSecurityKeyOnly: 'صرف سیکیورٹی کی',
+      platformAuthenticatorLabel: 'بلٹ اِن تصدیق کنندہ:',
+      hybridTransportLabel: 'فون بطور کلید:',
+      prfLabel: 'PRF ایکسٹینشن:',
+      capabilityUnknown: 'نامعلوم',
       knownIssuesTitle: 'معلوم مسائل کا پتہ چلا',
-      recommendationTitle: 'تجویز',
       webauthnNotAvailableTitle: 'WebAuthn دستیاب نہیں',
       webauthnNotAvailableText:
         'آپ کا براؤزر WebAuthn کو سپورٹ نہیں کرتا، جو w3pk کی توثیق کے لیے درکار ہے۔ براہ کرم اپنا براؤزر اپ ڈیٹ کریں یا کوئی معاون براؤزر استعمال کریں:',
@@ -5116,6 +5215,13 @@ export const translations: Translations = {
         'ایک ایتھیریم والیٹ بنایا جائے گا اور آپ کے ڈیوائس پر محفوظ طریقے سے محفوظ کیا جائے گا، جو آپ کے بائیومیٹرک یا پن کے ذریعے محفوظ ہوگا، شکریہ',
       noPlatformAuthenticatorHint:
         'کوئی بلٹ اِن تصدیق کنندہ نہیں ملا: اپنا فون یا سیکیورٹی کی استعمال کریں۔',
+      phoneKeyHint: 'آپ کا فون آپ کی کلید کا کام کرے گا: QR کوڈ اسکین کریں (بلوٹوتھ درکار ہے)۔',
+      securityKeyOnlyHint:
+        'اس براؤزر میں صرف FIDO2 سیکیورٹی کی کام کرتی ہے۔ یہ ڈیوائس یا اپنا فون استعمال کرنے کے لیے یہ صفحہ Chrome یا Chromium میں کھولیں۔',
+      webauthnUnsupportedHint:
+        'یہ براؤزر پاس کیز کو سپورٹ نہیں کرتا، اس لیے یہاں والیٹ نہیں بنایا جا سکتا۔ یہ صفحہ Chrome، Safari، Firefox یا Edge میں کھولیں۔',
+      prfUnsupportedWarning:
+        'یہ براؤزر آپ کے والیٹ کو انکرپٹ کرنے والی PRF ایکسٹینشن کو سپورٹ نہیں کرتا: یہاں والیٹ بنانا غالباً ناکام ہوگا۔',
       usernameLabel: 'صارف نام',
       usernamePlaceholder: 'اپنا صارف نام درج کریں',
       usernameError:

@@ -28,7 +28,12 @@ import { useState, useEffect } from 'react'
 import { FaGithub } from 'react-icons/fa'
 import { toaster } from '@/components/ui/toaster'
 import { brandColors } from '@/theme'
-import { hasIOSEvictionRisk, isPlatformAuthenticatorAvailable } from '@/utils/browserDetection'
+import {
+  getAuthenticatorCapabilities,
+  getAuthenticatorHint,
+  hasIOSEvictionRisk,
+  type AuthenticatorCapabilities,
+} from '@/utils/browserDetection'
 
 export default function Header() {
   const { isAuthenticated, login, register, logout, hasLocalCredentials } = useW3PK()
@@ -38,7 +43,7 @@ export default function Header() {
   const [isRegistering, setIsRegistering] = useState(false)
   const [isUsernameInvalid, setIsUsernameInvalid] = useState(false)
   const [showHomeScreenChoice, setShowHomeScreenChoice] = useState(false)
-  const [hasPlatformAuthenticator, setHasPlatformAuthenticator] = useState(true)
+  const [capabilities, setCapabilities] = useState<AuthenticatorCapabilities | null>(null)
 
   const [scrollPosition, setScrollPosition] = useState(0)
 
@@ -74,7 +79,7 @@ export default function Header() {
   }, [])
 
   useEffect(() => {
-    isPlatformAuthenticatorAvailable().then(setHasPlatformAuthenticator)
+    getAuthenticatorCapabilities().then(setCapabilities)
   }, [])
 
   const validateUsername = (input: string): boolean => {
@@ -136,7 +141,12 @@ export default function Header() {
     }
   }
 
+  const authenticatorHint = capabilities && getAuthenticatorHint(capabilities)
+  const isWebAuthnUnsupported = capabilities?.tier === 'unsupported'
+
   const handleRegister = async () => {
+    if (isWebAuthnUnsupported) return
+
     if (!username.trim()) {
       toaster.create({
         title: t.header.usernameRequiredTitle,
@@ -325,9 +335,19 @@ export default function Header() {
                     </ChakraLink>
                     .
                   </Text>
-                  {!hasPlatformAuthenticator && (
-                    <Text fontSize="sm" color="gray.300" alignSelf="flex-start">
-                      {t.header.noPlatformAuthenticatorHint}
+                  {authenticatorHint && (
+                    <Text
+                      fontSize="sm"
+                      color={isWebAuthnUnsupported ? 'red.300' : 'gray.300'}
+                      alignSelf="flex-start"
+                      role={isWebAuthnUnsupported ? 'alert' : undefined}
+                    >
+                      {t.header[authenticatorHint]}
+                    </Text>
+                  )}
+                  {capabilities?.prf === false && (
+                    <Text fontSize="sm" color="yellow.300" alignSelf="flex-start">
+                      {t.header.prfUnsupportedWarning}
                     </Text>
                   )}
                   <Field invalid={isUsernameInvalid} label={t.header.usernameLabel}>
@@ -370,7 +390,11 @@ export default function Header() {
                 <Dialog.ActionTrigger asChild>
                   <Button variant="outline">{t.common.cancel}</Button>
                 </Dialog.ActionTrigger>
-                <Button colorPalette="blue" onClick={handleRegister} disabled={!username.trim()}>
+                <Button
+                  colorPalette="blue"
+                  onClick={handleRegister}
+                  disabled={!username.trim() || isWebAuthnUnsupported}
+                >
                   {isRegistering && <Spinner size="50px" />}
                   {!isRegistering && t.header.createAccount}
                 </Button>
