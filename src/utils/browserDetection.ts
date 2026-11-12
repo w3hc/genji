@@ -222,6 +222,74 @@ export async function isPlatformAuthenticatorAvailable(): Promise<boolean> {
   }
 }
 
+export type AuthenticatorTier = 'full' | 'hybrid-only' | 'security-key-only' | 'unsupported'
+
+export interface AuthenticatorCapabilities {
+  /** Same-device authenticator with user verification (Touch ID, Windows Hello…) */
+  platformAuthenticator: boolean
+  /** Phone as a key through a QR code and Bluetooth */
+  hybridTransport: boolean | 'unknown'
+  /** The PRF extension w3pk needs to encrypt the wallet */
+  prf: boolean | 'unknown'
+  tier: AuthenticatorTier
+}
+
+function isFirefoxOnLinux(): boolean {
+  const ua = navigator.userAgent
+  return ua.includes('Firefox') && ua.includes('Linux') && !ua.includes('Android')
+}
+
+function knownCapability(
+  capabilities: Record<string, boolean> | null,
+  key: string
+): boolean | undefined {
+  const value = capabilities?.[key]
+  return typeof value === 'boolean' ? value : undefined
+}
+
+/**
+ * What this browser can use to create and use a passkey. Prefers
+ * PublicKeyCredential.getClientCapabilities(), where an absent key means
+ * "unknown", and falls back to older APIs and a user-agent rule. Never throws.
+ */
+export async function getAuthenticatorCapabilities(): Promise<AuthenticatorCapabilities> {
+  if (!isWebAuthnAvailable()) {
+    return {
+      platformAuthenticator: false,
+      hybridTransport: false,
+      prf: false,
+      tier: 'unsupported',
+    }
+  }
+
+  let capabilities: Record<string, boolean> | null = null
+  try {
+    if (typeof PublicKeyCredential.getClientCapabilities === 'function') {
+      capabilities = await PublicKeyCredential.getClientCapabilities()
+    }
+  } catch (error) {
+    console.warn('Error reading WebAuthn client capabilities:', error)
+  }
+
+  const platformAuthenticator =
+    knownCapability(capabilities, 'userVerifyingPlatformAuthenticator') ??
+    (await isPlatformAuthenticatorAvailable())
+
+  const hybridTransport =
+    knownCapability(capabilities, 'hybridTransport') ??
+    (capabilities === null && isFirefoxOnLinux() ? false : 'unknown')
+
+  const prf = knownCapability(capabilities, 'extension:prf') ?? 'unknown'
+
+  const tier: AuthenticatorTier = platformAuthenticator
+    ? 'full'
+    : hybridTransport === false
+      ? 'security-key-only'
+      : 'hybrid-only'
+
+  return { platformAuthenticator, hybridTransport, prf, tier }
+}
+
 export function isIOS(): boolean {
   if (typeof navigator === 'undefined') return false
   // iPadOS reports itself as macOS, but has touch points
