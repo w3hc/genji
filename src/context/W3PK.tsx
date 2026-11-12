@@ -23,6 +23,7 @@ import {
   AddressChangeError,
   PrfUnsupportedError,
   SyncRequiredError,
+  UserVerificationRequiredError,
   WalletMissingError,
   WeakPasswordError,
 } from 'w3pk'
@@ -310,7 +311,8 @@ export const W3pkProvider: React.FC<W3pkProviderProps> = ({ children }) => {
       createWeb3Passkey({
         stealthAddresses: {},
         onAuthStateChanged: handleAuthStateChanged,
-        userVerification: 'preferred', // Security keys and password managers log in in one click
+        // An assertion without user verification still throws UserVerificationRequiredError
+        userVerification: 'preferred',
         sessionDuration: 24, // 24 hours session duration
         persistentSession: {
           enabled: true,
@@ -414,6 +416,17 @@ export const W3pkProvider: React.FC<W3pkProviderProps> = ({ children }) => {
     } catch (error) {
       console.error('[W3PK] Registration failed:', error)
 
+      if (error instanceof PrfUnsupportedError) {
+        toaster.create({
+          title: 'Passkey Not Supported',
+          description:
+            "This passkey provider doesn't support the WebAuthn PRF extension, which is needed to encrypt your wallet. Nothing was created: try another browser or password manager.",
+          type: 'error',
+          duration: 10000,
+        })
+        throw error
+      }
+
       const errorDetails =
         error instanceof Error ? `${error.name}: ${error.message}` : JSON.stringify(error)
 
@@ -464,6 +477,28 @@ export const W3pkProvider: React.FC<W3pkProviderProps> = ({ children }) => {
           duration: 8000,
         })
         router.push('/settings#sync-import')
+        throw error
+      }
+
+      if (error instanceof UserVerificationRequiredError) {
+        toaster.create({
+          title: 'Verification Required',
+          description:
+            'Your passkey signed in without verifying you (PIN, fingerprint or face). Try again and confirm it is you when asked.',
+          type: 'error',
+          duration: 8000,
+        })
+        throw error
+      }
+
+      if (error instanceof PrfUnsupportedError) {
+        toaster.create({
+          title: 'Passkey Not Supported',
+          description:
+            "This passkey provider doesn't support the WebAuthn PRF extension, which is needed to unlock your wallet. Try another browser or password manager.",
+          type: 'error',
+          duration: 8000,
+        })
         throw error
       }
 
