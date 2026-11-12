@@ -151,7 +151,7 @@ pnpm format:check   # Verify formatting
 - An older browser can't parse the app's chunks. An ES5 inline script in the root layout `<head>` ([browserCompat.ts](../src/utils/browserCompat.ts)) detects a missing `Array.prototype.at`, `structuredClone` or regex lookbehind (Safari before 16.4) and shows a translated "browser too old" screen with update links instead of an endless spinner
 - The same script shows a "loading failed" screen with a Reload button if `W3pkProvider` hasn't set `window.__genjiReady` 15 seconds after the page's `load` event (blocked chunk, network, extension), and removes it if the app starts later. WebAuthn support isn't checked there: the login flow handles a browser without it
 
-**Authenticator Capabilities**: `getAuthenticatorCapabilities()` ([browserDetection.ts](../src/utils/browserDetection.ts)) reads [`PublicKeyCredential.getClientCapabilities()`](https://developer.mozilla.org/en-US/docs/Web/API/PublicKeyCredential/getClientCapabilities_static) where the browser has it (an absent key means unknown), else `isUserVerifyingPlatformAuthenticatorAvailable()`, and assumes no phone (hybrid) option for Firefox on Linux before 135. It never throws and resolves to a tier:
+**Authenticator Capabilities**: `getAuthenticatorCapabilities()` ([browserDetection.ts](../src/utils/browserDetection.ts)) reads [`PublicKeyCredential.getClientCapabilities()`](https://developer.mozilla.org/en-US/docs/Web/API/PublicKeyCredential/getClientCapabilities_static) where the browser has it (an absent key means unknown), else `isUserVerifyingPlatformAuthenticatorAvailable()`, and assumes no phone (hybrid) option for Firefox on Linux when the browser doesn't report it. It never throws and resolves to a tier:
 
 | Tier                | When                                                             | Registration modal                                                                                         |
 | ------------------- | ---------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
@@ -160,7 +160,7 @@ pnpm format:check   # Verify formatting
 | `security-key-only` | No built-in authenticator and no phone option (Firefox on Linux) | "Only a FIDO2 security key works", suggests Chrome or Chromium, registration allowed                       |
 | `unsupported`       | No WebAuthn (some in-app browsers)                               | Explains why and disables Create Account                                                                   |
 
-When the browser reports no PRF extension, the modal also warns that creating a wallet will likely fail, since w3pk needs PRF to encrypt it. A `NotAllowedError` on a device with no built-in authenticator shows "No authenticator responded on this device". Settings shows the same diagnosis in its browser card, alongside the browser name, version and OS.
+When the browser reports no PRF extension, the modal also warns that creating a wallet will likely fail, since w3pk needs PRF to encrypt it. A `NotAllowedError` during registration on a device with no built-in authenticator shows "No authenticator responded on this device". Settings shows the same diagnosis in its browser card, alongside the browser name, version and OS.
 
 **Recommended for Full Features**:
 
