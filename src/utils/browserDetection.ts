@@ -26,7 +26,7 @@ const BROWSERS: { name: string; test: (ua: string) => boolean; version: RegExp }
   },
   {
     name: 'Chrome',
-    test: ua => ua.includes('Chrome') && !ua.includes('Edg'),
+    test: ua => ua.includes('Chrome') && !ua.includes('Edg') && !ua.includes('OPR'),
     version: /Chrome\/([\d.]+)/,
   },
   { name: 'Edge', test: ua => ua.includes('Edg'), version: /Edg\/([\d.]+)/ },
@@ -60,12 +60,11 @@ export function detectBrowser(): BrowserInfo {
   const userAgent = navigator.userAgent
   let os = 'Unknown'
 
-  if (userAgent.includes('Win')) os = 'Windows'
+  if (isIOS()) os = 'iOS'
+  else if (userAgent.includes('Android')) os = 'Android'
+  else if (userAgent.includes('Win')) os = 'Windows'
   else if (userAgent.includes('Mac')) os = 'macOS'
   else if (userAgent.includes('Linux')) os = 'Linux'
-  else if (userAgent.includes('Android')) os = 'Android'
-  else if (userAgent.includes('iOS') || userAgent.includes('iPhone') || userAgent.includes('iPad'))
-    os = 'iOS'
 
   const browser = BROWSERS.find(b => b.test(userAgent))
   const fullVersion = (browser && userAgent.match(browser.version)?.[1]) || 'Unknown'
@@ -132,12 +131,19 @@ function knownCapability(
   return typeof value === 'boolean' ? value : undefined
 }
 
+let cachedCapabilities: Promise<AuthenticatorCapabilities> | undefined
+
 /**
  * What this browser can use to create and use a passkey. Prefers
  * PublicKeyCredential.getClientCapabilities(), where an absent key means
  * "unknown", and falls back to older APIs and a user-agent rule. Never throws.
  */
-export async function getAuthenticatorCapabilities(): Promise<AuthenticatorCapabilities> {
+export function getAuthenticatorCapabilities(): Promise<AuthenticatorCapabilities> {
+  cachedCapabilities ??= readAuthenticatorCapabilities()
+  return cachedCapabilities
+}
+
+async function readAuthenticatorCapabilities(): Promise<AuthenticatorCapabilities> {
   if (!isWebAuthnAvailable()) {
     return {
       platformAuthenticator: false,
@@ -161,8 +167,7 @@ export async function getAuthenticatorCapabilities(): Promise<AuthenticatorCapab
     (await isPlatformAuthenticatorAvailable())
 
   const hybridTransport =
-    knownCapability(capabilities, 'hybridTransport') ??
-    (capabilities === null && isFirefoxOnLinux() ? false : 'unknown')
+    knownCapability(capabilities, 'hybridTransport') ?? (isFirefoxOnLinux() ? false : 'unknown')
 
   const prf = knownCapability(capabilities, 'extension:prf') ?? 'unknown'
 
