@@ -238,7 +238,7 @@ A: Users can independently verify by:
 
 - Checking the open-source code on GitHub
 - Querying the onchain registry directly via Etherscan
-- Running verification using the unpkg CDN (see console instructions)
+- Hashing the published w3pk tarball from the npm registry themselves (see console instructions)
 - Comparing hashes from the onchain registry with their local build
 - Verifying the app's code through the deployed source
 
