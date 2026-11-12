@@ -7,6 +7,7 @@ import { metadata } from './metadata'
 import { LanguageProvider } from '@/context/LanguageContext'
 import { Toaster } from '@/components/ui/toaster'
 import BackupStep from '@/components/BackupStep'
+import { getBrowserCompatScript } from '@/utils/browserCompat'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -21,6 +22,7 @@ export default function RootLayout({
     <html lang="en" translate="no" suppressHydrationWarning>
       <head>
         <meta name="google" content="notranslate" />
+        <script dangerouslySetInnerHTML={{ __html: getBrowserCompatScript() }} />
       </head>
       <body className={inter.className} suppressHydrationWarning>
         <a href="#main-content" className="skip-link">
