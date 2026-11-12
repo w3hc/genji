@@ -100,7 +100,7 @@ src/
 
 **Passkeys**: Stored in browser's Secure Enclave (hardware-backed, survives data clearing)
 
-**Encrypted Wallet Mnemonic**: Stored in `localStorage` using AES-GCM under a key from the passkey's PRF output (w3pk ≥ 0.11.1), with persistent sessions and backup records. Where the authenticator has no PRF, the wallet stays in memory for the session and comes back from a backup on the next visit
+**Encrypted Wallet Mnemonic**: Stored in `localStorage` using AES-GCM under a key from the passkey's PRF output (w3pk ≥ 0.11.1), with persistent sessions and backup records. Since w3pk 0.12.4, registration fails with `PrfUnsupportedError` where the authenticator has no PRF, and nothing is stored
 
 - **Risk**: Cleared when users clear cookies/site data, by Safari after 7 days without a visit, and on iPhone and iPad by every browser, all of which use Safari's engine (unless the app runs from the Home Screen, which has its own storage)
 - **Mitigation**: A backup step opens after registration when no backup exists and w3pk reports `evictionRisk` (Safari in a tab, storage not persisted), and is blocking until the user backs up or accepts the risk. Settings → Security Status shows the same warning. On iPhone and iPad, opening registration first offers to add the app to the Home Screen and create the wallet there, or to go on in the browser and back up
