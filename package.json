@@ -1,6 +1,6 @@
 {
   "name": "genji",
-  "version": "3.3.1",
+  "version": "3.3.2",
   "description": "Next.js Web3 starter with passkey auth",
   "main": "index.js",
   "scripts": {
@@ -29,7 +29,7 @@
     "react-icons": "^5.7.0",
     "react-syntax-highlighter": "^16.1.2",
     "secrets.js-34r7h": "^2.0.2",
-    "w3pk": "^0.12.2"
+    "w3pk": "^0.12.4"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.7",
