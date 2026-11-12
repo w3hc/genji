@@ -362,6 +362,13 @@ type TranslationKeys = {
     required: string
     submit: string
   }
+  compat: {
+    tooOldTitle: string
+    tooOldBody: string
+    loadFailedTitle: string
+    loadFailedBody: string
+    reload: string
+  }
   about: {
     headingPrefix: string
     introPart1: string
@@ -821,6 +828,15 @@ export const translations: Translations = {
       required: ' (required)',
       submit: 'Submit',
     },
+    compat: {
+      tooOldTitle: 'This browser is too old',
+      tooOldBody:
+        'This app needs a recent browser to keep your wallet safe. Update your browser, or install one of these:',
+      loadFailedTitle: 'The app could not load',
+      loadFailedBody:
+        'Something prevented the app from starting: a network problem, a blocked script or a browser extension.',
+      reload: 'Reload',
+    },
     about: {
       headingPrefix: 'About',
       introPart1:
@@ -1247,6 +1263,14 @@ export const translations: Translations = {
       satisfied: '（已满足）',
       required: '（必需）',
       submit: '提交',
+    },
+    compat: {
+      tooOldTitle: '此浏览器版本过旧',
+      tooOldBody:
+        '本应用需要较新的浏览器来保护您的钱包安全。请更新您的浏览器，或安装以下浏览器之一：',
+      loadFailedTitle: '应用无法加载',
+      loadFailedBody: '有问题阻止了应用启动：网络问题、脚本被拦截或浏览器扩展。',
+      reload: '重新加载',
     },
     about: {
       headingPrefix: '关于',
@@ -1711,6 +1735,15 @@ export const translations: Translations = {
       satisfied: ' (पूर्ण)',
       required: ' (आवश्यक)',
       submit: 'जमा करें',
+    },
+    compat: {
+      tooOldTitle: 'यह ब्राउज़र बहुत पुराना है',
+      tooOldBody:
+        'आपके वॉलेट को सुरक्षित रखने के लिए इस ऐप को नए ब्राउज़र की ज़रूरत है। अपना ब्राउज़र अपडेट करें, या इनमें से कोई एक इंस्टॉल करें:',
+      loadFailedTitle: 'ऐप लोड नहीं हो सका',
+      loadFailedBody:
+        'किसी चीज़ ने ऐप को शुरू होने से रोक दिया: नेटवर्क समस्या, ब्लॉक की गई स्क्रिप्ट या ब्राउज़र एक्सटेंशन।',
+      reload: 'फिर से लोड करें',
     },
     about: {
       headingPrefix: 'के बारे में',
@@ -2188,6 +2221,15 @@ export const translations: Translations = {
       satisfied: ' (cumplido)',
       required: ' (requerido)',
       submit: 'Enviar',
+    },
+    compat: {
+      tooOldTitle: 'Este navegador es demasiado antiguo',
+      tooOldBody:
+        'Esta aplicación necesita un navegador reciente para mantener tu billetera segura. Actualiza tu navegador o instala uno de estos:',
+      loadFailedTitle: 'No se pudo cargar la aplicación',
+      loadFailedBody:
+        'Algo impidió que la aplicación se iniciara: un problema de red, un script bloqueado o una extensión del navegador.',
+      reload: 'Recargar',
     },
     about: {
       headingPrefix: 'Acerca de',
@@ -2673,6 +2715,15 @@ export const translations: Translations = {
       required: ' (requis)',
       submit: 'Soumettre',
     },
+    compat: {
+      tooOldTitle: 'Ce navigateur est trop ancien',
+      tooOldBody:
+        "Cette application a besoin d'un navigateur récent pour protéger votre portefeuille. Mettez à jour votre navigateur ou installez l'un de ceux-ci :",
+      loadFailedTitle: "L'application n'a pas pu se charger",
+      loadFailedBody:
+        "Quelque chose a empêché l'application de démarrer : un problème réseau, un script bloqué ou une extension du navigateur.",
+      reload: 'Recharger',
+    },
     about: {
       headingPrefix: 'À propos',
       introPart1:
@@ -3129,6 +3180,15 @@ export const translations: Translations = {
       satisfied: ' (مستوفى)',
       required: ' (مطلوب)',
       submit: 'إرسال',
+    },
+    compat: {
+      tooOldTitle: 'هذا المتصفح قديم جدًا',
+      tooOldBody:
+        'يحتاج هذا التطبيق إلى متصفح حديث للحفاظ على أمان محفظتك. حدّث متصفحك أو ثبّت أحد هذه المتصفحات:',
+      loadFailedTitle: 'تعذّر تحميل التطبيق',
+      loadFailedBody:
+        'منع شيء ما التطبيق من البدء: مشكلة في الشبكة أو برنامج نصي محظور أو إضافة متصفح.',
+      reload: 'إعادة التحميل',
     },
     about: {
       headingPrefix: 'حول',
@@ -3602,6 +3662,15 @@ export const translations: Translations = {
       satisfied: ' (পূরণ হয়েছে)',
       required: ' (প্রয়োজন)',
       submit: 'জমা দিন',
+    },
+    compat: {
+      tooOldTitle: 'এই ব্রাউজারটি খুব পুরনো',
+      tooOldBody:
+        'আপনার ওয়ালেট সুরক্ষিত রাখতে এই অ্যাপের একটি সাম্প্রতিক ব্রাউজার প্রয়োজন। আপনার ব্রাউজার আপডেট করুন, অথবা এগুলোর একটি ইনস্টল করুন:',
+      loadFailedTitle: 'অ্যাপটি লোড করা যায়নি',
+      loadFailedBody:
+        'কিছু একটা অ্যাপটিকে চালু হতে বাধা দিয়েছে: নেটওয়ার্ক সমস্যা, ব্লক করা স্ক্রিপ্ট বা ব্রাউজার এক্সটেনশন।',
+      reload: 'আবার লোড করুন',
     },
     about: {
       headingPrefix: 'সম্পর্কে',
@@ -4080,6 +4149,15 @@ export const translations: Translations = {
       satisfied: ' (выполнено)',
       required: ' (требуется)',
       submit: 'Отправить',
+    },
+    compat: {
+      tooOldTitle: 'Этот браузер слишком устарел',
+      tooOldBody:
+        'Этому приложению нужен современный браузер, чтобы защитить ваш кошелёк. Обновите браузер или установите один из этих:',
+      loadFailedTitle: 'Не удалось загрузить приложение',
+      loadFailedBody:
+        'Что-то помешало запуску приложения: проблема с сетью, заблокированный скрипт или расширение браузера.',
+      reload: 'Перезагрузить',
     },
     about: {
       headingPrefix: 'О',
@@ -4560,6 +4638,15 @@ export const translations: Translations = {
       required: ' (obrigatório)',
       submit: 'Enviar',
     },
+    compat: {
+      tooOldTitle: 'Este navegador é muito antigo',
+      tooOldBody:
+        'Este aplicativo precisa de um navegador recente para manter sua carteira segura. Atualize seu navegador ou instale um destes:',
+      loadFailedTitle: 'Não foi possível carregar o aplicativo',
+      loadFailedBody:
+        'Algo impediu o aplicativo de iniciar: um problema de rede, um script bloqueado ou uma extensão do navegador.',
+      reload: 'Recarregar',
+    },
     about: {
       headingPrefix: 'Sobre',
       introPart1:
@@ -5029,6 +5116,15 @@ export const translations: Translations = {
       satisfied: ' (پورا ہوگیا)',
       required: ' (درکار ہے)',
       submit: 'جمع کروائیں',
+    },
+    compat: {
+      tooOldTitle: 'یہ براؤزر بہت پرانا ہے',
+      tooOldBody:
+        'آپ کے والیٹ کو محفوظ رکھنے کے لیے اس ایپ کو جدید براؤزر کی ضرورت ہے۔ اپنا براؤزر اپ ڈیٹ کریں، یا ان میں سے کوئی ایک انسٹال کریں:',
+      loadFailedTitle: 'ایپ لوڈ نہیں ہو سکی',
+      loadFailedBody:
+        'کسی چیز نے ایپ کو شروع ہونے سے روک دیا: نیٹ ورک کا مسئلہ، بلاک شدہ اسکرپٹ یا براؤزر ایکسٹینشن۔',
+      reload: 'دوبارہ لوڈ کریں',
     },
     about: {
       headingPrefix: 'کے بارے میں',

@@ -31,6 +31,12 @@ import type { GuardianShare } from 'w3pk'
 import { useRouter } from 'next/navigation'
 import { toaster } from '@/components/ui/toaster'
 
+declare global {
+  interface Window {
+    __genjiReady?: boolean
+  }
+}
+
 type SecurityMode = 'PRIMARY' | 'STRICT' | 'STANDARD' | 'YOLO'
 
 interface SecurityScore {
@@ -274,6 +280,8 @@ export const W3pkProvider: React.FC<W3pkProviderProps> = ({ children }) => {
   const [backupPrompt, setBackupPrompt] = useState({ open: false })
 
   useEffect(() => {
+    // Stops the startup watchdog in the root layout's compat script
+    window.__genjiReady = true
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsMounted(true)
     // Left by w3pk < 0.11: it held every guardian share together on the device

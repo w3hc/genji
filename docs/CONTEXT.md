@@ -85,6 +85,7 @@ src/
 �� utils/
    �� i18n.ts             # Language detection
    �� browserDetection.ts # WebAuthn capability check, iOS detection
+   �� browserCompat.ts    # Inline script: browser-too-old and loading-failed screens
    �� storageInspection.ts # localStorage inspection tools
    �� syncLink.ts         # Sync link encoding for the QR code
 �� theme/
@@ -143,9 +144,11 @@ pnpm format:check   # Verify formatting
 
 ## Browser Compatibility
 
-**Minimum Requirements**: WebAuthn support
+**Minimum Requirements**: the Next.js build target and WebAuthn support
 
-- Chrome 67+, Firefox 60+, Safari 14+, Edge 18+
+- Chrome 111+, Edge 111+, Firefox 111+, Safari 16.4+ ([Next.js supported browsers](https://nextjs.org/docs/architecture/supported-browsers))
+- An older browser can't parse the app's chunks. An ES5 inline script in the root layout `<head>` ([browserCompat.ts](../src/utils/browserCompat.ts)) detects a missing `Array.prototype.at`, `structuredClone` or regex lookbehind (Safari before 16.4) and shows a translated "browser too old" screen with update links instead of an endless spinner
+- The same script shows a "loading failed" screen with a Reload button if `W3pkProvider` hasn't set `window.__genjiReady` 15 seconds after the page's `load` event (blocked chunk, network, extension), and removes it if the app starts later. WebAuthn support isn't checked there: the login flow handles a browser without it
 
 **Recommended for Full Features**:
 

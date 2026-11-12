@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased
+
+### Fixed
+
+- A browser too old to run the app (below the Next.js build target, such as Brave 1.10 on Chromium 83) shows a translated "browser too old" screen with links to Chrome and Firefox instead of an endless spinner. An ES5 inline script in the root layout `<head>` (`src/utils/browserCompat.ts`) checks for `Array.prototype.at`, `structuredClone` and regex lookbehind before any app chunk runs
+- If the app hasn't started 15 seconds after the page's `load` event (blocked chunk, network, extension), a "loading failed" screen with a Reload button replaces the spinner. `W3pkProvider` sets `window.__genjiReady` on mount, which stops the watchdog or removes the screen if the app starts later
+
 ## 3.3.2 - 2026-11-12
 
 ### Changed
