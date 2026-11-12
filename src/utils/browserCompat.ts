@@ -4,10 +4,12 @@
  * A browser older than the build target can't parse the app's chunks, so React
  * never starts and the server-rendered spinner stays forever. This script is
  * plain ES5 so it runs anyway: it shows a "browser too old" screen when a
- * required feature is missing, and a "loading failed" screen with a Reload
- * button when the app hasn't started after WATCHDOG_MS (blocked chunk, network
- * or extension). W3pkProvider sets window.__genjiReady on mount; setting it
- * later removes the "loading failed" screen.
+ * build-target feature is missing, and a "loading failed" screen with a Reload
+ * button when the app hasn't started WATCHDOG_MS after the page's load event
+ * (blocked chunk, network or extension). W3pkProvider sets
+ * window.__genjiReady on mount; setting it later removes the "loading failed"
+ * screen. WebAuthn support is not checked here: a current in-app browser
+ * without it isn't "too old", and the login flow explains it.
  */
 
 import { translations } from '@/translations'
@@ -24,7 +26,14 @@ function serialize(value: unknown): string {
     .replace(/\u2029/g, '\\u2029')
 }
 
+let cachedScript: string | undefined
+
 export function getBrowserCompatScript(): string {
+  cachedScript ??= buildScript()
+  return cachedScript
+}
+
+function buildScript(): string {
   const strings = Object.fromEntries(
     (Object.keys(SUPPORTED_LANGUAGES) as Language[]).map(lang => [lang, translations[lang].compat])
   )
@@ -94,9 +103,12 @@ export function getBrowserCompatScript(): string {
   }
 
   var missingFeature =
-    typeof Array.prototype.at !== 'function' ||
-    typeof window.structuredClone !== 'function' ||
-    (window.isSecureContext === true && typeof window.PublicKeyCredential === 'undefined');
+    typeof Array.prototype.at !== 'function' || typeof window.structuredClone !== 'function';
+  try {
+    new RegExp('(?<=a)b');
+  } catch (e) {
+    missingFeature = true;
+  }
 
   if (missingFeature) {
     whenBodyReady(function () {
@@ -122,12 +134,10 @@ export function getBrowserCompatScript(): string {
     });
   } catch (e) {}
 
-  setTimeout(function () {
-    if (window.__genjiReady !== true) {
-      whenBodyReady(function () {
-        show('failed');
-      });
-    }
-  }, ${WATCHDOG_MS});
+  window.addEventListener('load', function () {
+    setTimeout(function () {
+      if (window.__genjiReady !== true) show('failed');
+    }, ${WATCHDOG_MS});
+  });
 })();`
 }
