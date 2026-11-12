@@ -369,6 +369,12 @@ type TranslationKeys = {
     loadFailedBody: string
     reload: string
   }
+  globalError: {
+    title: string
+    body: string
+    tryAgain: string
+    errorId: string
+  }
   about: {
     headingPrefix: string
     introPart1: string
@@ -837,6 +843,12 @@ export const translations: Translations = {
         'Something prevented the app from starting: a network problem, a blocked script or a browser extension.',
       reload: 'Reload',
     },
+    globalError: {
+      title: 'Something went wrong',
+      body: 'The app hit an unexpected error. Try again, or reload the page.',
+      tryAgain: 'Try again',
+      errorId: 'Error ID:',
+    },
     about: {
       headingPrefix: 'About',
       introPart1:
@@ -1271,6 +1283,12 @@ export const translations: Translations = {
       loadFailedTitle: '应用无法加载',
       loadFailedBody: '有问题阻止了应用启动：网络问题、脚本被拦截或浏览器扩展。',
       reload: '重新加载',
+    },
+    globalError: {
+      title: '出现问题',
+      body: '应用遇到意外错误。请重试，或重新加载页面。',
+      tryAgain: '重试',
+      errorId: '错误 ID：',
     },
     about: {
       headingPrefix: '关于',
@@ -1744,6 +1762,12 @@ export const translations: Translations = {
       loadFailedBody:
         'किसी चीज़ ने ऐप को शुरू होने से रोक दिया: नेटवर्क समस्या, ब्लॉक की गई स्क्रिप्ट या ब्राउज़र एक्सटेंशन।',
       reload: 'फिर से लोड करें',
+    },
+    globalError: {
+      title: 'कुछ गलत हो गया',
+      body: 'ऐप में एक अप्रत्याशित त्रुटि हुई। फिर से कोशिश करें, या पेज को फिर से लोड करें।',
+      tryAgain: 'फिर से कोशिश करें',
+      errorId: 'त्रुटि ID:',
     },
     about: {
       headingPrefix: 'के बारे में',
@@ -2230,6 +2254,12 @@ export const translations: Translations = {
       loadFailedBody:
         'Algo impidió que la aplicación se iniciara: un problema de red, un script bloqueado o una extensión del navegador.',
       reload: 'Recargar',
+    },
+    globalError: {
+      title: 'Algo salió mal',
+      body: 'La aplicación encontró un error inesperado. Inténtalo de nuevo o recarga la página.',
+      tryAgain: 'Intentar de nuevo',
+      errorId: 'ID del error:',
     },
     about: {
       headingPrefix: 'Acerca de',
@@ -2724,6 +2754,12 @@ export const translations: Translations = {
         "Quelque chose a empêché l'application de démarrer : un problème réseau, un script bloqué ou une extension du navigateur.",
       reload: 'Recharger',
     },
+    globalError: {
+      title: "Une erreur s'est produite",
+      body: "L'application a rencontré une erreur inattendue. Réessayez ou rechargez la page.",
+      tryAgain: 'Réessayer',
+      errorId: "ID de l'erreur :",
+    },
     about: {
       headingPrefix: 'À propos',
       introPart1:
@@ -3189,6 +3225,12 @@ export const translations: Translations = {
       loadFailedBody:
         'منع شيء ما التطبيق من البدء: مشكلة في الشبكة أو برنامج نصي محظور أو إضافة متصفح.',
       reload: 'إعادة التحميل',
+    },
+    globalError: {
+      title: 'حدث خطأ ما',
+      body: 'واجه التطبيق خطأً غير متوقع. حاول مرة أخرى أو أعد تحميل الصفحة.',
+      tryAgain: 'حاول مرة أخرى',
+      errorId: 'معرّف الخطأ:',
     },
     about: {
       headingPrefix: 'حول',
@@ -3671,6 +3713,12 @@ export const translations: Translations = {
       loadFailedBody:
         'কিছু একটা অ্যাপটিকে চালু হতে বাধা দিয়েছে: নেটওয়ার্ক সমস্যা, ব্লক করা স্ক্রিপ্ট বা ব্রাউজার এক্সটেনশন।',
       reload: 'আবার লোড করুন',
+    },
+    globalError: {
+      title: 'কিছু ভুল হয়েছে',
+      body: 'অ্যাপে একটি অপ্রত্যাশিত ত্রুটি হয়েছে। আবার চেষ্টা করুন, অথবা পৃষ্ঠাটি পুনরায় লোড করুন।',
+      tryAgain: 'আবার চেষ্টা করুন',
+      errorId: 'ত্রুটি আইডি:',
     },
     about: {
       headingPrefix: 'সম্পর্কে',
@@ -4158,6 +4206,12 @@ export const translations: Translations = {
       loadFailedBody:
         'Что-то помешало запуску приложения: проблема с сетью, заблокированный скрипт или расширение браузера.',
       reload: 'Перезагрузить',
+    },
+    globalError: {
+      title: 'Что-то пошло не так',
+      body: 'В приложении произошла непредвиденная ошибка. Попробуйте ещё раз или перезагрузите страницу.',
+      tryAgain: 'Попробовать снова',
+      errorId: 'ID ошибки:',
     },
     about: {
       headingPrefix: 'О',
@@ -4647,6 +4701,12 @@ export const translations: Translations = {
         'Algo impediu o aplicativo de iniciar: um problema de rede, um script bloqueado ou uma extensão do navegador.',
       reload: 'Recarregar',
     },
+    globalError: {
+      title: 'Algo deu errado',
+      body: 'O aplicativo encontrou um erro inesperado. Tente novamente ou recarregue a página.',
+      tryAgain: 'Tentar novamente',
+      errorId: 'ID do erro:',
+    },
     about: {
       headingPrefix: 'Sobre',
       introPart1:
@@ -5125,6 +5185,12 @@ export const translations: Translations = {
       loadFailedBody:
         'کسی چیز نے ایپ کو شروع ہونے سے روک دیا: نیٹ ورک کا مسئلہ، بلاک شدہ اسکرپٹ یا براؤزر ایکسٹینشن۔',
       reload: 'دوبارہ لوڈ کریں',
+    },
+    globalError: {
+      title: 'کچھ غلط ہو گیا',
+      body: 'ایپ کو ایک غیر متوقع خرابی کا سامنا ہوا۔ دوبارہ کوشش کریں، یا صفحہ دوبارہ لوڈ کریں۔',
+      tryAgain: 'دوبارہ کوشش کریں',
+      errorId: 'خرابی کی شناخت:',
     },
     about: {
       headingPrefix: 'کے بارے میں',
