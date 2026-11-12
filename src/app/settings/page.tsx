@@ -51,7 +51,14 @@ import PasswordModal from '@/components/PasswordModal'
 import SyncImport from '@/components/SyncImport'
 import { buildSyncLink, fitsInQrCode, takePendingSyncLink } from '@/utils/syncLink'
 import { CodeBlock } from '@/components/CodeBlock'
-import { detectBrowser, isWebAuthnAvailable } from '@/utils/browserDetection'
+import {
+  detectBrowser,
+  getAuthenticatorCapabilities,
+  getAuthenticatorHint,
+  isWebAuthnAvailable,
+  type AuthenticatorCapabilities,
+  type AuthenticatorTier,
+} from '@/utils/browserDetection'
 import { brandColors } from '@/theme'
 import { BuildVerification } from '@/components/BuildVerification'
 import {
@@ -106,6 +113,11 @@ const SettingsPage = () => {
   const [isExportingSync, setIsExportingSync] = useState(false)
   const [syncLink, setSyncLink] = useState<string | null>(null)
   const [showSyncPasswordModal, setShowSyncPasswordModal] = useState(false)
+  const [capabilities, setCapabilities] = useState<AuthenticatorCapabilities | null>(null)
+
+  useEffect(() => {
+    getAuthenticatorCapabilities().then(setCapabilities)
+  }, [])
 
   // Persistent session duration state
   const [persistentSessionDays, setPersistentSessionDays] = useState<number>(() => {
@@ -701,11 +713,26 @@ const SettingsPage = () => {
   if (!isAuthenticated || !getBackupStatus || !createBackup) {
     const browserInfo = detectBrowser()
     const webAuthnAvailable = isWebAuthnAvailable()
+    const hint =
+      capabilities && capabilities.tier !== 'unsupported' && getAuthenticatorHint(capabilities)
 
-    let alertStatus: 'info' | 'warning' | 'error' = 'warning'
-    if (browserInfo.warningLevel === 'error') alertStatus = 'error'
-    else if (browserInfo.warningLevel === 'warning') alertStatus = 'warning'
-    else if (browserInfo.warningLevel === 'info') alertStatus = 'info'
+    const tierBadge: Record<AuthenticatorTier, { palette: string; label: string }> = {
+      full: { palette: 'green', label: t.settings.fullySupported },
+      'hybrid-only': { palette: 'blue', label: t.settings.tierHybridOnly },
+      'security-key-only': { palette: 'yellow', label: t.settings.tierSecurityKeyOnly },
+      unsupported: { palette: 'red', label: t.settings.notSupported },
+    }
+
+    const capabilityRows = capabilities
+      ? [
+          {
+            label: t.settings.platformAuthenticatorLabel,
+            value: capabilities.platformAuthenticator,
+          },
+          { label: t.settings.hybridTransportLabel, value: capabilities.hybridTransport },
+          { label: t.settings.prfLabel, value: capabilities.prf },
+        ]
+      : []
 
     return (
       <>
@@ -757,48 +784,47 @@ const SettingsPage = () => {
                   {webAuthnAvailable ? t.settings.available : t.settings.notAvailable}
                 </Badge>
               </HStack>
-              <HStack justify="space-between">
-                <Text fontSize="sm" color="gray.400">
-                  {t.settings.compatibilityLabel}
-                </Text>
-                <Badge
-                  colorPalette={
-                    browserInfo.isSupported && !browserInfo.hasKnownIssues
-                      ? 'green'
-                      : browserInfo.hasKnownIssues
-                        ? 'yellow'
-                        : 'red'
-                  }
-                >
-                  {browserInfo.isSupported && !browserInfo.hasKnownIssues
-                    ? t.settings.fullySupported
-                    : browserInfo.hasKnownIssues
-                      ? t.settings.knownIssues
-                      : t.settings.notSupported}
-                </Badge>
-              </HStack>
+              {capabilityRows.map(({ label, value }) => (
+                <HStack key={label} justify="space-between">
+                  <Text fontSize="sm" color="gray.400">
+                    {label}
+                  </Text>
+                  <Badge colorPalette={value === 'unknown' ? 'gray' : value ? 'green' : 'red'}>
+                    {value === 'unknown'
+                      ? t.settings.capabilityUnknown
+                      : value
+                        ? t.settings.available
+                        : t.settings.notAvailable}
+                  </Badge>
+                </HStack>
+              ))}
+              {capabilities && (
+                <HStack justify="space-between">
+                  <Text fontSize="sm" color="gray.400">
+                    {t.settings.compatibilityLabel}
+                  </Text>
+                  <Badge colorPalette={tierBadge[capabilities.tier].palette}>
+                    {tierBadge[capabilities.tier].label}
+                  </Badge>
+                </HStack>
+              )}
             </VStack>
           </Box>
 
-          {browserInfo.recommendation && (
-            <Box
-              p={4}
-              bg={
-                alertStatus === 'error'
-                  ? 'red.900/90'
-                  : alertStatus === 'warning'
-                    ? 'yellow.900/90'
-                    : 'blue.900/90'
-              }
-              borderRadius="lg"
-            >
+          {(hint || capabilities?.prf === false) && (
+            <Box p={4} bg="yellow.900/90" borderRadius="lg">
+              <VStack align="stretch" gap={2} fontSize="sm">
+                {hint && <Text>{t.header[hint]}</Text>}
+                {capabilities?.prf === false && <Text>{t.header.prfUnsupportedWarning}</Text>}
+              </VStack>
+            </Box>
+          )}
+
+          {browserInfo.hasKnownIssues && browserInfo.recommendation && (
+            <Box p={4} bg="yellow.900/90" borderRadius="lg">
               <Box fontSize="sm">
                 <Text fontWeight="bold" mb={1}>
-                  {alertStatus === 'error'
-                    ? t.settings.browserNotSupportedTitle
-                    : alertStatus === 'warning'
-                      ? t.settings.knownIssuesTitle
-                      : t.settings.recommendationTitle}
+                  {t.settings.knownIssuesTitle}
                 </Text>
                 <Text fontSize="sm">{browserInfo.recommendation}</Text>
               </Box>

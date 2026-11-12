@@ -1,6 +1,7 @@
 /**
  * Browser detection utility
- * Detects browser name, version, and compatibility with WebAuthn/w3pk
+ * Names the browser, version and OS for display. Passkey support comes from
+ * getAuthenticatorCapabilities(), not from versions.
  */
 
 export interface BrowserInfo {
@@ -8,11 +9,39 @@ export interface BrowserInfo {
   version: string
   fullVersion: string
   os: string
-  isSupported: boolean
   hasKnownIssues: boolean
   recommendation?: string
-  warningLevel: 'none' | 'info' | 'warning' | 'error'
 }
+
+const BROWSERS: { name: string; test: (ua: string) => boolean; version: RegExp }[] = [
+  {
+    name: 'Samsung Internet',
+    test: ua => ua.includes('SamsungBrowser'),
+    version: /SamsungBrowser\/([\d.]+)/,
+  },
+  {
+    name: 'Firefox Mobile',
+    test: ua => ua.includes('Firefox') && (ua.includes('Android') || ua.includes('Mobile')),
+    version: /Firefox\/([\d.]+)/,
+  },
+  {
+    name: 'Chrome',
+    test: ua => ua.includes('Chrome') && !ua.includes('Edg'),
+    version: /Chrome\/([\d.]+)/,
+  },
+  { name: 'Edge', test: ua => ua.includes('Edg'), version: /Edg\/([\d.]+)/ },
+  {
+    name: 'Safari',
+    test: ua => ua.includes('Safari') && !ua.includes('Chrome'),
+    version: /Version\/([\d.]+)/,
+  },
+  { name: 'Firefox', test: ua => ua.includes('Firefox'), version: /Firefox\/([\d.]+)/ },
+  {
+    name: 'Opera',
+    test: ua => ua.includes('OPR') || ua.includes('Opera'),
+    version: /(?:OPR|Opera)\/([\d.]+)/,
+  },
+]
 
 /**
  * Detects the current browser and returns detailed information
@@ -24,23 +53,13 @@ export function detectBrowser(): BrowserInfo {
       version: 'Unknown',
       fullVersion: 'Unknown',
       os: 'Unknown',
-      isSupported: false,
       hasKnownIssues: false,
-      warningLevel: 'none',
     }
   }
 
   const userAgent = navigator.userAgent
-  let browserName = 'Unknown'
-  let version = 'Unknown'
-  let fullVersion = 'Unknown'
   let os = 'Unknown'
-  let isSupported = true
-  let hasKnownIssues = false
-  let recommendation: string | undefined
-  let warningLevel: 'none' | 'info' | 'warning' | 'error' = 'none'
 
-  // Detect OS
   if (userAgent.includes('Win')) os = 'Windows'
   else if (userAgent.includes('Mac')) os = 'macOS'
   else if (userAgent.includes('Linux')) os = 'Linux'
@@ -48,156 +67,22 @@ export function detectBrowser(): BrowserInfo {
   else if (userAgent.includes('iOS') || userAgent.includes('iPhone') || userAgent.includes('iPad'))
     os = 'iOS'
 
-  // Detect browser
-  // Check for Samsung Internet
-  if (userAgent.includes('SamsungBrowser')) {
-    browserName = 'Samsung Internet'
-    const match = userAgent.match(/SamsungBrowser\/([\d.]+)/)
-    if (match) {
-      fullVersion = match[1]
-      version = fullVersion.split('.')[0]
-    }
-    // Samsung Internet 11+ is supported (February 2020)
-    const versionNum = parseInt(version)
-    if (!isNaN(versionNum) && versionNum >= 11) {
-      isSupported = true
-      hasKnownIssues = false
-      warningLevel = 'none'
-    } else {
-      isSupported = false
-      recommendation = 'Please update Samsung Internet to version 11 or higher.'
-      warningLevel = 'error'
-    }
-  }
-  // Check for Firefox Mobile
-  else if (
-    userAgent.includes('Firefox') &&
-    (userAgent.includes('Android') || userAgent.includes('Mobile'))
-  ) {
-    browserName = 'Firefox Mobile'
-    const match = userAgent.match(/Firefox\/([\d.]+)/)
-    if (match) {
-      fullVersion = match[1]
-      version = fullVersion.split('.')[0]
-    }
-    // Firefox Mobile has known issues with passkey persistence
-    isSupported = true
-    hasKnownIssues = true
-    recommendation =
-      'Firefox Mobile has known issues with passkey persistence. Consider using Samsung Internet or Chrome instead.'
-    warningLevel = 'warning'
-  }
-  // Check for Chrome (including Chrome on Android)
-  else if (userAgent.includes('Chrome') && !userAgent.includes('Edg')) {
-    browserName = 'Chrome'
-    const match = userAgent.match(/Chrome\/([\d.]+)/)
-    if (match) {
-      fullVersion = match[1]
-      version = fullVersion.split('.')[0]
-    }
-    // Chrome 67+ is supported (May 2018)
-    const versionNum = parseInt(version)
-    if (!isNaN(versionNum) && versionNum >= 67) {
-      isSupported = true
-      hasKnownIssues = false
-      warningLevel = 'none'
-    } else {
-      isSupported = false
-      recommendation = 'Please update Chrome to version 67 or higher.'
-      warningLevel = 'error'
-    }
-  }
-  // Check for Edge
-  else if (userAgent.includes('Edg')) {
-    browserName = 'Edge'
-    const match = userAgent.match(/Edg\/([\d.]+)/)
-    if (match) {
-      fullVersion = match[1]
-      version = fullVersion.split('.')[0]
-    }
-    // Edge 18+ is supported (November 2018)
-    const versionNum = parseInt(version)
-    if (!isNaN(versionNum) && versionNum >= 18) {
-      isSupported = true
-      hasKnownIssues = false
-      warningLevel = 'none'
-    } else {
-      isSupported = false
-      recommendation = 'Please update Edge to version 18 or higher.'
-      warningLevel = 'error'
-    }
-  }
-  // Check for Safari
-  else if (userAgent.includes('Safari') && !userAgent.includes('Chrome')) {
-    browserName = 'Safari'
-    const match = userAgent.match(/Version\/([\d.]+)/)
-    if (match) {
-      fullVersion = match[1]
-      version = fullVersion.split('.')[0]
-    }
-    // Safari 14+ is supported (September 2020)
-    const versionNum = parseInt(version)
-    if (!isNaN(versionNum) && versionNum >= 14) {
-      isSupported = true
-      hasKnownIssues = false
-      warningLevel = 'none'
-    } else {
-      isSupported = false
-      recommendation =
-        'Please update Safari to version 14 or higher (requires macOS Big Sur 11.0+ or iOS 14.5+).'
-      warningLevel = 'error'
-    }
-  }
-  // Check for Firefox Desktop
-  else if (userAgent.includes('Firefox')) {
-    browserName = 'Firefox'
-    const match = userAgent.match(/Firefox\/([\d.]+)/)
-    if (match) {
-      fullVersion = match[1]
-      version = fullVersion.split('.')[0]
-    }
-    // Firefox 60+ is supported (May 2018)
-    const versionNum = parseInt(version)
-    if (!isNaN(versionNum) && versionNum >= 60) {
-      isSupported = true
-      hasKnownIssues = false
-      warningLevel = 'none'
-    } else {
-      isSupported = false
-      recommendation = 'Please update Firefox to version 60 or higher.'
-      warningLevel = 'error'
-    }
-  }
-  // Check for Opera
-  else if (userAgent.includes('OPR') || userAgent.includes('Opera')) {
-    browserName = 'Opera'
-    const match = userAgent.match(/(?:OPR|Opera)\/([\d.]+)/)
-    if (match) {
-      fullVersion = match[1]
-      version = fullVersion.split('.')[0]
-    }
-    // Opera 54+ is supported (June 2018)
-    const versionNum = parseInt(version)
-    if (!isNaN(versionNum) && versionNum >= 54) {
-      isSupported = true
-      hasKnownIssues = false
-      warningLevel = 'none'
-    } else {
-      isSupported = false
-      recommendation = 'Please update Opera to version 54 or higher.'
-      warningLevel = 'error'
-    }
-  }
+  const browser = BROWSERS.find(b => b.test(userAgent))
+  const fullVersion = (browser && userAgent.match(browser.version)?.[1]) || 'Unknown'
+  const name = browser?.name ?? 'Unknown'
+
+  // Firefox Mobile has known issues with passkey persistence
+  const hasKnownIssues = name === 'Firefox Mobile'
 
   return {
-    name: browserName,
-    version,
+    name,
+    version: fullVersion.split('.')[0],
     fullVersion,
     os,
-    isSupported,
     hasKnownIssues,
-    recommendation,
-    warningLevel,
+    recommendation: hasKnownIssues
+      ? 'Firefox Mobile has known issues with passkey persistence. Consider using Samsung Internet or Chrome instead.'
+      : undefined,
   }
 }
 
@@ -288,6 +173,25 @@ export async function getAuthenticatorCapabilities(): Promise<AuthenticatorCapab
       : 'hybrid-only'
 
   return { platformAuthenticator, hybridTransport, prf, tier }
+}
+
+export type AuthenticatorHint =
+  'noPlatformAuthenticatorHint' | 'phoneKeyHint' | 'securityKeyOnlyHint' | 'webauthnUnsupportedHint'
+
+/** The header.* translation key explaining a tier, or null when nothing needs saying */
+export function getAuthenticatorHint(
+  capabilities: AuthenticatorCapabilities
+): AuthenticatorHint | null {
+  switch (capabilities.tier) {
+    case 'full':
+      return null
+    case 'hybrid-only':
+      return capabilities.hybridTransport === true ? 'phoneKeyHint' : 'noPlatformAuthenticatorHint'
+    case 'security-key-only':
+      return 'securityKeyOnlyHint'
+    case 'unsupported':
+      return 'webauthnUnsupportedHint'
+  }
 }
 
 export function isIOS(): boolean {
