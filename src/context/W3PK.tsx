@@ -218,10 +218,26 @@ export function isUserCancelledError(error: unknown): boolean {
   return false
 }
 
+function hasNotAllowedName(value: unknown): boolean {
+  return (
+    typeof value === 'object' &&
+    value !== null &&
+    'name' in value &&
+    value.name === 'NotAllowedError'
+  )
+}
+
 // WebAuthn reports a timeout and a cancel alike as NotAllowedError: on a
-// device with no built-in authenticator it usually means nothing answered
+// device with no built-in authenticator it usually means nothing answered.
+// w3pk wraps it in a RegistrationError that keeps it as originalError.
 async function isNoAuthenticatorError(error: unknown): Promise<boolean> {
-  if (!isUserCancelledError(error)) return false
+  const isNotAllowed =
+    hasNotAllowedName(error) ||
+    (typeof error === 'object' &&
+      error !== null &&
+      'originalError' in error &&
+      hasNotAllowedName(error.originalError))
+  if (!isNotAllowed) return false
   const { platformAuthenticator } = await getAuthenticatorCapabilities()
   return !platformAuthenticator
 }
@@ -531,11 +547,6 @@ export const W3pkProvider: React.FC<W3pkProviderProps> = ({ children }) => {
           type: 'error',
           duration: 8000,
         })
-        throw error
-      }
-
-      if (await isNoAuthenticatorError(error)) {
-        showNoAuthenticatorToast()
         throw error
       }
 
