@@ -30,6 +30,7 @@ import {
 import type { GuardianShare } from 'w3pk'
 import { useRouter } from 'next/navigation'
 import { toaster } from '@/components/ui/toaster'
+import { getAuthenticatorCapabilities } from '@/utils/browserDetection'
 
 declare global {
   interface Window {
@@ -215,6 +216,24 @@ export function isUserCancelledError(error: unknown): boolean {
     )
   }
   return false
+}
+
+// WebAuthn reports a timeout and a cancel alike as NotAllowedError: on a
+// device with no built-in authenticator it usually means nothing answered
+async function isNoAuthenticatorError(error: unknown): Promise<boolean> {
+  if (!isUserCancelledError(error)) return false
+  const { platformAuthenticator } = await getAuthenticatorCapabilities()
+  return !platformAuthenticator
+}
+
+function showNoAuthenticatorToast() {
+  toaster.create({
+    title: 'No Authenticator Responded',
+    description:
+      'No authenticator responded on this device. Use a security key or your phone if this browser offers it, or open this page in another browser.',
+    type: 'error',
+    duration: 8000,
+  })
 }
 
 // A restore that would replace the device's wallet with another address
@@ -435,6 +454,11 @@ export const W3pkProvider: React.FC<W3pkProviderProps> = ({ children }) => {
         throw error
       }
 
+      if (await isNoAuthenticatorError(error)) {
+        showNoAuthenticatorToast()
+        throw error
+      }
+
       const errorDetails =
         error instanceof Error ? `${error.name}: ${error.message}` : JSON.stringify(error)
 
@@ -507,6 +531,11 @@ export const W3pkProvider: React.FC<W3pkProviderProps> = ({ children }) => {
           type: 'error',
           duration: 8000,
         })
+        throw error
+      }
+
+      if (await isNoAuthenticatorError(error)) {
+        showNoAuthenticatorToast()
         throw error
       }
 
