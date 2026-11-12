@@ -1288,7 +1288,7 @@ export const translations: Translations = {
       title: '出现问题',
       body: '应用遇到意外错误。请重试，或重新加载页面。',
       tryAgain: '重试',
-      errorId: '错误 ID：',
+      errorId: '错误 ID:',
     },
     about: {
       headingPrefix: '关于',

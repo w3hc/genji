@@ -8,19 +8,7 @@
 
 import { useEffect, useSyncExternalStore, type CSSProperties } from 'react'
 import { getTranslations } from '@/translations'
-import { DEFAULT_LANGUAGE, detectUserLanguage, isValidLanguage, type Language } from '@/utils/i18n'
-
-const RTL_LANGUAGES: Language[] = ['ar', 'ur']
-
-function readLanguage(): Language {
-  try {
-    const stored = window.localStorage.getItem('userLanguage')
-    if (stored && isValidLanguage(stored)) return stored
-  } catch {
-    // Storage blocked: fall back to the browser language
-  }
-  return detectUserLanguage()
-}
+import { DEFAULT_LANGUAGE, RTL_LANGUAGES, getPreferredLanguage } from '@/utils/i18n'
 
 const subscribeNever = () => () => {}
 
@@ -43,7 +31,11 @@ const buttonStyle: CSSProperties = {
 }
 
 export default function GlobalError({ error, retry }: { error: unknown; retry: () => void }) {
-  const language = useSyncExternalStore(subscribeNever, readLanguage, () => DEFAULT_LANGUAGE)
+  const language = useSyncExternalStore(
+    subscribeNever,
+    getPreferredLanguage,
+    () => DEFAULT_LANGUAGE
+  )
 
   useEffect(() => {
     console.error('Root layout error:', error)
@@ -53,7 +45,10 @@ export default function GlobalError({ error, retry }: { error: unknown; retry: (
   const digest = getDigest(error)
 
   return (
-    <html lang={language} dir={RTL_LANGUAGES.includes(language) ? 'rtl' : 'ltr'}>
+    <html lang={language} dir={RTL_LANGUAGES.includes(language) ? 'rtl' : 'ltr'} translate="no">
+      <head>
+        <meta name="google" content="notranslate" />
+      </head>
       <body
         style={{
           margin: 0,
