@@ -21,6 +21,8 @@ export type Language = keyof typeof SUPPORTED_LANGUAGES
 
 export const DEFAULT_LANGUAGE: Language = 'en'
 
+export const RTL_LANGUAGES: Language[] = ['ar', 'ur']
+
 export function detectUserLanguage(): Language {
   if (typeof window === 'undefined' || !navigator || !navigator.language) {
     return DEFAULT_LANGUAGE // Default for server-side rendering or if browser detection fails
@@ -40,6 +42,20 @@ export function detectUserLanguage(): Language {
 
   // Fall back to default language
   return DEFAULT_LANGUAGE
+}
+
+/**
+ * The stored language preference, else the browser language. For screens
+ * rendered outside LanguageProvider, such as the root error boundary.
+ */
+export function getPreferredLanguage(): Language {
+  try {
+    const stored = window.localStorage.getItem('userLanguage')
+    if (stored && isValidLanguage(stored)) return stored
+  } catch {
+    // Storage blocked: fall back to the browser language
+  }
+  return detectUserLanguage()
 }
 
 /**

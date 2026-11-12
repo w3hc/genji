@@ -69,6 +69,7 @@ src/
    �� settings/           # Wallet settings & backup management
    �� about/              # About w3pk
    �� api/subscribe/      # Email subscription endpoint
+   �� global-error.tsx    # Root layout crash screen (own <html>, inline styles)
 �� components/
    �� ui/                 # Chakra UI component wrappers
    �� Header.tsx          # Navigation + auth UI
@@ -303,7 +304,7 @@ function getUsername(): string { ... }
 - **Context-based state**: Global auth state in [W3PK.tsx](../src/context/W3PK.tsx)
 - **Dynamic imports**: W3PK provider to avoid SSR issues
 - **Client components**: Use `'use client'` for interactive UI
-- **Error boundaries**: Graceful error handling in [app/error.tsx](../src/app/error.tsx)
+- **Error boundaries**: Graceful error handling in [app/error.tsx](../src/app/error.tsx); a crash in the root layout (`ContextProvider`, `W3pkProvider`) is caught by [app/global-error.tsx](../src/app/global-error.tsx), which renders its own document with inline styles and a translated screen with Try again and Reload
 - **Toast notifications**: User feedback via Chakra toaster
 - **Modal dialogs**: Critical actions (password input, confirmations)
 

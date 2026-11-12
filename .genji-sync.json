@@ -12,6 +12,7 @@
     "tsconfig.json",
     "pnpm-workspace.yaml",
     "src/app/error.tsx",
+    "src/app/global-error.tsx",
     "src/app/loading.tsx",
     "src/app/not-found.tsx",
     "src/app/globals.css",

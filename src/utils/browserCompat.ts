@@ -13,11 +13,9 @@
  */
 
 import { translations } from '@/translations'
-import { SUPPORTED_LANGUAGES, DEFAULT_LANGUAGE, type Language } from '@/utils/i18n'
+import { SUPPORTED_LANGUAGES, DEFAULT_LANGUAGE, RTL_LANGUAGES, type Language } from '@/utils/i18n'
 
 const WATCHDOG_MS = 15000
-
-const RTL_LANGUAGES: Language[] = ['ar', 'ur']
 
 function serialize(value: unknown): string {
   return JSON.stringify(value)
