@@ -2,8 +2,22 @@
 
 ## Unreleased
 
+### Changed
+
+- Passkey support comes from WebAuthn capabilities instead of user-agent versions. `getAuthenticatorCapabilities()` in `src/utils/browserDetection.ts` reads `PublicKeyCredential.getClientCapabilities()` where the browser has it, else `isUserVerifyingPlatformAuthenticatorAvailable()`, and resolves to a tier: `full`, `hybrid-only`, `security-key-only` or `unsupported`
+- The registration modal shows a hint per tier: none with a built-in authenticator, the phone and QR code (Bluetooth required) when only the phone works, a FIDO2 security key with a suggestion to use Chrome or Chromium when only a security key works, and an explanation with Create Account disabled when the browser has no WebAuthn. It also warns when the browser reports no PRF extension, since w3pk can't create a wallet without it
+- Settings shows the capability diagnosis (built-in authenticator, phone as a key, PRF extension and tier) next to the browser name, version and OS
+- `.genji-sync.json`: the translations merge drops the removed keys, and the Header parity note covers the per-tier hints
+
+### Removed
+
+- The per-browser minimum-version checks: `BrowserInfo.isSupported` and `warningLevel`, and the `settings.knownIssues`, `browserNotSupportedTitle` and `recommendationTitle` translations
+
 ### Fixed
 
+- Firefox on Linux, which offers neither a built-in authenticator nor the phone option, was reported as supported and told to use a phone or a security key. It now gets the security-key-only guidance before the WebAuthn prompt
+- A `NotAllowedError` during registration on a device with no built-in authenticator shows "No authenticator responded on this device" instead of a generic "Registration Failed" error
+- Settings showed Opera as Chrome, iPhone and iPad as macOS, and Android as Linux
 - A browser too old to run the app (below the Next.js build target, such as Brave 1.10 on Chromium 83) shows a translated "browser too old" screen with links to Chrome and Firefox instead of an endless spinner. An ES5 inline script in the root layout `<head>` (`src/utils/browserCompat.ts`) checks for `Array.prototype.at`, `structuredClone` and regex lookbehind before any app chunk runs
 - If the app hasn't started 15 seconds after the page's `load` event (blocked chunk, network, extension), a "loading failed" screen with a Reload button replaces the spinner. `W3pkProvider` sets `window.__genjiReady` on mount, which stops the watchdog or removes the screen if the app starts later
 - A crash in the root layout (`ContextProvider`, `W3pkProvider`), which `src/app/error.tsx` can't catch, shows a translated error screen with Try again and Reload buttons instead of Next's default client-exception page or a frozen screen. `src/app/global-error.tsx` renders its own document with inline styles and no Chakra, and is added to the `sync` list of `.genji-sync.json`
