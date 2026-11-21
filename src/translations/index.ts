@@ -521,7 +521,7 @@ export const translations: Translations = {
 
       sessionHeading: 'Keep my session alive',
       sessionDescription:
-        'Set how long your session should stay active without a passkey prompt. When it expires, your next visit asks for your passkey once and starts a fresh session — so this is also how often you re-authenticate. This setting applies to STANDARD and YOLO modes only. STRICT and PRIMARY modes always require fresh authentication and do not use persistent sessions.',
+        'Set how long your session should stay active without a passkey prompt. When it expires, you are logged out and sign in again with your passkey whenever you choose to — so this is also how often you re-authenticate. This setting applies to STANDARD and YOLO modes only. STRICT and PRIMARY modes always require fresh authentication and do not use persistent sessions.',
       noStoredSessionText:
         "No stored session on this device. Your authenticator doesn't appear to support the WebAuthn PRF extension, which w3pk requires to keep sessions alive securely. Your session will stay in memory only: it ends when you close the tab, and each visit will ask for your passkey. Everything else works normally.",
       sessionDurationLabel: 'Session Duration',
@@ -1001,7 +1001,7 @@ export const translations: Translations = {
 
       sessionHeading: '保持我的会话有效',
       sessionDescription:
-        '设置您的会话在不弹出通行密钥提示的情况下保持有效的时长。会话过期后，您下次访问时将被要求验证一次通行密钥，并开始一个新的会话——这也决定了您重新进行身份验证的频率。此设置仅适用于 STANDARD 和 YOLO 模式。STRICT 和 PRIMARY 模式始终需要重新进行身份验证，不使用持久化会话。',
+        '设置您的会话在不弹出通行密钥提示的情况下保持有效的时长。会话过期后，您将被登出，可随时使用通行密钥重新登录——这也决定了您重新进行身份验证的频率。此设置仅适用于 STANDARD 和 YOLO 模式。STRICT 和 PRIMARY 模式始终需要重新进行身份验证，不使用持久化会话。',
       noStoredSessionText:
         '此设备上没有存储的会话。您的身份验证器似乎不支持 WebAuthn PRF 扩展，而 w3pk 需要该扩展来安全地保持会话有效。您的会话将仅保存在内存中：关闭标签页后即结束，每次访问都会要求验证通行密钥。其他功能均正常运作。',
       sessionDurationLabel: '会话时长',
@@ -1419,8 +1419,7 @@ export const translations: Translations = {
       browserEdge: 'Edge 18+ (नवंबर 2018)',
       browserSamsung: 'Samsung Internet 11+ (फरवरी 2020)',
       androidRecommendedHeading: 'Android के लिए अनुशंसित ब्राउज़र',
-      samsungInternetNote:
-        'Samsung Internet (Samsung डिवाइस के लिए सर्वश्रेष्ठ) - ✅ काम करना पुष्ट',
+      samsungInternetNote: 'Samsung Internet (Samsung डिवाइस के लिए सर्वश्रेष्ठ) - ✅ काम करना पुष्ट',
       chromeNote: 'Chrome - ✅ भरोसेमंद',
       edgeNote: 'Edge - ✅ भरोसेमंद',
       firefoxMobileNote: 'Firefox Mobile - ⚠️ से बचें (पासकी स्थायित्व की ज्ञात समस्याएं)',
@@ -1452,7 +1451,7 @@ export const translations: Translations = {
 
       sessionHeading: 'मेरा सत्र सक्रिय रखें',
       sessionDescription:
-        'तय करें कि पासकी प्रॉम्प्ट के बिना आपका सत्र कितनी देर तक सक्रिय रहना चाहिए। जब यह समाप्त हो जाता है, तो आपकी अगली विज़िट एक बार आपकी पासकी के लिए पूछती है और एक नया सत्र शुरू करती है — इसलिए यह भी बताता है कि आप कितनी बार पुनः प्रमाणीकरण करते हैं। यह सेटिंग केवल STANDARD और YOLO मोड पर लागू होती है। STRICT और PRIMARY मोड हमेशा नए प्रमाणीकरण की आवश्यकता रखते हैं और स्थायी सत्रों का उपयोग नहीं करते।',
+        'तय करें कि पासकी प्रॉम्प्ट के बिना आपका सत्र कितनी देर तक सक्रिय रहना चाहिए। जब यह समाप्त हो जाता है, तो आप लॉग आउट हो जाते हैं और जब चाहें अपनी पासकी से फिर से साइन इन कर सकते हैं — इसलिए यह भी बताता है कि आप कितनी बार पुनः प्रमाणीकरण करते हैं। यह सेटिंग केवल STANDARD और YOLO मोड पर लागू होती है। STRICT और PRIMARY मोड हमेशा नए प्रमाणीकरण की आवश्यकता रखते हैं और स्थायी सत्रों का उपयोग नहीं करते।',
       noStoredSessionText:
         'इस डिवाइस पर कोई संग्रहीत सत्र नहीं है। ऐसा लगता है कि आपका ऑथेंटिकेटर WebAuthn PRF एक्सटेंशन का समर्थन नहीं करता, जिसकी w3pk को सत्रों को सुरक्षित रूप से सक्रिय रखने के लिए आवश्यकता होती है। आपका सत्र केवल मेमोरी में रहेगा: जब आप टैब बंद करते हैं तो यह समाप्त हो जाता है, और हर विज़िट पर आपसे आपकी पासकी पूछा जाएगा। बाकी सब कुछ सामान्य रूप से काम करता है।',
       sessionDurationLabel: 'सत्र अवधि',
@@ -1517,8 +1516,7 @@ export const translations: Translations = {
       recoverWalletHeading: 'वॉलेट पुनर्प्राप्त करें',
       hideButton: 'छिपाएं',
       showButton: 'दिखाएं',
-      recoverDescription:
-        'अपने वॉलेट तक पहुंच खो दी? इसे पुनर्प्राप्त करने के लिए अभिभावक शेयर एकत्र करें।',
+      recoverDescription: 'अपने वॉलेट तक पहुंच खो दी? इसे पुनर्प्राप्त करने के लिए अभिभावक शेयर एकत्र करें।',
       shareCodeLabel: 'अभिभावक शेयर कोड',
       sharePlaceholder:
         'यहां अभिभावक शेयर JSON पेस्ट करें (उदाहरण के लिए, {"guardianId":"...","share":"..."})',
@@ -1532,8 +1530,7 @@ export const translations: Translations = {
       removeShareAria: 'शेयर हटाएं',
       invalidShareLabel: n => `अमान्य शेयर #${n}`,
       progressHeading: 'रिकवरी प्रगति',
-      progressText: n =>
-        `${n} शेयर एकत्रित हुए। रिकवरी का प्रयास करने के लिए आपको कम से कम 2 शेयर चाहिए।`,
+      progressText: n => `${n} शेयर एकत्रित हुए। रिकवरी का प्रयास करने के लिए आपको कम से कम 2 शेयर चाहिए।`,
       recoveringText: 'पुनर्प्राप्त हो रहा है...',
       recoverButton: n => `वॉलेट पुनर्प्राप्त करें (${n} शेयर)`,
       importantWarning:
@@ -1602,8 +1599,7 @@ export const translations: Translations = {
         'आपकी पासकी क्रेडेंशियल्स एक ही इकोसिस्टम के भीतर डिवाइसों में स्वचालित रूप से सिंक होती हैं:',
       appleSyncNote: 'Apple: iCloud Keychain के माध्यम से सिंक होता है (iPhone, iPad, Mac)',
       googleSyncNote: 'Google: Password Manager के माध्यम से सिंक होता है (Android, Chrome)',
-      windowsSyncNote:
-        'Windows Hello: डिवाइस-विशिष्ट, नए डिवाइसों के लिए एन्क्रिप्टेड बैकअप का उपयोग करें',
+      windowsSyncNote: 'Windows Hello: डिवाइस-विशिष्ट, नए डिवाइसों के लिए एन्क्रिप्टेड बैकअप का उपयोग करें',
       hardwareSyncNote: 'Hardware Keys: कोई सिंक नहीं, एन्क्रिप्टेड बैकअप अलग से रखें',
       crossPlatformNote:
         'क्रॉस-प्लेटफ़ॉर्म सीमा: पासकी अलग-अलग इकोसिस्टम में सिंक नहीं होती (उदाहरण के लिए, iPhone से Android)। हालांकि, एन्क्रिप्टेड बैकअप पूरी तरह से क्रॉस-प्लेटफ़ॉर्म हैं - आप मूल प्लेटफ़ॉर्म चाहे जो भी हो, बैकअप फ़ाइल और पासवर्ड के साथ किसी भी डिवाइस पर अपना वॉलेट पुनर्स्थापित कर सकते हैं।',
@@ -1612,8 +1608,7 @@ export const translations: Translations = {
       practiceVerifyAddresses: 'सिंक करने के बाद वॉलेट पतों का मिलान सत्यापित करें',
       practiceUseDebugTools:
         'यह सत्यापित करने के लिए कि सिंक डेटा सही ढंग से सहेजा गया था, डिबग और निरीक्षण स्टोरेज टूल्स का उपयोग करें',
-      practiceNeverShareQr:
-        'अपने QR कोड को कभी भी सार्वजनिक रूप से या अविश्वसनीय चैनलों पर साझा न करें',
+      practiceNeverShareQr: 'अपने QR कोड को कभी भी सार्वजनिक रूप से या अविश्वसनीय चैनलों पर साझा न करें',
       practiceTreatAsSensitive:
         'QR कोड में केवल सार्वजनिक पते होते हैं, लेकिन फिर भी इन्हें संवेदनशील खाता जानकारी के रूप में मानें',
 
@@ -1646,8 +1641,7 @@ export const translations: Translations = {
       registrationFailedTitle: 'पंजीकरण विफल',
       registrationFailedDefaultDescription: 'पंजीकरण पूरा करने में असमर्थ। कृपया पुनः प्रयास करें।',
       localStorageInspectedTitle: 'LocalStorage निरीक्षित',
-      localStorageInspectedDescription: n =>
-        `${n} आइटम मिले। परिणाम देखने के लिए नीचे स्क्रॉल करें।`,
+      localStorageInspectedDescription: n => `${n} आइटम मिले। परिणाम देखने के लिए नीचे स्क्रॉल करें।`,
       genericErrorTitle: 'त्रुटि',
       failedInspectLocalStorage: 'localStorage का निरीक्षण करने में विफल',
       itemClearedTitle: 'आइटम साफ़ किया गया',
@@ -1709,8 +1703,7 @@ export const translations: Translations = {
       walletRecoveredDescription: address =>
         `आपका वॉलेट पुनर्प्राप्त कर लिया गया है और नई पासकी के साथ पंजीकृत किया गया है: ${address}`,
       fileLoadedTitle: 'फ़ाइल लोड हुई',
-      fileLoadedDescription:
-        'फ़ाइल से अभिभावक शेयर लोड हुआ। इसे जोड़ने के लिए "शेयर जोड़ें" पर क्लिक करें।',
+      fileLoadedDescription: 'फ़ाइल से अभिभावक शेयर लोड हुआ। इसे जोड़ने के लिए "शेयर जोड़ें" पर क्लिक करें।',
       failedReadGuardianFile: 'अभिभावक शेयर फ़ाइल पढ़ने में विफल',
       recoveryPasswordPrompt:
         'सामाजिक रिकवरी कॉन्फ़िगर करते समय आपने जो पासवर्ड सेट किया था उसे दर्ज करें।\n\nयह पासवर्ड अभिभावकों के साथ साझा नहीं किया गया था - आपने इसे सेटअप के दौरान सेट किया था।',
@@ -1776,8 +1769,7 @@ export const translations: Translations = {
       passwordRequiredTitle: 'पासवर्ड आवश्यक है।',
       passwordRequiredDescription: 'कृपया अपना पासवर्ड दर्ज करें।',
       weakPasswordTitle: 'कमज़ोर पासवर्ड।',
-      weakPasswordDescription:
-        'कृपया एक मजबूत पासवर्ड का उपयोग करें जो सभी आवश्यकताओं को पूरा करता हो।',
+      weakPasswordDescription: 'कृपया एक मजबूत पासवर्ड का उपयोग करें जो सभी आवश्यकताओं को पूरा करता हो।',
       submissionErrorTitle: 'सबमिशन त्रुटि।',
       submissionErrorDefaultDescription: 'एक अप्रत्याशित त्रुटि हुई।',
       requirementsNotMet: 'पासवर्ड सभी आवश्यकताओं को पूरा नहीं करता',
@@ -1835,8 +1827,7 @@ export const translations: Translations = {
       feature10: 'ZK प्रिमिटिव्स (ज़ीरो-नॉलेज प्रूफ जनरेशन और सत्यापन)',
       feature11: 'Chainlist समर्थन (2390+ नेटवर्क)',
       feature12: 'EIP-7702 नेटवर्क डिटेक्शन (329+ नेटवर्क)',
-      feature13:
-        'बाहरी वॉलेट एकीकरण (EIP-7702 के माध्यम से MetaMask/Ledger को w3pk को प्रत्यायोजित करें)',
+      feature13: 'बाहरी वॉलेट एकीकरण (EIP-7702 के माध्यम से MetaMask/Ledger को w3pk को प्रत्यायोजित करें)',
       feature14: 'EIP-7951 PRIMARY मोड (P-256 पासकी हस्ताक्षर)',
       feature15: 'बिल्ड सत्यापन (IPFS CID हैशिंग + DAO-अनुरक्षित ऑनचेन रजिस्ट्री)',
       feature16: 'तीन-परत बैकअप और रिकवरी (पासकी सिंक, एन्क्रिप्टेड बैकअप, सामाजिक रिकवरी)',
@@ -1944,7 +1935,7 @@ export const translations: Translations = {
 
       sessionHeading: 'Mantener mi sesión activa',
       sessionDescription:
-        'Establece cuánto tiempo debe permanecer activa tu sesión sin que se solicite la clave de acceso. Cuando caduque, tu próxima visita te pedirá tu clave de acceso una vez y comenzará una sesión nueva; por lo tanto, esto también determina con qué frecuencia vuelves a autenticarte. Esta opción se aplica solo a los modos STANDARD y YOLO. Los modos STRICT y PRIMARY siempre requieren una autenticación nueva y no usan sesiones persistentes.',
+        'Establece cuánto tiempo debe permanecer activa tu sesión sin que se solicite la clave de acceso. Cuando caduque, se cerrará tu sesión y podrás volver a iniciarla con tu clave de acceso cuando quieras; por lo tanto, esto también determina con qué frecuencia vuelves a autenticarte. Esta opción se aplica solo a los modos STANDARD y YOLO. Los modos STRICT y PRIMARY siempre requieren una autenticación nueva y no usan sesiones persistentes.',
       noStoredSessionText:
         'No hay ninguna sesión almacenada en este dispositivo. Parece que tu autenticador no admite la extensión PRF de WebAuthn, que w3pk necesita para mantener las sesiones activas de forma segura. Tu sesión permanecerá solo en memoria: terminará al cerrar la pestaña, y cada visita te pedirá tu clave de acceso. Todo lo demás funciona con normalidad.',
       sessionDurationLabel: 'Duración de la sesión',
@@ -2450,7 +2441,7 @@ export const translations: Translations = {
 
       sessionHeading: 'Garder ma session active',
       sessionDescription:
-        "Définissez la durée pendant laquelle votre session doit rester active sans demande de clé d'accès. Une fois expirée, votre prochaine visite vous demandera une fois votre clé d'accès et démarrera une nouvelle session — c'est donc aussi la fréquence à laquelle vous vous réauthentifiez. Ce paramètre s'applique uniquement aux modes STANDARD et YOLO. Les modes STRICT et PRIMARY exigent toujours une authentification à chaque fois et n'utilisent pas de sessions persistantes.",
+        "Définissez la durée pendant laquelle votre session doit rester active sans demande de clé d'accès. Une fois expirée, vous êtes déconnecté et vous vous reconnectez avec votre clé d'accès quand vous le souhaitez — c'est donc aussi la fréquence à laquelle vous vous réauthentifiez. Ce paramètre s'applique uniquement aux modes STANDARD et YOLO. Les modes STRICT et PRIMARY exigent toujours une authentification à chaque fois et n'utilisent pas de sessions persistantes.",
       noStoredSessionText:
         "Aucune session stockée sur cet appareil. Votre authentificateur ne semble pas prendre en charge l'extension WebAuthn PRF, requise par w3pk pour maintenir les sessions actives de manière sécurisée. Votre session restera uniquement en mémoire : elle se termine à la fermeture de l'onglet, et chaque visite vous demandera votre clé d'accès. Tout le reste fonctionne normalement.",
       sessionDurationLabel: 'Durée de la session',
@@ -2957,7 +2948,7 @@ export const translations: Translations = {
 
       sessionHeading: 'إبقاء جلستي نشطة',
       sessionDescription:
-        'حدد المدة التي تظل خلالها جلستك نشطة دون طلب مفتاح المرور. عند انتهائها، ستطلب زيارتك التالية مفتاح المرور الخاص بك مرة واحدة وتبدأ جلسة جديدة — وهذا يحدد أيضاً وتيرة إعادة المصادقة. ينطبق هذا الإعداد فقط على وضعي STANDARD وYOLO. تتطلب وضعا STRICT وPRIMARY دائماً مصادقة جديدة ولا يستخدمان جلسات دائمة.',
+        'حدد المدة التي تظل خلالها جلستك نشطة دون طلب مفتاح المرور. عند انتهائها، يتم تسجيل خروجك، ويمكنك تسجيل الدخول مجدداً بمفتاح المرور متى شئت — وهذا يحدد أيضاً وتيرة إعادة المصادقة. ينطبق هذا الإعداد فقط على وضعي STANDARD وYOLO. تتطلب وضعا STRICT وPRIMARY دائماً مصادقة جديدة ولا يستخدمان جلسات دائمة.',
       noStoredSessionText:
         'لا توجد جلسة مخزنة على هذا الجهاز. يبدو أن جهاز المصادقة الخاص بك لا يدعم امتداد WebAuthn PRF، الذي يحتاجه w3pk للحفاظ على الجلسات نشطة بأمان. ستبقى جلستك في الذاكرة فقط: تنتهي عند إغلاق التبويب، وستطلب كل زيارة مفتاح المرور الخاص بك. كل شيء آخر يعمل بشكل طبيعي.',
       sessionDurationLabel: 'مدة الجلسة',
@@ -2969,8 +2960,7 @@ export const translations: Translations = {
         'في كل مرة تسجل فيها الدخول بمفتاح المرور الخاص بك، يصدر جهاز المصادقة الخاص بك سراً مدعوماً بالأجهزة (امتداد WebAuthn PRF) يقوم بتشفير جلستك على هذا الجهاز — ولا يمكن لأي شيء مخزن على القرص إعادة إنشاء هذا المفتاح. يبدأ العد التنازلي من جديد عند كل تسجيل دخول فعلي: مع مدة 7 أيام، يبقيك تسجيل الدخول اليوم متصلاً حتى مرور 7 أيام من اليوم، حيث سيُطلب منك ذلك مرة واحدة ويُعاد تشفير الجلسة بمفتاح جديد.',
 
       walletBackupHeading: 'النسخ الاحتياطي للمحفظة',
-      walletBackupDescription:
-        'أنشئ نسخاً احتياطية مشفّرة لمحفظتك لضمان عدم فقدان الوصول إليها أبداً',
+      walletBackupDescription: 'أنشئ نسخاً احتياطية مشفّرة لمحفظتك لضمان عدم فقدان الوصول إليها أبداً',
       currentAccountBackupHeading: 'الحساب الحالي',
       loggedInAsLabel: 'تم تسجيل الدخول باسم:',
       loadingAddressesText: 'جارٍ تحميل العناوين...',
@@ -3406,8 +3396,7 @@ export const translations: Translations = {
         'Samsung Internet (Samsung ডিভাইসের জন্য সেরা) - ✅ কার্যকরী বলে নিশ্চিত করা হয়েছে',
       chromeNote: 'Chrome - ✅ নির্ভরযোগ্য',
       edgeNote: 'Edge - ✅ নির্ভরযোগ্য',
-      firefoxMobileNote:
-        'Firefox Mobile - ⚠️ এড়িয়ে চলুন (পাসকী স্থায়িত্বের পরিচিত সমস্যা রয়েছে)',
+      firefoxMobileNote: 'Firefox Mobile - ⚠️ এড়িয়ে চলুন (পাসকী স্থায়িত্বের পরিচিত সমস্যা রয়েছে)',
 
       restoreBackupHeading: 'ব্যাকআপ থেকে পুনরুদ্ধার করুন',
       restoreBackupSyncHint:
@@ -3436,7 +3425,7 @@ export const translations: Translations = {
 
       sessionHeading: 'আমার সেশন সচল রাখুন',
       sessionDescription:
-        'পাসকী প্রম্পট ছাড়া আপনার সেশন কতক্ষণ সক্রিয় থাকবে তা নির্ধারণ করুন। মেয়াদ শেষ হলে, আপনার পরবর্তী ভিজিটে একবার আপনার পাসকী চাওয়া হবে এবং একটি নতুন সেশন শুরু হবে — অর্থাৎ এটি নির্ধারণ করে আপনি কতবার পুনরায় প্রমাণীকরণ করবেন। এই সেটিংটি শুধুমাত্র STANDARD এবং YOLO মোডে প্রযোজ্য। STRICT এবং PRIMARY মোডে সর্বদা নতুন প্রমাণীকরণ প্রয়োজন এবং সেগুলি স্থায়ী সেশন ব্যবহার করে না।',
+        'পাসকী প্রম্পট ছাড়া আপনার সেশন কতক্ষণ সক্রিয় থাকবে তা নির্ধারণ করুন। মেয়াদ শেষ হলে, আপনি লগ আউট হয়ে যাবেন এবং যখন চাইবেন আপনার পাসকী দিয়ে আবার সাইন ইন করতে পারবেন — অর্থাৎ এটি নির্ধারণ করে আপনি কতবার পুনরায় প্রমাণীকরণ করবেন। এই সেটিংটি শুধুমাত্র STANDARD এবং YOLO মোডে প্রযোজ্য। STRICT এবং PRIMARY মোডে সর্বদা নতুন প্রমাণীকরণ প্রয়োজন এবং সেগুলি স্থায়ী সেশন ব্যবহার করে না।',
       noStoredSessionText:
         'এই ডিভাইসে কোনো সংরক্ষিত সেশন নেই। আপনার প্রমাণীকারী WebAuthn PRF এক্সটেনশন সমর্থন করে বলে মনে হচ্ছে না, যা সেশন নিরাপদে সচল রাখার জন্য w3pk-এর প্রয়োজন। আপনার সেশন শুধুমাত্র মেমরিতে থাকবে: ট্যাব বন্ধ করলে এটি শেষ হয়ে যাবে, এবং প্রতিটি ভিজিটে আপনার পাসকী চাওয়া হবে। বাকি সবকিছু স্বাভাবিকভাবে কাজ করবে।',
       sessionDurationLabel: 'সেশনের মেয়াদ',
@@ -3465,8 +3454,7 @@ export const translations: Translations = {
       checkingText: 'পরীক্ষা করা হচ্ছে...',
       refreshButton: 'অবস্থা রিফ্রেশ করুন',
       createHeading: 'ব্যাকআপ তৈরি করুন',
-      createDescription:
-        'আপনার পাসওয়ার্ড দ্বারা সুরক্ষিত একটি এনক্রিপ্ট করা ব্যাকআপ ফাইল ডাউনলোড করুন',
+      createDescription: 'আপনার পাসওয়ার্ড দ্বারা সুরক্ষিত একটি এনক্রিপ্ট করা ব্যাকআপ ফাইল ডাউনলোড করুন',
       creatingText: 'তৈরি করা হচ্ছে...',
       createButton: 'ব্যাকআপ তৈরি করুন',
       restoreHeadingCard: 'ব্যাকআপ থেকে পুনরুদ্ধার করুন',
@@ -3589,13 +3577,11 @@ export const translations: Translations = {
       googleSyncNote: 'Google: Password Manager-এর মাধ্যমে সিঙ্ক হয় (Android, Chrome)',
       windowsSyncNote:
         'Windows Hello: ডিভাইস-নির্দিষ্ট, নতুন ডিভাইসের জন্য এনক্রিপ্ট করা ব্যাকআপ ব্যবহার করুন',
-      hardwareSyncNote:
-        'Hardware Keys: কোনো সিঙ্ক নেই, এনক্রিপ্ট করা ব্যাকআপ আলাদাভাবে সংরক্ষণ করুন',
+      hardwareSyncNote: 'Hardware Keys: কোনো সিঙ্ক নেই, এনক্রিপ্ট করা ব্যাকআপ আলাদাভাবে সংরক্ষণ করুন',
       crossPlatformNote:
         'ক্রস-প্ল্যাটফর্ম সীমাবদ্ধতা: পাসকী বিভিন্ন ইকোসিস্টেমের মধ্যে সিঙ্ক হয় না (উদাহরণ, iPhone থেকে Android)। তবে, এনক্রিপ্ট করা ব্যাকআপ সম্পূর্ণভাবে ক্রস-প্ল্যাটফর্ম - মূল প্ল্যাটফর্ম যাই হোক না কেন, ব্যাকআপ ফাইল এবং পাসওয়ার্ড দিয়ে আপনি যেকোনো ডিভাইসে আপনার ওয়ালেট পুনরুদ্ধার করতে পারেন।',
       bestPracticesHeading: 'সর্বোত্তম অনুশীলন',
-      practiceBackupFirst:
-        'নতুন ডিভাইসে সিঙ্ক করার আগে সবসময় একটি এনক্রিপ্ট করা ব্যাকআপ তৈরি করুন',
+      practiceBackupFirst: 'নতুন ডিভাইসে সিঙ্ক করার আগে সবসময় একটি এনক্রিপ্ট করা ব্যাকআপ তৈরি করুন',
       practiceVerifyAddresses: 'সিঙ্ক করার পরে ওয়ালেট ঠিকানা মিলছে কিনা যাচাই করুন',
       practiceUseDebugTools:
         'সিঙ্ক ডেটা সঠিকভাবে সংরক্ষিত হয়েছে কিনা তা যাচাই করতে Debug & Inspect Storage টুল ব্যবহার করুন',
@@ -3617,8 +3603,7 @@ export const translations: Translations = {
       restoringRegisteringText: 'পুনরুদ্ধার ও নিবন্ধন করা হচ্ছে...',
       restoreRegisterButton: 'পুনরুদ্ধার ও নিবন্ধন করুন',
       removeAccountModalTitle: 'অ্যাকাউন্ট সরান',
-      removeAccountConfirm: username =>
-        `আপনি কি নিশ্চিত যে আপনি ${username} অ্যাকাউন্টটি সরাতে চান?`,
+      removeAccountConfirm: username => `আপনি কি নিশ্চিত যে আপনি ${username} অ্যাকাউন্টটি সরাতে চান?`,
       removeAccountWarning:
         'সতর্কতা: এটি এই ডিভাইস থেকে এই অ্যাকাউন্টের সমস্ত ডেটা মুছে ফেলবে। এগিয়ে যাওয়ার আগে নিশ্চিত করুন যে আপনার একটি ব্যাকআপ আছে। এই কাজটি পূর্বাবস্থায় ফেরানো যাবে না।',
       removeAccountLoggedOutNote:
@@ -3631,11 +3616,9 @@ export const translations: Translations = {
       registrationSuccessTitle: 'নিবন্ধন সফল হয়েছে',
       registrationSuccessDescription: 'আপনার নতুন অ্যাকাউন্ট তৈরি করা হয়েছে।',
       registrationFailedTitle: 'নিবন্ধন ব্যর্থ হয়েছে',
-      registrationFailedDefaultDescription:
-        'নিবন্ধন সম্পূর্ণ করা যায়নি। অনুগ্রহ করে আবার চেষ্টা করুন।',
+      registrationFailedDefaultDescription: 'নিবন্ধন সম্পূর্ণ করা যায়নি। অনুগ্রহ করে আবার চেষ্টা করুন।',
       localStorageInspectedTitle: 'LocalStorage পরিদর্শন করা হয়েছে',
-      localStorageInspectedDescription: n =>
-        `${n}টি আইটেম পাওয়া গেছে। ফলাফল দেখতে নিচে স্ক্রল করুন।`,
+      localStorageInspectedDescription: n => `${n}টি আইটেম পাওয়া গেছে। ফলাফল দেখতে নিচে স্ক্রল করুন।`,
       genericErrorTitle: 'ত্রুটি',
       failedInspectLocalStorage: 'localStorage পরিদর্শন করতে ব্যর্থ হয়েছে',
       itemClearedTitle: 'আইটেম মুছে ফেলা হয়েছে',
@@ -3646,8 +3629,7 @@ export const translations: Translations = {
       errorLoadingBackupStatusTitle: 'ব্যাকআপ অবস্থা লোড করতে ত্রুটি',
       failedCheckSecurityStatus: 'নিরাপত্তা অবস্থা পরীক্ষা করতে ব্যর্থ হয়েছে',
       accountRemovedTitle: 'অ্যাকাউন্ট সরানো হয়েছে',
-      accountRemovedDescription: username =>
-        `${username} অ্যাকাউন্টটি এই ডিভাইস থেকে সরানো হয়েছে।`,
+      accountRemovedDescription: username => `${username} অ্যাকাউন্টটি এই ডিভাইস থেকে সরানো হয়েছে।`,
       loggingOutTitle: 'লগ আউট করা হচ্ছে',
       loggingOutDescription: 'আপনি আপনার বর্তমান অ্যাকাউন্ট সরিয়ে দিয়েছেন। লগ আউট করা হচ্ছে...',
       failedRemoveAccount: 'অ্যাকাউন্ট সরাতে ব্যর্থ হয়েছে। অনুগ্রহ করে আবার চেষ্টা করুন।',
@@ -3673,8 +3655,7 @@ export const translations: Translations = {
       invalidInputTitle: 'অবৈধ ইনপুট',
       guardianNameRequiredDescription: 'অভিভাবকের নাম প্রয়োজন',
       notEnoughGuardiansTitle: 'পর্যাপ্ত অভিভাবক নেই',
-      notEnoughGuardiansDescription:
-        'সামাজিক পুনরুদ্ধার সেটআপ করতে আপনার কমপক্ষে ২ জন অভিভাবক প্রয়োজন',
+      notEnoughGuardiansDescription: 'সামাজিক পুনরুদ্ধার সেটআপ করতে আপনার কমপক্ষে ২ জন অভিভাবক প্রয়োজন',
       invalidThresholdTitle: 'অবৈধ থ্রেশহোল্ড',
       invalidThresholdDescription: 'থ্রেশহোল্ড অভিভাবকের সংখ্যার চেয়ে বেশি হতে পারে না',
       socialRecoveryConfiguredTitle: 'সামাজিক পুনরুদ্ধার কনফিগার করা হয়েছে!',
@@ -3686,11 +3667,9 @@ export const translations: Translations = {
       shareAddedTitle: 'শেয়ার যোগ করা হয়েছে',
       shareAddedDescription: name => `${name} থেকে শেয়ার যোগ করা হয়েছে`,
       invalidShareFormatTitle: 'অবৈধ শেয়ার ফরম্যাট',
-      invalidShareFormatDescription:
-        'অনুগ্রহ করে একটি বৈধ অভিভাবক শেয়ার কোড পেস্ট করুন (JSON ফরম্যাট)',
+      invalidShareFormatDescription: 'অনুগ্রহ করে একটি বৈধ অভিভাবক শেয়ার কোড পেস্ট করুন (JSON ফরম্যাট)',
       notEnoughSharesTitle: 'পর্যাপ্ত শেয়ার নেই',
-      notEnoughSharesDescription:
-        'অপনার ওয়ালেট পুনরুদ্ধার করতে আপনার কমপক্ষে ২টি অভিভাবক শেয়ার প্রয়োজন',
+      notEnoughSharesDescription: 'অপনার ওয়ালেট পুনরুদ্ধার করতে আপনার কমপক্ষে ২টি অভিভাবক শেয়ার প্রয়োজন',
       passwordRequiredRecoveryDescription:
         'ব্যাকআপ ফাইল ডিক্রিপ্ট করতে আপনাকে আপনার পাসওয়ার্ড লিখতে হবে',
       usernameRequiredRecoveryDescription:
@@ -3822,18 +3801,15 @@ export const translations: Translations = {
       feature5: 'নিরাপত্তা মোড সহ মাল্টি-অ্যাড্রেস ডেরিভেশন (STANDARD/STRICT/YOLO)',
       feature6: 'একাধিক স্বাক্ষর পদ্ধতি (EIP-191, SIWE/EIP-4361, EIP-712, rawHash)',
       feature7: 'অ্যাপের RPC এন্ডপয়েন্টের মাধ্যমে অন-চেইন লেনদেন প্রেরণ (`sendTransaction`)',
-      feature8:
-        'ethers, viem, wagmi, RainbowKit-এর জন্য EIP-1193 প্রোভাইডার (`getEIP1193Provider`)',
+      feature8: 'ethers, viem, wagmi, RainbowKit-এর জন্য EIP-1193 প্রোভাইডার (`getEIP1193Provider`)',
       feature9: 'ERC-5564 স্টেলথ ঠিকানা (অপ্ট-ইন)',
       feature10: 'ZK প্রিমিটিভ (জিরো-নলেজ প্রুফ জেনারেশন এবং যাচাইকরণ)',
       feature11: 'Chainlist সমর্থন (২৩৯০+ নেটওয়ার্ক)',
       feature12: 'EIP-7702 নেটওয়ার্ক শনাক্তকরণ (৩২৯+ নেটওয়ার্ক)',
-      feature13:
-        'বহিরাগত ওয়ালেট একীকরণ (EIP-7702-এর মাধ্যমে MetaMask/Ledger-কে w3pk-এ ডেলিগেট করুন)',
+      feature13: 'বহিরাগত ওয়ালেট একীকরণ (EIP-7702-এর মাধ্যমে MetaMask/Ledger-কে w3pk-এ ডেলিগেট করুন)',
       feature14: 'EIP-7951 PRIMARY মোড (P-256 পাসকী স্বাক্ষর)',
       feature15: 'বিল্ড যাচাইকরণ (IPFS CID হ্যাশিং + DAO-পরিচালিত অনচেইন রেজিস্ট্রি)',
-      feature16:
-        'তিন-স্তরের ব্যাকআপ ও পুনরুদ্ধার (পাসকী সিঙ্ক, এনক্রিপ্ট করা ব্যাকআপ, সামাজিক পুনরুদ্ধার)',
+      feature16: 'তিন-স্তরের ব্যাকআপ ও পুনরুদ্ধার (পাসকী সিঙ্ক, এনক্রিপ্ট করা ব্যাকআপ, সামাজিক পুনরুদ্ধার)',
       invalidEmailTitle: 'অবৈধ ইমেইল',
       invalidEmailDescription: 'অনুগ্রহ করে একটি বৈধ ইমেইল ঠিকানা লিখুন',
       subscribeSuccessTitle: 'সফল হয়েছে!',
@@ -3937,7 +3913,7 @@ export const translations: Translations = {
 
       sessionHeading: 'Поддерживать сессию активной',
       sessionDescription:
-        'Укажите, как долго ваша сессия должна оставаться активной без запроса ключа доступа. По истечении этого срока при следующем посещении один раз запрашивается ключ доступа и начинается новая сессия — то есть это значение также определяет, как часто вы будете проходить повторную аутентификацию. Эта настройка применяется только к режимам STANDARD и YOLO. Режимы STRICT и PRIMARY всегда требуют новой аутентификации и не используют постоянные сессии.',
+        'Укажите, как долго ваша сессия должна оставаться активной без запроса ключа доступа. По истечении этого срока вы выходите из системы и можете снова войти с ключом доступа, когда захотите, — то есть это значение также определяет, как часто вы будете проходить повторную аутентификацию. Эта настройка применяется только к режимам STANDARD и YOLO. Режимы STRICT и PRIMARY всегда требуют новой аутентификации и не используют постоянные сессии.',
       noStoredSessionText:
         'На этом устройстве нет сохранённой сессии. Похоже, ваш аутентификатор не поддерживает расширение WebAuthn PRF, которое требуется w3pk для безопасного поддержания сессий. Ваша сессия будет храниться только в памяти: она завершается при закрытии вкладки, и при каждом посещении будет запрашиваться ключ доступа. Всё остальное работает в обычном режиме.',
       sessionDurationLabel: 'Длительность сессии',
@@ -4439,7 +4415,7 @@ export const translations: Translations = {
 
       sessionHeading: 'Manter a minha sessão ativa',
       sessionDescription:
-        'Defina durante quanto tempo a sua sessão deve permanecer ativa sem pedir a chave de acesso. Quando expirar, a sua próxima visita pedirá a sua chave de acesso uma vez e iniciará uma nova sessão — por isso, isto também determina a frequência com que volta a autenticar-se. Esta configuração aplica-se apenas aos modos STANDARD e YOLO. Os modos STRICT e PRIMARY exigem sempre uma nova autenticação e não utilizam sessões persistentes.',
+        'Defina durante quanto tempo a sua sessão deve permanecer ativa sem pedir a chave de acesso. Quando expirar, a sua sessão é terminada e pode voltar a iniciá-la com a sua chave de acesso quando quiser — por isso, isto também determina a frequência com que volta a autenticar-se. Esta configuração aplica-se apenas aos modos STANDARD e YOLO. Os modos STRICT e PRIMARY exigem sempre uma nova autenticação e não utilizam sessões persistentes.',
       noStoredSessionText:
         'Nenhuma sessão armazenada neste dispositivo. O seu autenticador não parece suportar a extensão WebAuthn PRF, que o w3pk requer para manter as sessões ativas com segurança. A sua sessão permanecerá apenas em memória: termina quando fechar o separador, e cada visita pedirá a sua chave de acesso. Tudo o resto funciona normalmente.',
       sessionDurationLabel: 'Duração da sessão',
@@ -4944,7 +4920,7 @@ export const translations: Translations = {
 
       sessionHeading: 'میرا سیشن فعال رکھیں',
       sessionDescription:
-        'مقرر کریں کہ آپ کا سیشن بغیر پاس کی پرامپٹ کے کتنی دیر فعال رہے۔ جب یہ ختم ہو جائے، تو آپ کا اگلا وزٹ ایک بار آپ کی پاس کی مانگے گا اور ایک نیا سیشن شروع کرے گا — یعنی یہ بھی طے کرتا ہے کہ آپ کتنی بار دوبارہ توثیق کرتے ہیں۔ یہ ترتیب صرف STANDARD اور YOLO موڈز پر لاگو ہوتی ہے۔ STRICT اور PRIMARY موڈز ہمیشہ نئی توثیق کا تقاضا کرتے ہیں اور مستقل سیشنز استعمال نہیں کرتے۔',
+        'مقرر کریں کہ آپ کا سیشن بغیر پاس کی پرامپٹ کے کتنی دیر فعال رہے۔ جب یہ ختم ہو جائے، تو آپ لاگ آؤٹ ہو جاتے ہیں اور جب چاہیں اپنی پاس کی سے دوبارہ سائن ان کر سکتے ہیں — یعنی یہ بھی طے کرتا ہے کہ آپ کتنی بار دوبارہ توثیق کرتے ہیں۔ یہ ترتیب صرف STANDARD اور YOLO موڈز پر لاگو ہوتی ہے۔ STRICT اور PRIMARY موڈز ہمیشہ نئی توثیق کا تقاضا کرتے ہیں اور مستقل سیشنز استعمال نہیں کرتے۔',
       noStoredSessionText:
         'اس ڈیوائس پر کوئی محفوظ شدہ سیشن نہیں ہے۔ ایسا لگتا ہے کہ آپ کا آتھینٹیکیٹر WebAuthn PRF ایکسٹینشن کو سپورٹ نہیں کرتا، جو w3pk کو سیشنز کو محفوظ طریقے سے فعال رکھنے کے لیے درکار ہے۔ آپ کا سیشن صرف میموری میں رہے گا: یہ ٹیب بند کرنے پر ختم ہو جاتا ہے، اور ہر وزٹ پر آپ کی پاس کی مانگی جائے گی۔ باقی سب کچھ معمول کے مطابق کام کرتا ہے۔',
       sessionDurationLabel: 'سیشن کا دورانیہ',

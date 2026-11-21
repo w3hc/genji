@@ -1,6 +1,6 @@
 {
   "name": "genji",
-  "version": "3.4.0",
+  "version": "3.5.0",
   "description": "Next.js Web3 starter with passkey auth",
   "main": "index.js",
   "scripts": {
@@ -11,16 +11,16 @@
     "lint:a11y": "eslint . --no-ignore",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "test:a11y": "echo '\u26a0\ufe0f  Run Lighthouse in Chrome DevTools or install pa11y: npx pa11y http://localhost:3000'",
+    "test:a11y": "echo '⚠️  Run Lighthouse in Chrome DevTools or install pa11y: npx pa11y http://localhost:3000'",
     "customize": "node customize.js",
-    "postinstall": "node -e \"const fs=require('fs');if(fs.existsSync('customize.js'))console.log('\\n\ud83d\udc49  Run pnpm customize to remove the example content and make this project yours\\n')\""
+    "postinstall": "node -e \"const fs=require('fs');if(fs.existsSync('customize.js'))console.log('\\n👉  Run pnpm customize to remove the example content and make this project yours\\n')\""
   },
   "dependencies": {
-    "@chakra-ui/react": "^3.37.0",
+    "@chakra-ui/react": "^3.38.0",
     "@emotion/react": "^11.14.0",
     "@types/react-syntax-highlighter": "^15.5.13",
     "ethers": "^6.17.0",
-    "next": "^16.4.3",
+    "next": "^16.4.6",
     "next-themes": "^0.4.6",
     "pg": "^8.23.1",
     "qrcode.react": "^4.2.0",
@@ -33,15 +33,15 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.7",
-    "@types/node": "^26.6.5",
+    "@types/node": "^26.6.6",
     "@types/pg": "^8.23.1",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
     "eslint": "^9.39.5",
-    "eslint-config-next": "^16.4.3",
+    "eslint-config-next": "^16.4.6",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-jsx-a11y": "^6.10.2",
-    "prettier": "^3.9.10",
+    "prettier": "^3.10.1",
     "tsup": "^9.0.0",
     "typescript": "^6.0.3"
   },

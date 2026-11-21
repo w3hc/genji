@@ -1,5 +1,16 @@
 # Changelog
 
+## 3.5.0 - 2026-11-21
+
+### Changed
+
+- Settings explains that once "Keep my session alive" expires you are logged out and sign in again with your passkey when you choose to, in every language
+- Dependency bumps, among them `@chakra-ui/react` 3.38.0, `next` 16.4.6 and `prettier` 3.10.1. Prettier 3.10 measures Devanagari strings as narrower, so `src/translations/index.ts` is reformatted
+
+### Fixed
+
+- Once the "Keep my session alive" duration had passed, opening the site showed the passkey prompt right away. The page-load restore now runs only for a stored session that is unexpired and holds its session key, so the user lands logged out and clicks Login when they want to
+
 ## 3.4.0 - 2026-11-12
 
 ### Changed
