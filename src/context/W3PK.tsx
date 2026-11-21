@@ -295,12 +295,26 @@ function isAuthRequiredError(error: unknown, extraMatches: string[] = []): boole
 }
 
 /**
- * Check if any persistent session exists in localStorage
- * This allows us to avoid triggering WebAuthn prompt when no session exists
+ * Check if a persistent session that w3pk can restore silently exists in
+ * localStorage: unexpired and holding its session key. login() falls back
+ * to a WebAuthn prompt otherwise, which must not happen on page load.
  */
 function hasStoredPersistentSession(): boolean {
   try {
-    return Object.keys(localStorage).some(key => key.startsWith(SESSION_KEY_PREFIX))
+    return Object.keys(localStorage)
+      .filter(key => key.startsWith(SESSION_KEY_PREFIX))
+      .some(key => {
+        try {
+          const record = JSON.parse(localStorage.getItem(key) ?? 'null')
+          return (
+            typeof record?.expiresAt === 'number' &&
+            record.expiresAt > Date.now() &&
+            Boolean(record.sessionKey)
+          )
+        } catch {
+          return false
+        }
+      })
   } catch {
     return false
   }
